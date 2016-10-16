@@ -1,0 +1,20 @@
+think about how to design the app
+will it be a server / client thing?
+-> server fetches data about streams regularly
+-> multiple clients can ask about data at any time and get an instant response
+
+or will it be only on the client side?
+-> server responds with js which then will fetch data itself from the stream
+homepages
+-> stream sites will get called multiple times
+-> clients (espeially mobile) would not want to call e.g. rm.fm every 10s
+
+should be a server/client thing I think
+
+on client side it should use js obviously
+
+server side? also js?
+
+
+
+
