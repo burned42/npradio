@@ -22,7 +22,7 @@ class MetalOnly implements RadioStreamInterface
     private function fetchInfo()
     {
         $dom = new \DOMDocument();
-        // sadly I havn't found a better solution than ignoring any errors that
+        // sadly I haven't found a better solution than ignoring any errors that
         // might occur, because the internet is broken, right?
         @$dom->loadHTMLFile(self::URL);
 

@@ -7,7 +7,7 @@ or will it be only on the client side?
 -> server responds with js which then will fetch data itself from the stream
 homepages
 -> stream sites will get called multiple times
--> clients (espeially mobile) would not want to call e.g. rm.fm every 10s
+-> clients (especially mobile) would not want to call e.g. rm.fm every 10s
 
 should be a server/client thing I think
 
