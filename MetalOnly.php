@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: burned
- * Date: 15.10.16
- * Time: 19:25
- */
 
 namespace Burned\NPRadio;
-
 
 class MetalOnly implements RadioStreamInterface
 {
@@ -35,14 +28,11 @@ class MetalOnly implements RadioStreamInterface
                     $matches = [];
                     if (preg_match('/^Aktuell On Air: (.*)$/', $child->nodeValue, $matches)) {
                         $this->moderator = trim($matches[1]);
-                    }
-                    elseif (preg_match('/^Sendung: (.*)$/', $child->nodeValue, $matches)) {
+                    } elseif (preg_match('/^Sendung: (.*)$/', $child->nodeValue, $matches)) {
                         $this->show = trim($matches[1]);
-                    }
-                    elseif (preg_match('/^Genre: (.*)$/', $child->nodeValue, $matches)) {
+                    } elseif (preg_match('/^Genre: (.*)$/', $child->nodeValue, $matches)) {
                         $this->genre = trim($matches[1]);
-                    }
-                    elseif (preg_match('/^Track: ([^-]*) - (.*)$/', $child->nodeValue, $matches)) {
+                    } elseif (preg_match('/^Track: ([^-]*) - (.*)$/', $child->nodeValue, $matches)) {
                         $this->artist = trim($matches[1]);
                         $this->track = trim($matches[2]);
                     }

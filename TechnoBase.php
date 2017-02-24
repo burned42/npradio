@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: burned
- * Date: 15.10.16
- * Time: 19:34
- */
 
 namespace Burned\NPRadio;
-
 
 class TechnoBase implements RadioStreamInterface
 {
@@ -96,8 +89,7 @@ class TechnoBase implements RadioStreamInterface
                     if ($childNode->nodeName === $info) {
                         if (in_array($info, ['starttime', 'endtime'])) {
                             $this->$mapping = str_pad($childNode->nodeValue, 2, '0', STR_PAD_LEFT) . ':00';
-                        }
-                        else {
+                        } else {
                             $this->$mapping = $childNode->nodeValue;
                         }
                     }
