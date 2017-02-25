@@ -2,6 +2,9 @@
 
 namespace Burned\NPRadio;
 
+require_once 'RadioStreamInterface.php';
+require_once 'RadioInfo.php';
+
 class TechnoBase implements RadioStreamInterface
 {
     const URL = 'http://tray.technobase.fm/radio.xml';
@@ -25,14 +28,7 @@ class TechnoBase implements RadioStreamInterface
     ];
 
     private $streamName;
-
-    private $moderator = null;
-    private $show = null;
-    private $genre = null;
-    private $artist = null;
-    private $track = null;
-    private $starttime = null;
-    private $endtime = null;
+    private $radioInfo;
 
     public function __construct($streamName)
     {
@@ -41,6 +37,9 @@ class TechnoBase implements RadioStreamInterface
         }
 
         $this->streamName = $streamName;
+
+        $this->radioInfo = new RadioInfo();
+        $this->radioInfo->setStreamName($this->streamName);
     }
 
     private function fetchInfo()
@@ -74,23 +73,31 @@ class TechnoBase implements RadioStreamInterface
         }
 
         if (!is_null($streamInfoNode)) {
+            $infos = [
+                'setModerator' => 'moderator',
+                'setShow' => 'show',
+                'setGenre' => 'style',
+                'setArtist' => 'artist',
+                'setTrack' => 'song',
+                'setShowStartTime' => 'starttime',
+                'setShowEndTime' => 'endtime'
+            ];
+
             /** @var \DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
-                $infos = [
-                    'moderator' => 'moderator',
-                    'show' => 'show',
-                    'genre' => 'style',
-                    'artist' => 'artist',
-                    'track' => 'song',
-                    'starttime' => 'starttime',
-                    'endtime' => 'endtime'
-                ];
-                foreach ($infos as $mapping => $info) {
-                    if ($childNode->nodeName === $info) {
-                        if (in_array($info, ['starttime', 'endtime'])) {
-                            $this->$mapping = str_pad($childNode->nodeValue, 2, '0', STR_PAD_LEFT) . ':00';
-                        } else {
-                            $this->$mapping = $childNode->nodeValue;
+                $nodeValue = $childNode->nodeValue;
+                if (!empty(trim($nodeValue))) {
+                    foreach ($infos as $setter => $info) {
+                        if ($childNode->nodeName === $info) {
+                            if (in_array($info, ['starttime', 'endtime'])) {
+                                $this->radioInfo->$setter(
+                                    new \DateTime(
+                                        str_pad($nodeValue, 2, '0', STR_PAD_LEFT) . ':00'
+                                    )
+                                );
+                            } else {
+                                $this->radioInfo->$setter((string) $nodeValue);
+                            }
                         }
                     }
                 }
@@ -98,18 +105,10 @@ class TechnoBase implements RadioStreamInterface
         }
     }
 
-    public function getInfo(): array
+    public function getInfo(): RadioInfo
     {
         $this->fetchInfo();
 
-        return [
-            'moderator' => $this->moderator,
-            'show' => $this->show,
-            'genre' => $this->genre,
-            'artist' => $this->artist,
-            'track' => $this->track,
-            'starttime' => $this->starttime,
-            'endtime' => $this->endtime
-        ];
+        return $this->radioInfo;
     }
 }

@@ -2,15 +2,20 @@
 
 namespace Burned\NPRadio;
 
+require_once 'RadioStreamInterface.php';
+require_once 'RadioInfo.php';
+
 class MetalOnly implements RadioStreamInterface
 {
     const URL = 'http://metal-only.de';
 
-    private $track = null;
-    private $artist = null;
-    private $genre = null;
-    private $show = null;
-    private $moderator = null;
+    private $radioInfo;
+
+    public function __construct()
+    {
+        $this->radioInfo = new RadioInfo();
+        $this->radioInfo->setStreamName('Metal Only');
+    }
 
     private function fetchInfo()
     {
@@ -27,30 +32,24 @@ class MetalOnly implements RadioStreamInterface
                 foreach ($div->childNodes as $child) {
                     $matches = [];
                     if (preg_match('/^Aktuell On Air: (.*)$/', $child->nodeValue, $matches)) {
-                        $this->moderator = trim($matches[1]);
+                        $this->radioInfo->setModerator(trim($matches[1]));
                     } elseif (preg_match('/^Sendung: (.*)$/', $child->nodeValue, $matches)) {
-                        $this->show = trim($matches[1]);
+                        $this->radioInfo->setShow(trim($matches[1]));
                     } elseif (preg_match('/^Genre: (.*)$/', $child->nodeValue, $matches)) {
-                        $this->genre = trim($matches[1]);
+                        $this->radioInfo->setGenre(trim($matches[1]));
                     } elseif (preg_match('/^Track: ([^-]*) - (.*)$/', $child->nodeValue, $matches)) {
-                        $this->artist = trim($matches[1]);
-                        $this->track = trim($matches[2]);
+                        $this->radioInfo->setArtist(trim($matches[1]));
+                        $this->radioInfo->setTrack(trim($matches[2]));
                     }
                 }
             }
         }
     }
 
-    public function getInfo(): array
+    public function getInfo(): RadioInfo
     {
         $this->fetchInfo();
 
-        return [
-            'track' => $this->track,
-            'artist' => $this->artist,
-            'genre' => $this->genre,
-            'show' => $this->show,
-            'moderator' => $this->moderator
-        ];
+        return $this->radioInfo;
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Burned\NPRadio;
 
+require_once 'RadioInfo.php';
+
 interface RadioStreamInterface
 {
-    public function getInfo(): array;
+    public function getInfo(): RadioInfo;
 }
