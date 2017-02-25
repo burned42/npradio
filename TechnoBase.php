@@ -42,7 +42,7 @@ class TechnoBase implements RadioStreamInterface
         $this->radioInfo->setStreamName($this->streamName);
     }
 
-    private function fetchInfo()
+    public function getInfo(): RadioInfo
     {
         $xml = file_get_contents(self::URL);
 
@@ -103,11 +103,6 @@ class TechnoBase implements RadioStreamInterface
                 }
             }
         }
-    }
-
-    public function getInfo(): RadioInfo
-    {
-        $this->fetchInfo();
 
         return $this->radioInfo;
     }

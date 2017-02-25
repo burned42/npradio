@@ -7,8 +7,9 @@ require_once 'RadioInfo.php';
 
 class MetalOnly implements RadioStreamInterface
 {
-    const URL = 'http://metal-only.de';
+    const URL = 'https://metal-only.de';
 
+    /** @var RadioInfo */
     private $radioInfo;
 
     public function __construct()
@@ -17,7 +18,7 @@ class MetalOnly implements RadioStreamInterface
         $this->radioInfo->setStreamName('Metal Only');
     }
 
-    private function fetchInfo()
+    public function getInfo(): RadioInfo
     {
         $dom = new \DOMDocument();
         // sadly I haven't found a better solution than ignoring any errors that
@@ -44,11 +45,6 @@ class MetalOnly implements RadioStreamInterface
                 }
             }
         }
-    }
-
-    public function getInfo(): RadioInfo
-    {
-        $this->fetchInfo();
 
         return $this->radioInfo;
     }
