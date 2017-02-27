@@ -8,6 +8,7 @@ require_once 'RadioInfo.php';
 class RauteMusik implements RadioStreamInterface
 {
     const BASE_URL = 'http://www.rautemusik.fm/';
+    const SHOW_INFO_URL = self::BASE_URL . 'radio/sendeplan/';
 
     const MAIN = 'Main';
     const CLUB = 'Club';
@@ -40,6 +41,11 @@ class RauteMusik implements RadioStreamInterface
 
     public function getInfo(): RadioInfo
     {
+        $xml = file_get_contents(self::BASE_URL);
+
+        $dom = new \DOMDocument();
+        $dom->loadXML($xml);
+
         return $this->radioInfo;
     }
 }
