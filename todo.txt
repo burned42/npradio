@@ -1,22 +1,6 @@
-think about how to design the app
-will it be a server / client thing?
--> server fetches data about streams regularly
--> multiple clients can ask about data at any time and get an instant response
-
-or will it be only on the client side?
--> server responds with js which then will fetch data itself from the stream
-homepages
--> stream sites will get called multiple times
--> clients (especially mobile) would not want to call e.g. rm.fm every 10s
-
-should be a server/client thing I think
-
-on client side it should use js obviously
-
-server side? also js?
-
-on second thought, I think I should start with a server only concept where the
-server fetches the data on request and responds with the complete data ...
-lets see if this performs well enough
-
+TODO:
+- for some streams it might be possible to fetch data for multiple substreams
+at once, maybe cache that data
+- add support for rautemusik
+- display data on a website
 
