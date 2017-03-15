@@ -26,6 +26,8 @@ class RauteMusik implements RadioStreamInterface
 
     private $streamName;
     private $radioInfo;
+    private $trackInfoUrl;
+    private $showInfoUrl;
 
     public function __construct($streamName)
     {
@@ -35,17 +37,59 @@ class RauteMusik implements RadioStreamInterface
 
         $this->streamName = $streamName;
 
+        $this->trackInfoUrl = self::BASE_URL . strtolower($this->streamName);
+        $this->showInfoUrl = self::SHOW_INFO_URL . strtolower($this->streamName);
+
         $this->radioInfo = new RadioInfo();
         $this->radioInfo->setStreamName('#Musik.' . $this->streamName);
     }
 
     public function getInfo(): RadioInfo
     {
-        $xml = file_get_contents(self::BASE_URL);
-
-        $dom = new \DOMDocument();
-        $dom->loadXML($xml);
+        $this->fetchTrackInfo();
+        $this->fetchShowInfo();
 
         return $this->radioInfo;
+    }
+
+    private function fetchTrackInfo()
+    {
+        $dom = new \DOMDocument();
+        // sadly I haven't found a better solution than ignoring any errors that
+        // might occur, because the internet is broken, right?
+        @$dom->loadHTMLFile($this->trackInfoUrl);
+        $xpath = new \DOMXPath($dom);
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//li[@class='current']//p[@class='title'] | .//li[@class='current']//p[@class='artist']");
+
+        /** @var \DOMNode $node */
+        foreach ($nodeList as $node) {
+            $class = $node->attributes->getNamedItem('class')->nodeValue;
+            if ($class === 'artist') {
+                $this->radioInfo->setArtist($node->nodeValue);
+            } elseif ($class === 'title') {
+                $this->radioInfo->setTrack($node->nodeValue);
+            }
+        }
+    }
+
+    private function fetchShowInfo()
+    {
+        $dom = new \DOMDocument();
+        // sadly I haven't found a better solution than ignoring any errors that
+        // might occur, because the internet is broken, right?
+        @$dom->loadHTMLFile($this->showInfoUrl);
+        $xpath = new \DOMXPath($dom);
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//tr[@class='current']//td");
+
+        $matches = [];
+        if (preg_match('/^([0-9]{2}:[0-9]{2}) - ([0-9]{2}:[0-9]{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
+            $this->radioInfo->setShowStartTime(new \DateTime($matches[1]));
+            $this->radioInfo->setShowEndTime(new \DateTime($matches[2]));
+        }
+
+        $this->radioInfo->setShow(trim($nodeList->item(1)->nodeValue));
+        $this->radioInfo->setModerator(trim($nodeList->item(2)->nodeValue));
     }
 }

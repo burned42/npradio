@@ -4,4 +4,4 @@ at once, maybe cache that data
 - add support for rautemusik
 - display data on a website
 - add a last_updated timestamp to the radioinfo
-
+- abstract fetching data from urls for testability of the classes
