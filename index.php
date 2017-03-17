@@ -1,7 +1,5 @@
 <?php
 
-namespace NPRadio;
-
 require_once 'vendor/autoload.php';
 
 use NPRadio\Stream\{RadioStream, MetalOnly, RauteMusik, TechnoBase};
