@@ -4,5 +4,5 @@ namespace NPRadio\Stream;
 
 interface RadioStreamInterface
 {
-    public function getInfo(): RadioInfo;
+    public function getInfo(string $streamName): RadioInfo;
 }

@@ -26,13 +26,19 @@ class TechnoBase extends RadioStream
         self::TEATIME
     ];
 
-    protected function getHomepageUrl(): string
+    protected function getHomepageUrl(string $streamName): string
     {
-        return 'https://www.' . strtolower($this->streamName) . '.fm';
+        if (!in_array($streamName, self::AVAILABLE_STREAMS)) {
+            throw new \InvalidArgumentException('invalid stream name given: ' . $streamName);
+        }
+
+        return 'https://www.' . strtolower($streamName) . '.fm';
     }
 
-    public function getInfo(): RadioInfo
+    public function getInfo(string $streamName): RadioInfo
     {
+        $radioInfo = $this->getRadioInfo($streamName);
+
         try {
             $dom = $this->domFetcher->getXmlDom(self::URL);
         } catch (\Exception $e) {
@@ -51,7 +57,7 @@ class TechnoBase extends RadioStream
                         foreach ($radioNode->childNodes as $streamNode) {
                             if (
                                 $streamNode->nodeName === 'name'
-                                && $streamNode->nodeValue === $this->streamName
+                                && $streamNode->nodeValue === $streamName
                             ) {
                                 $streamInfoNode = $radioNode;
                                 break 3;
@@ -80,13 +86,13 @@ class TechnoBase extends RadioStream
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
-                                $this->radioInfo->$setter(
+                                $radioInfo->$setter(
                                     new \DateTime(
                                         str_pad($nodeValue, 2, '0', STR_PAD_LEFT) . ':00'
                                     )
                                 );
                             } else {
-                                $this->radioInfo->$setter((string)$nodeValue);
+                                $radioInfo->$setter((string)$nodeValue);
                             }
                         }
                     }
@@ -94,6 +100,6 @@ class TechnoBase extends RadioStream
             }
         }
 
-        return $this->radioInfo;
+        return $radioInfo;
     }
 }

@@ -2,24 +2,41 @@
 
 require_once 'vendor/autoload.php';
 
-use NPRadio\Stream\{RadioStream, MetalOnly, RauteMusik, TechnoBase};
+use NPRadio\Stream\{
+    RadioStream, MetalOnly, RauteMusik, TechnoBase
+};
 use NPRadio\DataFetcher\HttpDomFetcher;
 
 $domFetcher = new HttpDomFetcher();
 
-$streams = [
+/** @var RadioStream[] $radios */
+$radios = [
     MetalOnly::RADIO_NAME  => new MetalOnly($domFetcher),
-    TechnoBase::TECHNOBASE => new TechnoBase($domFetcher, TechnoBase::TECHNOBASE),
-    TechnoBase::HOUSETIME  => new TechnoBase($domFetcher, TechnoBase::HOUSETIME),
-    RauteMusik::MAIN       => new RauteMusik($domFetcher, RauteMusik::MAIN)
+    TechnoBase::RADIO_NAME => new TechnoBase($domFetcher),
+    RauteMusik::RADIO_NAME => new RauteMusik($domFetcher)
+];
+
+$radioStreams = [
+    MetalOnly::RADIO_NAME => [
+        MetalOnly::METAL_ONLY
+    ],
+    TechnoBase::RADIO_NAME => [
+        TechnoBase::TECHNOBASE,
+        TechnoBase::HOUSETIME
+    ],
+    RauteMusik::RADIO_NAME => [
+        RauteMusik::MAIN
+    ]
 ];
 
 /** @var RadioStream $stream */
-foreach ($streams as $name => $stream) {
-    try {
-        echo $name . "\n";
-        var_dump($stream->getInfo());
-    } catch (\Exception $e) {
-        echo 'could not get info from ' . $name . ': ' . $e->getMessage() . "\n";
+foreach ($radioStreams as $radioName => $streams) {
+    foreach ($streams as $stream) {
+        echo $stream . "\n";
+        try {
+            var_dump($radios[$radioName]->getInfo($stream));
+        } catch (\Exception $e) {
+            echo 'could not get info from ' . $stream . ': ' . $e->getMessage() . "\n";
+        }
     }
 }

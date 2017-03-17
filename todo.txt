@@ -1,6 +1,4 @@
 TODO:
-- for some streams it might be possible to fetch data for multiple substreams
-at once, maybe cache that data
 - display data on a website
 - add a last_updated timestamp to the radioinfo
 - add tests

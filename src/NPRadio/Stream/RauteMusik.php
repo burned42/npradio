@@ -23,23 +23,29 @@ class RauteMusik extends RadioStream
         self::METAL
     ];
 
-    protected function getHomepageUrl(): string
+    protected function getHomepageUrl(string $streamName): string
     {
-        return self::BASE_URL . strtolower($this->streamName);
+        $this->checkStreamName($streamName);
+
+        return self::BASE_URL . strtolower($streamName);
     }
 
-    public function getInfo(): RadioInfo
+    public function getInfo(string $streamName): RadioInfo
     {
-        $this->fetchTrackInfo();
-        $this->fetchShowInfo();
+        $radioInfo = $this->getRadioInfo($streamName);
 
-        return $this->radioInfo;
+        $this->fetchTrackInfo($radioInfo, $streamName);
+        $this->fetchShowInfo($radioInfo, $streamName);
+
+        return $radioInfo;
     }
 
-    private function fetchTrackInfo()
+    private function fetchTrackInfo(RadioInfo $radioInfo, string $streamName)
     {
+        $this->checkStreamName($streamName);
+
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL . strtolower($this->streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL . strtolower($streamName));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
         }
@@ -52,17 +58,19 @@ class RauteMusik extends RadioStream
         foreach ($nodeList as $node) {
             $class = $node->attributes->getNamedItem('class')->nodeValue;
             if ($class === 'artist') {
-                $this->radioInfo->setArtist($node->nodeValue);
+                $radioInfo->setArtist($node->nodeValue);
             } elseif ($class === 'title') {
-                $this->radioInfo->setTrack($node->nodeValue);
+                $radioInfo->setTrack($node->nodeValue);
             }
         }
     }
 
-    private function fetchShowInfo()
+    private function fetchShowInfo(RadioInfo $radioInfo, string $streamName)
     {
+        $this->checkStreamName($streamName);
+
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL . strtolower($this->streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL . strtolower($streamName));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
         }
@@ -75,15 +83,15 @@ class RauteMusik extends RadioStream
         if ($numNodes >= 1) {
             $matches = [];
             if (preg_match('/^([0-9]{2}:[0-9]{2}) - ([0-9]{2}:[0-9]{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $this->radioInfo->setShowStartTime(new \DateTime($matches[1]));
-                $this->radioInfo->setShowEndTime(new \DateTime($matches[2]));
+                $radioInfo->setShowStartTime(new \DateTime($matches[1]));
+                $radioInfo->setShowEndTime(new \DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
-                $this->radioInfo->setShow(trim($nodeList->item(1)->nodeValue));
+                $radioInfo->setShow(trim($nodeList->item(1)->nodeValue));
 
                 if ($numNodes >= 3) {
-                    $this->radioInfo->setModerator(trim($nodeList->item(2)->nodeValue));
+                    $radioInfo->setModerator(trim($nodeList->item(2)->nodeValue));
                 }
             }
         }

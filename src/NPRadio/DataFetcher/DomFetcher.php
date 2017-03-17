@@ -4,7 +4,7 @@ namespace NPRadio\DataFetcher;
 
 interface DomFetcher
 {
-    public function getXmlDom($url): \DOMDocument;
+    public function getXmlDom(string $url): \DOMDocument;
 
-    public function getHtmlDom($url): \DOMDocument;
+    public function getHtmlDom(string $url): \DOMDocument;
 }

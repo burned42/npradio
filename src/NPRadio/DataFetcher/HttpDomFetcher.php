@@ -4,7 +4,7 @@ namespace NPRadio\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
 {
-    public function getXmlDom($url): \DOMDocument
+    public function getXmlDom(string $url): \DOMDocument
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if ($url === false) {
@@ -24,7 +24,7 @@ class HttpDomFetcher implements DomFetcher
         return $dom;
     }
 
-    public function getHtmlDom($url): \DOMDocument
+    public function getHtmlDom(string $url): \DOMDocument
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if ($url === false) {
