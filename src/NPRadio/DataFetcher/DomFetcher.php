@@ -1,6 +1,6 @@
 <?php
 
-namespace NPRadio;
+namespace NPRadio\DataFetcher;
 
 interface DomFetcher
 {

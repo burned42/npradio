@@ -1,6 +1,6 @@
 <?php
 
-namespace NPRadio;
+namespace NPRadio\Stream;
 
 class MetalOnly extends RadioStream
 {

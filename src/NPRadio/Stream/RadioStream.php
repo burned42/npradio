@@ -1,6 +1,8 @@
 <?php
 
-namespace NPRadio;
+namespace NPRadio\Stream;
+
+use NPRadio\DataFetcher\DomFetcher;
 
 abstract class RadioStream implements RadioStreamInterface
 {
