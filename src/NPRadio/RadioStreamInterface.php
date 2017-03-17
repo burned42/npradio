@@ -1,8 +1,6 @@
 <?php
 
-namespace Burned\NPRadio;
-
-require_once 'RadioInfo.php';
+namespace NPRadio;
 
 interface RadioStreamInterface
 {

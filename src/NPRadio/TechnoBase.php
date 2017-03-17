@@ -1,12 +1,11 @@
 <?php
 
-namespace Burned\NPRadio;
+namespace NPRadio;
 
-require_once 'RadioStreamInterface.php';
-require_once 'RadioInfo.php';
-
-class TechnoBase implements RadioStreamInterface
+class TechnoBase extends RadioStream
 {
+    const RADIO_NAME = 'TechnoBase';
+
     const URL = 'http://tray.technobase.fm/radio.xml';
 
     const TECHNOBASE = 'TechnoBase';
@@ -27,27 +26,18 @@ class TechnoBase implements RadioStreamInterface
         self::TEATIME
     ];
 
-    private $streamName;
-    private $radioInfo;
-
-    public function __construct($streamName)
+    protected function getHomepageUrl(): string
     {
-        if (!in_array($streamName, self::AVAILABLE_STREAMS)) {
-            throw new \InvalidArgumentException('invalid stream name given');
-        }
-
-        $this->streamName = $streamName;
-
-        $this->radioInfo = new RadioInfo();
-        $this->radioInfo->setStreamName($this->streamName);
+        return 'https://www.' . strtolower($this->streamName) . '.fm';
     }
 
     public function getInfo(): RadioInfo
     {
-        $xml = file_get_contents(self::URL);
-
-        $dom = new \DOMDocument();
-        $dom->loadXML($xml);
+        try {
+            $dom = $this->domFetcher->getXmlDom(self::URL);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('could not get xml dom: ' . $e->getMessage());
+        }
 
         $streamInfoNode = null;
 
@@ -74,13 +64,13 @@ class TechnoBase implements RadioStreamInterface
 
         if (!is_null($streamInfoNode)) {
             $infos = [
-                'setModerator' => 'moderator',
-                'setShow' => 'show',
-                'setGenre' => 'style',
-                'setArtist' => 'artist',
-                'setTrack' => 'song',
+                'setModerator'     => 'moderator',
+                'setShow'          => 'show',
+                'setGenre'         => 'style',
+                'setArtist'        => 'artist',
+                'setTrack'         => 'song',
                 'setShowStartTime' => 'starttime',
-                'setShowEndTime' => 'endtime'
+                'setShowEndTime'   => 'endtime'
             ];
 
             /** @var \DOMNode $childNode */
@@ -96,7 +86,7 @@ class TechnoBase implements RadioStreamInterface
                                     )
                                 );
                             } else {
-                                $this->radioInfo->$setter((string) $nodeValue);
+                                $this->radioInfo->$setter((string)$nodeValue);
                             }
                         }
                     }

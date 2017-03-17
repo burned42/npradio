@@ -1,20 +1,24 @@
 <?php
 
-namespace Burned\NPRadio;
+namespace NPRadio;
 
-require_once 'MetalOnly.php';
-require_once 'TechnoBase.php';
-require_once 'RauteMusik.php';
+require_once 'vendor/autoload.php';
 
+$domFetcher = new HttpDomFetcher();
 
-$metalOnly = new MetalOnly();
-var_dump($metalOnly->getInfo());
+$streams = [
+    MetalOnly::RADIO_NAME  => new MetalOnly($domFetcher),
+    TechnoBase::TECHNOBASE => new TechnoBase($domFetcher, TechnoBase::TECHNOBASE),
+    TechnoBase::HOUSETIME  => new TechnoBase($domFetcher, TechnoBase::HOUSETIME),
+    RauteMusik::MAIN       => new RauteMusik($domFetcher, RauteMusik::MAIN)
+];
 
-$technoBase = new TechnoBase(TechnoBase::TECHNOBASE);
-var_dump($technoBase->getInfo());
-
-$houseTime = new TechnoBase(TechnoBase::HOUSETIME);
-var_dump($houseTime->getInfo());
-
-$rautemusikMain = new RauteMusik(RauteMusik::MAIN);
-var_dump($rautemusikMain->getInfo());
+/** @var RadioStream $stream */
+foreach ($streams as $name => $stream) {
+    try {
+        echo $name . "\n";
+        var_dump($stream->getInfo());
+    } catch (\Exception $e) {
+        echo 'could not get info from ' . $name . ': ' . $e->getMessage() . "\n";
+    }
+}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Burned\NPRadio;
+namespace NPRadio;
 
 class RadioInfo
 {
@@ -19,9 +19,52 @@ class RadioInfo
     protected $showEndTime = null;
 
     /** @var string */
+    protected $radioName = null;
+    /** @var string */
+    protected $homepageUrl = null;
+
+    /** @var string */
     protected $streamName = null;
     /** @var string */
     protected $genre = null;
+
+    /**
+     * @return string
+     */
+    public function getHomepageUrl(): string
+    {
+        return $this->homepageUrl;
+    }
+
+    /**
+     * @param string $homepageUrl
+     * @return RadioInfo
+     */
+    public function setHomepageUrl(string $homepageUrl): RadioInfo
+    {
+        $this->homepageUrl = $homepageUrl;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRadioName(): string
+    {
+        return $this->radioName;
+    }
+
+    /**
+     * @param mixed $radioName
+     * @return RadioInfo
+     */
+    public function setRadioName($radioName): RadioInfo
+    {
+        $this->radioName = $radioName;
+
+        return $this;
+    }
 
     /**
      * @return string
@@ -174,5 +217,4 @@ class RadioInfo
 
         return $this;
     }
-
 }

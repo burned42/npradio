@@ -1,29 +1,24 @@
 <?php
 
-namespace Burned\NPRadio;
+namespace NPRadio;
 
-require_once 'RadioStreamInterface.php';
-require_once 'RadioInfo.php';
-
-class MetalOnly implements RadioStreamInterface
+class MetalOnly extends RadioStream
 {
+    const RADIO_NAME = 'MetalOnly';
     const URL = 'https://metal-only.de';
 
-    /** @var RadioInfo */
-    private $radioInfo;
-
-    public function __construct()
+    protected function getHomepageUrl(): string
     {
-        $this->radioInfo = new RadioInfo();
-        $this->radioInfo->setStreamName('Metal Only');
+        return self::URL;
     }
 
     public function getInfo(): RadioInfo
     {
-        $dom = new \DOMDocument();
-        // sadly I haven't found a better solution than ignoring any errors that
-        // might occur, because the internet is broken, right?
-        @$dom->loadHTMLFile(self::URL);
+        try {
+            $dom = $this->domFetcher->getHtmlDom(self::URL);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
+        }
 
         $divs = $dom->getElementsByTagName('div');
         /** @var \DOMNode $div */
