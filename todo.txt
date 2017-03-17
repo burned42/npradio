@@ -1,4 +1,3 @@
 TODO:
-- display data on a website
-- add a last_updated timestamp to the radioinfo
 - add tests
+- display data on a website
