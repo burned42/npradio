@@ -82,7 +82,7 @@ class TechnoBase extends RadioStream
             /** @var \DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = $childNode->nodeValue;
-                if (!empty(trim($nodeValue))) {
+                if (!empty(trim($nodeValue)) || $nodeValue === '0') {
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
