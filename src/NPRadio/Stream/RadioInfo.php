@@ -30,6 +30,16 @@ class RadioInfo
 
     public function getAsArray()
     {
+        $showStartTime = $this->getShowStartTime();
+        if (!is_null($showStartTime)) {
+            $showStartTime = $showStartTime->format('H:i');
+        }
+
+        $showEndTime = $this->getShowEndTime();
+        if (!is_null($showEndTime)) {
+            $showEndTime = $showEndTime->format('H:i');
+        }
+
         return [
             'radio_name'  => $this->getRadioName(),
             'stream_name' => $this->getStreamName(),
@@ -38,8 +48,8 @@ class RadioInfo
                 'name'       => $this->getShow(),
                 'genre'      => $this->getGenre(),
                 'moderator'  => $this->getModerator(),
-                'start_time' => $this->getShowStartTime(),
-                'end_time'   => $this->getShowEndTime()
+                'start_time' => $showStartTime,
+                'end_time'   => $showEndTime
             ],
             'track'       => $this->getTrack(),
             'artist'      => $this->getArtist()
