@@ -12,6 +12,7 @@ class RauteMusik extends RadioStream
     const MAIN = 'Main';
     const CLUB = 'Club';
     const HOUSE = 'House';
+    const ROCK = 'Rock';
     const WACKENRADIO = 'WackenRadio';
     const METAL = 'Metal;';
 
@@ -19,6 +20,7 @@ class RauteMusik extends RadioStream
         self::MAIN,
         self::CLUB,
         self::HOUSE,
+        self::ROCK,
         self::WACKENRADIO,
         self::METAL
     ];
