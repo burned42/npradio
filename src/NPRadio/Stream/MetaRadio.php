@@ -15,17 +15,38 @@ class MetaRadio
     /** @var RadioStream[] */
     protected $radios = [];
 
+    protected $streams = [];
+
     function __construct(DomFetcher $domFetcher)
     {
+        /**
+         * @var string $radioName
+         * @var RadioStream $className
+         */
         foreach (self::RADIOS as $radioName => $className) {
             $this->radios[$radioName] = new $className($domFetcher);
+
+            $this->streams[$radioName] = $className::AVAILABLE_STREAMS;
         }
     }
 
-    public function getInfo($radioName, $streamName)
+    protected function getRadioName($streamName)
     {
+        foreach ($this->streams as $radioName => $availableStreams) {
+            if (in_array($streamName, $availableStreams)) {
+                return $radioName;
+            }
+        }
+
+        throw new \InvalidArgumentException('invalid stream name given: ' . $streamName);
+    }
+
+    public function getInfo($streamName)
+    {
+        $radioName = $this->getRadioName($streamName);
+
         if (!array_key_exists($radioName, $this->radios)) {
-            throw new \InvalidArgumentException('invalid radio name given: ' . $radioName);
+            throw new \RuntimeException('could not find radio: ' . $radioName);
         }
 
         return $this->radios[$radioName]->getInfo($streamName);
