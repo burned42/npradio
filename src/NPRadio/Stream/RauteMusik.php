@@ -4,7 +4,7 @@ namespace NPRadio\Stream;
 
 class RauteMusik extends RadioStream
 {
-    const RADIO_NAME = '#Musik';
+    const RADIO_NAME = 'RauteMusik';
 
     const BASE_URL = 'http://www.rautemusik.fm/';
     const SHOW_INFO_URL = self::BASE_URL . 'radio/sendeplan/';
