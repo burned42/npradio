@@ -3,5 +3,8 @@
         "psr-0": {
           "": "src/"
         }
+    },
+    "require-dev": {
+        "silex/silex": "~2.0"
     }
 }
