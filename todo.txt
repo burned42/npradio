@@ -1,6 +1,6 @@
 TODO:
-- add tests
-- display data on a website
+- add tests (really???)
+- display data on a website (web app)
 - add error handling
-- maybe use silex? http://silex.sensiolabs.org/
+- maybe use silex? http://silex.sensiolabs.org/ (for api)
 
