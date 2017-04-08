@@ -32,17 +32,17 @@ class RauteMusik extends RadioStream
         return self::BASE_URL . strtolower($streamName);
     }
 
-    public function getInfo(string $streamName): RadioInfo
+    public function getInfo(string $streamName): StreamInfo
     {
-        $radioInfo = $this->getRadioInfo($streamName);
+        $streamInfo = $this->getStreamInfo($streamName);
 
-        $this->fetchTrackInfo($radioInfo, $streamName);
-        $this->fetchShowInfo($radioInfo, $streamName);
+        $this->fetchTrackInfo($streamInfo, $streamName);
+        $this->fetchShowInfo($streamInfo, $streamName);
 
-        return $radioInfo;
+        return $streamInfo;
     }
 
-    private function fetchTrackInfo(RadioInfo $radioInfo, string $streamName)
+    private function fetchTrackInfo(StreamInfo $streamInfo, string $streamName)
     {
         $this->checkStreamName($streamName);
 
@@ -60,14 +60,14 @@ class RauteMusik extends RadioStream
         foreach ($nodeList as $node) {
             $class = $node->attributes->getNamedItem('class')->nodeValue;
             if ($class === 'artist') {
-                $radioInfo->setArtist($node->nodeValue);
+                $streamInfo->setArtist($node->nodeValue);
             } elseif ($class === 'title') {
-                $radioInfo->setTrack($node->nodeValue);
+                $streamInfo->setTrack($node->nodeValue);
             }
         }
     }
 
-    private function fetchShowInfo(RadioInfo $radioInfo, string $streamName)
+    private function fetchShowInfo(StreamInfo $streamInfo, string $streamName)
     {
         $this->checkStreamName($streamName);
 
@@ -85,15 +85,15 @@ class RauteMusik extends RadioStream
         if ($numNodes >= 1) {
             $matches = [];
             if (preg_match('/^([0-9]{2}:[0-9]{2}) - ([0-9]{2}:[0-9]{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $radioInfo->setShowStartTime(new \DateTime($matches[1]));
-                $radioInfo->setShowEndTime(new \DateTime($matches[2]));
+                $streamInfo->setShowStartTime(new \DateTime($matches[1]));
+                $streamInfo->setShowEndTime(new \DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
-                $radioInfo->setShow(trim($nodeList->item(1)->nodeValue));
+                $streamInfo->setShow(trim($nodeList->item(1)->nodeValue));
 
                 if ($numNodes >= 3) {
-                    $radioInfo->setModerator(trim($nodeList->item(2)->nodeValue));
+                    $streamInfo->setModerator(trim($nodeList->item(2)->nodeValue));
                 }
             }
         }

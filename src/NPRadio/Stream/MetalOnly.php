@@ -18,9 +18,9 @@ class MetalOnly extends RadioStream
         return self::URL;
     }
 
-    public function getInfo(string $streamName): RadioInfo
+    public function getInfo(string $streamName): StreamInfo
     {
-        $radioInfo = $this->getRadioInfo($streamName);
+        $streamInfo = $this->getStreamInfo($streamName);
 
         try {
             $dom = $this->domFetcher->getHtmlDom(self::URL);
@@ -36,19 +36,19 @@ class MetalOnly extends RadioStream
                 foreach ($div->childNodes as $child) {
                     $matches = [];
                     if (preg_match('/^Aktuell On Air: (.*)$/', $child->nodeValue, $matches)) {
-                        $radioInfo->setModerator(trim($matches[1]));
+                        $streamInfo->setModerator(trim($matches[1]));
                     } elseif (preg_match('/^Sendung: (.*)$/', $child->nodeValue, $matches)) {
-                        $radioInfo->setShow(trim($matches[1]));
+                        $streamInfo->setShow(trim($matches[1]));
                     } elseif (preg_match('/^Genre: (.*)$/', $child->nodeValue, $matches)) {
-                        $radioInfo->setGenre(trim($matches[1]));
+                        $streamInfo->setGenre(trim($matches[1]));
                     } elseif (preg_match('/^Track: ([^-]*) - (.*)$/', $child->nodeValue, $matches)) {
-                        $radioInfo->setArtist(trim($matches[1]));
-                        $radioInfo->setTrack(trim($matches[2]));
+                        $streamInfo->setArtist(trim($matches[1]));
+                        $streamInfo->setTrack(trim($matches[2]));
                     }
                 }
             }
         }
 
-        return $radioInfo;
+        return $streamInfo;
     }
 }
