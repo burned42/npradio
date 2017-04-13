@@ -34,7 +34,7 @@ class TechnoBaseCest
         $I->assertInstanceOf(TechnoBase::class, $tb);
     }
 
-    public function testRadioNameSer(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I)
     {
         $I->assertNotNull(TechnoBase::RADIO_NAME);
     }
