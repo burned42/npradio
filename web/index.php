@@ -5,18 +5,25 @@ use NPRadio\Stream\MetaRadio;
 
 require_once '../vendor/autoload.php';
 
-$uri = trim($_SERVER['REQUEST_URI'], '/');
-$parts = explode('/', $uri);
-if (count($parts) != 2) {
-    http_response_code(400);
-    exit;
-}
 
-$radioName = $parts[0];
-$streamName = $parts[1];
+$metaRadio = new MetaRadio(new HttpDomFetcher());
 
-$domFetcher = new HttpDomFetcher();
-$metaRadio = new MetaRadio($domFetcher);
-$info = $metaRadio->getInfo($radioName, $streamName);
+$app = new Silex\Application();
+$app['debug'] = true;
 
-echo json_encode($info->getAsArray());
+$app->get('/radios', function () use ($metaRadio) {
+    // TODO return list of available radios
+});
+$app->get('/radios/{radioName}', function () use ($metaRadio) {
+    // TODO can we return something usefull in this case?
+});
+$app->get('/radios/{radioName}/streams', function () use ($metaRadio) {
+    // TODO return list of available streams for radio
+});
+$app->get('radios/{radioName}/streams/{streamName}', function (Silex\Application $app, $radioName, $streamName) use ($metaRadio) {
+    $info = $metaRadio->getInfo($radioName, $streamName);
+
+    return $app->json($info->getAsArray());
+});
+
+$app->run();

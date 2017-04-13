@@ -2,7 +2,7 @@
 
 namespace NPRadio\Stream;
 
-class RadioInfo
+class StreamInfo
 {
     /** @var string */
     protected $radioName = null;
@@ -66,9 +66,9 @@ class RadioInfo
 
     /**
      * @param string $radioName
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setRadioName(string $radioName): RadioInfo
+    public function setRadioName(string $radioName): StreamInfo
     {
         $this->radioName = $radioName;
 
@@ -85,9 +85,9 @@ class RadioInfo
 
     /**
      * @param string $streamName
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setStreamName(string $streamName): RadioInfo
+    public function setStreamName(string $streamName): StreamInfo
     {
         $this->streamName = $streamName;
 
@@ -104,9 +104,9 @@ class RadioInfo
 
     /**
      * @param string $homepageUrl
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setHomepageUrl(string $homepageUrl): RadioInfo
+    public function setHomepageUrl(string $homepageUrl): StreamInfo
     {
         $this->homepageUrl = $homepageUrl;
 
@@ -123,9 +123,9 @@ class RadioInfo
 
     /**
      * @param string $show
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setShow(string $show): RadioInfo
+    public function setShow(string $show): StreamInfo
     {
         $this->show = $show;
 
@@ -142,9 +142,9 @@ class RadioInfo
 
     /**
      * @param string $genre
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setGenre(string $genre): RadioInfo
+    public function setGenre(string $genre): StreamInfo
     {
         $this->genre = $genre;
 
@@ -161,9 +161,9 @@ class RadioInfo
 
     /**
      * @param string $moderator
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setModerator(string $moderator): RadioInfo
+    public function setModerator(string $moderator): StreamInfo
     {
         $this->moderator = $moderator;
 
@@ -180,9 +180,9 @@ class RadioInfo
 
     /**
      * @param \DateTime $showStartTime
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setShowStartTime(\DateTime $showStartTime): RadioInfo
+    public function setShowStartTime(\DateTime $showStartTime): StreamInfo
     {
         $this->showStartTime = $showStartTime;
 
@@ -199,9 +199,9 @@ class RadioInfo
 
     /**
      * @param \DateTime $showEndTime
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setShowEndTime(\DateTime $showEndTime): RadioInfo
+    public function setShowEndTime(\DateTime $showEndTime): StreamInfo
     {
         $this->showEndTime = $showEndTime;
 
@@ -218,9 +218,9 @@ class RadioInfo
 
     /**
      * @param string $track
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setTrack(string $track): RadioInfo
+    public function setTrack(string $track): StreamInfo
     {
         $this->track = $track;
 
@@ -237,9 +237,9 @@ class RadioInfo
 
     /**
      * @param string $artist
-     * @return RadioInfo
+     * @return StreamInfo
      */
-    public function setArtist(string $artist): RadioInfo
+    public function setArtist(string $artist): StreamInfo
     {
         $this->artist = $artist;
 

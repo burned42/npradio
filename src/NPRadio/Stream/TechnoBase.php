@@ -35,9 +35,9 @@ class TechnoBase extends RadioStream
         return 'https://www.' . strtolower($streamName) . '.fm';
     }
 
-    public function getInfo(string $streamName): RadioInfo
+    public function getInfo(string $streamName): StreamInfo
     {
-        $radioInfo = $this->getRadioInfo($streamName);
+        $streamInfo = $this->getStreamInfo($streamName);
 
         try {
             $dom = $this->domFetcher->getXmlDom(self::URL);
@@ -86,13 +86,13 @@ class TechnoBase extends RadioStream
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
-                                $radioInfo->$setter(
+                                $streamInfo->$setter(
                                     new \DateTime(
                                         str_pad($nodeValue, 2, '0', STR_PAD_LEFT) . ':00'
                                     )
                                 );
                             } else {
-                                $radioInfo->$setter((string)$nodeValue);
+                                $streamInfo->$setter((string)$nodeValue);
                             }
                         }
                     }
@@ -100,6 +100,6 @@ class TechnoBase extends RadioStream
             }
         }
 
-        return $radioInfo;
+        return $streamInfo;
     }
 }
