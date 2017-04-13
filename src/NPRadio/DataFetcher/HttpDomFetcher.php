@@ -4,17 +4,24 @@ namespace NPRadio\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
 {
-    public function getXmlDom(string $url): \DOMDocument
+    protected function getUrlContent(string $url)
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if ($url === false) {
             throw new \InvalidArgumentException('invalid url given');
         }
 
-        $xml = file_get_contents($url);
-        if ($xml === false) {
+        $content = file_get_contents($url);
+        if ($content === false) {
             throw new \RuntimeException('could not fetch data from url "' . $url . '"');
         }
+
+        return $content;
+    }
+
+    public function getXmlDom(string $url): \DOMDocument
+    {
+        $xml = $this->getUrlContent($url);
 
         $dom = new \DOMDocument();
         if ($dom->loadXML($xml) === false) {
@@ -26,15 +33,12 @@ class HttpDomFetcher implements DomFetcher
 
     public function getHtmlDom(string $url): \DOMDocument
     {
-        $url = filter_var($url, FILTER_VALIDATE_URL);
-        if ($url === false) {
-            throw new \InvalidArgumentException('invalid url given');
-        }
+        $html = $this->getUrlContent($url);
 
         $dom = new \DOMDocument();
         // sadly I haven't found a better solution than ignoring any errors that
         // might occur, because the internet is broken, right?
-        if (@$dom->loadHTMLFile($url) === false) {
+        if (@$dom->loadHTML($html) === false) {
             throw new \RuntimeException('could not parse html data');
         }
 
