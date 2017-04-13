@@ -1,6 +1,7 @@
 TODO:
-- add tests (really???)
+- add test for MetaRadio
+- add test for StreamInfo
+- add test for DataFetcher?
+- add some error handling
 - display data on a website (web app)
-- add error handling
-- maybe use silex? http://silex.sensiolabs.org/ (for api)
 
