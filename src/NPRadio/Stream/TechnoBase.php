@@ -28,9 +28,7 @@ class TechnoBase extends RadioStream
 
     protected function getHomepageUrl(string $streamName): string
     {
-        if (!in_array($streamName, self::AVAILABLE_STREAMS)) {
-            throw new \InvalidArgumentException('invalid stream name given: ' . $streamName);
-        }
+        $this->checkStreamName($streamName);
 
         return 'https://www.' . strtolower($streamName) . '.fm';
     }
