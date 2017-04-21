@@ -1,7 +1,6 @@
 TODO:
+- maybe build a StreamInfoFactory and a RadioStreamFactory?
 - add test for MetaRadio
-- add test for StreamInfo
 - add test for DataFetcher?
 - add some error handling
 - display data on a website (web app)
-
