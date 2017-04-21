@@ -69,7 +69,7 @@ class RauteMusikCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('invalid stream name given: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
             function () use ($rm, $streamName) {
                 $rm->getInfo($streamName);
             }

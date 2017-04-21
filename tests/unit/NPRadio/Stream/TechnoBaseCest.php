@@ -61,7 +61,7 @@ class TechnoBaseCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('invalid stream name given: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
             function () use ($tb, $streamName) {
                 $tb->getInfo($streamName);
             }

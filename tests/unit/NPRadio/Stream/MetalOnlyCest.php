@@ -61,7 +61,7 @@ class MetalOnlyCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('invalid stream name given: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
             function () use ($mo, $streamName) {
                 $mo->getInfo($streamName);
             }

@@ -25,17 +25,8 @@ abstract class RadioStream implements RadioStreamInterface
         }
     }
 
-    protected function checkStreamName(string $streamName)
-    {
-        if (!in_array($streamName, static::AVAILABLE_STREAMS)) {
-            throw new \InvalidArgumentException('invalid stream name given: ' . $streamName);
-        }
-    }
-
     protected function getStreamInfo(string $streamName): StreamInfo
     {
-        $this->checkStreamName($streamName);
-
         if (!array_key_exists($streamName, $this->streamInfos)) {
             throw new \InvalidArgumentException('no radio info object created for stream: ' . $streamName);
         }

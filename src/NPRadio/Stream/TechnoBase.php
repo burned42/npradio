@@ -28,8 +28,6 @@ class TechnoBase extends RadioStream
 
     protected function getHomepageUrl(string $streamName): string
     {
-        $this->checkStreamName($streamName);
-
         return 'https://www.' . strtolower($streamName) . '.fm';
     }
 
