@@ -3,33 +3,38 @@
 require_once 'vendor/autoload.php';
 
 use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\MetaRadio;
+use NPRadio\Stream\RadioContainer;
 use NPRadio\DataFetcher\HttpDomFetcher;
+use NPRadio\Stream\RadioStream;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
 
 
 $radioStreams = [
-    MetalOnly::RADIO_NAME => [
+    MetalOnly::class => [
         MetalOnly::METAL_ONLY
     ],
-    TechnoBase::RADIO_NAME => [
+    RauteMusik::class => [
+        RauteMusik::MAIN,
+        RauteMusik::CLUB
+    ],
+    TechnoBase::class => [
         TechnoBase::TECHNOBASE,
         TechnoBase::HOUSETIME
-    ],
-    RauteMusik::RADIO_NAME => [
-        RauteMusik::MAIN
     ]
 ];
 
 $domFetcher = new HttpDomFetcher();
-$metaRadio = new MetaRadio($domFetcher);
+$radioContainer = new RadioContainer();
+/** @var RadioStream $radioStream */
+foreach ($radioStreams as $radioStream => $streams) {
+    $radioName = $radioStream::RADIO_NAME;
+    $radioContainer->addRadio(new $radioStream($domFetcher));
 
-foreach ($radioStreams as $radioName => $streams) {
     foreach ($streams as $streamName) {
         echo $streamName . "\n";
         try {
-            var_dump($metaRadio->getInfo($radioName, $streamName));
+            var_dump($radioContainer->getInfo($radioName, $streamName));
         } catch (\Exception $e) {
             echo 'could not get info from ' . $streamName . ': ' . $e->getMessage() . "\n";
         }
