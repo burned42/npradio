@@ -28,8 +28,10 @@ $domFetcher = new HttpDomFetcher();
 $radioContainer = new RadioContainer();
 /** @var RadioStream $radioStream */
 foreach ($radioStreams as $radioStream => $streams) {
-    $radioName = $radioStream::RADIO_NAME;
-    $radioContainer->addRadio(new $radioStream($domFetcher));
+    /** @var RadioStream $stream */
+    $stream = new $radioStream($domFetcher);
+    $radioName = $stream->getRadioName();
+    $radioContainer->addRadio($stream);
 
     foreach ($streams as $streamName) {
         echo $streamName . "\n";

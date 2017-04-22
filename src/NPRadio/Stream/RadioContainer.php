@@ -9,15 +9,15 @@ class RadioContainer
 
     public function addRadio(RadioStream $radioStream)
     {
-        if (is_null($radioStream::RADIO_NAME)) {
+        if (is_null($radioStream->getRadioName())) {
             throw new \InvalidArgumentException('radio stream has no radio name set');
         }
 
-        if ($this->containsRadio($radioStream::RADIO_NAME)) {
+        if ($this->containsRadio($radioStream->getRadioName())) {
             throw new \RuntimeException('radio stream with this radio name already exists');
         }
 
-        $this->radios[$radioStream::RADIO_NAME] = $radioStream;
+        $this->radios[$radioStream->getRadioName()] = $radioStream;
     }
 
     public function containsRadio(string $radioName): bool

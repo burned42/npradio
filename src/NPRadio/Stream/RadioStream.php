@@ -6,7 +6,7 @@ use NPRadio\DataFetcher\DomFetcher;
 
 abstract class RadioStream implements RadioStreamInterface
 {
-    protected $streamInfos;
+    protected $streamInfos = [];
     protected $domFetcher;
 
     const RADIO_NAME = null;
@@ -18,11 +18,16 @@ abstract class RadioStream implements RadioStreamInterface
 
         foreach (static::AVAILABLE_STREAMS as $streamName) {
             $streamInfo = new StreamInfo();
-            $streamInfo->setRadioName(static::RADIO_NAME)
+            $streamInfo->setRadioName($this->getRadioName())
                 ->setStreamName($streamName)
                 ->setHomepageUrl($this->getHomepageUrl($streamName));
             $this->streamInfos[$streamName] = $streamInfo;
         }
+    }
+
+    public function getRadioName()
+    {
+        return static::RADIO_NAME;
     }
 
     protected function getStreamInfo(string $streamName): StreamInfo
