@@ -22,7 +22,7 @@ class RadioContainer
 
     public function containsRadio(string $radioName): bool
     {
-         return array_key_exists($radioName, $this->radios);
+        return array_key_exists($radioName, $this->radios);
     }
 
     public function getInfo($radioName, $streamName): StreamInfo
