@@ -20,12 +20,12 @@ class RadioContainer
         $this->radios[$radioStream::RADIO_NAME] = $radioStream;
     }
 
-    public function containsRadio(string $radioName)
+    public function containsRadio(string $radioName): bool
     {
          return array_key_exists($radioName, $this->radios);
     }
 
-    public function getInfo($radioName, $streamName)
+    public function getInfo($radioName, $streamName): StreamInfo
     {
         if (!$this->containsRadio($radioName)) {
             throw new \InvalidArgumentException('invalid radio name given: ' . $radioName);
