@@ -49,6 +49,7 @@ class RadioContainerCest
 
     public function canNotAddRadioWithoutName(UnitTester $I)
     {
+        /** @var RadioStream $stub */
         $stub = Stub::make(RadioStream::class);
 
         $I->expectException(
