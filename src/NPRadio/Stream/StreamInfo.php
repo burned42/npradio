@@ -182,7 +182,7 @@ class StreamInfo
      * @param \DateTime $showStartTime
      * @return StreamInfo
      */
-    public function setShowStartTime(\DateTime $showStartTime): StreamInfo
+    public function setShowStartTime(\DateTime $showStartTime = null): StreamInfo
     {
         $this->showStartTime = $showStartTime;
 
@@ -201,7 +201,7 @@ class StreamInfo
      * @param \DateTime $showEndTime
      * @return StreamInfo
      */
-    public function setShowEndTime(\DateTime $showEndTime): StreamInfo
+    public function setShowEndTime(\DateTime $showEndTime = null): StreamInfo
     {
         $this->showEndTime = $showEndTime;
 

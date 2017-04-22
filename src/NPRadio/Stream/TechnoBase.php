@@ -96,6 +96,11 @@ class TechnoBase extends RadioStream
             }
         }
 
+        if ($streamInfo->getShowStartTime()->format('H:i') === $streamInfo->getShowEndTime()->format('H:i')) {
+            $streamInfo->setShowStartTime(null);
+            $streamInfo->setShowEndTime(null);
+        }
+
         return $streamInfo;
     }
 }
