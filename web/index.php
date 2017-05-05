@@ -5,7 +5,7 @@ use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
-use Symfony\Component\HttpFoundation\Request;
+use Silex\Application;
 
 require_once '../vendor/autoload.php';
 
@@ -23,16 +23,12 @@ try {
     foreach ($radioStreams as $radioStream) {
         $radioContainer->addRadio(new $radioStream($domFetcher));
     }
-} catch (Exception $e) {
+} catch (\Exception $e) {
     $app->abort(500, $e->getMessage()); // TODO replace this with a pretty error message after testing
 }
 
-$app->error(function (\Exception $e, Request $request, $code) use ($app) {
-    $app->abort(500, $e->getMessage());  // TODO replace this with a pretty error message after testing
-});
-
-$app->get('/radios', function () use ($radioContainer) {
-    // TODO return list of available radios
+$app->get('/radios', function (Application $app) use ($radioContainer) {
+    return $app->json($radioContainer->getRadioNames());
 });
 $app->get('/radios/{radioName}', function () use ($radioContainer) {
     // TODO can we return something usefull in this case?
@@ -40,10 +36,13 @@ $app->get('/radios/{radioName}', function () use ($radioContainer) {
 $app->get('/radios/{radioName}/streams', function () use ($radioContainer) {
     // TODO return list of available streams for radio
 });
-$app->get('radios/{radioName}/streams/{streamName}', function (Silex\Application $app, $radioName, $streamName) use ($radioContainer) {
-    $info = $radioContainer->getInfo($radioName, $streamName);
-
-    return $app->json($info->getAsArray());
-});
+$app->get(
+    'radios/{radioName}/streams/{streamName}',
+    function (Application $app, $radioName, $streamName) use ($radioContainer) {
+        return $app->json(
+            $radioContainer->getInfo($radioName, $streamName)->getAsArray()
+        );
+    }
+);
 
 $app->run();

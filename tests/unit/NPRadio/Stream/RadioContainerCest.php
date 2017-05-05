@@ -102,4 +102,22 @@ class RadioContainerCest
             }
         );
     }
+
+    public function canGetRadioNames(UnitTester $I)
+    {
+        $this->radioContainer->addRadio($this->fakeRadio);
+
+        $I->assertEquals(
+            ['fake_radio'],
+            $this->radioContainer->getRadioNames()
+        );
+    }
+
+    public function canNotGetRadioNamesIfThereAreNone(UnitTester $I)
+    {
+        $I->assertEquals(
+            [],
+            $this->radioContainer->getRadioNames()
+        );
+    }
 }

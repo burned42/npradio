@@ -25,6 +25,11 @@ class RadioContainer
         return array_key_exists($radioName, $this->radios);
     }
 
+    public function getRadioNames()
+    {
+        return array_keys($this->radios);
+    }
+
     public function getInfo($radioName, $streamName): StreamInfo
     {
         if (!$this->containsRadio($radioName)) {
