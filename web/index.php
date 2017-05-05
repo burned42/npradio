@@ -5,7 +5,6 @@ use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
-use NPRadio\Stream\MetaRadio;
 use Symfony\Component\HttpFoundation\Request;
 
 require_once '../vendor/autoload.php';
