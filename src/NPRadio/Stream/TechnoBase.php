@@ -28,10 +28,6 @@ class TechnoBase extends RadioStream
 
     protected function getHomepageUrl(string $streamName): string
     {
-        if (!in_array($streamName, self::AVAILABLE_STREAMS)) {
-            throw new \InvalidArgumentException('invalid stream name given: ' . $streamName);
-        }
-
         return 'https://www.' . strtolower($streamName) . '.fm';
     }
 
@@ -98,6 +94,11 @@ class TechnoBase extends RadioStream
                     }
                 }
             }
+        }
+
+        if ($streamInfo->getShowStartTime()->format('H:i') === $streamInfo->getShowEndTime()->format('H:i')) {
+            $streamInfo->setShowStartTime(null);
+            $streamInfo->setShowEndTime(null);
         }
 
         return $streamInfo;

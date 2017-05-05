@@ -27,8 +27,6 @@ class RauteMusik extends RadioStream
 
     protected function getHomepageUrl(string $streamName): string
     {
-        $this->checkStreamName($streamName);
-
         return self::BASE_URL . strtolower($streamName);
     }
 
@@ -44,8 +42,6 @@ class RauteMusik extends RadioStream
 
     private function fetchTrackInfo(StreamInfo $streamInfo, string $streamName)
     {
-        $this->checkStreamName($streamName);
-
         try {
             $dom = $this->domFetcher->getHtmlDom(self::BASE_URL . strtolower($streamName));
         } catch (\Exception $e) {
@@ -69,8 +65,6 @@ class RauteMusik extends RadioStream
 
     private function fetchShowInfo(StreamInfo $streamInfo, string $streamName)
     {
-        $this->checkStreamName($streamName);
-
         try {
             $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL . strtolower($streamName));
         } catch (\Exception $e) {

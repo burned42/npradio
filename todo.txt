@@ -1,6 +1,5 @@
 TODO:
-- add tests (really???)
+- maybe build a StreamInfoFactory?
+- add test for DataFetcher?
+- add some error handling
 - display data on a website (web app)
-- add error handling
-- maybe use silex? http://silex.sensiolabs.org/ (for api)
-

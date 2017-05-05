@@ -4,7 +4,7 @@ namespace NPRadio\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
 {
-    protected function getUrlContent(string $url)
+    protected function getUrlContent(string $url): string
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if ($url === false) {

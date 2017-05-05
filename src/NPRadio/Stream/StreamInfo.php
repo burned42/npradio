@@ -28,7 +28,7 @@ class StreamInfo
     /** @var string */
     protected $artist = null;
 
-    public function getAsArray()
+    public function getAsArray(): array
     {
         $showStartTime = $this->getShowStartTime();
         if (!is_null($showStartTime)) {
@@ -59,7 +59,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getRadioName(): string
+    public function getRadioName()
     {
         return $this->radioName;
     }
@@ -78,7 +78,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getStreamName(): string
+    public function getStreamName()
     {
         return $this->streamName;
     }
@@ -97,7 +97,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getHomepageUrl(): string
+    public function getHomepageUrl()
     {
         return $this->homepageUrl;
     }
@@ -182,7 +182,7 @@ class StreamInfo
      * @param \DateTime $showStartTime
      * @return StreamInfo
      */
-    public function setShowStartTime(\DateTime $showStartTime): StreamInfo
+    public function setShowStartTime(\DateTime $showStartTime = null): StreamInfo
     {
         $this->showStartTime = $showStartTime;
 
@@ -201,7 +201,7 @@ class StreamInfo
      * @param \DateTime $showEndTime
      * @return StreamInfo
      */
-    public function setShowEndTime(\DateTime $showEndTime): StreamInfo
+    public function setShowEndTime(\DateTime $showEndTime = null): StreamInfo
     {
         $this->showEndTime = $showEndTime;
 
