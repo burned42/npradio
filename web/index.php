@@ -5,6 +5,8 @@ use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
+use NPRadio\Stream\MetaRadio;
+use Symfony\Component\HttpFoundation\Request;
 
 require_once '../vendor/autoload.php';
 
@@ -25,6 +27,10 @@ try {
 } catch (Exception $e) {
     $app->abort(500, $e->getMessage()); // TODO replace this with a pretty error message after testing
 }
+
+$app->error(function (\Exception $e, Request $request, $code) use ($app) {
+    $app->abort(500, $e->getMessage());  // TODO replace this with a pretty error message after testing
+});
 
 $app->get('/radios', function () use ($radioContainer) {
     // TODO return list of available radios
