@@ -5,7 +5,9 @@ namespace NPRadio\Stream;
 class MetalOnly extends RadioStream
 {
     const RADIO_NAME = 'MetalOnly';
-    const URL = 'https://metal-only.de';
+    const URL = 'https://www.metal-only.de';
+    # use page 'Impressum' because there is only text and the page should load quicker
+    const URL_INFO_PATH = '/impressum.html';
 
     const METAL_ONLY = 'MetalOnly';
 
@@ -28,24 +30,36 @@ class MetalOnly extends RadioStream
             throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
         }
 
-        $divs = $dom->getElementsByTagName('div');
-        /** @var \DOMNode $div */
-        foreach ($divs as $div) {
-            if (preg_match('/Aktuell On Air: /', $div->nodeValue)) {
-                /** @var \DOMNode $child */
-                foreach ($div->childNodes as $child) {
-                    $matches = [];
-                    if (preg_match('/^Aktuell On Air: (.*)$/', $child->nodeValue, $matches)) {
-                        $streamInfo->setModerator(trim($matches[1]));
-                    } elseif (preg_match('/^Sendung: (.*)$/', $child->nodeValue, $matches)) {
-                        $streamInfo->setShow(trim($matches[1]));
-                    } elseif (preg_match('/^Genre: (.*)$/', $child->nodeValue, $matches)) {
-                        $streamInfo->setGenre(trim($matches[1]));
-                    } elseif (preg_match('/^Track: ([^-]*) - (.*)$/', $child->nodeValue, $matches)) {
-                        $streamInfo->setArtist(trim($matches[1]));
-                        $streamInfo->setTrack(trim($matches[2]));
-                    }
-                }
+        $xpath = new \DOMXPath($dom);
+
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
+        if ($nodeList->length === 1) {
+            $matches = [];
+            if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
+                $streamInfo->setModerator($matches[1]);
+            }
+        }
+
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
+        if ($nodeList->length === 1) {
+            $streamInfo->setShow($nodeList->item(0)->nodeValue);
+        }
+
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
+        if ($nodeList->length === 1) {
+            $streamInfo->setGenre($nodeList->item(0)->nodeValue);
+        }
+
+        /** @var \DOMNodeList $nodeList */
+        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='track']//span");
+        if ($nodeList->length === 1) {
+            $matches = [];
+            if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
+                $streamInfo->setArtist($matches[1]);
+                $streamInfo->setTrack($matches[2]);
             }
         }
 

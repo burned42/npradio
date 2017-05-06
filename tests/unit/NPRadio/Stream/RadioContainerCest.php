@@ -2,7 +2,6 @@
 
 namespace NPRadio\Stream;
 
-use Codeception\Util\Stub;
 use NPRadio\DataFetcher\HttpDomFetcher;
 use \UnitTester;
 
@@ -57,6 +56,26 @@ class RadioContainerCest
     public function containerDoesNotContainNonAddedRadio(UnitTester $I)
     {
         $I->assertFalse($this->radioContainer->containsRadio('fake_radio2'));
+    }
+
+    public function containerContainsAddedStream(UnitTester $I)
+    {
+        $this->radioContainer->addRadio($this->fakeRadio);
+
+        $I->assertTrue($this->radioContainer->containsStream('fake_radio', 'fake_stream'));
+    }
+
+    public function containerDoesNotContainNotAddedStream(UnitTester $I)
+    {
+        $I->expectException(
+            new \InvalidArgumentException('invalid radio name given: fake_radio'),
+            function () {
+                $this->radioContainer->containsStream('fake_radio', 'fake_stream2');
+            }
+        );
+
+        $this->radioContainer->addRadio($this->fakeRadio);
+        $I->assertFalse($this->radioContainer->containsStream('fake_radio', 'fake_stream2'));
     }
 
     public function canGetInfoOfExistingStream(UnitTester $I)

@@ -21,6 +21,11 @@ class RadioContainer
         return array_key_exists($radioName, $this->radios);
     }
 
+    public function containsStream(string $radioName, string $streamName): bool
+    {
+        return in_array($streamName, $this->getRadio($radioName)->getStreamNames());
+    }
+
     public function getRadioNames(): array
     {
         return array_keys($this->radios);
@@ -28,19 +33,20 @@ class RadioContainer
 
     public function getStreamNames(string $radioName): array
     {
-        if (!$this->containsRadio($radioName)) {
-            throw new \InvalidArgumentException('invalid radio name given: ' . $radioName);
-        }
-
-        return $this->radios[$radioName]->getStreamNames();
+        return $this->getRadio($radioName)->getStreamNames();
     }
 
     public function getInfo(string $radioName, string $streamName): StreamInfo
+    {
+        return $this->getRadio($radioName)->getInfo($streamName);
+    }
+
+    protected function getRadio($radioName): RadioStream
     {
         if (!$this->containsRadio($radioName)) {
             throw new \InvalidArgumentException('invalid radio name given: ' . $radioName);
         }
 
-        return $this->radios[$radioName]->getInfo($streamName);
+        return $this->radios[$radioName];
     }
 }
