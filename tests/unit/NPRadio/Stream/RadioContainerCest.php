@@ -47,19 +47,6 @@ class RadioContainerCest
         );
     }
 
-    public function canNotAddRadioWithoutName(UnitTester $I)
-    {
-        /** @var RadioStream $stub */
-        $stub = Stub::make(RadioStream::class);
-
-        $I->expectException(
-            new \InvalidArgumentException('radio stream has no radio name set'),
-            function () use ($stub) {
-                $this->radioContainer->addRadio($stub);
-            }
-        );
-    }
-
     public function containerContainsAddedRadio(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -118,6 +105,26 @@ class RadioContainerCest
         $I->assertEquals(
             [],
             $this->radioContainer->getRadioNames()
+        );
+    }
+
+    public function canGetStreamNames(UnitTester $I)
+    {
+        $this->radioContainer->addRadio($this->fakeRadio);
+
+        $I->assertEquals(
+            ['fake_stream'],
+            $this->radioContainer->getStreamNames('fake_radio')
+        );
+    }
+
+    public function canNotGetStreamNamesIfNoRadioAdded(UnitTester $I)
+    {
+        $I->expectException(
+            new \InvalidArgumentException('invalid radio name given: fake_radio'),
+            function () {
+                $this->radioContainer->getStreamNames('fake_radio');
+            }
         );
     }
 }

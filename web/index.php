@@ -24,21 +24,20 @@ try {
         $radioContainer->addRadio(new $radioStream($domFetcher));
     }
 } catch (\Exception $e) {
-    $app->abort(500, $e->getMessage()); // TODO replace this with a pretty error message after testing
+    $app->abort(500, $e->getMessage());
 }
 
 $app->get('/radios', function (Application $app) use ($radioContainer) {
     return $app->json($radioContainer->getRadioNames());
 });
-$app->get('/radios/{radioName}', function () use ($radioContainer) {
-    // TODO can we return something usefull in this case?
-});
-$app->get('/radios/{radioName}/streams', function () use ($radioContainer) {
-    // TODO return list of available streams for radio
+$app->get('/radios/{radioName}/streams', function (Application $app, string $radioName) use ($radioContainer) {
+    return $app->json(
+        $radioContainer->getStreamNames($radioName)
+    );
 });
 $app->get(
     'radios/{radioName}/streams/{streamName}',
-    function (Application $app, $radioName, $streamName) use ($radioContainer) {
+    function (Application $app, string $radioName, string $streamName) use ($radioContainer) {
         return $app->json(
             $radioContainer->getInfo($radioName, $streamName)->getAsArray()
         );

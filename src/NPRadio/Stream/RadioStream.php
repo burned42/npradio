@@ -25,9 +25,14 @@ abstract class RadioStream implements RadioStreamInterface
         }
     }
 
-    public function getRadioName()
+    public function getRadioName(): string
     {
         return static::RADIO_NAME;
+    }
+
+    public function getStreamNames(): array
+    {
+        return static::AVAILABLE_STREAMS;
     }
 
     protected function getStreamInfo(string $streamName): StreamInfo

@@ -14,7 +14,6 @@ class RauteMusik extends RadioStream
     const HOUSE = 'House';
     const ROCK = 'Rock';
     const WACKENRADIO = 'WackenRadio';
-    const METAL = 'Metal;';
 
     const AVAILABLE_STREAMS = [
         self::MAIN,
@@ -22,7 +21,6 @@ class RauteMusik extends RadioStream
         self::HOUSE,
         self::ROCK,
         self::WACKENRADIO,
-        self::METAL
     ];
 
     protected function getHomepageUrl(string $streamName): string
