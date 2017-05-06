@@ -21,10 +21,41 @@ try {
     foreach ($radioStreams as $radioStream) {
         $radioContainer->addRadio(new $radioStream($domFetcher));
     }
+} catch (Exception $e) {
+    echo "could not instantiate radio container\n";
+    exit;
+}
 
-    foreach ($radioContainer->getRadioNames() as $radioName) {
+$radios = [];
+if ($argc !== 1) {
+    if ($argc > 3) {
+        echo "too many arguments\n";
+        exit;
+    }
+    if ($argc > 2) {
+        if ($radioContainer->containsStream($argv[1], $argv[2]) === false) {
+            echo "invalid stream name given\n";
+            exit;
+        }
+        $radios[$argv[1]] = [$argv[2]];
+    } elseif ($argc > 1) {
+        if ($radioContainer->containsRadio($argv[1]) === false) {
+            echo "invalid radio name given\n";
+            exit;
+        }
+
+        $radios[$argv[1]] = $radioContainer->getStreamNames($argv[1]);
+    }
+} else {
+    foreach ($radioContainer->getRadioNames() as $key => $radio) {
+        $radios[$radio] = $radioContainer->getStreamNames($radio);
+    }
+}
+
+try {
+    foreach ($radios as $radioName => $streams) {
         echo $radioName . ":\n";
-        foreach ($radioContainer->getStreamNames($radioName) as $streamName) {
+        foreach ($streams as $streamName) {
             echo "    " . $streamName . ":\n";
             $streamInfo = $radioContainer->getInfo($radioName, $streamName);
 
@@ -45,10 +76,15 @@ try {
                     . ' - ' . $streamInfo->getShowEndTime()->format('H:i') . "\n";
             }
             echo "        Track:     ";
-            if (!is_null($streamInfo->getTrack())) {
-                echo $streamInfo->getTrack();
+            if (!is_null($streamInfo->getArtist()) || !is_null($streamInfo->getTrack())) {
                 if (!is_null($streamInfo->getArtist())) {
-                    echo ' - ' . $streamInfo->getArtist();
+                    echo $streamInfo->getArtist();
+                }
+                if (!is_null($streamInfo->getArtist()) && !is_null($streamInfo->getTrack())) {
+                    echo ' - ';
+                }
+                if (!is_null($streamInfo->getTrack())) {
+                    echo $streamInfo->getTrack();
                 }
             } else {
                 echo 'n/a';
