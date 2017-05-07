@@ -37,20 +37,31 @@ class MetalOnly extends RadioStream
         if ($nodeList->length === 1) {
             $matches = [];
             if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setModerator($matches[1]);
+                $streamInfo->setModerator(trim($matches[1]));
             }
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
         if ($nodeList->length === 1) {
-            $streamInfo->setShow($nodeList->item(0)->nodeValue);
+            $streamInfo->setShow(trim($nodeList->item(0)->nodeValue));
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
         if ($nodeList->length === 1) {
-            $streamInfo->setGenre($nodeList->item(0)->nodeValue);
+            $streamInfo->setGenre(trim($nodeList->item(0)->nodeValue));
+        }
+
+        // if there is no show/moderator then it displays some default values
+        if (
+            $streamInfo->getModerator() === 'MetalHead'
+            && $streamInfo->getShow() === 'Keine Gruesse und Wuensche moeglich.'
+            && $streamInfo->getGenre() === 'Mixed Metal'
+        ) {
+            $streamInfo->setModerator(null)
+                ->setShow(null)
+                ->setGenre(null);
         }
 
         /** @var \DOMNodeList $nodeList */
@@ -58,8 +69,8 @@ class MetalOnly extends RadioStream
         if ($nodeList->length === 1) {
             $matches = [];
             if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setArtist($matches[1]);
-                $streamInfo->setTrack($matches[2]);
+                $streamInfo->setArtist(trim($matches[1]));
+                $streamInfo->setTrack(trim($matches[2]));
             }
         }
 
