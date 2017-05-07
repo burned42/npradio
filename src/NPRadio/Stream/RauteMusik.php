@@ -54,9 +54,9 @@ class RauteMusik extends RadioStream
         foreach ($nodeList as $node) {
             $class = $node->attributes->getNamedItem('class')->nodeValue;
             if ($class === 'artist') {
-                $streamInfo->setArtist($node->nodeValue);
+                $streamInfo->setArtist(trim($node->nodeValue));
             } elseif ($class === 'title') {
-                $streamInfo->setTrack($node->nodeValue);
+                $streamInfo->setTrack(trim($node->nodeValue));
             }
         }
     }
@@ -85,7 +85,9 @@ class RauteMusik extends RadioStream
                 $streamInfo->setShow(trim($nodeList->item(1)->nodeValue));
 
                 if ($numNodes >= 3) {
-                    $streamInfo->setModerator(trim($nodeList->item(2)->nodeValue));
+                    $streamInfo->setModerator(
+                        preg_replace('/\s+/', ' ', trim($nodeList->item(2)->nodeValue))
+                    );
                 }
             }
         }
