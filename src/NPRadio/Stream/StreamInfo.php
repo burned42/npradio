@@ -68,7 +68,7 @@ class StreamInfo
      * @param string $radioName
      * @return StreamInfo
      */
-    public function setRadioName(string $radioName): StreamInfo
+    public function setRadioName(string $radioName = null): StreamInfo
     {
         $this->radioName = $radioName;
 
@@ -87,7 +87,7 @@ class StreamInfo
      * @param string $streamName
      * @return StreamInfo
      */
-    public function setStreamName(string $streamName): StreamInfo
+    public function setStreamName(string $streamName = null): StreamInfo
     {
         $this->streamName = $streamName;
 
@@ -106,7 +106,7 @@ class StreamInfo
      * @param string $homepageUrl
      * @return StreamInfo
      */
-    public function setHomepageUrl(string $homepageUrl): StreamInfo
+    public function setHomepageUrl(string $homepageUrl = null): StreamInfo
     {
         $this->homepageUrl = $homepageUrl;
 
@@ -125,7 +125,7 @@ class StreamInfo
      * @param string $show
      * @return StreamInfo
      */
-    public function setShow(string $show): StreamInfo
+    public function setShow(string $show = null): StreamInfo
     {
         $this->show = $show;
 
@@ -144,7 +144,7 @@ class StreamInfo
      * @param string $genre
      * @return StreamInfo
      */
-    public function setGenre(string $genre): StreamInfo
+    public function setGenre(string $genre = null): StreamInfo
     {
         $this->genre = $genre;
 
@@ -163,7 +163,7 @@ class StreamInfo
      * @param string $moderator
      * @return StreamInfo
      */
-    public function setModerator(string $moderator): StreamInfo
+    public function setModerator(string $moderator = null): StreamInfo
     {
         $this->moderator = $moderator;
 
@@ -220,7 +220,7 @@ class StreamInfo
      * @param string $track
      * @return StreamInfo
      */
-    public function setTrack(string $track): StreamInfo
+    public function setTrack(string $track = null): StreamInfo
     {
         $this->track = $track;
 
@@ -239,7 +239,7 @@ class StreamInfo
      * @param string $artist
      * @return StreamInfo
      */
-    public function setArtist(string $artist): StreamInfo
+    public function setArtist(string $artist = null): StreamInfo
     {
         $this->artist = $artist;
 
