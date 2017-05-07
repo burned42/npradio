@@ -88,7 +88,7 @@ class TechnoBase extends RadioStream
                                     )
                                 );
                             } else {
-                                $streamInfo->$setter((string)$nodeValue);
+                                $streamInfo->$setter(trim((string)$nodeValue));
                             }
                         }
                     }
