@@ -1,3 +1,5 @@
 TODO:
 - maybe build a StreamInfoFactory?
 - display data on a website (web app)
+- set streamname to final name (e.g. RauteMusik/Main -> RauteMusik Main or
+    MetalOnly or TechnoBase)
