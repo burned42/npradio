@@ -24,8 +24,8 @@ function RadioStream(radioName, streamName) {
         var html = "<table>";
 
         html += "<tr>" +
-                "<td class='label'><a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a></td>" +
-                "<td>" + streamInfo.stream_name + "</td>" +
+            "<td class='label'><a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a></td>" +
+            "<td>" + streamInfo.stream_name + "</td>" +
             "</tr>";
 
         if (streamInfo.show.name !== null) {
@@ -75,7 +75,7 @@ function update() {
     radioStreams.map(function (radioStream) {
         radioStream.update();
     });
-    setTimeout(function() {
+    setTimeout(function () {
         update();
     }, 30000);
 }
