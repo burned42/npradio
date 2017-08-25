@@ -1,10 +1,5 @@
 TODO:
 
-- switch from silex to ... ??? lumen?
-    https://gonzalo123.com/2017/07/10/silex-is-dead-or-not/
-
-
+- fetch showtime for metal only
 - maybe build a StreamInfoFactory?
 - display data on a website (web app)
-- set streamname to final name (e.g. RauteMusik/Main -> RauteMusik Main or
-    MetalOnly or TechnoBase)
