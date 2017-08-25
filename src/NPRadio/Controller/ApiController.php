@@ -13,6 +13,7 @@ use Silex\ControllerCollection;
 
 class ApiController implements ControllerProviderInterface
 {
+    /** @var RadioContainer */
     protected $radioContainer;
 
     public function __construct()
@@ -40,6 +41,8 @@ class ApiController implements ControllerProviderInterface
     public function connect(Application $app)
     {
         $radioContainer = $this->radioContainer;
+
+        /** @var ControllerCollection $controller */
         $controller = $app['controllers_factory'];
 
         $controller->get(
