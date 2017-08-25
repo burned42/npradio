@@ -1,3 +1,25 @@
+function get (url) {
+    return new Promise(function (resolve, reject) {
+        let req = new XMLHttpRequest();
+        req.open('GET', url);
+
+        req.onload = function () {
+            if (req.status === 200) {
+                resolve(JSON.parse(req.responseText));
+            }
+            else {
+                reject(Error(req.statusText));
+            }
+        };
+
+        req.onerror = function () {
+            reject(Error("Network Error"));
+        };
+
+        req.send();
+    });
+}
+
 function RadioStream(radioName, streamName) {
     this.streamInfoUrl = "/api/radios/" + radioName + '/streams/' + streamName;
 
@@ -5,23 +27,16 @@ function RadioStream(radioName, streamName) {
     this.domElement.className = 'stream_info';
     document.getElementById('stream_infos').appendChild(this.domElement);
 
-    var self = this;
+    let self = this;
 
-    this.update = function () {
-        var div = self.domElement;
-        var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", self.streamInfoUrl, true);
-        xhttp.send();
-        xhttp.onreadystatechange = function () {
-            if (xhttp.readyState === 4 && xhttp.status === 200) {
-                var result = JSON.parse(xhttp.responseText);
-                div.innerHTML = self.formatStreamInfo(result);
-            }
-        };
+    this.update = async function () {
+        let div = self.domElement;
+        let result = await get(self.streamInfoUrl);
+        div.innerHTML = self.formatStreamInfo(result);
     };
 
     this.formatStreamInfo = function (streamInfo) {
-        var html = "<table>";
+        let html = "<table>";
 
         html += "<tr>" +
             "<td class='label'><a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a></td>" +
@@ -55,7 +70,7 @@ function RadioStream(radioName, streamName) {
     };
 }
 
-var streams = [
+let streams = [
     ['RauteMusik', 'Main'],
     ['RauteMusik', 'Club'],
     ['TechnoBase', 'TechnoBase'],
@@ -66,7 +81,7 @@ var streams = [
     ['MetalOnly', 'MetalOnly']
 ];
 
-var radioStreams = [];
+let radioStreams = [];
 streams.map(function (stream) {
     radioStreams.push(new RadioStream(stream[0], stream[1]));
 });
@@ -75,9 +90,10 @@ function update() {
     radioStreams.map(function (radioStream) {
         radioStream.update();
     });
+
     setTimeout(function () {
         update();
-    }, 30000);
+    }, 30 * 1000);
 }
 
 update();
