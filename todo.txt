@@ -1,5 +1,7 @@
-TODO:
-
 - fetch showtime for metal only
-- maybe build a StreamInfoFactory?
-- display data on a website (web app)
+- add favicon
+- check how to modify it to be a 'webapp' (opens on smartphone as if it were
+  an app)
+- add configuration (cookie/localstorage) to configure which radios and in
+  which order should be displayed on the webpage
+
