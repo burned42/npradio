@@ -28,11 +28,16 @@ function RadioStream(radioName, streamName) {
     document.getElementById('stream_infos').appendChild(this.domElement);
 
     let self = this;
+    let requestRunning = false;
 
     this.update = async function () {
-        let div = self.domElement;
-        let result = await get(self.streamInfoUrl);
-        div.innerHTML = self.formatStreamInfo(result);
+        if (requestRunning === false) {
+            let div = self.domElement;
+            requestRunning = true;
+            let result = await get(self.streamInfoUrl);
+            div.innerHTML = self.formatStreamInfo(result);
+            requestRunning = false;
+        }
     };
 
     this.formatStreamInfo = function (streamInfo) {
