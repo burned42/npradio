@@ -98,9 +98,9 @@ streams.map(function (stream) {
     radioStreams.push(new RadioStream(stream[0], stream[1]));
 });
 
-function update() {
+function update(force = false) {
     let refresh = document.getElementById('auto_refresh');
-    if (refresh.checked) {
+    if (refresh.checked || force === true) {
         let requestsRunning = getNumberOfRunningRequests();
         if (requestsRunning >= 3) {
             setTimeout(function () {
@@ -131,4 +131,4 @@ function getNumberOfRunningRequests() {
     return requestsRunning;
 }
 
-update();
+update(true);
