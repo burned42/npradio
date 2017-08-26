@@ -1,5 +1,12 @@
 {% extends "base.html.twig" %}
 
 {% block content %}
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand">NPRadio</span>
+        <label class="form-check-label text-white">
+            <input class="form-check-input" type="checkbox" onclick="update()" id="auto_refresh">
+            <span class="align-content-center">auto refresh</span>
+        </label>
+    </nav>
     <div id="stream_infos" class="container-fluid card-columns"></div>
 {% endblock %}

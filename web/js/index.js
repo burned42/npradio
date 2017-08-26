@@ -99,22 +99,25 @@ streams.map(function (stream) {
 });
 
 function update() {
-    requestsRunning = getNumberOfRunningRequests();
-    if (requestsRunning >= 3) {
+    let refresh = document.getElementById('auto_refresh');
+    if (refresh.checked) {
+        let requestsRunning = getNumberOfRunningRequests();
+        if (requestsRunning >= 3) {
+            setTimeout(function () {
+                update();
+            }, 5 * 1000);
+
+            return;
+        }
+
+        radioStreams.map(function (radioStream) {
+            radioStream.update();
+        });
+
         setTimeout(function () {
             update();
-        }, 5 * 1000);
-
-        return;
+        }, 30 * 1000);
     }
-
-    radioStreams.map(function (radioStream) {
-        radioStream.update();
-    });
-
-    setTimeout(function () {
-        update();
-    }, 30 * 1000);
 }
 
 function getNumberOfRunningRequests() {
