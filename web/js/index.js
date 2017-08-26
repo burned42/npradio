@@ -22,22 +22,23 @@ function get (url) {
 
 function RadioStream(radioName, streamName) {
     this.streamInfoUrl = "/api/radios/" + radioName + '/streams/' + streamName;
+    this.requestRunning = false;
 
     this.domElement = document.createElement('div');
     this.domElement.className = 'card invisible';
     document.getElementById('stream_infos').appendChild(this.domElement);
 
     let self = this;
-    let requestRunning = false;
+
 
     this.update = async function () {
-        if (requestRunning === false) {
+        if (self.requestRunning === false) {
             let div = self.domElement;
-            requestRunning = true;
+            self.requestRunning = true;
             let result = await get(self.streamInfoUrl);
             div.innerHTML = self.formatStreamInfo(result);
             div.className = 'card';
-            requestRunning = false;
+            self.requestRunning = false;
         }
     };
 
@@ -98,6 +99,15 @@ streams.map(function (stream) {
 });
 
 function update() {
+    requestsRunning = getNumberOfRunningRequests();
+    if (requestsRunning >= 3) {
+        setTimeout(function () {
+            update();
+        }, 5 * 1000);
+
+        return;
+    }
+
     radioStreams.map(function (radioStream) {
         radioStream.update();
     });
@@ -105,6 +115,17 @@ function update() {
     setTimeout(function () {
         update();
     }, 30 * 1000);
+}
+
+function getNumberOfRunningRequests() {
+    let requestsRunning = 0;
+    radioStreams.map(function (radioStream) {
+        if (radioStream.requestRunning) {
+            requestsRunning++;
+        }
+    });
+
+    return requestsRunning;
 }
 
 update();
