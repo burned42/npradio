@@ -24,7 +24,7 @@ function RadioStream(radioName, streamName) {
     this.streamInfoUrl = "/api/radios/" + radioName + '/streams/' + streamName;
 
     this.domElement = document.createElement('div');
-    this.domElement.className = 'stream_info';
+    this.domElement.className = 'card invisible';
     document.getElementById('stream_infos').appendChild(this.domElement);
 
     let self = this;
@@ -36,30 +36,17 @@ function RadioStream(radioName, streamName) {
             requestRunning = true;
             let result = await get(self.streamInfoUrl);
             div.innerHTML = self.formatStreamInfo(result);
+            div.className = 'card';
             requestRunning = false;
         }
     };
 
     this.formatStreamInfo = function (streamInfo) {
-        let html = "<table>";
+        let html = "";
 
-        html += "<tr>" +
-            "<td class='label'><a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a></td>" +
-            "<td>" + streamInfo.stream_name + "</td>" +
-            "</tr>";
-
-        if (streamInfo.show.name !== null) {
-            html += "<tr><td>Show</td><td>" + streamInfo.show.name + "</td></tr>"
-        }
-        if (streamInfo.show.genre !== null) {
-            html += "<tr><td>Genre</td><td>" + streamInfo.show.genre + "</td></tr>";
-        }
-        if (streamInfo.show.moderator !== null) {
-            html += "<tr><td>Moderator</td><td>" + streamInfo.show.moderator + "</td></tr>";
-        }
-        if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
-            html += "<tr><td>Showtime</td><td>" + streamInfo.show.start_time + " - " + streamInfo.show.end_time + "</td></tr>";
-        }
+        html += "<h5 class='card-header text-nowrap'>" +
+            "<a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a>: " + streamInfo.stream_name +
+            "</h5>";
 
         if (streamInfo.artist === null) {
             streamInfo.artist = 'n/a';
@@ -67,9 +54,28 @@ function RadioStream(radioName, streamName) {
         if (streamInfo.track === null) {
             streamInfo.track = 'n/a';
         }
-        html += "<tr><td>Track</td><td>" + streamInfo.artist + " - " + streamInfo.track + "</td></tr>";
+        html += "<div class='card-body'><strong>" +
+            streamInfo.artist + " </strong>-<strong> " + streamInfo.track +
+            "</strong></div>";
 
-        html += "</table>";
+        if (
+            streamInfo.show.name !== null
+            && streamInfo.show.moderator !== null
+        ) {
+            html += "<div class='card-footer alert alert-danger mb-0 mb-lg-0 mb-md-0 mb-sm-0 mb-xl-0'>";
+
+            html += "<strong>" + streamInfo.show.name + "</strong>";
+            if (streamInfo.show.genre !== null) {
+                html += " (" + streamInfo.show.genre + ")";
+            }
+
+            html += "<hr>mit <strong>" + streamInfo.show.moderator + "</strong>";
+            if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
+                html += " (" + streamInfo.show.start_time + " - " + streamInfo.show.end_time + ")";
+            }
+
+            html += "</div>";
+        }
 
         return html;
     };
