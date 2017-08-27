@@ -46,7 +46,7 @@ function RadioStream(radioName, streamName) {
         let html = "";
 
         html += "<h5 class='card-header text-nowrap'>" +
-            "<a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + "</a>: " + streamInfo.stream_name +
+            "<a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + ": " + streamInfo.stream_name + "</a>" +
             "</h5>";
 
         if (streamInfo.artist === null) {
