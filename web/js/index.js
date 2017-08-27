@@ -82,22 +82,6 @@ function RadioStream(radioName, streamName) {
     };
 }
 
-let streams = [
-    ['RauteMusik', 'Main'],
-    ['RauteMusik', 'Club'],
-    ['TechnoBase', 'TechnoBase'],
-    ['RauteMusik', 'House'],
-    ['TechnoBase', 'HouseTime'],
-    ['RauteMusik', 'Rock'],
-    ['RauteMusik', 'WackenRadio'],
-    ['MetalOnly', 'MetalOnly']
-];
-
-let radioStreams = [];
-streams.map(function (stream) {
-    radioStreams.push(new RadioStream(stream[0], stream[1]));
-});
-
 function update(force = false) {
     let refresh = document.getElementById('auto_refresh');
     if (refresh.checked || force === true) {
@@ -131,4 +115,21 @@ function getNumberOfRunningRequests() {
     return requestsRunning;
 }
 
+let streams = [
+    ['RauteMusik', 'Main'],
+    ['RauteMusik', 'Club'],
+    ['TechnoBase', 'TechnoBase'],
+    ['RauteMusik', 'House'],
+    ['TechnoBase', 'HouseTime'],
+    ['RauteMusik', 'Rock'],
+    ['RauteMusik', 'WackenRadio'],
+    ['MetalOnly', 'MetalOnly']
+];
+
+let radioStreams = [];
+streams.map(function (stream) {
+    radioStreams.push(new RadioStream(stream[0], stream[1]));
+});
+
 update(true);
+
