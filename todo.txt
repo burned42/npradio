@@ -2,4 +2,8 @@
 - add favicon
 - add configuration (cookie/localstorage) to configure which radios and in
   which order should be displayed on the webpage
+- add possibility to play streams directly from webapp
+  https://dev.opera.com/articles/html5-audio-radio-player/
+  https://www.w3schools.com/html/html5_audio.asp
+  http://html5doctor.com/html5-audio-the-state-of-play/
 
