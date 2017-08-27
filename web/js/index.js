@@ -13,7 +13,7 @@ function get (url) {
         };
 
         req.onerror = function () {
-            reject(Error("Network Error"));
+            reject(Error('Network Error'));
         };
 
         req.send();
@@ -21,7 +21,7 @@ function get (url) {
 }
 
 function RadioStream(radioName, streamName) {
-    this.streamInfoUrl = "/api/radios/" + radioName + '/streams/' + streamName;
+    this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
     this.requestRunning = false;
 
     this.domElement = document.createElement('div');
@@ -43,11 +43,11 @@ function RadioStream(radioName, streamName) {
     };
 
     this.formatStreamInfo = function (streamInfo) {
-        let html = "";
+        let html = '';
 
-        html += "<h5 class='card-header text-nowrap'>" +
-            "<a href='" + streamInfo.homepage + "'> " + streamInfo.radio_name + ": " + streamInfo.stream_name + "</a>" +
-            "</h5>";
+        html += '<h5 class="card-header text-nowrap">' +
+            '<a href="' + streamInfo.homepage + '"> ' + streamInfo.radio_name + ': ' + streamInfo.stream_name + '</a>' +
+            '</h5>';
 
         if (streamInfo.artist === null) {
             streamInfo.artist = 'n/a';
@@ -55,27 +55,27 @@ function RadioStream(radioName, streamName) {
         if (streamInfo.track === null) {
             streamInfo.track = 'n/a';
         }
-        html += "<div class='card-body'><strong>" +
-            streamInfo.artist + " </strong>-<strong> " + streamInfo.track +
-            "</strong></div>";
+        html += '<div class="card-body"><strong>' +
+            streamInfo.artist + ' </strong>-<strong> ' + streamInfo.track +
+            '</strong></div>';
 
         if (
             streamInfo.show.name !== null
             && streamInfo.show.moderator !== null
         ) {
-            html += "<div class='card-footer alert alert-danger mb-0 mb-lg-0 mb-md-0 mb-sm-0 mb-xl-0'>";
+            html += '<div class="card-footer alert alert-danger mb-0 mb-lg-0 mb-md-0 mb-sm-0 mb-xl-0">';
 
-            html += "<strong>" + streamInfo.show.name + "</strong>";
+            html += '<strong>' + streamInfo.show.name + '</strong>';
             if (streamInfo.show.genre !== null) {
-                html += " (" + streamInfo.show.genre + ")";
+                html += ' (' + streamInfo.show.genre + ')';
             }
 
-            html += "<hr>mit <strong>" + streamInfo.show.moderator + "</strong>";
+            html += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
             if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
-                html += " (" + streamInfo.show.start_time + " - " + streamInfo.show.end_time + ")";
+                html += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
             }
 
-            html += "</div>";
+            html += '</div>';
         }
 
         return html;
