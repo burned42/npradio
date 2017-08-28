@@ -55,9 +55,11 @@ function RadioStream(radioName, streamName) {
         if (streamInfo.track === null) {
             streamInfo.track = 'n/a';
         }
-        html += '<div class="card-body"><strong>' +
-            streamInfo.artist + '</strong> - <strong>' + streamInfo.track +
-            '</strong></div>';
+        html += '<div class="card-body">' +
+            '<strong>' + streamInfo.artist + '</strong>' +
+            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
+            '<strong>' + streamInfo.track + '</strong>' +
+            '</div>';
 
         if (
             streamInfo.show.name !== null
