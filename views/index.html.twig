@@ -3,10 +3,11 @@
 {% block content %}
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand">NPRadio</span>
-        <label class="form-check-label text-white">
-            <input class="form-check-input" type="checkbox" onclick="update()" id="auto_refresh">
-            <span class="align-content-center">auto refresh</span>
-        </label>
+        <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-secondary disabled" id="auto_refresh_label">
+                <input type="checkbox" onclick="updateRefreshState()" id="auto_refresh"> auto refresh
+            </label>
+        </div>
     </nav>
     <div id="stream_infos" class="container-fluid card-columns"></div>
 {% endblock %}

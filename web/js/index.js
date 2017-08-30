@@ -82,13 +82,25 @@ function RadioStream(radioName, streamName) {
     };
 }
 
-function update(force = false) {
+function updateRefreshState() {
     let refresh = document.getElementById('auto_refresh');
-    if (refresh.checked || force === true) {
+    let refresh_label = document.getElementById('auto_refresh_label');
+
+    if (refresh.checked) {
+        refresh_label.className = 'btn btn-success';
+        updateData();
+    } else {
+        refresh_label.className = 'btn btn-secondary disabled';
+    }
+}
+
+function updateData(force = false) {
+    let refresh = document.getElementById('auto_refresh');
+    if (refresh.checked || force) {
         let requestsRunning = getNumberOfRunningRequests();
         if (requestsRunning >= 3) {
             setTimeout(function () {
-                update();
+                updateData();
             }, 5 * 1000);
 
             return;
@@ -99,7 +111,7 @@ function update(force = false) {
         });
 
         setTimeout(function () {
-            update();
+            updateData();
         }, 30 * 1000);
     }
 }
@@ -131,5 +143,4 @@ streams.map(function (stream) {
     radioStreams.push(new RadioStream(stream[0], stream[1]));
 });
 
-update(true);
-
+updateData(true);
