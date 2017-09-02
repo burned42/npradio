@@ -11,6 +11,8 @@ class StreamInfo
     protected $streamName = null;
     /** @var string */
     protected $homepageUrl = null;
+    /** @var string */
+    protected $streamUrl = null;
 
     /** @var string */
     protected $show = null;
@@ -44,6 +46,7 @@ class StreamInfo
             'radio_name'  => $this->getRadioName(),
             'stream_name' => $this->getStreamName(),
             'homepage'    => $this->getHomepageUrl(),
+            'stream_url'  => $this->getStreamUrl(),
             'show'        => [
                 'name'       => $this->getShow(),
                 'genre'      => $this->getGenre(),
@@ -90,6 +93,25 @@ class StreamInfo
     public function setStreamName(string $streamName = null): StreamInfo
     {
         $this->streamName = $streamName;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStreamUrl()
+    {
+        return $this->streamUrl;
+    }
+
+    /**
+     * @param string $streamUrl
+     * @return StreamInfo
+     */
+    public function setStreamUrl(string $streamUrl = null): StreamInfo
+    {
+        $this->streamUrl = $streamUrl;
 
         return $this;
     }

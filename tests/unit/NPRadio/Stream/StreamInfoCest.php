@@ -33,6 +33,7 @@ class StreamInfoCest
      *
      * @example ["StreamName"]
      * @example ["HomepageUrl"]
+     * @example ["StreamUrl"]
      *
      * @example ["Show"]
      * @example ["Genre"]
@@ -77,6 +78,7 @@ class StreamInfoCest
         $radioName = 'test_radio';
         $streamName = 'test_stream';
         $homepageUrl = 'test_homepage';
+        $streamUrl = 'test_stream_url';
         $show = 'test_show';
         $genre = 'test_genre';
         $moderator = 'test_moderator';
@@ -90,6 +92,7 @@ class StreamInfoCest
         $this->streamInfo->setRadioName($radioName)
             ->setStreamName($streamName)
             ->setHomepageUrl($homepageUrl)
+            ->setStreamUrl($streamUrl)
             ->setShow($show)
             ->setGenre($genre)
             ->setModerator($moderator)
@@ -104,6 +107,7 @@ class StreamInfoCest
             'radio_name'  => $radioName,
             'stream_name' => $streamName,
             'homepage'    => $homepageUrl,
+            'stream_url'  => $streamUrl,
             'show'        => [
                 'name'       => $show,
                 'genre'      => $genre,

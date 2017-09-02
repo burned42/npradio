@@ -103,4 +103,9 @@ class TechnoBase extends RadioStream
 
         return $streamInfo;
     }
+
+    protected function getStreamUrl(string $streamName): string
+    {
+        return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
+    }
 }

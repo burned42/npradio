@@ -20,7 +20,8 @@ abstract class RadioStream implements RadioStreamInterface
             $streamInfo = new StreamInfo();
             $streamInfo->setRadioName($this->getRadioName())
                 ->setStreamName($streamName)
-                ->setHomepageUrl($this->getHomepageUrl($streamName));
+                ->setHomepageUrl($this->getHomepageUrl($streamName))
+                ->setStreamUrl($this->getStreamUrl($streamName));
             $this->streamInfos[$streamName] = $streamInfo;
         }
     }
@@ -45,4 +46,6 @@ abstract class RadioStream implements RadioStreamInterface
     }
 
     abstract protected function getHomepageUrl(string $streamName): string;
+
+    abstract protected function getStreamUrl(string $streamName): string;
 }

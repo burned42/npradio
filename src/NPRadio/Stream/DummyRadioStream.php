@@ -16,4 +16,9 @@ class DummyRadioStream extends RadioStream
     {
         return $this->getStreamInfo($streamName);
     }
+
+    protected function getStreamUrl(string $streamName): string
+    {
+        return 'fake_stream_url';
+    }
 }

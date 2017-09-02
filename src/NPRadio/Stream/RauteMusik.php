@@ -92,4 +92,9 @@ class RauteMusik extends RadioStream
             }
         }
     }
+
+    protected function getStreamUrl(string $streamName): string
+    {
+        return 'http://' . strtolower($streamName) . '-high.rautemusik.fm';
+    }
 }
