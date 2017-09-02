@@ -8,7 +8,7 @@ class MetalOnly extends RadioStream
     const URL = 'https://www.metal-only.de';
     # use page 'Impressum' because there is only text and the page should load quicker
     const URL_INFO_PATH = '/impressum.html';
-    const STREAM_URL = 'http://server1.blitz-stream.de:4400/';
+    const STREAM_URL = 'http://server1.blitz-stream.de:4400/;';
 
     const METAL_ONLY = 'MetalOnly';
 
