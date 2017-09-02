@@ -106,6 +106,16 @@ class TechnoBase extends RadioStream
 
     protected function getStreamUrl(string $streamName): string
     {
-        return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
+        //return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
+
+        $fileName = '';
+        $ucLetters = range('A', 'Z');
+        for ($i = 0; $i < strlen($streamName); $i++) {
+            if (in_array($streamName[$i], $ucLetters)) {
+                $fileName .= strtolower($streamName[$i]);
+            }
+        }
+
+        return 'http://lw2.mp3.tb-group.fm/' . $fileName . '.mp3';
     }
 }
