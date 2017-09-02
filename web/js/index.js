@@ -45,8 +45,9 @@ function RadioStream(radioName, streamName) {
     this.formatStreamInfo = function (streamInfo) {
         let html = '';
 
-        html += '<h5 class="card-header text-nowrap">' +
-            '<a href="' + streamInfo.homepage + '"> ' + streamInfo.radio_name + ': ' + streamInfo.stream_name + '</a>' +
+        html += '<h5 class="card-header text-nowrap d-flex justify-content-between">' +
+            '<a href="' + streamInfo.homepage + '" class="align-self-center"> ' + streamInfo.radio_name + ': ' + streamInfo.stream_name + '</a>' +
+            '<button type="button" class="btn btn-secondary" name="play_stream" onclick="playStream(this, \'' + streamInfo.stream_url + '\')">&#x25b6;</button>' +
             '</h5>';
 
         if (streamInfo.artist === null) {
@@ -82,6 +83,25 @@ function RadioStream(radioName, streamName) {
 
         return html;
     };
+}
+
+function playStream(e, streamUrl) {
+    let playButtons = document.getElementsByName('play_stream');
+    for (let i = 0; i < playButtons.length; i++) {
+        playButtons[i].className = 'btn btn-secondary';
+        playButtons[i].innerHTML = '&#x25b6;';
+    }
+
+    let streamPlayer = document.getElementById('stream_player');
+    streamPlayer.pause();
+
+    if (streamPlayer.getAttribute('src') !== streamUrl) {
+        streamPlayer.setAttribute('src', streamUrl);
+        streamPlayer.play();
+
+        e.className = 'btn btn-success';
+        e.innerHTML = '&#x23f8;';
+    }
 }
 
 function updateRefreshState() {
