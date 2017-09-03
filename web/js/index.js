@@ -1,4 +1,4 @@
-function get (url) {
+function get(url) {
     return new Promise(function (resolve, reject) {
         let req = new XMLHttpRequest();
         req.open('GET', url);
