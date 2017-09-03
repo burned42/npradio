@@ -11,9 +11,13 @@ class HttpDomFetcher implements DomFetcher
             throw new \InvalidArgumentException('invalid url given');
         }
 
-        $content = file_get_contents($url);
-        if ($content === false) {
-            throw new \RuntimeException('could not fetch data from url "' . $url . '"');
+        try {
+            $content = file_get_contents($url);
+            if ($content === false) {
+                throw new \RuntimeException('file_get_contents returned false');
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('could not fetch data from url "' . $url . '": ' . $e->getMessage());
         }
 
         return $content;
@@ -24,8 +28,12 @@ class HttpDomFetcher implements DomFetcher
         $xml = $this->getUrlContent($url);
 
         $dom = new \DOMDocument();
-        if ($dom->loadXML($xml) === false) {
-            throw new \RuntimeException('could not parse xml data');
+        try {
+            if ($dom->loadXML($xml) === false) {
+                throw new \RuntimeException('\DomDocument::loadXML returned false');
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('could not parse xml data: ' . $e->getMessage());
         }
 
         return $dom;
@@ -36,10 +44,14 @@ class HttpDomFetcher implements DomFetcher
         $html = $this->getUrlContent($url);
 
         $dom = new \DOMDocument();
-        // sadly I haven't found a better solution than ignoring any errors that
-        // might occur, because the internet is broken, right?
-        if (@$dom->loadHTML($html) === false) {
-            throw new \RuntimeException('could not parse html data');
+        libxml_use_internal_errors(true);
+
+        try {
+            if ($dom->loadHTML($html) === false) {
+                throw new \RuntimeException('\DomDocument::loadHTML returned false');
+            }
+        } catch (\Exception $e) {
+            throw new \RuntimeException('couls not parse html data: ' . $e->getMessage());
         }
 
         return $dom;

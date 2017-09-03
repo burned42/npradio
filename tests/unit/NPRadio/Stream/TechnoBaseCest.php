@@ -15,7 +15,7 @@ class TechnoBaseCest
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getXmlDom' => function () {
             $dom = new \DOMDocument();
-            $xml = file_get_contents(__DIR__ . '/TechnoBaseSample.xml');
+            $xml = file_get_contents(__DIR__ . '/../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
             return $dom;

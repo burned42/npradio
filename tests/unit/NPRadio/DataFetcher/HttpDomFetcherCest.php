@@ -1,5 +1,7 @@
 <?php
+
 namespace NPRadio\DataFetcher;
+
 use \UnitTester;
 
 class HttpDomFetcherCest
@@ -17,7 +19,7 @@ class HttpDomFetcherCest
     }
 
     // tests
-    public function exceptionOnInvalidUrl(UnitTester $I)
+    public function testExceptionOnInvalidUrl(UnitTester $I)
     {
         $I->expectException(
             new \InvalidArgumentException('invalid url given'),
@@ -30,6 +32,59 @@ class HttpDomFetcherCest
             new \InvalidArgumentException('invalid url given'),
             function () {
                 $this->domFetcher->getXmlDom('invalid_url');
+            }
+        );
+    }
+
+    public function testExceptionOnNonExistingUrl(UnitTester $I)
+    {
+        $url = 'http://127.0.0.1/this/foo/does/hopefully/never.exist';
+
+        $I->expectException(
+            \RuntimeException::class,
+            function () use ($url) {
+                $this->domFetcher->getHtmlDom($url);
+            }
+        );
+
+        $I->expectException(
+            \RuntimeException::class,
+            function () use ($url) {
+                $this->domFetcher->getXmlDom($url);
+            }
+        );
+    }
+
+    public function testGetXmlDom(UnitTester $I)
+    {
+        $xmlDom = $this->domFetcher->getXmlDom('file://' . __DIR__ . '/../TestSamples/TechnoBaseSample.xml');
+
+        $I->assertInstanceOf(\DOMDocument::class, $xmlDom);
+    }
+
+    public function testExceptionOnBrokenXml(UnitTester $I)
+    {
+        $I->expectException(
+            \RuntimeException::class,
+            function () {
+                $this->domFetcher->getXmlDom('file://' . __DIR__ . '/../TestSamples/TechnoBaseSampleBroken.xml');
+            }
+        );
+    }
+
+    public function testGetHtmlDom(UnitTester $I)
+    {
+        $htmlDom = $this->domFetcher->getHtmlDom('file://' . __DIR__ . '/../TestSamples/MetalOnlySampleNotOnAir.html');
+
+        $I->assertInstanceOf(\DOMDocument::class, $htmlDom);
+    }
+
+    public function testExceptionOnBrokenHtml(UnitTester $I)
+    {
+        $I->expectException(
+            \RuntimeException::class,
+            function () {
+                $this->domFetcher->getHtmlDom('file://' . __DIR__ . '/../TestSamples/Empty.html');
             }
         );
     }

@@ -2,7 +2,6 @@
 
 namespace NPRadio\Stream;
 
-use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
 use \UnitTester;
@@ -10,12 +9,21 @@ use \UnitTester;
 class MetalOnlyCest
 {
     private $domFetcher;
+    private $domFetcherNotOnAir;
 
     public function _before(UnitTester $I)
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();
-            $html = file_get_contents(__DIR__ . '/MetalOnlySample.html');
+            $html = file_get_contents(__DIR__ . '/../TestSamples/MetalOnlySample.html');
+            @$dom->loadHTML($html);
+
+            return $dom;
+        }]);
+
+        $this->domFetcherNotOnAir = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
+            $dom = new \DOMDocument();
+            $html = file_get_contents(__DIR__ . '/../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
@@ -55,6 +63,21 @@ class MetalOnlyCest
         }
     }
 
+    public function testGetInfoNotOnAir(UnitTester $I)
+    {
+        $mo = new MetalOnly($this->domFetcherNotOnAir);
+
+        foreach (MetalOnly::AVAILABLE_STREAMS as $streamName) {
+            $info = $mo->getInfo($streamName);
+
+            $I->assertInstanceOf(StreamInfo::class, $info);
+
+            $I->assertNull($info->getModerator());
+            $I->assertNull($info->getShow());
+            $I->assertNull($info->getGenre());
+        }
+    }
+
     public function testGetInfoForNonExistingStream(UnitTester $I)
     {
         $mo = new MetalOnly($this->domFetcher);
@@ -72,7 +95,7 @@ class MetalOnlyCest
     {
         /** @var DomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
-            throw new TestRuntimeException('test');
+            throw new \RuntimeException('test');
         }]);
         $mo = new MetalOnly($domFetcher);
 

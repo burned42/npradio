@@ -40,11 +40,11 @@ class RauteMusikCest
     public function testGetInfo(UnitTester $I)
     {
         $trackInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__ . '/RauteMusikClubTrackInfoSample.html');
+        $xml = file_get_contents(__DIR__ . '/../TestSamples/RauteMusikClubTrackInfoSample.html');
         @$trackInfoDom->loadXML($xml);
 
         $showInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__ . '/RauteMusikClubShowInfoSample.html');
+        $xml = file_get_contents(__DIR__ . '/../TestSamples/RauteMusikClubShowInfoSample.html');
         @$showInfoDom->loadXML($xml);
 
         /** @var DomFetcher $domFetcher */
