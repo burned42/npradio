@@ -36,6 +36,8 @@ function RadioStream(radioName, streamName) {
             let div = self.domElement;
             self.requestRunning = true;
             let result = await get(self.streamInfoUrl);
+            // TODO format div once
+            // TODO then only replace the content on update
             div.innerHTML = self.formatStreamInfo(result);
             div.className = 'card';
             self.requestRunning = false;
