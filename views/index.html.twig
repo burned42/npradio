@@ -3,7 +3,7 @@
 {% block content %}
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand">NPRadio</span>
-        <audio controls id="stream_player"></audio>
+        <audio controls id="stream_player" onpause="initializePlayButtonsToPaused()"></audio>
         <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-secondary disabled" id="auto_refresh_label">
                 <input type="checkbox" onclick="updateRefreshState()" id="auto_refresh" autocomplete="off">&#x21bb;
