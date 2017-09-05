@@ -1,3 +1,4 @@
+- maybe use redis to cache data for ~1-2m?
 - fetch showtime for metal only
 - add favicon
 - add configuration (cookie/localstorage) to configure which radios and in
