@@ -179,7 +179,7 @@ function updateData(force = false) {
 
         setTimeout(function () {
             updateData();
-        }, 30 * 1000);
+        }, 60 * 1000);
     }
 }
 

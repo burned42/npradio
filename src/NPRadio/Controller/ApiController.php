@@ -63,7 +63,12 @@ class ApiController implements ControllerProviderInterface
             'radios/{radioName}/streams/{streamName}',
             function (Application $app, string $radioName, string $streamName) use ($radioContainer) {
                 return $app->json(
-                    $radioContainer->getInfo($radioName, $streamName)->getAsArray()
+                    $radioContainer->getInfo($radioName, $streamName)->getAsArray(),
+                    200,
+                    [
+                        'Cache-Control' => 's-maxage=60',
+                        'ETag' => uniqid()
+                    ]
                 );
             }
         );
