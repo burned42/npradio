@@ -51,7 +51,7 @@ class HttpDomFetcher implements DomFetcher
                 throw new \RuntimeException('\DomDocument::loadHTML returned false');
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException('couls not parse html data: ' . $e->getMessage());
+            throw new \RuntimeException('could not parse html data: ' . $e->getMessage());
         }
 
         return $dom;
