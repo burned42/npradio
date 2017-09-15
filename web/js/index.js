@@ -200,6 +200,7 @@ let streams = [
     ['TechnoBase', 'TechnoBase'],
     ['RauteMusik', 'House'],
     ['TechnoBase', 'HouseTime'],
+    ['TechnoBase', 'ClubTime'],
     ['RauteMusik', 'Rock'],
     ['RauteMusik', 'WackenRadio'],
     ['MetalOnly', 'MetalOnly']
