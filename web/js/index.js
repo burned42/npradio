@@ -82,14 +82,15 @@ function RadioStream(radioName, streamName) {
             headerLink.className = 'align-self-center';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
-            headerLink.innerHTML = streamInfo.radio_name + ': ' + streamInfo.stream_name;
+            let streamTitle = streamInfo.radio_name + ': ' + streamInfo.stream_name;
+            headerLink.innerHTML = streamTitle;
             header.appendChild(headerLink);
 
             let headerButton = document.createElement('button');
             headerButton.className = 'btn btn-secondary';
             headerButton.name = 'play_stream';
             headerButton.onclick = function () {
-                playStream(this, streamInfo.stream_url);
+                playStream(this, streamInfo.stream_url, streamTitle);
             };
             headerButton.innerHTML = '&#x25b6';
             header.appendChild(headerButton);
@@ -133,7 +134,7 @@ function initializePlayButtonsToPaused() {
     }
 }
 
-function playStream(e, streamUrl) {
+function playStream(e, streamUrl, streamTitle) {
     initializePlayButtonsToPaused();
 
     let streamPlayer = document.getElementById('stream_player');
@@ -146,6 +147,8 @@ function playStream(e, streamUrl) {
 
         e.className = 'btn btn-success';
         e.innerHTML = '&#x23f8;';
+
+        document.title = 'NPRadio | ' + streamTitle;
     }
 }
 
