@@ -2,24 +2,46 @@
 
 use NPRadio\Controller\ApiController;
 use NPRadio\Controller\IndexController;
-use Silex\Application;
-use Silex\Provider\TwigServiceProvider;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$app = new Application();
 
-$app->register(new TwigServiceProvider(), [
-    'twig.path' => __DIR__ . '/../views'
-]);
+$container = new \Slim\Container();
+$container['cache'] = function () {
+    return new \Slim\HttpCache\CacheProvider();
+};
+$container['view'] = function ($container) {
+    $view = new Twig(
+        __DIR__ . '/../views',
+        ['cache' => false] // TODO ???
+    );
 
-$app->register(new Silex\Provider\HttpCacheServiceProvider(), [
-    'http_cache.cache_dir' => __DIR__.'/cache/'
-]);
+    $basePath = rtrim(
+        str_ireplace(
+            'index.php',
+            '',
+            $container['request']->getUri()->getBasePath()
+        ),
+        '/'
+    );
 
-$app->mount('/', new IndexController());
+    $view->addExtension(new TwigExtension($container['router'], $basePath));
 
-$app->mount('/api', new ApiController());
+    return $view;
+};
 
-$app['http_cache']->run();
+$app = new Slim\App($container);
+$app->add(new \Slim\HttpCache\Cache('public', 600));
+
+$app->get('/', function ($request, $response, $args) {
+    return $this->view->render($response, 'index.html.twig');
+});
+
+$app->get('/api/radios', ApiController::class . ':getRadios');
+$app->get('/api/radios/{radioName}/streams', ApiController::class . ':getStreams');
+$app->get('/api/radios/{radioName}/streams/{streamName}', ApiController::class . ':getStreamInfo');
+
+$app->run();
 

@@ -7,17 +7,22 @@ use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
+use Psr\Container\ContainerInterface;
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
 
-class ApiController implements ControllerProviderInterface
+class ApiController
 {
     /** @var RadioContainer */
     protected $radioContainer;
 
-    public function __construct()
+    /** @var ContainerInterface */
+    private $container;
+
+    public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
+
         $this->radioContainer = new RadioContainer();
         $domFetcher = new HttpDomFetcher();
         $radioStreams = [
@@ -31,48 +36,31 @@ class ApiController implements ControllerProviderInterface
         }
     }
 
-    /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
-     */
-    public function connect(Application $app)
+    public function getRadios(Request $request, Response $response, $args)
     {
-        $radioContainer = $this->radioContainer;
+        return $response->withJson($this->radioContainer->getRadioNames());
+    }
 
-        /** @var ControllerCollection $controller */
-        $controller = $app['controllers_factory'];
+    public function getStreams(Request $request, Response $response, $args)
+    {
+        return $response->withJson($this->radioContainer->getStreamNames($args['radioName']));
+    }
 
-        $controller->get(
-            '/radios',
-            function (Application $app) use ($radioContainer) {
-                return $app->json($radioContainer->getRadioNames());
-            }
-        );
-        $controller->get(
-            '/radios/{radioName}/streams',
-            function (Application $app, string $radioName) use ($radioContainer) {
-                return $app->json(
-                    $this->radioContainer->getStreamNames($radioName)
-                );
-            }
-        );
-        $controller->get(
-            'radios/{radioName}/streams/{streamName}',
-            function (Application $app, string $radioName, string $streamName) use ($radioContainer) {
-                return $app->json(
-                    $radioContainer->getInfo($radioName, $streamName)->getAsArray(),
-                    200,
-                    [
-                        'Cache-Control' => 's-maxage=60',
-                        'ETag' => uniqid()
-                    ]
-                );
-            }
-        );
+    public function getStreamInfo(Request $request, Response $response, $args)
+    {
+        // old:
+        // 'Cache-Control' => 's-maxage=60',
+        // 'ETag' => uniqid()
 
-        return $controller;
+
+        // $resWithEtag = $this->cache->withEtag($res, 'abc');
+        // $resWithExpires = $this->cache->withExpires($res, time() + 3600);
+        // $resWithLastMod = $this->cache->withLastModified($res, time() - 3600);
+
+        return $response->withJson(
+            $this->radioContainer
+                ->getInfo($args['radioName'], $args['streamName'])
+                ->getAsArray()
+        );
     }
 }
