@@ -2,14 +2,15 @@
 
 namespace NPRadio\Controller;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\RadioContainer;
-use NPRadio\Stream\RauteMusik;
-use NPRadio\Stream\TechnoBase;
-use Psr\Container\ContainerInterface;
+use \NPRadio\DataFetcher\HttpDomFetcher;
+use \NPRadio\Stream\MetalOnly;
+use \NPRadio\Stream\RadioContainer;
+use \NPRadio\Stream\RauteMusik;
+use \NPRadio\Stream\TechnoBase;
+use \Psr\Container\ContainerInterface;
 use \Slim\Http\Request as Request;
 use \Slim\Http\Response as Response;
+use \Slim\HttpCache\CacheProvider;
 
 class ApiController
 {
@@ -19,6 +20,10 @@ class ApiController
     /** @var ContainerInterface */
     private $container;
 
+    /**
+     * ApiController constructor.
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -36,26 +41,43 @@ class ApiController
         }
     }
 
-    public function getRadios(Request $request, Response $response, $args)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getRadios(Request $request, Response $response, array $args): Response
     {
         return $response->withJson($this->radioContainer->getRadioNames());
     }
 
-    public function getStreams(Request $request, Response $response, $args)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getStreams(Request $request, Response $response, array $args): Response
     {
         return $response->withJson($this->radioContainer->getStreamNames($args['radioName']));
     }
 
-    public function getStreamInfo(Request $request, Response $response, $args)
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getStreamInfo(Request $request, Response $response, array $args): Response
     {
-        // old:
-        // 'Cache-Control' => 's-maxage=60',
-        // 'ETag' => uniqid()
+        /** @var CacheProvider $cache */
+        $cache = $this->container->get('cache');
 
-
-        // $resWithEtag = $this->cache->withEtag($res, 'abc');
-        // $resWithExpires = $this->cache->withExpires($res, time() + 3600);
-        // $resWithLastMod = $this->cache->withLastModified($res, time() - 3600);
+        /** @var Response $response */
+        $response = $cache->withEtag($response, uniqid());
+        $response = $cache->withExpires($response, time() + 60);
+        $response = $cache->withLastModified($response, time());
 
         return $response->withJson(
             $this->radioContainer
