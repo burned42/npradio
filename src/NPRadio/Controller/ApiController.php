@@ -2,22 +2,32 @@
 
 namespace NPRadio\Controller;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\RadioContainer;
-use NPRadio\Stream\RauteMusik;
-use NPRadio\Stream\TechnoBase;
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
+use \NPRadio\DataFetcher\HttpDomFetcher;
+use \NPRadio\Stream\MetalOnly;
+use \NPRadio\Stream\RadioContainer;
+use \NPRadio\Stream\RauteMusik;
+use \NPRadio\Stream\TechnoBase;
+use \Psr\Container\ContainerInterface;
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
+use \Slim\HttpCache\CacheProvider;
 
-class ApiController implements ControllerProviderInterface
+class ApiController
 {
     /** @var RadioContainer */
     protected $radioContainer;
 
-    public function __construct()
+    /** @var ContainerInterface */
+    private $container;
+
+    /**
+     * ApiController constructor.
+     * @param ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
     {
+        $this->container = $container;
+
         $this->radioContainer = new RadioContainer();
         $domFetcher = new HttpDomFetcher();
         $radioStreams = [
@@ -32,47 +42,47 @@ class ApiController implements ControllerProviderInterface
     }
 
     /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
      */
-    public function connect(Application $app)
+    public function getRadios(Request $request, Response $response, array $args): Response
     {
-        $radioContainer = $this->radioContainer;
+        return $response->withJson($this->radioContainer->getRadioNames());
+    }
 
-        /** @var ControllerCollection $controller */
-        $controller = $app['controllers_factory'];
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getStreams(Request $request, Response $response, array $args): Response
+    {
+        return $response->withJson($this->radioContainer->getStreamNames($args['radioName']));
+    }
 
-        $controller->get(
-            '/radios',
-            function (Application $app) use ($radioContainer) {
-                return $app->json($radioContainer->getRadioNames());
-            }
-        );
-        $controller->get(
-            '/radios/{radioName}/streams',
-            function (Application $app, string $radioName) use ($radioContainer) {
-                return $app->json(
-                    $this->radioContainer->getStreamNames($radioName)
-                );
-            }
-        );
-        $controller->get(
-            'radios/{radioName}/streams/{streamName}',
-            function (Application $app, string $radioName, string $streamName) use ($radioContainer) {
-                return $app->json(
-                    $radioContainer->getInfo($radioName, $streamName)->getAsArray(),
-                    200,
-                    [
-                        'Cache-Control' => 's-maxage=60',
-                        'ETag' => uniqid()
-                    ]
-                );
-            }
-        );
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getStreamInfo(Request $request, Response $response, array $args): Response
+    {
+        /** @var CacheProvider $cache */
+        $cache = $this->container->get('cache');
 
-        return $controller;
+        /** @var Response $response */
+        $response = $cache->withEtag($response, uniqid());
+        $response = $cache->withExpires($response, time() + 60);
+        $response = $cache->withLastModified($response, time());
+
+        return $response->withJson(
+            $this->radioContainer
+                ->getInfo($args['radioName'], $args['streamName'])
+                ->getAsArray()
+        );
     }
 }

@@ -2,28 +2,32 @@
 
 namespace NPRadio\Controller;
 
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
+use \Psr\Container\ContainerInterface;
+use \Slim\Http\Request as Request;
+use \Slim\Http\Response as Response;
 
-class IndexController implements ControllerProviderInterface
+class IndexController
 {
+    /** @var \Slim\Views\Twig */
+    private $view;
+
     /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
+     * IndexController constructor.
+     * @param ContainerInterface $container
      */
-    public function connect(Application $app)
+    public function __construct(ContainerInterface $container)
     {
-        /** @var ControllerCollection $controller */
-        $controller = $app['controllers_factory'];
+        $this->view = $container->get('view');
+    }
 
-        $controller->get('/', function (Application $app) {
-            return $app['twig']->render('index.html.twig');
-        });
-
-        return $controller;
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getIndex(Request $request, Response $response, array $args): Response
+    {
+        return $this->view->render($response, 'index.html.twig');
     }
 }
