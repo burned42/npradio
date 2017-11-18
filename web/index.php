@@ -13,32 +13,16 @@ $container['cache'] = function () {
     return new \Slim\HttpCache\CacheProvider();
 };
 $container['view'] = function ($container) {
-    $view = new Twig(
-        __DIR__ . '/../views',
-        ['cache' => false] // TODO ???
-    );
-
-    $basePath = rtrim(
-        str_ireplace(
-            'index.php',
-            '',
-            $container['request']->getUri()->getBasePath()
-        ),
-        '/'
-    );
-
-    $view->addExtension(new TwigExtension($container['router'], $basePath));
+    $view = new Twig(__DIR__ . '/../views');
+    $view->addExtension(new TwigExtension($container['router'], ''));
 
     return $view;
 };
 
 $app = new Slim\App($container);
-$app->add(new \Slim\HttpCache\Cache('public', 600));
+$app->add(new \Slim\HttpCache\Cache('public', 60));
 
-$app->get('/', function ($request, $response, $args) {
-    return $this->view->render($response, 'index.html.twig');
-});
-
+$app->get('/', IndexController::class . ':getIndex');
 $app->get('/api/radios', ApiController::class . ':getRadios');
 $app->get('/api/radios/{radioName}/streams', ApiController::class . ':getStreams');
 $app->get('/api/radios/{radioName}/streams/{streamName}', ApiController::class . ':getStreamInfo');
