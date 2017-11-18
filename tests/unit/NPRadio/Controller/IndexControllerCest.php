@@ -2,35 +2,29 @@
 
 namespace NPRadio\Controller;
 
-use Silex\Api\ControllerProviderInterface;
-use Silex\Application;
-use Silex\ControllerCollection;
+use Codeception\Util\Stub;
+use Psr\Container\ContainerInterface;
+use Slim\Container;
+use Slim\Views\Twig;
 use \UnitTester;
 
 class IndexControllerCest
 {
-    /** @var  ControllerProviderInterface */
-    protected $controller;
+    /** @var ContainerInterface */
+    protected $container;
 
     public function _before(UnitTester $I)
     {
-        $this->controller = new IndexController();
-    }
-
-    public function _after(UnitTester $I)
-    {
+        $this->container = Stub::make(Container::class);
+        $this->container['view'] = null;
     }
 
     // tests
     public function testIsInstantiable(UnitTester $I)
     {
-        $I->assertInstanceOf(ControllerProviderInterface::class, $this->controller);
-    }
-
-    public function testCanConnect(UnitTester $I)
-    {
-        $controller = $this->controller->connect(new Application());
-
-        $I->assertInstanceOf(ControllerCollection::class, $controller);
+        $I->assertInstanceOf(
+            IndexController::class,
+            new IndexController($this->container)
+        );
     }
 }
