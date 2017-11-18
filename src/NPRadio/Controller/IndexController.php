@@ -28,6 +28,6 @@ class IndexController
      */
     public function getIndex(Request $request, Response $response, array $args): Response
     {
-        $this->view->render($response, 'index.html.twig');
+        return $this->view->render($response, 'index.html.twig');
     }
 }
