@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\HttpCache\CacheProvider;
 use \UnitTester;
 
 class ApiControllerCest
@@ -18,6 +19,7 @@ class ApiControllerCest
     public function _before(UnitTester $I)
     {
         $this->container = Stub::make(Container::class);
+        $this->container['cache'] = Stub::make(CacheProvider::class);
     }
 
     // tests
@@ -57,6 +59,27 @@ class ApiControllerCest
                 $request,
                 $response,
                 ['radioName' => MetalOnly::RADIO_NAME]
+            )
+        );
+    }
+
+    public function testGetStreamInfo(UnitTester $I)
+    {
+        $controller = new ApiController($this->container);
+
+        /** @var Request $request */
+        $request = Stub::make(Request::class);
+        $response = new Response();
+
+        $I->assertInstanceOf(
+            Response::class,
+            $controller->getStreamInfo(
+                $request,
+                $response,
+                [
+                    'radioName'  => MetalOnly::RADIO_NAME,
+                    'streamName' => MetalOnly::METAL_ONLY
+                ]
             )
         );
     }
