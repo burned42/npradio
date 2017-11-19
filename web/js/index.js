@@ -20,31 +20,34 @@ function get(url) {
     });
 }
 
-function RadioStream(radioName, streamName) {
-    this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
-    this.requestRunning = false;
+class RadioStream {
+    constructor(radioName, streamName) {
+        this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
+        this.requestRunning = false;
 
-    this.domElement = document.createElement('div');
-    this.domElement.className = 'card invisible';
-    this.domElementInitialized = false;
-    let cardBody;
-    let cardFooter;
-    let cardFooterAppended = false;
+        this.domElement = document.createElement('div');
+        this.domElement.className = 'card invisible';
+        this.domElementInitialized = false;
+        this.cardBody;
+        this.cardFooter;
+        this.cardFooterAppended = false;
 
-    document.getElementById('stream_infos').appendChild(this.domElement);
+        document.getElementById('stream_infos').appendChild(this.domElement);
 
-    let self = this;
+        this.update = this.update.bind(this);
+        this.updateStreamInfoDom = this.updateStreamInfoDom.bind(this);
+    }
 
-    this.update = async function () {
-        if (self.requestRunning === false) {
-            self.requestRunning = true;
-            let result = await get(self.streamInfoUrl);
-            self.updateStreamInfoDom(result);
-            self.requestRunning = false;
+    async update() {
+        if (this.requestRunning === false) {
+            this.requestRunning = true;
+            let result = await get(this.streamInfoUrl);
+            this.updateStreamInfoDom(result);
+            this.requestRunning = false;
         }
     };
 
-    this.updateStreamInfoDom = function (streamInfo) {
+    updateStreamInfoDom(streamInfo) {
         if (streamInfo.artist === null) {
             streamInfo.artist = 'n/a';
         }
@@ -73,13 +76,13 @@ function RadioStream(radioName, streamName) {
             }
         }
 
-        if (self.domElementInitialized === false) {
+        if (this.domElementInitialized === false) {
             // add header
             let header = document.createElement('h5');
             header.className = 'card-header text-nowrap d-flex justify-content-between';
 
             let headerLink = document.createElement('a');
-            headerLink.className = 'align-self-center';
+            headerLink.className = 'align-this-center';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
             let streamTitle = streamInfo.radio_name + ': ' + streamInfo.stream_name;
@@ -95,33 +98,33 @@ function RadioStream(radioName, streamName) {
             headerButton.innerHTML = '&#x25b6';
             header.appendChild(headerButton);
 
-            self.domElement.appendChild(header);
+            this.domElement.appendChild(header);
 
 
             // add body
-            cardBody = document.createElement('div');
-            cardBody.className = 'card-body';
-            self.domElement.appendChild(cardBody);
+            this.cardBody = document.createElement('div');
+            this.cardBody.className = 'card-body';
+            this.domElement.appendChild(this.cardBody);
 
             // add footer
-            cardFooter = document.createElement('div');
-            cardFooter.className = 'card-footer alert alert-danger mb-0';
+            this.cardFooter = document.createElement('div');
+            this.cardFooter.className = 'card-footer alert alert-danger mb-0';
 
-            self.domElement.className = 'card';
-            self.domElementInitialized = true;
+            this.domElement.className = 'card';
+            this.domElementInitialized = true;
         }
 
-        cardBody.innerHTML = bodyContent;
+        this.cardBody.innerHTML = bodyContent;
 
         if (footerContent) {
-            cardFooter.innerHTML = footerContent;
-            if (cardFooterAppended === false) {
-                self.domElement.appendChild(cardFooter);
-                cardFooterAppended = true;
+            this.cardFooter.innerHTML = footerContent;
+            if (this.cardFooterAppended === false) {
+                this.domElement.appendChild(this.cardFooter);
+                this.cardFooterAppended = true;
             }
-        } else if (cardFooterAppended) {
-            self.domElement.removeChild(cardFooter);
-            cardFooterAppended = false;
+        } else if (this.cardFooterAppended) {
+            this.domElement.removeChild(this.cardFooter);
+            this.cardFooterAppended = false;
         }
     };
 }
