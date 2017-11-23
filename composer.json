@@ -12,5 +12,10 @@
   },
   "require-dev": {
     "codeception/codeception": "^2.2"
+  },
+  "config": {
+    "platform": {
+      "php": "7.0.19"
+    }
   }
 }
