@@ -41,8 +41,10 @@ class RadioStream {
     async update() {
         if (this.requestRunning === false) {
             this.requestRunning = true;
-            let result = await get(this.streamInfoUrl);
-            this.updateStreamInfoDom(result);
+            try {
+                let result = await get(this.streamInfoUrl);
+                this.updateStreamInfoDom(result);
+            } catch (e) {}
             this.requestRunning = false;
         }
     };
