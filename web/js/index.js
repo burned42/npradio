@@ -82,7 +82,7 @@ class RadioStream {
             header.className = 'card-header text-nowrap d-flex justify-content-between';
 
             let headerLink = document.createElement('a');
-            headerLink.className = 'align-this-center';
+            headerLink.className = 'my-auto';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
             let streamTitle = streamInfo.radio_name + ': ' + streamInfo.stream_name;
