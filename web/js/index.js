@@ -28,8 +28,8 @@ class RadioStream {
         this.domElement = document.createElement('div');
         this.domElement.className = 'card invisible';
         this.domElementInitialized = false;
-        this.cardBody;
-        this.cardFooter;
+        this.cardBody = '';
+        this.cardFooter = '';
         this.cardFooterAppended = false;
 
         document.getElementById('stream_infos').appendChild(this.domElement);
@@ -155,40 +155,6 @@ function playStream(e, streamUrl, streamTitle) {
     }
 }
 
-function updateRefreshState() {
-    let refresh = document.getElementById('auto_refresh');
-    let refresh_label = document.getElementById('auto_refresh_label');
-
-    if (refresh.checked) {
-        refresh_label.className = 'btn btn-success';
-        updateData();
-    } else {
-        refresh_label.className = 'btn btn-secondary disabled';
-    }
-}
-
-function updateData(force = false) {
-    let refresh = document.getElementById('auto_refresh');
-    if (refresh.checked || force) {
-        let requestsRunning = getNumberOfRunningRequests();
-        if (requestsRunning >= 3) {
-            setTimeout(function () {
-                updateData();
-            }, 5 * 1000);
-
-            return;
-        }
-
-        radioStreams.map(function (radioStream) {
-            radioStream.update();
-        });
-
-        setTimeout(function () {
-            updateData();
-        }, 60 * 1000);
-    }
-}
-
 function getNumberOfRunningRequests() {
     let requestsRunning = 0;
     radioStreams.map(function (radioStream) {
@@ -199,6 +165,19 @@ function getNumberOfRunningRequests() {
 
     return requestsRunning;
 }
+
+function updateData() {
+    if (getNumberOfRunningRequests() < 3) {
+        radioStreams.map(function (radioStream) {
+            radioStream.update();
+        });
+
+        let lastUpdated = document.getElementById('last_updated');
+        let currentDate = new Date();
+        lastUpdated.innerHTML = '&#x21bb; ' + currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+}
+
 
 let streams = [
     ['RauteMusik', 'Main'],
@@ -216,5 +195,8 @@ let radioStreams = [];
 streams.map(function (stream) {
     radioStreams.push(new RadioStream(stream[0], stream[1]));
 });
+updateData();
 
-updateData(true);
+setInterval(function () {
+    updateData();
+}, 60 * 1000);

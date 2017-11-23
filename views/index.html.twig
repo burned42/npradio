@@ -4,11 +4,7 @@
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand">NPRadio</span>
         <audio controls id="stream_player" onpause="initializePlayButtonsToPaused()"></audio>
-        <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-secondary disabled" id="auto_refresh_label">
-                <input type="checkbox" onclick="updateRefreshState()" id="auto_refresh" autocomplete="off">&#x21bb;
-            </label>
-        </div>
+        <div id="last_updated" class="text-light"></div>
     </nav>
     <div id="stream_infos" class="container-fluid card-columns justify-content-between"></div>
 {% endblock %}
