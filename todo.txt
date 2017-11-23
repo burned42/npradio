@@ -2,3 +2,5 @@
 - add favicon
 - add configuration (cookie/localstorage) to configure which radios and in
   which order should be displayed on the webpage
+- move setTimeout out of updateData (maybe use setInterval and save result in
+  global variable so stop 'interval' later)
