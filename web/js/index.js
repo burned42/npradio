@@ -176,7 +176,12 @@ function updateData() {
 
         let lastUpdated = document.getElementById('last_updated');
         let currentDate = new Date();
-        lastUpdated.innerHTML = '&#x21bb; ' + currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        lastUpdated.innerHTML = '&#x21bb; '
+            + currentDate.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute:'2-digit',
+                hour12: false
+            });
     }
 }
 
