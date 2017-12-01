@@ -11,18 +11,24 @@ class RauteMusik extends RadioStream
 
     const MAIN = 'Main';
     const CLUB = 'Club';
+    const CHRISTMAS = 'Christmas';
     const HAPPYHARDCORE = 'HappyHardcore';
     const HOUSE = 'House';
     const ROCK = 'Rock';
+    const TECHHOUSE = 'TechHouse';
     const WACKENRADIO = 'WackenRadio';
+    const WEIHNACHTEN = 'Weihnachten';
 
     const AVAILABLE_STREAMS = [
         self::MAIN,
         self::CLUB,
+        self::CHRISTMAS,
         self::HAPPYHARDCORE,
         self::HOUSE,
         self::ROCK,
+        self::TECHHOUSE,
         self::WACKENRADIO,
+        self::WEIHNACHTEN,
     ];
 
     protected function getHomepageUrl(string $streamName): string
