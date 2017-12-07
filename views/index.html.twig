@@ -4,7 +4,14 @@
     <nav class="navbar navbar-dark bg-dark">
         <span class="navbar-brand">NPRadio</span>
         <audio controls id="stream_player" onpause="initializePlayButtonsToPaused()"></audio>
-        <div id="last_updated" class="text-light"></div>
+        <div>
+            <span id="last_updated" class="text-light"></span>
+            &nbsp;
+            <button type="button" class="btn btn-secondary" onclick="showSettings()">
+                &#x2699;
+            </button>
+        </div>
     </nav>
+    <div id="settings"></div>
     <div id="stream_infos" class="container-fluid card-columns justify-content-between"></div>
 {% endblock %}

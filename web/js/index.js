@@ -76,8 +76,79 @@ function updateData() {
     }
 }
 
+function showSettings() {
+    document.getElementById('stream_infos').innerHTML = '';
 
-let streams = [
+    let settings = document.getElementById('settings');
+
+    console.log(availableStreams);
+    let text = '<form>';
+    availableStreams.map(function (streamData) {
+        let checked = '';
+        localStreamSelection.map(function (selectedData) {
+            if (selectedData[0] === streamData[0] && selectedData[1] === streamData[1]) {
+                checked = ' checked="checked"';
+            }
+        });
+
+        text += '<div class="form-check">' +
+            '   <label class="form-check-label">' +
+            '       <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
+            '       ' + streamData[0] + ': ' + streamData[1] + '' +
+            '   </label>' +
+            '</div>';
+    });
+    text += '<button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '</form>';
+    settings.innerHTML = text;
+
+    settings.style.display = 'block';
+}
+
+function saveSettings() {
+    let streamSettings = document.getElementsByName('stream_setting_selection');
+
+    let selectedStreams = [];
+    for (let i = 0; i < streamSettings.length; i++) {
+        if (streamSettings[i].checked) {
+            selectedStreams.push(streamSettings[i].value.split('_'));
+        }
+    }
+
+    localStreamSelection = selectedStreams;
+    localStorage.streamSelection = JSON.stringify(selectedStreams);
+
+    document.getElementById('settings').style.display = 'none';
+
+    showStreamInfo();
+}
+
+function showStreamInfo() {
+    radioStreams = [];
+
+    localStreamSelection.map(function (stream) {
+        radioStreams.push(new RadioStream(stream[0], stream[1]));
+    });
+    updateData();
+}
+
+function getAvailableRadioStreams() {
+    let availableRadioStreams = [];
+
+    get('/api/radios').then(function (radios) {
+        radios.map(function (radio) {
+            get('/api/radios/' + radio + '/streams').then(function (streams) {
+                streams.map(function (stream) {
+                    availableRadioStreams.push([radio, stream]);
+                });
+            })
+        });
+    });
+
+    return availableRadioStreams;
+}
+
+let defaultStreams = [
     ['RauteMusik', 'Main'],
     ['RauteMusik', 'Club'],
     ['TechnoBase', 'TechnoBase'],
@@ -90,11 +161,15 @@ let streams = [
     ['MetalOnly', 'MetalOnly']
 ];
 
+let availableStreams = getAvailableRadioStreams();
+
+let localStreamSelection = defaultStreams;
+if (localStorage.streamSelection) {
+    localStreamSelection = JSON.parse(localStorage.streamSelection);
+}
+
 let radioStreams = [];
-streams.map(function (stream) {
-    radioStreams.push(new RadioStream(stream[0], stream[1]));
-});
-updateData();
+showStreamInfo();
 
 setInterval(function () {
     updateData();
