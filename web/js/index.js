@@ -37,12 +37,14 @@ function playStream(e, streamUrl, streamTitle) {
 
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayer.setAttribute('src', streamUrl);
-        streamPlayer.play();
-
         e.className = 'btn btn-success';
-        e.innerHTML = '&#x23f8;';
+        streamPlayer.play().then(function () {
+            e.innerHTML = '&#x23f8;';
 
-        document.title = 'NPRadio | ' + streamTitle;
+            document.title = 'NPRadio | ' + streamTitle;
+        }).catch(function () {
+            e.className = 'btn btn-warning';
+        });
     }
 }
 
