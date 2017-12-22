@@ -16,10 +16,6 @@ class RadioStream {
         this.updateStreamInfoDom = this.updateStreamInfoDom.bind(this);
     }
 
-    removeDomElement() {
-        document.getElementById('stream_infos').removeChild(this.domElement);
-    }
-
     async update() {
         if (this.requestRunning === false) {
             this.requestRunning = true;
