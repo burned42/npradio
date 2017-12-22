@@ -99,7 +99,9 @@ async function showSettings() {
 
     let allStreams = preselectStreams.concat(otherStreams);
 
-    let text = '<form>';
+    let text = '<form>' +
+        '<div class="card">' +
+        '    <div class="card-body">';
     allStreams.map(function (streamData) {
         let checked = '';
         preselectStreams.map(function (selectedData) {
@@ -115,8 +117,12 @@ async function showSettings() {
             '   </label>' +
             '</div>';
     });
-    text += '<button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
-        '&nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+    text += '</div>' +
+        '       <div class="card-footer">' +
+        '           <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '           &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '       </div>' +
+        '   </div>' +
         '</form>';
     settings.innerHTML = text;
 
