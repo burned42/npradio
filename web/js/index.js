@@ -116,6 +116,7 @@ async function showSettings() {
             '</div>';
     });
     text += '<button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '&nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
         '</form>';
     settings.innerHTML = text;
 
@@ -135,12 +136,11 @@ function saveSettings() {
     localStreamSelection = selectedStreams;
     localStorage.streamSelection = JSON.stringify(selectedStreams);
 
-    document.getElementById('settings').style.display = 'none';
-
     showStreamInfo();
 }
 
 function showStreamInfo() {
+    document.getElementById('settings').style.display = 'none';
     radioStreams = [];
 
     localStreamSelection.map(function (stream) {
