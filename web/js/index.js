@@ -76,7 +76,9 @@ function updateData() {
     }
 }
 
-function showSettings() {
+async function showSettings() {
+    await availableStreams;
+
     document.getElementById('stream_infos').innerHTML = '';
 
     let settings = document.getElementById('settings');
