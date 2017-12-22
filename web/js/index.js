@@ -76,9 +76,14 @@ function updateData() {
     }
 }
 
-async function showSettings() {
-    await availableStreams;
+function resetLocalStreamSelection() {
+    localStreamSelection = defaultStreams;
+    localStorage.streamSelection = JSON.stringify(defaultStreams);
 
+    showStreamInfo();
+}
+
+function showSettings() {
     document.getElementById('stream_infos').innerHTML = '';
 
     let settings = document.getElementById('settings');
@@ -120,6 +125,7 @@ async function showSettings() {
     text += '</div>' +
         '       <div class="card-footer">' +
         '           <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '           &nbsp;<button class="btn btn-warning" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
         '           &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
         '       </div>' +
         '   </div>' +
@@ -156,20 +162,18 @@ function showStreamInfo() {
     updateData();
 }
 
-function getAvailableRadioStreams() {
+async function setAvailableRadioStreams() {
     let availableRadioStreams = [];
 
-    get('/api/radios').then(function (radios) {
-        radios.map(function (radio) {
-            get('/api/radios/' + radio + '/streams').then(function (streams) {
-                streams.map(function (stream) {
-                    availableRadioStreams.push([radio, stream]);
-                });
-            })
+    let radios = await get('/api/radios');
+    radios.map(async function (radio) {
+        let streams = await get('/api/radios/' + radio + '/streams');
+        streams.map(function (stream) {
+            availableRadioStreams.push([radio, stream]);
         });
     });
 
-    return availableRadioStreams;
+    availableStreams = availableRadioStreams;
 }
 
 let defaultStreams = [
@@ -185,12 +189,13 @@ let defaultStreams = [
     ['MetalOnly', 'MetalOnly']
 ];
 
-let availableStreams = getAvailableRadioStreams();
-
 let localStreamSelection = defaultStreams;
 if (localStorage.streamSelection) {
     localStreamSelection = JSON.parse(localStorage.streamSelection);
 }
+
+let availableStreams = localStreamSelection;
+setAvailableRadioStreams();
 
 let radioStreams = [];
 showStreamInfo();
