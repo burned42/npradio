@@ -84,7 +84,7 @@ async function showSettings() {
     let settings = document.getElementById('settings');
 
     let preselectStreams = [];
-    let otherStreams = availableStreams;
+    let otherStreams = availableStreams.slice();
     for (let i = 0; i < localStreamSelection.length; i++) {
         let localStreamData = localStreamSelection[i];
         for (let j = otherStreams.length - 1; j >= 0; j--) {
