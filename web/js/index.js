@@ -141,6 +141,7 @@ function saveSettings() {
 
 function showStreamInfo() {
     document.getElementById('settings').style.display = 'none';
+    document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
 
     localStreamSelection.map(function (stream) {
