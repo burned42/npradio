@@ -83,11 +83,26 @@ async function showSettings() {
 
     let settings = document.getElementById('settings');
 
-    console.log(availableStreams);
+    let preselectStreams = [];
+    let otherStreams = availableStreams;
+    for (let i = 0; i < localStreamSelection.length; i++) {
+        let localStreamData = localStreamSelection[i];
+        for (let j = otherStreams.length - 1; j >= 0; j--) {
+            let streamData = otherStreams[j];
+            if (localStreamData[0] === streamData[0] && localStreamData[1] === streamData[1]) {
+                preselectStreams.push(localStreamData);
+                otherStreams.splice(j, 1);
+                break;
+            }
+        }
+    }
+
+    let allStreams = preselectStreams.concat(otherStreams);
+
     let text = '<form>';
-    availableStreams.map(function (streamData) {
+    allStreams.map(function (streamData) {
         let checked = '';
-        localStreamSelection.map(function (selectedData) {
+        preselectStreams.map(function (selectedData) {
             if (selectedData[0] === streamData[0] && selectedData[1] === streamData[1]) {
                 checked = ' checked="checked"';
             }
