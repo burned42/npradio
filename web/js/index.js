@@ -76,8 +76,107 @@ function updateData() {
     }
 }
 
+function resetLocalStreamSelection() {
+    localStreamSelection = defaultStreams;
+    localStorage.streamSelection = JSON.stringify(defaultStreams);
 
-let streams = [
+    showStreamInfo();
+}
+
+function showSettings() {
+    document.getElementById('stream_infos').innerHTML = '';
+
+    let settings = document.getElementById('settings');
+
+    let preselectStreams = [];
+    let otherStreams = availableStreams.slice();
+    for (let i = 0; i < localStreamSelection.length; i++) {
+        let localStreamData = localStreamSelection[i];
+        for (let j = otherStreams.length - 1; j >= 0; j--) {
+            let streamData = otherStreams[j];
+            if (localStreamData[0] === streamData[0] && localStreamData[1] === streamData[1]) {
+                preselectStreams.push(localStreamData);
+                otherStreams.splice(j, 1);
+                break;
+            }
+        }
+    }
+
+    let allStreams = preselectStreams.concat(otherStreams);
+
+    let text = '<form>' +
+        '<div class="card">' +
+        '    <div class="card-body">';
+    allStreams.map(function (streamData) {
+        let checked = '';
+        preselectStreams.map(function (selectedData) {
+            if (selectedData[0] === streamData[0] && selectedData[1] === streamData[1]) {
+                checked = ' checked="checked"';
+            }
+        });
+
+        text += '<div class="form-check">' +
+            '   <label class="form-check-label">' +
+            '       <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
+            '       ' + streamData[0] + ': ' + streamData[1] + '' +
+            '   </label>' +
+            '</div>';
+    });
+    text += '</div>' +
+        '       <div class="card-footer">' +
+        '           <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '           &nbsp;<button class="btn btn-warning" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
+        '           &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '       </div>' +
+        '   </div>' +
+        '</form>';
+    settings.innerHTML = text;
+
+    settings.style.display = 'block';
+}
+
+function saveSettings() {
+    let streamSettings = document.getElementsByName('stream_setting_selection');
+
+    let selectedStreams = [];
+    for (let i = 0; i < streamSettings.length; i++) {
+        if (streamSettings[i].checked) {
+            selectedStreams.push(streamSettings[i].value.split('_'));
+        }
+    }
+
+    localStreamSelection = selectedStreams;
+    localStorage.streamSelection = JSON.stringify(selectedStreams);
+
+    showStreamInfo();
+}
+
+function showStreamInfo() {
+    document.getElementById('settings').style.display = 'none';
+    document.getElementById('stream_infos').innerHTML = '';
+    radioStreams = [];
+
+    localStreamSelection.map(function (stream) {
+        radioStreams.push(new RadioStream(stream[0], stream[1]));
+    });
+    updateData();
+}
+
+async function setAvailableRadioStreams() {
+    let availableRadioStreams = [];
+
+    let radios = await get('/api/radios');
+    radios.map(async function (radio) {
+        let streams = await get('/api/radios/' + radio + '/streams');
+        streams.map(function (stream) {
+            availableRadioStreams.push([radio, stream]);
+        });
+    });
+
+    availableStreams = availableRadioStreams;
+}
+
+let defaultStreams = [
     ['RauteMusik', 'Main'],
     ['RauteMusik', 'Club'],
     ['TechnoBase', 'TechnoBase'],
@@ -90,11 +189,16 @@ let streams = [
     ['MetalOnly', 'MetalOnly']
 ];
 
+let localStreamSelection = defaultStreams;
+if (localStorage.streamSelection) {
+    localStreamSelection = JSON.parse(localStorage.streamSelection);
+}
+
+let availableStreams = localStreamSelection;
+setAvailableRadioStreams();
+
 let radioStreams = [];
-streams.map(function (stream) {
-    radioStreams.push(new RadioStream(stream[0], stream[1]));
-});
-updateData();
+showStreamInfo();
 
 setInterval(function () {
     updateData();

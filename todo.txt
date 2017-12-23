@@ -1,4 +1,3 @@
 - fetch showtime for metal only
 - add favicon
-- add configuration (cookie/localstorage) to configure which radios and in
-  which order should be displayed on the webpage
+- make order of streams configurable
