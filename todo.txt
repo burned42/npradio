@@ -1,3 +1,5 @@
 - fetch showtime for metal only
 - add favicon
 - make order of streams configurable
+- add starfm nbg
+- add bayern 3
