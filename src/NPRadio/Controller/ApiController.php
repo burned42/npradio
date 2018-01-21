@@ -68,6 +68,8 @@ class ApiController
      * @param Response $response
      * @param array $args
      * @return Response
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getStreamInfo(Request $request, Response $response, array $args): Response
     {
