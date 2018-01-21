@@ -1,25 +1,3 @@
-function get(url) {
-    return new Promise(function (resolve, reject) {
-        let req = new XMLHttpRequest();
-        req.open('GET', url);
-
-        req.onload = function () {
-            if (req.status === 200) {
-                resolve(JSON.parse(req.responseText));
-            }
-            else {
-                reject(Error(req.statusText));
-            }
-        };
-
-        req.onerror = function () {
-            reject(Error('Network Error'));
-        };
-
-        req.send();
-    });
-}
-
 function initializePlayButtonsToPaused() {
     let playButtons = document.getElementsByName('play_stream');
     for (let i = 0; i < playButtons.length; i++) {
@@ -165,9 +143,9 @@ function showStreamInfo() {
 async function setAvailableRadioStreams() {
     let availableRadioStreams = [];
 
-    let radios = await get('/api/radios');
+    let radios = await fetch('/api/radios').then(data => data.json());
     radios.map(async function (radio) {
-        let streams = await get('/api/radios/' + radio + '/streams');
+        let streams = await fetch('/api/radios/' + radio + '/streams').then(data => data.json());
         streams.map(function (stream) {
             availableRadioStreams.push([radio, stream]);
         });

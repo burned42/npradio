@@ -20,7 +20,7 @@ class RadioStream {
         if (this.requestRunning === false) {
             this.requestRunning = true;
             try {
-                let result = await get(this.streamInfoUrl);
+                let result = await fetch(this.streamInfoUrl).then(data => data.json());
                 this.updateStreamInfoDom(result);
             } catch (e) {}
             this.requestRunning = false;
