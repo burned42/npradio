@@ -22,7 +22,8 @@ class RadioStream {
             try {
                 let result = await fetch(this.streamInfoUrl).then(data => data.json());
                 this.updateStreamInfoDom(result);
-            } catch (e) {}
+            } catch (e) {
+            }
             this.requestRunning = false;
         }
     };
