@@ -22,10 +22,11 @@ class StarFm extends RadioStream
         self::NUREMBERG => 'http://85.25.209.150:80/nuernberg.mp3',
     ];
 
-    const URL_INFO_BASE_PATH = '/hoeren/playlist/playlist-';
+    const URL_INFO_BASE_PATH = '/player/cache/currentSong/currentSong_';
+    const URL_INFO_SUFFIX = '.json';
     const URL_INFO_STREAM_NAMES = [
-        self::FROM_HELL => 'from-hell',
-        self::NUREMBERG => 'nuernberg',
+        self::FROM_HELL => '2',
+        self::NUREMBERG => '4',
     ];
 
     /**
@@ -60,22 +61,14 @@ class StarFm extends RadioStream
     {
         $streamInfo = $this->getStreamInfo($streamName);
 
-        try {
-            $infoUrl = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$streamName];
-            $dom = $this->domFetcher->getHtmlDom($infoUrl);
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
-        }
-
-        $xpath = new \DOMXPath($dom);
-
-        /** @var \DOMNodeList $nodeList */
-        $nodeList = $xpath->query(".//div[@class='playlist']//table[@class='playlist']//tr[@class='active']//td[2]");
-        if (1 === $nodeList->length) {
-            $matches = [];
-            if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setArtist(trim($matches[1]));
-                $streamInfo->setTrack(trim($matches[2]));
+        $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$streamName].self::URL_INFO_SUFFIX;
+        $data = json_decode($this->domFetcher->getUrlContent($url), true);
+        if (!empty($data) && array_key_exists('c', $data)) {
+            if (array_key_exists('artist', $data['c'])) {
+                $streamInfo->setArtist($data['c']['artist']);
+            }
+            if (array_key_exists('song', $data['c'])) {
+                $streamInfo->setTrack($data['c']['song']);
             }
         }
 

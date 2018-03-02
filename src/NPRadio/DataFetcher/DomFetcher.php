@@ -9,6 +9,13 @@ interface DomFetcher
     /**
      * @param string $url
      *
+     * @return string
+     */
+    public function getUrlContent(string $url): string;
+
+    /**
+     * @param string $url
+     *
      * @return \DOMDocument
      */
     public function getXmlDom(string $url): \DOMDocument;

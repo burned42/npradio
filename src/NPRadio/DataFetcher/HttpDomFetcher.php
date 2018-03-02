@@ -14,7 +14,7 @@ class HttpDomFetcher implements DomFetcher
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    protected function getUrlContent(string $url): string
+    public function getUrlContent(string $url): string
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if (false === $url) {
