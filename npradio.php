@@ -14,9 +14,9 @@ try {
     $radioContainer = new RadioContainer();
     $domFetcher = new HttpDomFetcher();
     $radioStreams = [
-        StarFm::class,
         MetalOnly::class,
         RauteMusik::class,
+        StarFm::class,
         TechnoBase::class,
     ];
     foreach ($radioStreams as $radioStream) {
