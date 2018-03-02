@@ -11,10 +11,10 @@ return PhpCsFixer\Config::create()
         PhpCsFixer\Finder::create()
             ->in([
                 'src',
-                'web',
                 'tests/acceptance',
                 'tests/functional',
                 'tests/unit',
+                'web',
             ])
             ->notName('_bootstrap.php')
     );
