@@ -31,14 +31,14 @@ class HttpDomFetcherCest
     public function testExceptionOnInvalidUrl(UnitTester $I)
     {
         $I->expectException(
-            new \InvalidArgumentException('invalid url given'),
+            new \InvalidArgumentException('invalid url given: ""'),
             function () {
                 $this->domFetcher->getHtmlDom('invalid_url');
             }
         );
 
         $I->expectException(
-            new \InvalidArgumentException('invalid url given'),
+            new \InvalidArgumentException('invalid url given: ""'),
             function () {
                 $this->domFetcher->getXmlDom('invalid_url');
             }
