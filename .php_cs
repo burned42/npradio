@@ -9,12 +9,7 @@ return PhpCsFixer\Config::create()
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
-            ->in([
-                'src',
-                'tests/acceptance',
-                'tests/functional',
-                'tests/unit',
-                'web',
-            ])
+            ->in(__DIR__)
+            ->exclude(['tests/_support'])
             ->notName('_bootstrap.php')
     );

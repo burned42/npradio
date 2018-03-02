@@ -9,14 +9,13 @@ use NPRadio\DataFetcher\HttpDomFetcher;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
 
-
 try {
     $radioContainer = new RadioContainer();
     $domFetcher = new HttpDomFetcher();
     $radioStreams = [
         MetalOnly::class,
         RauteMusik::class,
-        TechnoBase::class
+        TechnoBase::class,
     ];
     foreach ($radioStreams as $radioStream) {
         $radioContainer->addRadio(new $radioStream($domFetcher));
@@ -27,19 +26,19 @@ try {
 }
 
 $radios = [];
-if ($argc !== 1) {
+if (1 !== $argc) {
     if ($argc > 3) {
         echo "too many arguments\n";
         exit;
     }
     if ($argc > 2) {
-        if ($radioContainer->containsStream($argv[1], $argv[2]) === false) {
+        if (false === $radioContainer->containsStream($argv[1], $argv[2])) {
             echo "invalid stream name given\n";
             exit;
         }
         $radios[$argv[1]] = [$argv[2]];
     } elseif ($argc > 1) {
-        if ($radioContainer->containsRadio($argv[1]) === false) {
+        if (false === $radioContainer->containsRadio($argv[1])) {
             echo "invalid radio name given\n";
             exit;
         }
@@ -54,27 +53,27 @@ if ($argc !== 1) {
 
 try {
     foreach ($radios as $radioName => $streams) {
-        echo $radioName . ":\n";
+        echo $radioName.":\n";
         /** @var array $streams */
         foreach ($streams as $streamName) {
-            echo '    ' . $streamName . ":\n";
+            echo '    '.$streamName.":\n";
             $streamInfo = $radioContainer->getInfo($radioName, $streamName);
 
             if (null !== $streamInfo->getShow()) {
-                echo '        Show:      ' . $streamInfo->getShow() . "\n";
+                echo '        Show:      '.$streamInfo->getShow()."\n";
             }
             if (null !== $streamInfo->getGenre()) {
-                echo '        Genre:     ' . $streamInfo->getGenre() . "\n";
+                echo '        Genre:     '.$streamInfo->getGenre()."\n";
             }
             if (null !== $streamInfo->getModerator()) {
-                echo '        Moderator: ' . $streamInfo->getModerator() . "\n";
+                echo '        Moderator: '.$streamInfo->getModerator()."\n";
             }
             if (
                 $streamInfo->getShowStartTime() instanceof DateTime
                 && $streamInfo->getShowEndTime() instanceof DateTime
             ) {
-                echo '        Showtime:  ' . $streamInfo->getShowStartTime()->format('H:i')
-                    . ' - ' . $streamInfo->getShowEndTime()->format('H:i') . "\n";
+                echo '        Showtime:  '.$streamInfo->getShowStartTime()->format('H:i')
+                    .' - '.$streamInfo->getShowEndTime()->format('H:i')."\n";
             }
             echo '        Track:     ';
             $artist = $streamInfo->getArtist();
@@ -96,5 +95,5 @@ try {
         }
     }
 } catch (Exception $e) {
-    echo 'got exception: ' . $e->getMessage();
+    echo 'got exception: '.$e->getMessage();
 }
