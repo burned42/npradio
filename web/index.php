@@ -1,11 +1,11 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 use NPRadio\Controller\ApiController;
 use NPRadio\Controller\IndexController;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 
 $container = new \Slim\Container();
