@@ -13,7 +13,7 @@ return PhpCsFixer\Config::create()
                 'src',
                 'web',
                 'tests/acceptance',
-                    'tests/functional',
+                'tests/functional',
                 'tests/unit',
             ])
             ->notName('_bootstrap.php')
