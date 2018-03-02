@@ -111,7 +111,13 @@ class TechnoBase extends RadioStream
             }
         }
 
-        if ($streamInfo->getShowStartTime()->format('H:i') === $streamInfo->getShowEndTime()->format('H:i')) {
+        $showStartTime = $streamInfo->getShowStartTime();
+        $showEndTime = $streamInfo->getShowEndTime();
+        if (
+            $showStartTime instanceof \DateTime
+            && $showEndTime instanceof \DateTime
+            && $showStartTime->format('H:i') === $showEndTime->format('H:i')
+        ) {
             $streamInfo->setShowStartTime(null);
             $streamInfo->setShowEndTime(null);
         }
