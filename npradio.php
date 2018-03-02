@@ -7,12 +7,14 @@ use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\DataFetcher\HttpDomFetcher;
 use NPRadio\Stream\RauteMusik;
+use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
 
 try {
     $radioContainer = new RadioContainer();
     $domFetcher = new HttpDomFetcher();
     $radioStreams = [
+        StarFm::class,
         MetalOnly::class,
         RauteMusik::class,
         TechnoBase::class,
