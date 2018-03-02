@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NPRadio\Controller;
 
 use Psr\Container\ContainerInterface;

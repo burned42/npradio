@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NPRadio\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
