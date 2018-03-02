@@ -57,35 +57,37 @@ try {
         echo $radioName . ":\n";
         /** @var array $streams */
         foreach ($streams as $streamName) {
-            echo "    " . $streamName . ":\n";
+            echo '    ' . $streamName . ":\n";
             $streamInfo = $radioContainer->getInfo($radioName, $streamName);
 
-            if (!is_null($streamInfo->getShow())) {
-                echo "        Show:      " . $streamInfo->getShow() . "\n";
+            if (null !== $streamInfo->getShow()) {
+                echo '        Show:      ' . $streamInfo->getShow() . "\n";
             }
-            if (!is_null($streamInfo->getGenre())) {
-                echo "        Genre:     " . $streamInfo->getGenre() . "\n";
+            if (null !== $streamInfo->getGenre()) {
+                echo '        Genre:     ' . $streamInfo->getGenre() . "\n";
             }
-            if (!is_null($streamInfo->getModerator())) {
-                echo "        Moderator: " . $streamInfo->getModerator() . "\n";
+            if (null !== $streamInfo->getModerator()) {
+                echo '        Moderator: ' . $streamInfo->getModerator() . "\n";
             }
             if (
                 $streamInfo->getShowStartTime() instanceof DateTime
                 && $streamInfo->getShowEndTime() instanceof DateTime
             ) {
-                echo "        Showtime:  " . $streamInfo->getShowStartTime()->format('H:i')
+                echo '        Showtime:  ' . $streamInfo->getShowStartTime()->format('H:i')
                     . ' - ' . $streamInfo->getShowEndTime()->format('H:i') . "\n";
             }
-            echo "        Track:     ";
-            if (!is_null($streamInfo->getArtist()) || !is_null($streamInfo->getTrack())) {
-                if (!is_null($streamInfo->getArtist())) {
-                    echo $streamInfo->getArtist();
+            echo '        Track:     ';
+            $artist = $streamInfo->getArtist();
+            $track = $streamInfo->getTrack();
+            if (null !== $artist || null !== $track) {
+                if (null !== $artist) {
+                    echo $artist;
                 }
-                if (!is_null($streamInfo->getArtist()) && !is_null($streamInfo->getTrack())) {
+                if (null !== $artist && null !== $track) {
                     echo ' - ';
                 }
-                if (!is_null($streamInfo->getTrack())) {
-                    echo $streamInfo->getTrack();
+                if (null !== $track) {
+                    echo $track;
                 }
             } else {
                 echo 'n/a';
