@@ -5,4 +5,3 @@
 - add bayern 3
 - add additional tests for RadioStreams which are using live URLs instead of
   dump files
-- use strict_types
