@@ -6,5 +6,10 @@ namespace NPRadio\Stream;
 
 interface RadioStreamInterface
 {
+    /**
+     * @param string $streamName
+     *
+     * @return StreamInfo
+     */
     public function getInfo(string $streamName): StreamInfo;
 }

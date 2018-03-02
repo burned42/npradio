@@ -19,6 +19,12 @@ class RauteMusikCest
     }
 
     // tests
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function canInstantiate(UnitTester $I)
     {
         /** @var DomFetcher $domFetcher */
@@ -39,6 +45,11 @@ class RauteMusikCest
         $I->assertNotEmpty(RauteMusik::AVAILABLE_STREAMS);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testGetInfo(UnitTester $I)
     {
         $trackInfoDom = new \DOMDocument();
@@ -62,6 +73,11 @@ class RauteMusikCest
         $I->assertInstanceOf(StreamInfo::class, $info);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testGetInfoForNonExistingStream(UnitTester $I)
     {
         /** @var DomFetcher $domFetcher */

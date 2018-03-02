@@ -18,11 +18,24 @@ class MetalOnly extends RadioStream
         self::METAL_ONLY,
     ];
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getHomepageUrl(string $streamName): string
     {
         return self::URL;
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return StreamInfo
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function getInfo(string $streamName): StreamInfo
     {
         $streamInfo = $this->getStreamInfo($streamName);
@@ -80,6 +93,11 @@ class MetalOnly extends RadioStream
         return $streamInfo;
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getStreamUrl(string $streamName): string
     {
         return self::STREAM_URL;

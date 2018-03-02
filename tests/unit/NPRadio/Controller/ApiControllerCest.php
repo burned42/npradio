@@ -18,6 +18,11 @@ class ApiControllerCest
     /** @var ContainerInterface */
     protected $container;
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function _before(UnitTester $I)
     {
         $this->container = Stub::make(Container::class);
@@ -25,6 +30,12 @@ class ApiControllerCest
     }
 
     // tests
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     */
     public function testIsInstantiable(UnitTester $I)
     {
         $I->assertInstanceOf(
@@ -33,6 +44,11 @@ class ApiControllerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testGetRadios(UnitTester $I)
     {
         $controller = new ApiController($this->container);
@@ -47,6 +63,11 @@ class ApiControllerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testGetStreams(UnitTester $I)
     {
         $controller = new ApiController($this->container);
@@ -65,6 +86,15 @@ class ApiControllerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \InvalidArgumentException
+     */
     public function testGetStreamInfo(UnitTester $I)
     {
         $controller = new ApiController($this->container);

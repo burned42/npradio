@@ -31,11 +31,21 @@ class RadioContainerCest
         $I->assertInstanceOf(RadioContainer::class, $this->radioContainer);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     */
     public function canAddRadio(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     */
     public function canNotAddRadioTwice(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -48,6 +58,11 @@ class RadioContainerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     */
     public function containerContainsAddedRadio(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -60,6 +75,12 @@ class RadioContainerCest
         $I->assertFalse($this->radioContainer->containsRadio('fake_radio2'));
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function containerContainsAddedStream(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -67,6 +88,12 @@ class RadioContainerCest
         $I->assertTrue($this->radioContainer->containsStream('fake_radio', 'fake_stream'));
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function containerDoesNotContainNotAddedStream(UnitTester $I)
     {
         $I->expectException(
@@ -80,6 +107,12 @@ class RadioContainerCest
         $I->assertFalse($this->radioContainer->containsStream('fake_radio', 'fake_stream2'));
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function canGetInfoOfExistingStream(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -89,6 +122,11 @@ class RadioContainerCest
         $I->assertInstanceOf(StreamInfo::class, $info);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     */
     public function canNotGetInfoOfNonExistingRadio(UnitTester $I)
     {
         $I->expectException(
@@ -99,6 +137,12 @@ class RadioContainerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function canNotGetInfoOfNonExistingStream(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -111,6 +155,11 @@ class RadioContainerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     */
     public function canGetRadioNames(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -129,6 +178,12 @@ class RadioContainerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function canGetStreamNames(UnitTester $I)
     {
         $this->radioContainer->addRadio($this->fakeRadio);
@@ -139,6 +194,11 @@ class RadioContainerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     */
     public function canNotGetStreamNamesIfNoRadioAdded(UnitTester $I)
     {
         $I->expectException(

@@ -28,11 +28,24 @@ class TechnoBase extends RadioStream
         self::TEATIME,
     ];
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getHomepageUrl(string $streamName): string
     {
         return 'https://www.'.strtolower($streamName).'.fm';
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return StreamInfo
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function getInfo(string $streamName): StreamInfo
     {
         $streamInfo = $this->getStreamInfo($streamName);
@@ -106,6 +119,11 @@ class TechnoBase extends RadioStream
         return $streamInfo;
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getStreamUrl(string $streamName): string
     {
         //return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';

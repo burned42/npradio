@@ -6,6 +6,14 @@ namespace NPRadio\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
 {
+    /**
+     * @param string $url
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     protected function getUrlContent(string $url): string
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
@@ -25,6 +33,14 @@ class HttpDomFetcher implements DomFetcher
         return $content;
     }
 
+    /**
+     * @param string $url
+     *
+     * @return \DOMDocument
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function getXmlDom(string $url): \DOMDocument
     {
         $xml = $this->getUrlContent($url);
@@ -41,6 +57,14 @@ class HttpDomFetcher implements DomFetcher
         return $dom;
     }
 
+    /**
+     * @param string $url
+     *
+     * @return \DOMDocument
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function getHtmlDom(string $url): \DOMDocument
     {
         $html = $this->getUrlContent($url);

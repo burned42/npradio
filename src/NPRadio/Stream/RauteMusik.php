@@ -33,11 +33,24 @@ class RauteMusik extends RadioStream
         self::WEIHNACHTEN,
     ];
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getHomepageUrl(string $streamName): string
     {
         return self::BASE_URL.strtolower($streamName);
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return StreamInfo
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function getInfo(string $streamName): StreamInfo
     {
         $streamInfo = $this->getStreamInfo($streamName);
@@ -48,6 +61,12 @@ class RauteMusik extends RadioStream
         return $streamInfo;
     }
 
+    /**
+     * @param StreamInfo $streamInfo
+     * @param string     $streamName
+     *
+     * @throws \RuntimeException
+     */
     private function fetchTrackInfo(StreamInfo $streamInfo, string $streamName)
     {
         try {
@@ -71,6 +90,12 @@ class RauteMusik extends RadioStream
         }
     }
 
+    /**
+     * @param StreamInfo $streamInfo
+     * @param string     $streamName
+     *
+     * @throws \RuntimeException
+     */
     private function fetchShowInfo(StreamInfo $streamInfo, string $streamName)
     {
         try {
@@ -103,6 +128,11 @@ class RauteMusik extends RadioStream
         }
     }
 
+    /**
+     * @param string $streamName
+     *
+     * @return string
+     */
     protected function getStreamUrl(string $streamName): string
     {
         return 'http://'.strtolower($streamName).'-high.rautemusik.fm';

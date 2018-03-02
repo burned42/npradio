@@ -13,6 +13,11 @@ class MetalOnlyCest
     private $domFetcher;
     private $domFetcherNotOnAir;
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function _before(UnitTester $I)
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
@@ -54,6 +59,12 @@ class MetalOnlyCest
         $I->assertNotEmpty(MetalOnly::AVAILABLE_STREAMS);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function testGetInfo(UnitTester $I)
     {
         $mo = new MetalOnly($this->domFetcher);
@@ -65,6 +76,12 @@ class MetalOnlyCest
         }
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testGetInfoNotOnAir(UnitTester $I)
     {
         $mo = new MetalOnly($this->domFetcherNotOnAir);
@@ -80,6 +97,12 @@ class MetalOnlyCest
         }
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testGetInfoForNonExistingStream(UnitTester $I)
     {
         $mo = new MetalOnly($this->domFetcher);
@@ -93,6 +116,11 @@ class MetalOnlyCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testDomFetcherException(UnitTester $I)
     {
         /** @var DomFetcher $domFetcher */

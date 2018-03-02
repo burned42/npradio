@@ -13,6 +13,11 @@ class TechnoBaseCest
 {
     private $domFetcher;
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function _before(UnitTester $I)
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getXmlDom' => function () {
@@ -46,6 +51,12 @@ class TechnoBaseCest
         $I->assertNotEmpty(TechnoBase::AVAILABLE_STREAMS);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function testGetInfo(UnitTester $I)
     {
         $tb = new TechnoBase($this->domFetcher);
@@ -57,6 +68,12 @@ class TechnoBaseCest
         }
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function testGetInfoForNonExistingStream(UnitTester $I)
     {
         $tb = new TechnoBase($this->domFetcher);
@@ -70,6 +87,11 @@ class TechnoBaseCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function testDomFetcherError(UnitTester $I)
     {
         /** @var DomFetcher $domFetcher */

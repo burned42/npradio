@@ -32,6 +32,9 @@ class StreamInfo
     /** @var string */
     protected $artist = null;
 
+    /**
+     * @return array
+     */
     public function getAsArray(): array
     {
         $showStartTime = $this->getShowStartTime();
@@ -142,7 +145,7 @@ class StreamInfo
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getShow()
     {
@@ -162,7 +165,7 @@ class StreamInfo
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getGenre()
     {
@@ -182,7 +185,7 @@ class StreamInfo
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getModerator()
     {
@@ -202,7 +205,7 @@ class StreamInfo
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getShowStartTime()
     {
@@ -222,7 +225,7 @@ class StreamInfo
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getShowEndTime()
     {
@@ -242,7 +245,7 @@ class StreamInfo
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getTrack()
     {
@@ -262,7 +265,7 @@ class StreamInfo
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getArtist()
     {

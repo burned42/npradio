@@ -55,6 +55,7 @@ if ($argc !== 1) {
 try {
     foreach ($radios as $radioName => $streams) {
         echo $radioName . ":\n";
+        /** @var array $streams */
         foreach ($streams as $streamName) {
             echo "    " . $streamName . ":\n";
             $streamInfo = $radioContainer->getInfo($radioName, $streamName);

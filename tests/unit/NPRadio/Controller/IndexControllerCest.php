@@ -17,6 +17,11 @@ class IndexControllerCest
     /** @var ContainerInterface */
     protected $container;
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
     public function _before(UnitTester $I)
     {
         $this->container = Stub::make(Container::class);
@@ -27,6 +32,13 @@ class IndexControllerCest
     }
 
     // tests
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function testIsInstantiable(UnitTester $I)
     {
         $I->assertInstanceOf(
@@ -35,6 +47,14 @@ class IndexControllerCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     */
     public function testGetIndex(UnitTester $I)
     {
         $controller = new IndexController($this->container);

@@ -26,6 +26,8 @@ class ApiController
      * ApiController constructor.
      *
      * @param ContainerInterface $container
+     *
+     * @throws \RuntimeException
      */
     public function __construct(ContainerInterface $container)
     {
@@ -50,6 +52,8 @@ class ApiController
      * @param array    $args
      *
      * @return Response
+     *
+     * @throws \RuntimeException
      */
     public function getRadios(Request $request, Response $response, array $args): Response
     {
@@ -62,6 +66,9 @@ class ApiController
      * @param array    $args
      *
      * @return Response
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
      */
     public function getStreams(Request $request, Response $response, array $args): Response
     {
@@ -75,6 +82,8 @@ class ApiController
      *
      * @return Response
      *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */

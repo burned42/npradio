@@ -21,6 +21,13 @@ class HttpDomFetcherCest
     }
 
     // tests
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function testExceptionOnInvalidUrl(UnitTester $I)
     {
         $I->expectException(
@@ -38,6 +45,12 @@ class HttpDomFetcherCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
     public function testExceptionOnNonExistingUrl(UnitTester $I)
     {
         $url = 'http://127.0.0.1/this/foo/does/hopefully/never.exist';
@@ -57,6 +70,12 @@ class HttpDomFetcherCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testGetXmlDom(UnitTester $I)
     {
         $xmlDom = $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSample.xml');
@@ -64,6 +83,12 @@ class HttpDomFetcherCest
         $I->assertInstanceOf(\DOMDocument::class, $xmlDom);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testExceptionOnBrokenXml(UnitTester $I)
     {
         $I->expectException(
@@ -74,6 +99,12 @@ class HttpDomFetcherCest
         );
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testGetHtmlDom(UnitTester $I)
     {
         $htmlDom = $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
@@ -81,6 +112,12 @@ class HttpDomFetcherCest
         $I->assertInstanceOf(\DOMDocument::class, $htmlDom);
     }
 
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
     public function testExceptionOnBrokenHtml(UnitTester $I)
     {
         $I->expectException(
