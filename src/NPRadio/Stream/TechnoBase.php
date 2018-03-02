@@ -23,12 +23,12 @@ class TechnoBase extends RadioStream
         self::TRANCEBASE,
         self::CORETIME,
         self::CLUBTIME,
-        self::TEATIME
+        self::TEATIME,
     ];
 
     protected function getHomepageUrl(string $streamName): string
     {
-        return 'https://www.' . strtolower($streamName) . '.fm';
+        return 'https://www.'.strtolower($streamName).'.fm';
     }
 
     public function getInfo(string $streamName): StreamInfo
@@ -38,21 +38,21 @@ class TechnoBase extends RadioStream
         try {
             $dom = $this->domFetcher->getXmlDom(self::URL);
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not get xml dom: ' . $e->getMessage());
+            throw new \RuntimeException('could not get xml dom: '.$e->getMessage());
         }
 
         $streamInfoNode = null;
 
         /** @var \DOMNode $weAreOneNode */
         foreach ($dom->childNodes as $weAreOneNode) {
-            if ($weAreOneNode->nodeName === 'weareone') {
+            if ('weareone' === $weAreOneNode->nodeName) {
                 /** @var \DOMNode $radioNode */
                 foreach ($weAreOneNode->childNodes as $radioNode) {
-                    if ($radioNode->nodeName === 'radio') {
+                    if ('radio' === $radioNode->nodeName) {
                         /** @var \DOMNode $streamNode */
                         foreach ($radioNode->childNodes as $streamNode) {
                             if (
-                                $streamNode->nodeName === 'name'
+                                'name' === $streamNode->nodeName
                                 && $streamNode->nodeValue === $streamName
                             ) {
                                 $streamInfoNode = $radioNode;
@@ -66,29 +66,29 @@ class TechnoBase extends RadioStream
 
         if (!is_null($streamInfoNode)) {
             $infos = [
-                'setModerator'     => 'moderator',
-                'setShow'          => 'show',
-                'setGenre'         => 'style',
-                'setArtist'        => 'artist',
-                'setTrack'         => 'song',
+                'setModerator' => 'moderator',
+                'setShow' => 'show',
+                'setGenre' => 'style',
+                'setArtist' => 'artist',
+                'setTrack' => 'song',
                 'setShowStartTime' => 'starttime',
-                'setShowEndTime'   => 'endtime'
+                'setShowEndTime' => 'endtime',
             ];
 
             /** @var \DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = $childNode->nodeValue;
-                if (!empty(trim($nodeValue)) || $nodeValue === '0') {
+                if (!empty(trim($nodeValue)) || '0' === $nodeValue) {
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
                                 $streamInfo->$setter(
                                     new \DateTime(
-                                        str_pad($nodeValue, 2, '0', STR_PAD_LEFT) . ':00'
+                                        str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
                                     )
                                 );
                             } else {
-                                $streamInfo->$setter(trim((string)$nodeValue));
+                                $streamInfo->$setter(trim((string) $nodeValue));
                             }
                         }
                     }
@@ -110,12 +110,12 @@ class TechnoBase extends RadioStream
 
         $fileName = '';
         $ucLetters = range('A', 'Z');
-        for ($i = 0; $i < strlen($streamName); $i++) {
+        for ($i = 0; $i < strlen($streamName); ++$i) {
             if (in_array($streamName[$i], $ucLetters)) {
                 $fileName .= strtolower($streamName[$i]);
             }
         }
 
-        return 'http://lw2.mp3.tb-group.fm/' . $fileName . '.mp3';
+        return 'http://lw2.mp3.tb-group.fm/'.$fileName.'.mp3';
     }
 }

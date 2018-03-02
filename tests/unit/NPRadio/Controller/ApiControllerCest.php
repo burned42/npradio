@@ -9,7 +9,7 @@ use Slim\Container;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\HttpCache\CacheProvider;
-use \UnitTester;
+use UnitTester;
 
 class ApiControllerCest
 {
@@ -77,8 +77,8 @@ class ApiControllerCest
                 $request,
                 $response,
                 [
-                    'radioName'  => MetalOnly::RADIO_NAME,
-                    'streamName' => MetalOnly::METAL_ONLY
+                    'radioName' => MetalOnly::RADIO_NAME,
+                    'streamName' => MetalOnly::METAL_ONLY,
                 ]
             )
         );

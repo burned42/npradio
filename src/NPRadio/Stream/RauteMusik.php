@@ -7,7 +7,7 @@ class RauteMusik extends RadioStream
     const RADIO_NAME = 'RauteMusik';
 
     const BASE_URL = 'http://www.rautemusik.fm/';
-    const SHOW_INFO_URL = self::BASE_URL . 'radio/sendeplan/';
+    const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
     const MAIN = 'Main';
     const CLUB = 'Club';
@@ -33,7 +33,7 @@ class RauteMusik extends RadioStream
 
     protected function getHomepageUrl(string $streamName): string
     {
-        return self::BASE_URL . strtolower($streamName);
+        return self::BASE_URL.strtolower($streamName);
     }
 
     public function getInfo(string $streamName): StreamInfo
@@ -49,9 +49,9 @@ class RauteMusik extends RadioStream
     private function fetchTrackInfo(StreamInfo $streamInfo, string $streamName)
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL . strtolower($streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL.strtolower($streamName));
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
+            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
         $xpath = new \DOMXPath($dom);
@@ -61,9 +61,9 @@ class RauteMusik extends RadioStream
         /** @var \DOMNode $node */
         foreach ($nodeList as $node) {
             $class = $node->attributes->getNamedItem('class')->nodeValue;
-            if ($class === 'artist') {
+            if ('artist' === $class) {
                 $streamInfo->setArtist(trim($node->nodeValue));
-            } elseif ($class === 'title') {
+            } elseif ('title' === $class) {
                 $streamInfo->setTrack(trim($node->nodeValue));
             }
         }
@@ -72,9 +72,9 @@ class RauteMusik extends RadioStream
     private function fetchShowInfo(StreamInfo $streamInfo, string $streamName)
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL . strtolower($streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL.strtolower($streamName));
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
+            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
         $xpath = new \DOMXPath($dom);
@@ -103,6 +103,6 @@ class RauteMusik extends RadioStream
 
     protected function getStreamUrl(string $streamName): string
     {
-        return 'http://' . strtolower($streamName) . '-high.rautemusik.fm';
+        return 'http://'.strtolower($streamName).'-high.rautemusik.fm';
     }
 }

@@ -43,19 +43,19 @@ class StreamInfo
         }
 
         return [
-            'radio_name'  => $this->getRadioName(),
+            'radio_name' => $this->getRadioName(),
             'stream_name' => $this->getStreamName(),
-            'homepage'    => $this->getHomepageUrl(),
-            'stream_url'  => $this->getStreamUrl(),
-            'show'        => [
-                'name'       => $this->getShow(),
-                'genre'      => $this->getGenre(),
-                'moderator'  => $this->getModerator(),
+            'homepage' => $this->getHomepageUrl(),
+            'stream_url' => $this->getStreamUrl(),
+            'show' => [
+                'name' => $this->getShow(),
+                'genre' => $this->getGenre(),
+                'moderator' => $this->getModerator(),
                 'start_time' => $showStartTime,
-                'end_time'   => $showEndTime
+                'end_time' => $showEndTime,
             ],
-            'track'       => $this->getTrack(),
-            'artist'      => $this->getArtist()
+            'track' => $this->getTrack(),
+            'artist' => $this->getArtist(),
         ];
     }
 
@@ -69,6 +69,7 @@ class StreamInfo
 
     /**
      * @param string $radioName
+     *
      * @return StreamInfo
      */
     public function setRadioName(string $radioName = null): StreamInfo
@@ -88,6 +89,7 @@ class StreamInfo
 
     /**
      * @param string $streamName
+     *
      * @return StreamInfo
      */
     public function setStreamName(string $streamName = null): StreamInfo
@@ -107,6 +109,7 @@ class StreamInfo
 
     /**
      * @param string $streamUrl
+     *
      * @return StreamInfo
      */
     public function setStreamUrl(string $streamUrl = null): StreamInfo
@@ -126,6 +129,7 @@ class StreamInfo
 
     /**
      * @param string $homepageUrl
+     *
      * @return StreamInfo
      */
     public function setHomepageUrl(string $homepageUrl = null): StreamInfo
@@ -145,6 +149,7 @@ class StreamInfo
 
     /**
      * @param string $show
+     *
      * @return StreamInfo
      */
     public function setShow(string $show = null): StreamInfo
@@ -164,6 +169,7 @@ class StreamInfo
 
     /**
      * @param string $genre
+     *
      * @return StreamInfo
      */
     public function setGenre(string $genre = null): StreamInfo
@@ -183,6 +189,7 @@ class StreamInfo
 
     /**
      * @param string $moderator
+     *
      * @return StreamInfo
      */
     public function setModerator(string $moderator = null): StreamInfo
@@ -202,6 +209,7 @@ class StreamInfo
 
     /**
      * @param \DateTime $showStartTime
+     *
      * @return StreamInfo
      */
     public function setShowStartTime(\DateTime $showStartTime = null): StreamInfo
@@ -221,6 +229,7 @@ class StreamInfo
 
     /**
      * @param \DateTime $showEndTime
+     *
      * @return StreamInfo
      */
     public function setShowEndTime(\DateTime $showEndTime = null): StreamInfo
@@ -240,6 +249,7 @@ class StreamInfo
 
     /**
      * @param string $track
+     *
      * @return StreamInfo
      */
     public function setTrack(string $track = null): StreamInfo
@@ -259,6 +269,7 @@ class StreamInfo
 
     /**
      * @param string $artist
+     *
      * @return StreamInfo
      */
     public function setArtist(string $artist = null): StreamInfo

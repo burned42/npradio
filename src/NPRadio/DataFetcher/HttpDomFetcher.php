@@ -7,17 +7,17 @@ class HttpDomFetcher implements DomFetcher
     protected function getUrlContent(string $url): string
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
-        if ($url === false) {
+        if (false === $url) {
             throw new \InvalidArgumentException('invalid url given');
         }
 
         try {
             $content = file_get_contents($url);
-            if ($content === false) {
+            if (false === $content) {
                 throw new \RuntimeException('file_get_contents returned false');
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not fetch data from url "' . $url . '": ' . $e->getMessage());
+            throw new \RuntimeException('could not fetch data from url "'.$url.'": '.$e->getMessage());
         }
 
         return $content;
@@ -29,11 +29,11 @@ class HttpDomFetcher implements DomFetcher
 
         $dom = new \DOMDocument();
         try {
-            if ($dom->loadXML($xml) === false) {
+            if (false === $dom->loadXML($xml)) {
                 throw new \RuntimeException('\DomDocument::loadXML returned false');
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not parse xml data: ' . $e->getMessage());
+            throw new \RuntimeException('could not parse xml data: '.$e->getMessage());
         }
 
         return $dom;
@@ -47,11 +47,11 @@ class HttpDomFetcher implements DomFetcher
         libxml_use_internal_errors(true);
 
         try {
-            if ($dom->loadHTML($html) === false) {
+            if (false === $dom->loadHTML($html)) {
                 throw new \RuntimeException('\DomDocument::loadHTML returned false');
             }
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not parse html data: ' . $e->getMessage());
+            throw new \RuntimeException('could not parse html data: '.$e->getMessage());
         }
 
         return $dom;

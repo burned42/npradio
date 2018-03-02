@@ -2,15 +2,15 @@
 
 namespace NPRadio\Controller;
 
-use \NPRadio\DataFetcher\HttpDomFetcher;
-use \NPRadio\Stream\MetalOnly;
-use \NPRadio\Stream\RadioContainer;
-use \NPRadio\Stream\RauteMusik;
-use \NPRadio\Stream\TechnoBase;
-use \Psr\Container\ContainerInterface;
-use \Slim\Http\Request as Request;
-use \Slim\Http\Response as Response;
-use \Slim\HttpCache\CacheProvider;
+use NPRadio\DataFetcher\HttpDomFetcher;
+use NPRadio\Stream\MetalOnly;
+use NPRadio\Stream\RadioContainer;
+use NPRadio\Stream\RauteMusik;
+use NPRadio\Stream\TechnoBase;
+use Psr\Container\ContainerInterface;
+use Slim\Http\Request as Request;
+use Slim\Http\Response as Response;
+use Slim\HttpCache\CacheProvider;
 
 class ApiController
 {
@@ -22,6 +22,7 @@ class ApiController
 
     /**
      * ApiController constructor.
+     *
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -33,7 +34,7 @@ class ApiController
         $radioStreams = [
             MetalOnly::class,
             RauteMusik::class,
-            TechnoBase::class
+            TechnoBase::class,
         ];
 
         foreach ($radioStreams as $radioStream) {
@@ -42,9 +43,10 @@ class ApiController
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function getRadios(Request $request, Response $response, array $args): Response
@@ -53,9 +55,10 @@ class ApiController
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
      */
     public function getStreams(Request $request, Response $response, array $args): Response
@@ -64,10 +67,12 @@ class ApiController
     }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Response $response
-     * @param array $args
+     * @param array    $args
+     *
      * @return Response
+     *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */

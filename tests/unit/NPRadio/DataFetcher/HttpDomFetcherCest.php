@@ -2,11 +2,11 @@
 
 namespace NPRadio\DataFetcher;
 
-use \UnitTester;
+use UnitTester;
 
 class HttpDomFetcherCest
 {
-    /** @var  HttpDomFetcher */
+    /** @var HttpDomFetcher */
     private $domFetcher;
 
     public function _before(UnitTester $I)
@@ -57,7 +57,7 @@ class HttpDomFetcherCest
 
     public function testGetXmlDom(UnitTester $I)
     {
-        $xmlDom = $this->domFetcher->getXmlDom('file://' . __DIR__ . '/../TestSamples/TechnoBaseSample.xml');
+        $xmlDom = $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSample.xml');
 
         $I->assertInstanceOf(\DOMDocument::class, $xmlDom);
     }
@@ -67,14 +67,14 @@ class HttpDomFetcherCest
         $I->expectException(
             \RuntimeException::class,
             function () {
-                $this->domFetcher->getXmlDom('file://' . __DIR__ . '/../TestSamples/TechnoBaseSampleBroken.xml');
+                $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSampleBroken.xml');
             }
         );
     }
 
     public function testGetHtmlDom(UnitTester $I)
     {
-        $htmlDom = $this->domFetcher->getHtmlDom('file://' . __DIR__ . '/../TestSamples/MetalOnlySampleNotOnAir.html');
+        $htmlDom = $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
 
         $I->assertInstanceOf(\DOMDocument::class, $htmlDom);
     }
@@ -84,7 +84,7 @@ class HttpDomFetcherCest
         $I->expectException(
             \RuntimeException::class,
             function () {
-                $this->domFetcher->getHtmlDom('file://' . __DIR__ . '/../TestSamples/Empty.html');
+                $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/Empty.html');
             }
         );
     }

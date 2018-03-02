@@ -6,14 +6,14 @@ class MetalOnly extends RadioStream
 {
     const RADIO_NAME = 'MetalOnly';
     const URL = 'https://www.metal-only.de';
-    # use page 'Impressum' because there is only text and the page should load quicker
+    // use page 'Impressum' because there is only text and the page should load quicker
     const URL_INFO_PATH = '/impressum.html';
     const STREAM_URL = 'http://server1.blitz-stream.de:4400/;';
 
     const METAL_ONLY = 'MetalOnly';
 
     const AVAILABLE_STREAMS = [
-        self::METAL_ONLY
+        self::METAL_ONLY,
     ];
 
     protected function getHomepageUrl(string $streamName): string
@@ -28,14 +28,14 @@ class MetalOnly extends RadioStream
         try {
             $dom = $this->domFetcher->getHtmlDom(self::URL);
         } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: ' . $e->getMessage());
+            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
         $xpath = new \DOMXPath($dom);
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
-        if ($nodeList->length === 1) {
+        if (1 === $nodeList->length) {
             $matches = [];
             if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
                 $streamInfo->setModerator(trim($matches[1]));
@@ -44,21 +44,21 @@ class MetalOnly extends RadioStream
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
-        if ($nodeList->length === 1) {
+        if (1 === $nodeList->length) {
             $streamInfo->setShow(trim($nodeList->item(0)->nodeValue));
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
-        if ($nodeList->length === 1) {
+        if (1 === $nodeList->length) {
             $streamInfo->setGenre(trim($nodeList->item(0)->nodeValue));
         }
 
         // if there is no show/moderator then it displays some default values
         if (
-            $streamInfo->getModerator() === 'MetalHead'
+            'MetalHead' === $streamInfo->getModerator()
             && in_array($streamInfo->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
-            && $streamInfo->getGenre() === 'Mixed Metal'
+            && 'Mixed Metal' === $streamInfo->getGenre()
         ) {
             $streamInfo->setModerator(null)
                 ->setShow(null)
@@ -67,7 +67,7 @@ class MetalOnly extends RadioStream
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='track']//span");
-        if ($nodeList->length === 1) {
+        if (1 === $nodeList->length) {
             $matches = [];
             if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
                 $streamInfo->setArtist(trim($matches[1]));

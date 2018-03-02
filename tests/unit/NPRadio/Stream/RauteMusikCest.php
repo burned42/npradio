@@ -4,7 +4,7 @@ namespace NPRadio\Stream;
 
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
-use \UnitTester;
+use UnitTester;
 
 class RauteMusikCest
 {
@@ -40,11 +40,11 @@ class RauteMusikCest
     public function testGetInfo(UnitTester $I)
     {
         $trackInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__ . '/../TestSamples/RauteMusikClubTrackInfoSample.html');
+        $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
         @$trackInfoDom->loadXML($xml);
 
         $showInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__ . '/../TestSamples/RauteMusikClubShowInfoSample.html');
+        $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubShowInfoSample.html');
         @$showInfoDom->loadXML($xml);
 
         /** @var DomFetcher $domFetcher */
@@ -69,7 +69,7 @@ class RauteMusikCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: '.$streamName),
             function () use ($rm, $streamName) {
                 $rm->getInfo($streamName);
             }

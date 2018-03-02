@@ -3,14 +3,14 @@
 namespace NPRadio\Stream;
 
 use NPRadio\DataFetcher\HttpDomFetcher;
-use \UnitTester;
+use UnitTester;
 
 class RadioContainerCest
 {
-    /** @var  RadioContainer */
+    /** @var RadioContainer */
     private $radioContainer;
 
-    /** @var  RadioStream */
+    /** @var RadioStream */
     private $fakeRadio;
 
     public function _before(UnitTester $I)

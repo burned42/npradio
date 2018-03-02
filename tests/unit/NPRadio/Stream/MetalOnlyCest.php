@@ -4,7 +4,7 @@ namespace NPRadio\Stream;
 
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
-use \UnitTester;
+use UnitTester;
 
 class MetalOnlyCest
 {
@@ -15,7 +15,7 @@ class MetalOnlyCest
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();
-            $html = file_get_contents(__DIR__ . '/../TestSamples/MetalOnlySample.html');
+            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySample.html');
             @$dom->loadHTML($html);
 
             return $dom;
@@ -23,7 +23,7 @@ class MetalOnlyCest
 
         $this->domFetcherNotOnAir = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();
-            $html = file_get_contents(__DIR__ . '/../TestSamples/MetalOnlySampleNotOnAir.html');
+            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
@@ -84,7 +84,7 @@ class MetalOnlyCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: '.$streamName),
             function () use ($mo, $streamName) {
                 $mo->getInfo($streamName);
             }

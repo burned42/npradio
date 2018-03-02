@@ -3,11 +3,11 @@
 namespace NPRadio\Stream;
 
 use Codeception\Example;
-use \UnitTester;
+use UnitTester;
 
 class StreamInfoCest
 {
-    /** @var  StreamInfo */
+    /** @var StreamInfo */
     private $streamInfo;
 
     public function _before(UnitTester $I)
@@ -27,18 +27,15 @@ class StreamInfoCest
 
     /**
      * @param UnitTester $I
-     * @param Example $example
+     * @param Example    $example
      *
      * @example ["RadioName"]
-     *
      * @example ["StreamName"]
      * @example ["HomepageUrl"]
      * @example ["StreamUrl"]
-     *
      * @example ["Show"]
      * @example ["Genre"]
      * @example ["Moderator"]
-     *
      * @example ["Track"]
      * @example ["Artist"]
      */
@@ -46,8 +43,8 @@ class StreamInfoCest
     {
         $value = 'foobar';
 
-        $setter = 'set' . $example[0];
-        $getter = 'get' . $example[0];
+        $setter = 'set'.$example[0];
+        $getter = 'get'.$example[0];
 
         $this->streamInfo->$setter($value);
 
@@ -56,7 +53,7 @@ class StreamInfoCest
 
     /**
      * @param UnitTester $I
-     * @param Example $example
+     * @param Example    $example
      *
      * @example ["ShowStartTime"]
      * @example ["ShowEndTime"]
@@ -65,8 +62,8 @@ class StreamInfoCest
     {
         $value = new \DateTime();
 
-        $setter = 'set' . $example[0];
-        $getter = 'get' . $example[0];
+        $setter = 'set'.$example[0];
+        $getter = 'get'.$example[0];
 
         $this->streamInfo->$setter($value);
 
@@ -104,19 +101,19 @@ class StreamInfoCest
         $array = $this->streamInfo->getAsArray();
 
         $I->assertEquals([
-            'radio_name'  => $radioName,
+            'radio_name' => $radioName,
             'stream_name' => $streamName,
-            'homepage'    => $homepageUrl,
-            'stream_url'  => $streamUrl,
-            'show'        => [
-                'name'       => $show,
-                'genre'      => $genre,
-                'moderator'  => $moderator,
+            'homepage' => $homepageUrl,
+            'stream_url' => $streamUrl,
+            'show' => [
+                'name' => $show,
+                'genre' => $genre,
+                'moderator' => $moderator,
                 'start_time' => $showStartTime,
-                'end_time'   => $showEndTime
+                'end_time' => $showEndTime,
             ],
-            'track'       => $track,
-            'artist'      => $artist
+            'track' => $track,
+            'artist' => $artist,
         ], $array);
     }
 }

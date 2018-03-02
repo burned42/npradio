@@ -39,7 +39,7 @@ abstract class RadioStream implements RadioStreamInterface
     protected function getStreamInfo(string $streamName): StreamInfo
     {
         if (!array_key_exists($streamName, $this->streamInfos)) {
-            throw new \InvalidArgumentException('no radio info object created for stream: ' . $streamName);
+            throw new \InvalidArgumentException('no radio info object created for stream: '.$streamName);
         }
 
         return $this->streamInfos[$streamName];

@@ -5,7 +5,7 @@ namespace NPRadio\Stream;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
-use \UnitTester;
+use UnitTester;
 
 class TechnoBaseCest
 {
@@ -15,7 +15,7 @@ class TechnoBaseCest
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getXmlDom' => function () {
             $dom = new \DOMDocument();
-            $xml = file_get_contents(__DIR__ . '/../TestSamples/TechnoBaseSample.xml');
+            $xml = file_get_contents(__DIR__.'/../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
             return $dom;
@@ -61,7 +61,7 @@ class TechnoBaseCest
 
         $streamName = 'foobar test';
         $I->expectException(
-            new \InvalidArgumentException('no radio info object created for stream: ' . $streamName),
+            new \InvalidArgumentException('no radio info object created for stream: '.$streamName),
             function () use ($tb, $streamName) {
                 $tb->getInfo($streamName);
             }

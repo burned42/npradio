@@ -44,7 +44,7 @@ class RadioContainer
     protected function getRadio($radioName): RadioStream
     {
         if (!$this->containsRadio($radioName)) {
-            throw new \InvalidArgumentException('invalid radio name given: ' . $radioName);
+            throw new \InvalidArgumentException('invalid radio name given: '.$radioName);
         }
 
         return $this->radios[$radioName];
