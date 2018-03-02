@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace NPRadio\Controller;
 
 use Psr\Container\ContainerInterface;
-use Slim\Http\Request as Request;
-use Slim\Http\Response as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class IndexController
 {

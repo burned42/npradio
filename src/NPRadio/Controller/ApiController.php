@@ -10,8 +10,8 @@ use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\TechnoBase;
 use Psr\Container\ContainerInterface;
-use Slim\Http\Request as Request;
-use Slim\Http\Response as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\HttpCache\CacheProvider;
 
 class ApiController
