@@ -72,8 +72,8 @@ class MetalOnly extends RadioStream
         // if there is no show/moderator then it displays some default values
         if (
             'MetalHead' === $streamInfo->getModerator()
-            && in_array($streamInfo->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
             && 'Mixed Metal' === $streamInfo->getGenre()
+            && \in_array($streamInfo->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
         ) {
             $streamInfo->setModerator(null)
                 ->setShow(null)

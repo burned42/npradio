@@ -111,7 +111,7 @@ class RauteMusik extends RadioStream
         $numNodes = $nodeList->length;
         if ($numNodes >= 1) {
             $matches = [];
-            if (preg_match('/^([0-9]{2}:[0-9]{2}) - ([0-9]{2}:[0-9]{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
+            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
                 $streamInfo->setShowStartTime(new \DateTime($matches[1]));
                 $streamInfo->setShowEndTime(new \DateTime($matches[2]));
             }

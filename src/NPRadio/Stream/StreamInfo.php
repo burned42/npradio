@@ -7,30 +7,30 @@ namespace NPRadio\Stream;
 class StreamInfo
 {
     /** @var string */
-    protected $radioName = null;
+    protected $radioName;
 
     /** @var string */
-    protected $streamName = null;
+    protected $streamName;
     /** @var string */
-    protected $homepageUrl = null;
+    protected $homepageUrl;
     /** @var string */
-    protected $streamUrl = null;
+    protected $streamUrl;
 
     /** @var string */
-    protected $show = null;
+    protected $show;
     /** @var string */
-    protected $genre = null;
+    protected $genre;
     /** @var string */
-    protected $moderator = null;
+    protected $moderator;
     /** @var \DateTime */
-    protected $showStartTime = null;
+    protected $showStartTime;
     /** @var \DateTime */
-    protected $showEndTime = null;
+    protected $showEndTime;
 
     /** @var string */
-    protected $track = null;
+    protected $track;
     /** @var string */
-    protected $artist = null;
+    protected $artist;
 
     /**
      * @return array
@@ -38,12 +38,12 @@ class StreamInfo
     public function getAsArray(): array
     {
         $showStartTime = $this->getShowStartTime();
-        if (!is_null($showStartTime)) {
+        if (null !== $showStartTime) {
             $showStartTime = $showStartTime->format('H:i');
         }
 
         $showEndTime = $this->getShowEndTime();
-        if (!is_null($showEndTime)) {
+        if (null !== $showEndTime) {
             $showEndTime = $showEndTime->format('H:i');
         }
 

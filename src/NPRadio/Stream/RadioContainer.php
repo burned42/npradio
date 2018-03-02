@@ -43,7 +43,7 @@ class RadioContainer
      */
     public function containsStream(string $radioName, string $streamName): bool
     {
-        return in_array($streamName, $this->getRadio($radioName)->getStreamNames());
+        return \in_array($streamName, $this->getRadio($radioName)->getStreamNames(), true);
     }
 
     /**

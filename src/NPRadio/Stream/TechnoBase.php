@@ -79,7 +79,7 @@ class TechnoBase extends RadioStream
             }
         }
 
-        if (!is_null($streamInfoNode)) {
+        if (null !== $streamInfoNode) {
             $infos = [
                 'setModerator' => 'moderator',
                 'setShow' => 'show',
@@ -93,17 +93,17 @@ class TechnoBase extends RadioStream
             /** @var \DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = $childNode->nodeValue;
-                if (!empty(trim($nodeValue)) || '0' === $nodeValue) {
+                if ('0' === $nodeValue || !empty(trim($nodeValue))) {
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
-                            if (in_array($info, ['starttime', 'endtime'])) {
+                            if (\in_array($info, ['starttime', 'endtime'])) {
                                 $streamInfo->$setter(
                                     new \DateTime(
                                         str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
                                     )
                                 );
                             } else {
-                                $streamInfo->$setter(trim((string) $nodeValue));
+                                $streamInfo->$setter(trim($nodeValue));
                             }
                         }
                     }
@@ -130,8 +130,9 @@ class TechnoBase extends RadioStream
 
         $fileName = '';
         $ucLetters = range('A', 'Z');
-        for ($i = 0; $i < strlen($streamName); ++$i) {
-            if (in_array($streamName[$i], $ucLetters)) {
+        $streamNameLength = \strlen($streamName);
+        for ($i = 0; $i < $streamNameLength; ++$i) {
+            if (\in_array($streamName[$i], $ucLetters, true)) {
                 $fileName .= strtolower($streamName[$i]);
             }
         }
