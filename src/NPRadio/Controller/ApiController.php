@@ -78,7 +78,7 @@ class ApiController
 
         /** @var Response $response */
         $response = $cache->withEtag($response, uniqid());
-        $response = $cache->withExpires($response, time() + 60);
+        $response = $cache->withExpires($response, time() + 30);
         $response = $cache->withLastModified($response, time());
 
         return $response->withJson(

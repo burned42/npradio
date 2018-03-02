@@ -20,7 +20,7 @@ $container['view'] = function ($container) {
 };
 
 $app = new Slim\App($container);
-$app->add(new \Slim\HttpCache\Cache('public', 60));
+$app->add(new \Slim\HttpCache\Cache('public', 30));
 
 $app->get('/', IndexController::class . ':getIndex');
 $app->get('/api/radios', ApiController::class . ':getRadios');

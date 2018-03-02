@@ -180,4 +180,4 @@ showStreamInfo();
 
 setInterval(function () {
     updateData();
-}, 60 * 1000);
+}, 30 * 1000);
