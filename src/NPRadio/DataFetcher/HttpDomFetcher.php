@@ -18,7 +18,7 @@ class HttpDomFetcher implements DomFetcher
     {
         $url = filter_var($url, FILTER_VALIDATE_URL);
         if (false === $url) {
-            throw new \InvalidArgumentException('invalid url given');
+            throw new \InvalidArgumentException('invalid url given: "'.$url.'"');
         }
 
         try {
