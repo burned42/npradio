@@ -92,12 +92,13 @@ class ApiController
         /** @var CacheProvider $cache */
         $cache = $this->container->get('cache');
 
-        /** @var Response $response */
-        $response = $cache->withEtag($response, uniqid());
-        $response = $cache->withExpires($response, time() + 30);
-        $response = $cache->withLastModified($response, time());
+        $eTagPrefix = 'NPRadio-'.$args['radioName'].'-'.$args['streamName'].'_';
+        /** @var Response $newResponse */
+        $newResponse = $cache->withEtag($response, uniqid($eTagPrefix, true));
+        $newResponse = $cache->withExpires($newResponse, time() + 30);
+        $newResponse = $cache->withLastModified($newResponse, time());
 
-        return $response->withJson(
+        return $newResponse->withJson(
             $this->radioContainer
                 ->getInfo($args['radioName'], $args['streamName'])
                 ->getAsArray()
