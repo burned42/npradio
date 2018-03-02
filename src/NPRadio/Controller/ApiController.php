@@ -8,6 +8,7 @@ use NPRadio\DataFetcher\HttpDomFetcher;
 use NPRadio\Stream\MetalOnly;
 use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
+use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
 use Psr\Container\ContainerInterface;
 use Slim\Http\Request;
@@ -38,6 +39,7 @@ class ApiController
         $radioStreams = [
             MetalOnly::class,
             RauteMusik::class,
+            StarFm::class,
             TechnoBase::class,
         ];
 

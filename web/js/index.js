@@ -161,7 +161,7 @@ let defaultStreams = [
     ['RauteMusik', 'House'],
     ['TechnoBase', 'HouseTime'],
     ['RauteMusik', 'HappyHardcore'],
-    ['TechnoBase', 'ClubTime'],
+    ['StarFM', 'Nürnberg'],
     ['RauteMusik', 'Rock'],
     ['RauteMusik', 'WackenRadio'],
     ['MetalOnly', 'MetalOnly']
