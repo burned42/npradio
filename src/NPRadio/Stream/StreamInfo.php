@@ -67,7 +67,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getRadioName()
+    public function getRadioName(): string
     {
         return $this->radioName;
     }
@@ -87,7 +87,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getStreamName()
+    public function getStreamName(): string
     {
         return $this->streamName;
     }
@@ -105,9 +105,9 @@ class StreamInfo
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getStreamUrl()
+    public function getStreamUrl(): string
     {
         return $this->streamUrl;
     }
@@ -127,7 +127,7 @@ class StreamInfo
     /**
      * @return string
      */
-    public function getHomepageUrl()
+    public function getHomepageUrl(): string
     {
         return $this->homepageUrl;
     }

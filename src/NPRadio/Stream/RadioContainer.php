@@ -86,7 +86,7 @@ class RadioContainer
      *
      * @throws \InvalidArgumentException
      */
-    protected function getRadio($radioName): RadioStream
+    protected function getRadio(string $radioName): RadioStream
     {
         if (!$this->containsRadio($radioName)) {
             throw new \InvalidArgumentException('invalid radio name given: '.$radioName);
