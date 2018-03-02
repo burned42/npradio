@@ -61,8 +61,13 @@ class StarFm extends RadioStream
     {
         $streamInfo = $this->getStreamInfo($streamName);
 
-        $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$streamName].self::URL_INFO_SUFFIX;
-        $data = json_decode($this->domFetcher->getUrlContent($url), true);
+        try {
+            $url = self::URL . self::URL_INFO_BASE_PATH . self::URL_INFO_STREAM_NAMES[$streamName] . self::URL_INFO_SUFFIX;
+            $data = json_decode($this->domFetcher->getUrlContent($url), true);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('could not get url content: '.$e->getMessage());
+        }
+
         if (!empty($data) && array_key_exists('c', $data)) {
             if (array_key_exists('artist', $data['c'])) {
                 $streamInfo->setArtist($data['c']['artist']);

@@ -94,13 +94,13 @@ class StarFmCest
     public function testDomFetcherException(UnitTester $I)
     {
         /** @var DomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
+        $domFetcher = Stub::makeEmpty(DomFetcher::class, ['getUrlContent' => function () {
             throw new \RuntimeException('test');
         }]);
         $starFm = new StarFm($domFetcher);
 
         $I->expectException(
-            new \RuntimeException('could not get html dom: test'),
+            new \RuntimeException('could not get url content: test'),
             function () use ($starFm) {
                 $starFm->getInfo(StarFm::AVAILABLE_STREAMS[0]);
             }
