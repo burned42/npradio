@@ -2,7 +2,10 @@
 
 {% block content %}
     <nav class="navbar navbar-dark bg-dark">
-        <span class="navbar-brand" onclick="showStreamInfo()">NPRadio</span>
+        <span class="navbar-brand" onclick="showStreamInfo()">
+            <img src="/favicon.svg" class="align-top shadow" width="32" height="32" alt="">
+            NPRadio
+        </span>
         <audio controls id="stream_player" onpause="initializePlayButtonsToPaused()"></audio>
         <div>
             <span id="last_updated" class="text-light"></span>
