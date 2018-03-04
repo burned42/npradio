@@ -1,5 +1,4 @@
 - fetch showtime for metal only
-- add favicon
 - make order of streams configurable
 - add additional tests for RadioStreams which are using live URLs instead of
   dump files
