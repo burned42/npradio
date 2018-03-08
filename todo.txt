@@ -2,3 +2,4 @@
 - make order of streams configurable
 - add additional tests for RadioStreams which are using live URLs instead of
   dump files
+- add info page with link to github and some other useful information
