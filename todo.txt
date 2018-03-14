@@ -1,3 +1,2 @@
-- fetch showtime for metal only
 - make order of streams configurable
 - add info page with link to github and some other useful information
