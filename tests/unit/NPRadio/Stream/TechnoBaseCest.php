@@ -111,6 +111,7 @@ class TechnoBaseCest
 
     /**
      * @param UnitTester $I
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */

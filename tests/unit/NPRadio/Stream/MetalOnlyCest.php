@@ -140,6 +140,7 @@ class MetalOnlyCest
 
     /**
      * @param UnitTester $I
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */

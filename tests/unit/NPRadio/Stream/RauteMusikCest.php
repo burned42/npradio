@@ -97,6 +97,7 @@ class RauteMusikCest
 
     /**
      * @param UnitTester $I
+     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
