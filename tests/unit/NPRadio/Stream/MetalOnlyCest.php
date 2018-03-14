@@ -6,6 +6,7 @@ namespace NPRadio\Stream;
 
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
+use NPRadio\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class MetalOnlyCest
@@ -135,5 +136,21 @@ class MetalOnlyCest
                 $mo->getInfo(MetalOnly::AVAILABLE_STREAMS[0]);
             }
         );
+    }
+
+    /**
+     * @param UnitTester $I
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function testWithLiveData(UnitTester $I)
+    {
+        $tb = new MetalOnly(new HttpDomFetcher());
+
+        foreach (MetalOnly::AVAILABLE_STREAMS as $streamName) {
+            $info = $tb->getInfo($streamName);
+
+            $I->assertInstanceOf(StreamInfo::class, $info);
+        }
     }
 }

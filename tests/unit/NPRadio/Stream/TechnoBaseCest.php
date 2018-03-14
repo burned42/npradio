@@ -7,6 +7,7 @@ namespace NPRadio\Stream;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
+use NPRadio\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class TechnoBaseCest
@@ -106,5 +107,21 @@ class TechnoBaseCest
                 $tb->getInfo(TechnoBase::AVAILABLE_STREAMS[0]);
             }
         );
+    }
+
+    /**
+     * @param UnitTester $I
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function testWithLiveData(UnitTester $I)
+    {
+        $tb = new TechnoBase(new HttpDomFetcher());
+
+        foreach (TechnoBase::AVAILABLE_STREAMS as $streamName) {
+            $info = $tb->getInfo($streamName);
+
+            $I->assertInstanceOf(StreamInfo::class, $info);
+        }
     }
 }

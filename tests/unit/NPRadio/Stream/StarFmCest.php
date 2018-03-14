@@ -6,6 +6,7 @@ namespace NPRadio\Stream;
 
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
+use NPRadio\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class StarFmCest
@@ -105,5 +106,21 @@ class StarFmCest
                 $starFm->getInfo(StarFm::AVAILABLE_STREAMS[0]);
             }
         );
+    }
+
+    /**
+     * @param UnitTester $I
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function testWithLiveData(UnitTester $I)
+    {
+        $tb = new StarFm(new HttpDomFetcher());
+
+        foreach (StarFm::AVAILABLE_STREAMS as $streamName) {
+            $info = $tb->getInfo($streamName);
+
+            $I->assertInstanceOf(StreamInfo::class, $info);
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace NPRadio\Stream;
 
 use Codeception\Util\Stub;
 use NPRadio\DataFetcher\DomFetcher;
+use NPRadio\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class RauteMusikCest
@@ -92,5 +93,21 @@ class RauteMusikCest
                 $rm->getInfo($streamName);
             }
         );
+    }
+
+    /**
+     * @param UnitTester $I
+     * @throws \RuntimeException
+     * @throws \InvalidArgumentException
+     */
+    public function testWithLiveData(UnitTester $I)
+    {
+        $tb = new RauteMusik(new HttpDomFetcher());
+
+        foreach (RauteMusik::AVAILABLE_STREAMS as $streamName) {
+            $info = $tb->getInfo($streamName);
+
+            $I->assertInstanceOf(StreamInfo::class, $info);
+        }
     }
 }
