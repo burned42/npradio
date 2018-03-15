@@ -95,7 +95,7 @@ class MetalOnly extends RadioStream
         $nodeList = $xpath->query("(.//div[@class='sendeplan']//div[@class='day']//ul[@class='list'])[".$dayOfWeek.']//li[position()>2]');
 
         $lastModerator = null;
-        $foundAt = false;
+        $found = false;
         $startTime = null;
         $endTime = null;
         for ($i = 0; $i < $nodeList->length; ++$i) {
@@ -105,7 +105,7 @@ class MetalOnly extends RadioStream
             // if moderator changed since last loop run
             if ($lastModerator !== $moderator) {
                 // and if we didn't find the on air mod until now
-                if (false === $foundAt) {
+                if (false === $found) {
                     // set new value for start time
                     $startTime = new \DateTime(($i + 14).':00');
                 }
@@ -116,11 +116,11 @@ class MetalOnly extends RadioStream
             }
 
             if ('nowonair' === trim($item->getAttribute('class'))) {
-                $foundAt = $i;
+                $found = true;
             }
 
             // if we have found the on air mod and are still running the for loop
-            if (false !== $foundAt) {
+            if (true === $found) {
                 // then set the end time to the start time of this column (of the html) + 1
                 $endTime = new \DateTime(($i + 14 + 1).':00');
             }
@@ -129,7 +129,7 @@ class MetalOnly extends RadioStream
         }
 
         if (
-            false !== $foundAt
+            true === $found
             && $startTime instanceof \DateTime
             && $endTime instanceof \DateTime
         ) {
