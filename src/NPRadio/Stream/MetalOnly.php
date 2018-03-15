@@ -117,7 +117,12 @@ class MetalOnly extends RadioStream
                 }
             }
 
-            if ('nowonair' === trim($item->getAttribute('class'))) {
+            if (
+                $item instanceof \DomElement
+                && $item->hasAttribute('class')
+                && 'nowonair' === trim($item->getAttribute('class'))
+                && !\in_array(trim($moderator), ['', 'MetalHead'], true)
+            ) {
                 $found = true;
             }
 
