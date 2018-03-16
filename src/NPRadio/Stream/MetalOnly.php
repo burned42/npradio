@@ -100,7 +100,7 @@ class MetalOnly extends RadioStream
         $endTime = null;
         for ($i = 0; $i < $nodeList->length; ++$i) {
             // the time table starts at 14:00 so the first row (0) represents 14:00
-            $currentHour = 14 + $i;
+            $currentHour = (14 + $i) % 24;
             $item = $nodeList->item($i)->firstChild;
             $moderator = $item->nodeValue;
 
@@ -129,7 +129,8 @@ class MetalOnly extends RadioStream
             // if we have found the on air mod and are still running the for loop
             if (true === $found) {
                 // then set the end time to the current hour + 1
-                $endTime = new \DateTime(($currentHour + 1).':00');
+                $endHour = ($currentHour + 1) % 24;
+                $endTime = new \DateTime($endHour.':00');
             }
 
             $lastModerator = $moderator;
