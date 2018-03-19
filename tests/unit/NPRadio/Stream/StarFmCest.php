@@ -22,7 +22,7 @@ class StarFmCest
     {
         $this->domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();
-            $html = file_get_contents(__DIR__.'/../TestSamples/Empty.html');
+            $html = file_get_contents(__DIR__.'/../TestSamples/StarFmSample.json');
             @$dom->loadHTML($html);
 
             return $dom;
