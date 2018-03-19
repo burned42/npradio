@@ -111,4 +111,58 @@ class RauteMusikCest
             $I->assertInstanceOf(StreamInfo::class, $info);
         }
     }
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
+    public function testDomFetcherExceptionOnTrackInfo(UnitTester $I)
+    {
+        /** @var DomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
+            throw new \RuntimeException('test');
+        }]);
+        $mo = new RauteMusik($domFetcher);
+
+        $I->expectException(
+            new \RuntimeException('could not get html dom: test'),
+            function () use ($mo) {
+                $mo->getInfo(RauteMusik::AVAILABLE_STREAMS[0]);
+            }
+        );
+    }
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
+    public function testDomFetcherExceptionOnShowInfo(UnitTester $I)
+    {
+        /** @var DomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcher::class, ['getHtmlDom' => function () {
+            static $first = true;
+            if ($first) {
+                $first = false;
+
+                $trackInfoDom = new \DOMDocument();
+                $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
+                @$trackInfoDom->loadXML($xml);
+
+                return $trackInfoDom;
+            }
+
+            // throw exception on second call to test fetchShowInfo()
+            throw new \RuntimeException('test');
+        }]);
+        $mo = new RauteMusik($domFetcher);
+
+        $I->expectException(
+            new \RuntimeException('could not get html dom: test'),
+            function () use ($mo) {
+                $mo->getInfo(RauteMusik::AVAILABLE_STREAMS[0]);
+            }
+        );
+    }
 }
