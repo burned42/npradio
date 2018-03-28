@@ -84,7 +84,8 @@ function showSettings() {
 
     let text = '<form>' +
         '<div class="card">' +
-        '    <div class="card-body">';
+        '    <div class="card-body">' +
+        '        <div class="list-group" id="stream_selection">';
     allStreams.map(function (streamData) {
         let checked = '';
         preselectStreams.map(function (selectedData) {
@@ -93,22 +94,29 @@ function showSettings() {
             }
         });
 
-        text += '<div class="form-check">' +
-            '   <label class="form-check-label">' +
-            '       <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
-            '       ' + streamData[0] + ': ' + streamData[1] + '' +
-            '   </label>' +
+        text += '<div class="selectable_stream list-group-item list-group-item-action">' +
+            '    <div class="form-check">' +
+            '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
+            '        ' + streamData[0] + ': ' + streamData[1] +
+            '    </div>' +
             '</div>';
     });
     text += '</div>' +
-        '       <div class="card-footer">' +
-        '           <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
-        '           &nbsp;<button class="btn btn-warning" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
-        '           &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
-        '       </div>' +
-        '   </div>' +
+        '        </div>' +
+        '        <div class="card-footer">' +
+        '            <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '            &nbsp;<button class="btn btn-warning" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
+        '            &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '        </div>' +
+        '    </div>' +
         '</form>';
     settings.innerHTML = text;
+
+    const settingsForm = document.getElementById('stream_selection');
+    new DragonDrop(settingsForm, {
+        item: '#selectable_stream',
+        handle: false,
+    });
 
     settings.style.display = 'block';
 }
