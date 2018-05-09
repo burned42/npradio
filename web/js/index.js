@@ -98,6 +98,7 @@ function showSettings() {
             '    <div class="form-check">' +
             '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
             '        ' + streamData[0] + ': ' + streamData[1] +
+            '        <a href="#" class="float-right">&#x2630;</a>' +
             '    </div>' +
             '</div>';
     });
