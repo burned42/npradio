@@ -84,7 +84,7 @@ class MetalOnly extends RadioStream
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='track']//span");
         if (1 === $nodeList->length) {
             $matches = [];
-            if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
+            if (preg_match('/^(.*) - (.*)$/', $nodeList->item(0)->nodeValue, $matches)) {
                 $streamInfo->setArtist(trim($matches[1]));
                 $streamInfo->setTrack(trim($matches[2]));
             }
