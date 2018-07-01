@@ -121,4 +121,21 @@ class RauteMusikCest
             }
         );
     }
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
+    public function testProtectedMethods(UnitTester $I)
+    {
+        $rm = new RauteMusik($this->getDomFetcher(), RauteMusik::getAvailableStreams()[0]);
+        $info = $rm->getAsArray();
+
+        $I->assertNotEmpty($info['homepage']);
+        $I->assertInternalType('string', $info['homepage']);
+
+        $I->assertNotEmpty($info['stream_url']);
+        $I->assertInternalType('string', $info['stream_url']);
+    }
 }

@@ -107,4 +107,16 @@ class MetalOnlyCest
             }
         );
     }
+
+    public function testProtectedMethods(UnitTester $I)
+    {
+        $mo = new MetalOnly($this->domFetcher, MetalOnly::getAvailableStreams()[0]);
+        $info = $mo->getAsArray();
+
+        $I->assertNotEmpty($info['homepage']);
+        $I->assertInternalType('string', $info['homepage']);
+
+        $I->assertNotEmpty($info['stream_url']);
+        $I->assertInternalType('string', $info['stream_url']);
+    }
 }

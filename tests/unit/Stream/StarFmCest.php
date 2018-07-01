@@ -81,4 +81,16 @@ class StarFmCest
             }
         );
     }
+
+    public function testProtectedMethods(UnitTester $I)
+    {
+        $starFm = new StarFm($this->domFetcher, StarFm::getAvailableStreams()[0]);
+        $info = $starFm->getAsArray();
+
+        $I->assertNotEmpty($info['homepage']);
+        $I->assertInternalType('string', $info['homepage']);
+
+        $I->assertNotEmpty($info['stream_url']);
+        $I->assertInternalType('string', $info['stream_url']);
+    }
 }

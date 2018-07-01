@@ -82,4 +82,16 @@ class TechnoBaseCest
             }
         );
     }
+
+    public function testProtectedMethods(UnitTester $I)
+    {
+        $tb = new TechnoBase($this->domFetcher, TechnoBase::getAvailableStreams()[0]);
+        $info = $tb->getAsArray();
+
+        $I->assertNotEmpty($info['homepage']);
+        $I->assertInternalType('string', $info['homepage']);
+
+        $I->assertNotEmpty($info['stream_url']);
+        $I->assertInternalType('string', $info['stream_url']);
+    }
 }
