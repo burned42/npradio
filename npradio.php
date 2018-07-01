@@ -4,27 +4,21 @@
 require_once 'vendor/autoload.php';
 
 use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\RadioContainer;
 use NPRadio\DataFetcher\HttpDomFetcher;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
 
-try {
-    $radioContainer = new RadioContainer();
-    $domFetcher = new HttpDomFetcher();
-    $radioStreams = [
-        MetalOnly::class,
-        RauteMusik::class,
-        StarFm::class,
-        TechnoBase::class,
-    ];
-    foreach ($radioStreams as $radioStream) {
-        $radioContainer->addRadio(new $radioStream($domFetcher));
-    }
-} catch (Exception $e) {
-    echo "could not instantiate radio container\n";
-    exit;
+$radioStreams = [
+    MetalOnly::class,
+    RauteMusik::class,
+    StarFm::class,
+    TechnoBase::class,
+];
+
+$availableRadios = [];
+foreach ($radioStreams as $radioClass) {
+    $availableRadios[$radioClass::getRadioName()] = $radioClass;
 }
 
 $radios = [];
@@ -33,25 +27,33 @@ if (1 !== $argc) {
         echo "too many arguments\n";
         exit;
     }
-    if ($argc > 2) {
-        if (false === $radioContainer->containsStream($argv[1], $argv[2])) {
-            echo "invalid stream name given\n";
-            exit;
-        }
-        $radios[$argv[1]] = [$argv[2]];
-    } elseif ($argc > 1) {
-        if (false === $radioContainer->containsRadio($argv[1])) {
+
+    if ($argc > 1) {
+        if (!array_key_exists($argv[1], $availableRadios)) {
             echo "invalid radio name given\n";
             exit;
         }
 
-        $radios[$argv[1]] = $radioContainer->getStreamNames($argv[1]);
+        $streams = $availableRadios[$argv[1]]::getAvailableStreams();
+
+        if ($argc > 2) {
+            if (!in_array($argv[2], $streams, true)) {
+                echo "invalid stream name given\n";
+                exit;
+            }
+
+            $radios[$argv[1]] = [$argv[2]];
+        } else {
+            $radios[$argv[1]] = $streams;
+        }
     }
 } else {
-    foreach ($radioContainer->getRadioNames() as $key => $radio) {
-        $radios[$radio] = $radioContainer->getStreamNames($radio);
+    foreach ($availableRadios as $name => $radioClass) {
+        $radios[$name] = $radioClass::getAvailableStreams();
     }
 }
+
+$domFetcher = new HttpDomFetcher();
 
 try {
     foreach ($radios as $radioName => $streams) {
@@ -59,27 +61,29 @@ try {
         /** @var array $streams */
         foreach ($streams as $streamName) {
             echo '    '.$streamName.":\n";
-            $streamInfo = $radioContainer->getInfo($radioName, $streamName);
 
-            if (null !== $streamInfo->getShow()) {
-                echo '        Show:      '.$streamInfo->getShow()."\n";
+            /** @var \NPRadio\Stream\AbstractRadioStream $radioStream */
+            $radioStream = new $availableRadios[$radioName]($domFetcher, $streamName);
+
+            if (null !== $radioStream->getShow()) {
+                echo '        Show:      '.$radioStream->getShow()."\n";
             }
-            if (null !== $streamInfo->getGenre()) {
-                echo '        Genre:     '.$streamInfo->getGenre()."\n";
+            if (null !== $radioStream->getGenre()) {
+                echo '        Genre:     '.$radioStream->getGenre()."\n";
             }
-            if (null !== $streamInfo->getModerator()) {
-                echo '        Moderator: '.$streamInfo->getModerator()."\n";
+            if (null !== $radioStream->getModerator()) {
+                echo '        Moderator: '.$radioStream->getModerator()."\n";
             }
             if (
-                $streamInfo->getShowStartTime() instanceof DateTime
-                && $streamInfo->getShowEndTime() instanceof DateTime
+                $radioStream->getShowStartTime() instanceof DateTime
+                && $radioStream->getShowEndTime() instanceof DateTime
             ) {
-                echo '        Showtime:  '.$streamInfo->getShowStartTime()->format('H:i')
-                    .' - '.$streamInfo->getShowEndTime()->format('H:i')."\n";
+                echo '        Showtime:  '.$radioStream->getShowStartTime()->format('H:i')
+                    .' - '.$radioStream->getShowEndTime()->format('H:i')."\n";
             }
             echo '        Track:     ';
-            $artist = $streamInfo->getArtist();
-            $track = $streamInfo->getTrack();
+            $artist = $radioStream->getArtist();
+            $track = $radioStream->getTrack();
             if (null !== $artist || null !== $track) {
                 if (null !== $artist) {
                     echo $artist;

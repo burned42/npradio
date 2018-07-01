@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace NPRadio\Controller;
 
 use NPRadio\DataFetcher\HttpDomFetcher;
+use NPRadio\Stream\AbstractRadioStream;
 use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\RadioContainer;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
@@ -17,11 +17,21 @@ use Slim\HttpCache\CacheProvider;
 
 class ApiController
 {
-    /** @var RadioContainer */
-    protected $radioContainer;
-
     /** @var ContainerInterface */
     private $container;
+
+    const RADIO_CLASSES = [
+        MetalOnly::class,
+        RauteMusik::class,
+        StarFm::class,
+        TechnoBase::class,
+    ];
+
+    /** @var array */
+    private static $radios;
+
+    /** @var HttpDomFetcher */
+    private static $httpDomFetcher;
 
     /**
      * ApiController constructor.
@@ -34,17 +44,11 @@ class ApiController
     {
         $this->container = $container;
 
-        $this->radioContainer = new RadioContainer();
-        $domFetcher = new HttpDomFetcher();
-        $radioStreams = [
-            MetalOnly::class,
-            RauteMusik::class,
-            StarFm::class,
-            TechnoBase::class,
-        ];
-
-        foreach ($radioStreams as $radioStream) {
-            $this->radioContainer->addRadio(new $radioStream($domFetcher));
+        if (!static::$radios) {
+            /** @var AbstractRadioStream $radioClass */
+            foreach (self::RADIO_CLASSES as $radioClass) {
+                static::$radios[$radioClass::getRadioName()] = $radioClass;
+            }
         }
     }
 
@@ -57,9 +61,9 @@ class ApiController
      *
      * @throws \RuntimeException
      */
-    public function getRadios(Request $request, Response $response, array $args): Response
+    public function getRadioNames(Request $request, Response $response, array $args): Response
     {
-        return $response->withJson($this->radioContainer->getRadioNames());
+        return $response->withJson(array_keys(static::$radios));
     }
 
     /**
@@ -74,7 +78,10 @@ class ApiController
      */
     public function getStreams(Request $request, Response $response, array $args): Response
     {
-        return $response->withJson($this->radioContainer->getStreamNames($args['radioName']));
+        /** @var AbstractRadioStream $radioClass */
+        $radioClass = $this->getRadioClass($args['radioName']);
+
+        return $response->withJson($radioClass::getAvailableStreams());
     }
 
     /**
@@ -100,10 +107,28 @@ class ApiController
         $newResponse = $cache->withExpires($newResponse, time() + 30);
         $newResponse = $cache->withLastModified($newResponse, time());
 
-        return $newResponse->withJson(
-            $this->radioContainer
-                ->getInfo($args['radioName'], $args['streamName'])
-                ->getAsArray()
-        );
+        $radioClass = $this->getRadioClass($args['radioName']);
+        /** @var AbstractRadioStream $stream */
+        $stream = new $radioClass($this->getHttpDomFetcher(), $args['streamName']);
+
+        return $newResponse->withJson($stream->getAsArray());
+    }
+
+    private function getRadioClass(string $radioName): string
+    {
+        if (!array_key_exists($radioName, static::$radios)) {
+            throw new \InvalidArgumentException('Invalid radio name given');
+        }
+
+        return static::$radios[$radioName];
+    }
+
+    private function getHttpDomFetcher(): HttpDomFetcher
+    {
+        if (!(static::$httpDomFetcher instanceof HttpDomFetcher)) {
+            static::$httpDomFetcher = new HttpDomFetcher();
+        }
+
+        return static::$httpDomFetcher;
     }
 }

@@ -5,36 +5,48 @@ declare(strict_types=1);
 namespace NPRadio\Stream;
 
 use Codeception\Example;
+use NPRadio\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
-class StreamInfoCest
+class AbstractRadioStreamCest
 {
-    /** @var StreamInfo */
-    private $streamInfo;
-
-    public function _before(UnitTester $I)
+    private function getDummy()
     {
-        $this->streamInfo = new StreamInfo();
+        return new DummyRadioStream(new HttpDomFetcher(), 'fake_stream');
     }
 
-    public function _after(UnitTester $I)
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
+    public function testConstructor(UnitTester $I)
     {
+        $I->assertInstanceOf(
+            AbstractRadioStream::class,
+            $this->getDummy()
+        );
     }
 
-    // tests
-    public function canInstantiate(UnitTester $I)
+    public function testConstructorException(UnitTester $I)
     {
-        $I->assertInstanceOf(StreamInfo::class, $this->streamInfo);
+        $I->expectException(
+            new \InvalidArgumentException('Invalid stream name given'),
+            function () {
+                new DummyRadioStream(new HttpDomFetcher(), 'foobar');
+            }
+        );
+    }
+
+    public function testGetStreamName(UnitTester $I)
+    {
+        $I->assertEquals('fake_stream', $this->getDummy()->getStreamName());
     }
 
     /**
      * @param UnitTester $I
      * @param Example    $example
      *
-     * @example ["RadioName"]
-     * @example ["StreamName"]
-     * @example ["HomepageUrl"]
-     * @example ["StreamUrl"]
      * @example ["Show"]
      * @example ["Genre"]
      * @example ["Moderator"]
@@ -48,9 +60,10 @@ class StreamInfoCest
         $setter = 'set'.$example[0];
         $getter = 'get'.$example[0];
 
-        $this->streamInfo->$setter($value);
+        $dummy = $this->getDummy();
+        $dummy->$setter($value);
 
-        $I->assertEquals($value, $this->streamInfo->$getter());
+        $I->assertEquals($value, $dummy->$getter());
     }
 
     /**
@@ -67,17 +80,19 @@ class StreamInfoCest
         $setter = 'set'.$example[0];
         $getter = 'get'.$example[0];
 
-        $this->streamInfo->$setter($value);
+        $dummy = $this->getDummy();
+        $dummy->$setter($value);
 
-        $I->assertEquals($value, $this->streamInfo->$getter());
+        $I->assertEquals($value, $dummy->$getter());
     }
 
     public function testGetAsArray(UnitTester $I)
     {
-        $radioName = 'test_radio';
-        $streamName = 'test_stream';
-        $homepageUrl = 'test_homepage';
-        $streamUrl = 'test_stream_url';
+        $radioName = 'fake_radio';
+        $streamName = 'fake_stream';
+        $homepageUrl = 'fake_url';
+        $streamUrl = 'fake_stream_url';
+
         $show = 'test_show';
         $genre = 'test_genre';
         $moderator = 'test_moderator';
@@ -88,11 +103,8 @@ class StreamInfoCest
         $track = 'test_track';
         $artist = 'test_artist';
 
-        $this->streamInfo->setRadioName($radioName)
-            ->setStreamName($streamName)
-            ->setHomepageUrl($homepageUrl)
-            ->setStreamUrl($streamUrl)
-            ->setShow($show)
+        $dummy = $this->getDummy();
+        $dummy->setShow($show)
             ->setGenre($genre)
             ->setModerator($moderator)
             ->setShowStartTime($showStartTimeDateTime)
@@ -100,7 +112,7 @@ class StreamInfoCest
             ->setTrack($track)
             ->setArtist($artist);
 
-        $array = $this->streamInfo->getAsArray();
+        $array = $dummy->getAsArray();
 
         $I->assertEquals([
             'radio_name' => $radioName,

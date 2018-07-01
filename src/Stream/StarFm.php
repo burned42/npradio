@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NPRadio\Stream;
 
-class StarFm extends RadioStream
+class StarFm extends AbstractRadioStream
 {
     const RADIO_NAME = 'StarFM';
     const URL = 'https://nbg.starfm.de';
@@ -29,40 +29,34 @@ class StarFm extends RadioStream
         self::NUREMBERG => '4',
     ];
 
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getHomepageUrl(string $streamName): string
+    protected function getHomepageUrl(): string
     {
         return self::URL;
     }
 
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getStreamUrl(string $streamName): string
+    protected function getStreamUrl(): string
     {
-        return self::STREAM_URLS[$streamName];
+        return self::STREAM_URLS[$this->getStreamName()];
+    }
+
+    public static function getAvailableStreams(): array
+    {
+        return self::AVAILABLE_STREAMS;
+    }
+
+    public static function getRadioName(): string
+    {
+        return self::RADIO_NAME;
     }
 
     /**
-     * @param string $streamName
-     *
-     * @return StreamInfo
-     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function getInfo(string $streamName): StreamInfo
+    public function updateInfo()
     {
-        $streamInfo = $this->getStreamInfo($streamName);
-
         try {
-            $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$streamName].self::URL_INFO_SUFFIX;
+            $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$this->getStreamName()].self::URL_INFO_SUFFIX;
             $data = json_decode($this->domFetcher->getUrlContent($url), true);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get url content: '.$e->getMessage());
@@ -70,13 +64,11 @@ class StarFm extends RadioStream
 
         if (!empty($data) && array_key_exists('c', $data)) {
             if (array_key_exists('artist', $data['c'])) {
-                $streamInfo->setArtist($data['c']['artist']);
+                $this->setArtist($data['c']['artist']);
             }
             if (array_key_exists('song', $data['c'])) {
-                $streamInfo->setTrack($data['c']['song']);
+                $this->setTrack($data['c']['song']);
             }
         }
-
-        return $streamInfo;
     }
 }

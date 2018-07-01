@@ -4,40 +4,29 @@ declare(strict_types=1);
 
 namespace NPRadio\Stream;
 
-class DummyRadioStream extends RadioStream
+class DummyRadioStream extends AbstractRadioStream
 {
-    const RADIO_NAME = 'fake_radio';
-    const AVAILABLE_STREAMS = ['fake_stream'];
-
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getHomepageUrl(string $streamName): string
+    protected function getHomepageUrl(): string
     {
         return 'fake_url';
     }
 
-    /**
-     * @param string $streamName
-     *
-     * @return StreamInfo
-     *
-     * @throws \InvalidArgumentException
-     */
-    public function getInfo(string $streamName): StreamInfo
-    {
-        return $this->getStreamInfo($streamName);
-    }
-
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getStreamUrl(string $streamName): string
+    protected function getStreamUrl(): string
     {
         return 'fake_stream_url';
+    }
+
+    public function updateInfo()
+    {
+    }
+
+    public static function getAvailableStreams(): array
+    {
+        return ['fake_stream'];
+    }
+
+    public static function getRadioName(): string
+    {
+        return 'fake_radio';
     }
 }

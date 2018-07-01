@@ -23,7 +23,7 @@ $app = new Slim\App($container);
 $app->add(new \Slim\HttpCache\Cache('public', 30));
 
 $app->get('/', IndexController::class.':getIndex');
-$app->get('/api/radios', ApiController::class.':getRadios');
+$app->get('/api/radios', ApiController::class.':getRadioNames');
 $app->get('/api/radios/{radioName}/streams', ApiController::class.':getStreams');
 $app->get('/api/radios/{radioName}/streams/{streamName}', ApiController::class.':getStreamInfo');
 

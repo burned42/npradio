@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace NPRadio\Stream;
 
-class RauteMusik extends RadioStream
+class RauteMusik extends AbstractRadioStream
 {
     const RADIO_NAME = 'RauteMusik';
-
     const BASE_URL = 'http://www.rautemusik.fm/';
     const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
@@ -33,44 +32,43 @@ class RauteMusik extends RadioStream
         self::WEIHNACHTEN,
     ];
 
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getHomepageUrl(string $streamName): string
+    protected function getHomepageUrl(): string
     {
-        return self::BASE_URL.strtolower($streamName);
+        return self::BASE_URL.strtolower($this->getStreamName());
+    }
+
+    protected function getStreamUrl(): string
+    {
+        return 'http://'.strtolower($this->getStreamName()).'-high.rautemusik.fm';
+    }
+
+    public static function getAvailableStreams(): array
+    {
+        return self::AVAILABLE_STREAMS;
+    }
+
+    public static function getRadioName(): string
+    {
+        return self::RADIO_NAME;
     }
 
     /**
-     * @param string $streamName
-     *
-     * @return StreamInfo
-     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function getInfo(string $streamName): StreamInfo
+    public function updateInfo()
     {
-        $streamInfo = $this->getStreamInfo($streamName);
-
-        $this->fetchTrackInfo($streamInfo, $streamName);
-        $this->fetchShowInfo($streamInfo, $streamName);
-
-        return $streamInfo;
+        $this->updateTrackInfo();
+        $this->updateShowInfo();
     }
 
     /**
-     * @param StreamInfo $streamInfo
-     * @param string     $streamName
-     *
      * @throws \RuntimeException
      */
-    private function fetchTrackInfo(StreamInfo $streamInfo, string $streamName)
+    private function updateTrackInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL.strtolower($streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -83,23 +81,20 @@ class RauteMusik extends RadioStream
         foreach ($nodeList as $node) {
             $class = $node->attributes->getNamedItem('class')->nodeValue;
             if ('artist' === $class) {
-                $streamInfo->setArtist(trim($node->nodeValue));
+                $this->setArtist(trim($node->nodeValue));
             } elseif ('title' === $class) {
-                $streamInfo->setTrack(trim($node->nodeValue));
+                $this->setTrack(trim($node->nodeValue));
             }
         }
     }
 
     /**
-     * @param StreamInfo $streamInfo
-     * @param string     $streamName
-     *
      * @throws \RuntimeException
      */
-    private function fetchShowInfo(StreamInfo $streamInfo, string $streamName)
+    private function updateShowInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL.strtolower($streamName));
+            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -112,29 +107,19 @@ class RauteMusik extends RadioStream
         if ($numNodes >= 1) {
             $matches = [];
             if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setShowStartTime(new \DateTime($matches[1]));
-                $streamInfo->setShowEndTime(new \DateTime($matches[2]));
+                $this->setShowStartTime(new \DateTime($matches[1]));
+                $this->setShowEndTime(new \DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
-                $streamInfo->setShow(trim($nodeList->item(1)->nodeValue));
+                $this->setShow(trim($nodeList->item(1)->nodeValue));
 
                 if ($numNodes >= 3) {
-                    $streamInfo->setModerator(
+                    $this->setModerator(
                         preg_replace('/\s+/', ' ', trim($nodeList->item(2)->nodeValue))
                     );
                 }
             }
         }
-    }
-
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getStreamUrl(string $streamName): string
-    {
-        return 'http://'.strtolower($streamName).'-high.rautemusik.fm';
     }
 }

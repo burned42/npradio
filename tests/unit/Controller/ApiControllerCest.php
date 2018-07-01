@@ -59,7 +59,7 @@ class ApiControllerCest
 
         $I->assertInstanceOf(
             Response::class,
-            $controller->getRadios($request, $response, [])
+            $controller->getRadioNames($request, $response, [])
         );
     }
 
@@ -83,6 +83,26 @@ class ApiControllerCest
                 $response,
                 ['radioName' => MetalOnly::RADIO_NAME]
             )
+        );
+    }
+
+    public function testGetStreamsWithInvalidStreamName(UnitTester $I)
+    {
+        $controller = new ApiController($this->container);
+
+        /** @var Request $request */
+        $request = Stub::make(Request::class);
+        $response = new Response();
+
+        $I->expectException(
+            new \InvalidArgumentException('Invalid radio name given'),
+            function () use ($controller, $request, $response) {
+                $controller->getStreams(
+                    $request,
+                    $response,
+                    ['radioName' => 'foobar']
+                );
+            }
         );
     }
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace NPRadio\Stream;
 
-class MetalOnly extends RadioStream
+class MetalOnly extends AbstractRadioStream
 {
     const RADIO_NAME = 'MetalOnly';
     const URL = 'https://www.metal-only.de';
@@ -18,28 +18,32 @@ class MetalOnly extends RadioStream
         self::METAL_ONLY,
     ];
 
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getHomepageUrl(string $streamName): string
+    protected function getHomepageUrl(): string
     {
         return self::URL;
     }
 
+    protected function getStreamUrl(): string
+    {
+        return self::STREAM_URL;
+    }
+
+    public static function getAvailableStreams(): array
+    {
+        return self::AVAILABLE_STREAMS;
+    }
+
+    public static function getRadioName(): string
+    {
+        return self::RADIO_NAME;
+    }
+
     /**
-     * @param string $streamName
-     *
-     * @return StreamInfo
-     *
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function getInfo(string $streamName): StreamInfo
+    public function updateInfo()
     {
-        $streamInfo = $this->getStreamInfo($streamName);
-
         try {
             $dom = $this->domFetcher->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (\Exception $e) {
@@ -53,29 +57,29 @@ class MetalOnly extends RadioStream
         if (1 === $nodeList->length) {
             $matches = [];
             if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setModerator(trim($matches[1]));
+                $this->setModerator(trim($matches[1]));
             }
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
         if (1 === $nodeList->length) {
-            $streamInfo->setShow(trim($nodeList->item(0)->nodeValue));
+            $this->setShow(trim($nodeList->item(0)->nodeValue));
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
         if (1 === $nodeList->length) {
-            $streamInfo->setGenre(trim($nodeList->item(0)->nodeValue));
+            $this->setGenre(trim($nodeList->item(0)->nodeValue));
         }
 
         // if there is no show/moderator then it displays some default values
         if (
-            'MetalHead' === $streamInfo->getModerator()
-            && 'Mixed Metal' === $streamInfo->getGenre()
-            && \in_array($streamInfo->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
+            'MetalHead' === $this->getModerator()
+            && 'Mixed Metal' === $this->getGenre()
+            && \in_array($this->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
         ) {
-            $streamInfo->setModerator(null)
+            $this->setModerator(null)
                 ->setShow(null)
                 ->setGenre(null);
         }
@@ -84,9 +88,9 @@ class MetalOnly extends RadioStream
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='track']//span");
         if (1 === $nodeList->length) {
             $matches = [];
-            if (preg_match('/^(.*) - (.*)$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $streamInfo->setArtist(trim($matches[1]));
-                $streamInfo->setTrack(trim($matches[2]));
+            if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
+                $this->setArtist(trim($matches[1]));
+                $this->setTrack(trim($matches[2]));
             }
         }
 
@@ -141,20 +145,8 @@ class MetalOnly extends RadioStream
             && $startTime instanceof \DateTime
             && $endTime instanceof \DateTime
         ) {
-            $streamInfo->setShowStartTime($startTime);
-            $streamInfo->setShowEndTime($endTime);
+            $this->setShowStartTime($startTime);
+            $this->setShowEndTime($endTime);
         }
-
-        return $streamInfo;
-    }
-
-    /**
-     * @param string $streamName
-     *
-     * @return string
-     */
-    protected function getStreamUrl(string $streamName): string
-    {
-        return self::STREAM_URL;
     }
 }
