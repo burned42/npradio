@@ -82,21 +82,4 @@ class TechnoBaseCest
             }
         );
     }
-
-    /**
-     * @param UnitTester $I
-     *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     */
-    public function testWithLiveData(UnitTester $I)
-    {
-        foreach (TechnoBase::getAvailableStreams() as $streamName) {
-            new TechnoBase(new HttpDomFetcher(), $streamName);
-        }
-
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
-    }
 }
