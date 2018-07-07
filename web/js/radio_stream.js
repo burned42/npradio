@@ -67,10 +67,10 @@ class RadioStream {
             this.domElementInitialized = true;
         }
 
-        if (streamInfo.artist === null) {
+        if (streamInfo.artist === null || typeof streamInfo.artist === 'undefined') {
             streamInfo.artist = 'n/a';
         }
-        if (streamInfo.track === null) {
+        if (streamInfo.track === null || typeof streamInfo.track === 'undefined') {
             streamInfo.track = 'n/a';
         }
 
