@@ -188,5 +188,8 @@ let radioStreams = [];
 showStreamInfo();
 
 setInterval(function () {
-    updateData();
+    try {
+        updateData();
+    } catch (e) {
+    }
 }, 30 * 1000);
