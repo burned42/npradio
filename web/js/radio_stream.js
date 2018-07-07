@@ -20,11 +20,15 @@ class RadioStream {
         if (this.requestRunning === false) {
             this.requestRunning = true;
             try {
-                let result = await fetch(this.streamInfoUrl).then(data => data.json());
-                this.updateStreamInfoDom(result);
+                fetch(this.streamInfoUrl)
+                    .then(data => data.json())
+                    .then(result => this.updateStreamInfoDom(result))
+                    .then(() => {
+                        this.requestRunning = false;
+                        console.log('finished')
+                    });
             } catch (e) {
             }
-            this.requestRunning = false;
         }
     };
 
