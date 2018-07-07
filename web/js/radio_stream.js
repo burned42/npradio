@@ -53,7 +53,6 @@ class RadioStream {
 
             this.domElement.appendChild(header);
 
-
             // add body
             this.cardBody = document.createElement('div');
             this.cardBody.className = 'card-body';
@@ -78,13 +77,11 @@ class RadioStream {
             '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
             '<strong>' + streamInfo.track + '</strong>';
 
-        let footerContent = false;
         if (
             streamInfo.show.name !== null
             && streamInfo.show.moderator !== null
         ) {
-
-            footerContent = '<strong>' + streamInfo.show.name + '</strong>';
+            let footerContent = '<strong>' + streamInfo.show.name + '</strong>';
             if (streamInfo.show.genre !== null) {
                 footerContent += ' (' + streamInfo.show.genre + ')';
             }
@@ -93,10 +90,9 @@ class RadioStream {
             if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
                 footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
             }
-        }
 
-        if (footerContent) {
             this.cardFooter.innerHTML = footerContent;
+
             if (this.cardFooterAppended === false) {
                 this.domElement.appendChild(this.cardFooter);
                 this.cardFooterAppended = true;
