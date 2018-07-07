@@ -29,34 +29,6 @@ class RadioStream {
     };
 
     updateStreamInfoDom(streamInfo) {
-        if (streamInfo.artist === null) {
-            streamInfo.artist = 'n/a';
-        }
-        if (streamInfo.track === null) {
-            streamInfo.track = 'n/a';
-        }
-
-        let bodyContent = '<strong>' + streamInfo.artist + '</strong>' +
-            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
-            '<strong>' + streamInfo.track + '</strong>';
-
-        let footerContent = false;
-        if (
-            streamInfo.show.name !== null
-            && streamInfo.show.moderator !== null
-        ) {
-
-            footerContent = '<strong>' + streamInfo.show.name + '</strong>';
-            if (streamInfo.show.genre !== null) {
-                footerContent += ' (' + streamInfo.show.genre + ')';
-            }
-
-            footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
-            if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
-                footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
-            }
-        }
-
         if (this.domElementInitialized === false) {
             // add header
             let header = document.createElement('h5');
@@ -93,6 +65,34 @@ class RadioStream {
 
             this.domElement.className = 'card';
             this.domElementInitialized = true;
+        }
+
+        if (streamInfo.artist === null) {
+            streamInfo.artist = 'n/a';
+        }
+        if (streamInfo.track === null) {
+            streamInfo.track = 'n/a';
+        }
+
+        let bodyContent = '<strong>' + streamInfo.artist + '</strong>' +
+            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
+            '<strong>' + streamInfo.track + '</strong>';
+
+        let footerContent = false;
+        if (
+            streamInfo.show.name !== null
+            && streamInfo.show.moderator !== null
+        ) {
+
+            footerContent = '<strong>' + streamInfo.show.name + '</strong>';
+            if (streamInfo.show.genre !== null) {
+                footerContent += ' (' + streamInfo.show.genre + ')';
+            }
+
+            footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
+            if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
+                footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
+            }
         }
 
         this.cardBody.innerHTML = bodyContent;
