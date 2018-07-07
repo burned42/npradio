@@ -15,7 +15,7 @@ function playStream(e, streamUrl, streamTitle) {
 
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayer.setAttribute('src', streamUrl);
-        e.className = 'btn btn-success';
+        e.className = 'btn btn-primary';
         streamPlayer.play().then(function () {
             e.innerHTML = '&#x23f8;';
 
