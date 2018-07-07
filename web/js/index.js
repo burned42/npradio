@@ -164,9 +164,9 @@ function setAvailableRadioStreams() {
                             if (typeof found === 'undefined') {
                                 availableStreams.push([radio, stream]);
                             }
-                        })
-                    })
-            })
+                        });
+                    });
+            });
         });
 }
 
