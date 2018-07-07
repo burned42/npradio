@@ -149,18 +149,25 @@ function showStreamInfo() {
     updateData();
 }
 
-async function setAvailableRadioStreams() {
-    let availableRadioStreams = [];
-
-    let radios = await fetch('/api/radios').then(data => data.json());
-    radios.map(async function (radio) {
-        let streams = await fetch('/api/radios/' + radio + '/streams').then(data => data.json());
-        streams.map(function (stream) {
-            availableRadioStreams.push([radio, stream]);
+function setAvailableRadioStreams() {
+    fetch('/api/radios')
+        .then(data => data.json())
+        .then(radios => {
+            radios.map(async radio => {
+                fetch('/api/radios/' + radio + '/streams')
+                    .then(data => data.json())
+                    .then(streams => {
+                        streams.map(async stream => {
+                            let found = availableStreams.find(element => {
+                                return element[0] === radio && element[1] === stream;
+                            });
+                            if (typeof found === 'undefined') {
+                                availableStreams.push([radio, stream]);
+                            }
+                        })
+                    })
+            })
         });
-    });
-
-    availableStreams = availableRadioStreams;
 }
 
 let defaultStreams = [
