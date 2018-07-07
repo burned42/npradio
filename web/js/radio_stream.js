@@ -74,7 +74,7 @@ class RadioStream {
             streamInfo.track = 'n/a';
         }
 
-        let bodyContent = '<strong>' + streamInfo.artist + '</strong>' +
+        this.cardBody.innerHTML = '<strong>' + streamInfo.artist + '</strong>' +
             '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
             '<strong>' + streamInfo.track + '</strong>';
 
@@ -94,8 +94,6 @@ class RadioStream {
                 footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
             }
         }
-
-        this.cardBody.innerHTML = bodyContent;
 
         if (footerContent) {
             this.cardFooter.innerHTML = footerContent;
