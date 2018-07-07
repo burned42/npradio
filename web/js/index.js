@@ -188,7 +188,7 @@ if (localStorage.streamSelection) {
     localStreamSelection = JSON.parse(localStorage.streamSelection);
 }
 
-let availableStreams = localStreamSelection;
+let availableStreams = localStreamSelection.slice();
 setAvailableRadioStreams();
 
 let radioStreams = [];
