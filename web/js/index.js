@@ -4,9 +4,10 @@ function initializePlayButtonsToPaused() {
         playButtons[i].className = 'btn btn-secondary';
         playButtons[i].innerHTML = '&#x25b6;';
     }
+    nowPlayingRadioStream = null;
 }
 
-function playStream(e, streamUrl, streamTitle) {
+function playStream(e, streamUrl, radioName, streamName) {
     initializePlayButtonsToPaused();
 
     let streamPlayer = document.getElementById('stream_player');
@@ -19,9 +20,11 @@ function playStream(e, streamUrl, streamTitle) {
         streamPlayer.play().then(function () {
             e.innerHTML = '&#x23f8;';
 
-            document.title = 'NPRadio | ' + streamTitle;
+            document.title = 'NPRadio | ' + radioName + ': ' + streamName;
+            nowPlayingRadioStream = [radioName, streamName];
         }).catch(function () {
             e.className = 'btn btn-warning';
+            nowPlayingRadioStream = null;
         });
     }
 }
@@ -144,7 +147,15 @@ function showStreamInfo() {
     radioStreams = [];
 
     localStreamSelection.map(function (stream) {
-        radioStreams.push(new RadioStream(stream[0], stream[1]));
+        let playing = false;
+        if (
+            nowPlayingRadioStream !== null
+            && nowPlayingRadioStream[0] === stream[0]
+            && nowPlayingRadioStream[1] === stream[1]
+        ) {
+            playing = true;
+        }
+        radioStreams.push(new RadioStream(stream[0], stream[1], playing));
     });
     updateData();
 }
@@ -182,6 +193,7 @@ let defaultStreams = [
     ['RauteMusik', 'WackenRadio'],
     ['MetalOnly', 'MetalOnly']
 ];
+let nowPlayingRadioStream = null;
 
 let localStreamSelection = defaultStreams;
 if (localStorage.streamSelection) {

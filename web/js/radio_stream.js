@@ -1,7 +1,8 @@
 class RadioStream {
-    constructor(radioName, streamName) {
+    constructor(radioName, streamName, initializePlaying) {
         this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
         this.requestRunning = false;
+        this.initializePlaying = initializePlaying;
 
         this.domElement = document.createElement('div');
         this.domElement.className = 'card invisible';
@@ -41,17 +42,21 @@ class RadioStream {
             headerLink.className = 'my-auto';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
-            let streamTitle = streamInfo.radio_name + ': ' + streamInfo.stream_name;
-            headerLink.innerHTML = streamTitle;
+            headerLink.innerHTML = streamInfo.radio_name + ': ' + streamInfo.stream_name;
             header.appendChild(headerLink);
 
             let headerButton = document.createElement('button');
-            headerButton.className = 'btn btn-secondary';
+            if (this.initializePlaying) {
+                headerButton.className = 'btn btn-primary';
+                headerButton.innerHTML = '&#x23f8;';
+            } else {
+                headerButton.className = 'btn btn-secondary';
+                headerButton.innerHTML = '&#x25b6';
+            }
             headerButton.name = 'play_stream';
             headerButton.onclick = function () {
-                playStream(this, streamInfo.stream_url, streamTitle);
+                playStream(this, streamInfo.stream_url, streamInfo.radio_name, streamInfo.stream_name);
             };
-            headerButton.innerHTML = '&#x25b6';
             header.appendChild(headerButton);
 
             this.domElement.appendChild(header);
