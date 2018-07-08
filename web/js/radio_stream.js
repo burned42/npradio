@@ -25,7 +25,6 @@ class RadioStream {
                     .then(result => this.updateStreamInfoDom(result))
                     .then(() => {
                         this.requestRunning = false;
-                        console.log('finished')
                     });
             } catch (e) {
             }
