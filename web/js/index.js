@@ -108,7 +108,7 @@ function showSettings() {
     text += '</div>' +
         '        </div>' +
         '        <div class="card-footer">' +
-        '            <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
+        '            <button class="btn btn-primary" type="button" onclick="saveSettings()">&#10003;</button>' +
         '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
         '            &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
         '        </div>' +
