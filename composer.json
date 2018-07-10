@@ -8,7 +8,8 @@
     "twig/twig": "~2.0",
     "slim/slim": "^3.9",
     "slim/twig-view": "^2.3",
-    "slim/http-cache": "^0.4.0"
+    "slim/http-cache": "^0.4.0",
+    "twbs/bootstrap": "^4.1.1"
   },
   "require-dev": {
     "codeception/codeception": "^2.2",
@@ -19,5 +20,10 @@
       "php": "7.0.27"
     },
     "optimize-autoloader": true
+  },
+  "scripts": {
+    "copy-bootstrap": "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css* web/css/",
+    "post-install-cmd": "@copy-bootstrap",
+    "post-update-cmd": "@copy-bootstrap"
   }
 }

@@ -2,3 +2,5 @@
 /tests/_support/_generated
 /vendor/
 /web/cache/
+/web/css/bootstrap.min.css
+/web/css/bootstrap.min.css.map
