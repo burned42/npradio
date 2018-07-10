@@ -4,9 +4,10 @@ function initializePlayButtonsToPaused() {
         playButtons[i].className = 'btn btn-secondary';
         playButtons[i].innerHTML = '&#x25b6;';
     }
+    nowPlayingRadioStream = null;
 }
 
-function playStream(e, streamUrl, streamTitle) {
+function playStream(e, streamUrl, radioName, streamName) {
     initializePlayButtonsToPaused();
 
     let streamPlayer = document.getElementById('stream_player');
@@ -15,13 +16,15 @@ function playStream(e, streamUrl, streamTitle) {
 
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayer.setAttribute('src', streamUrl);
-        e.className = 'btn btn-success';
+        e.className = 'btn btn-primary';
         streamPlayer.play().then(function () {
             e.innerHTML = '&#x23f8;';
 
-            document.title = 'NPRadio | ' + streamTitle;
+            document.title = 'NPRadio | ' + radioName + ': ' + streamName;
+            nowPlayingRadioStream = [radioName, streamName];
         }).catch(function () {
             e.className = 'btn btn-warning';
+            nowPlayingRadioStream = null;
         });
     }
 }
@@ -106,8 +109,8 @@ function showSettings() {
         '        </div>' +
         '        <div class="card-footer">' +
         '            <button class="btn btn-primary" type="button" onclick="saveSettings()">&#x1f4be;</button>' +
-        '            &nbsp;<button class="btn btn-warning" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
-        '            &nbsp;<button class="btn btn-danger" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '            &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
         '        </div>' +
         '    </div>' +
         '</form>';
@@ -144,23 +147,38 @@ function showStreamInfo() {
     radioStreams = [];
 
     localStreamSelection.map(function (stream) {
-        radioStreams.push(new RadioStream(stream[0], stream[1]));
+        let playing = false;
+        if (
+            nowPlayingRadioStream !== null
+            && nowPlayingRadioStream[0] === stream[0]
+            && nowPlayingRadioStream[1] === stream[1]
+        ) {
+            playing = true;
+        }
+        radioStreams.push(new RadioStream(stream[0], stream[1], playing));
     });
     updateData();
 }
 
-async function setAvailableRadioStreams() {
-    let availableRadioStreams = [];
-
-    let radios = await fetch('/api/radios').then(data => data.json());
-    radios.map(async function (radio) {
-        let streams = await fetch('/api/radios/' + radio + '/streams').then(data => data.json());
-        streams.map(function (stream) {
-            availableRadioStreams.push([radio, stream]);
+function setAvailableRadioStreams() {
+    fetch('/api/radios')
+        .then(data => data.json())
+        .then(radios => {
+            radios.map(async radio => {
+                fetch('/api/radios/' + radio + '/streams')
+                    .then(data => data.json())
+                    .then(streams => {
+                        streams.map(async stream => {
+                            let found = availableStreams.find(element => {
+                                return element[0] === radio && element[1] === stream;
+                            });
+                            if (typeof found === 'undefined') {
+                                availableStreams.push([radio, stream]);
+                            }
+                        });
+                    });
+            });
         });
-    });
-
-    availableStreams = availableRadioStreams;
 }
 
 let defaultStreams = [
@@ -175,18 +193,22 @@ let defaultStreams = [
     ['RauteMusik', 'WackenRadio'],
     ['MetalOnly', 'MetalOnly']
 ];
+let nowPlayingRadioStream = null;
 
 let localStreamSelection = defaultStreams;
 if (localStorage.streamSelection) {
     localStreamSelection = JSON.parse(localStorage.streamSelection);
 }
 
-let availableStreams = localStreamSelection;
+let availableStreams = localStreamSelection.slice();
 setAvailableRadioStreams();
 
 let radioStreams = [];
 showStreamInfo();
 
 setInterval(function () {
-    updateData();
+    try {
+        updateData();
+    } catch (e) {
+    }
 }, 30 * 1000);

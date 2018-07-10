@@ -1,7 +1,8 @@
 class RadioStream {
-    constructor(radioName, streamName) {
+    constructor(radioName, streamName, initializePlaying) {
         this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
         this.requestRunning = false;
+        this.initializePlaying = initializePlaying;
 
         this.domElement = document.createElement('div');
         this.domElement.className = 'card invisible';
@@ -20,43 +21,18 @@ class RadioStream {
         if (this.requestRunning === false) {
             this.requestRunning = true;
             try {
-                let result = await fetch(this.streamInfoUrl).then(data => data.json());
-                this.updateStreamInfoDom(result);
+                fetch(this.streamInfoUrl)
+                    .then(data => data.json())
+                    .then(result => this.updateStreamInfoDom(result))
+                    .then(() => {
+                        this.requestRunning = false;
+                    });
             } catch (e) {
             }
-            this.requestRunning = false;
         }
     };
 
     updateStreamInfoDom(streamInfo) {
-        if (streamInfo.artist === null) {
-            streamInfo.artist = 'n/a';
-        }
-        if (streamInfo.track === null) {
-            streamInfo.track = 'n/a';
-        }
-
-        let bodyContent = '<strong>' + streamInfo.artist + '</strong>' +
-            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
-            '<strong>' + streamInfo.track + '</strong>';
-
-        let footerContent = false;
-        if (
-            streamInfo.show.name !== null
-            && streamInfo.show.moderator !== null
-        ) {
-
-            footerContent = '<strong>' + streamInfo.show.name + '</strong>';
-            if (streamInfo.show.genre !== null) {
-                footerContent += ' (' + streamInfo.show.genre + ')';
-            }
-
-            footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
-            if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
-                footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
-            }
-        }
-
         if (this.domElementInitialized === false) {
             // add header
             let header = document.createElement('h5');
@@ -66,21 +42,24 @@ class RadioStream {
             headerLink.className = 'my-auto';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
-            let streamTitle = streamInfo.radio_name + ': ' + streamInfo.stream_name;
-            headerLink.innerHTML = streamTitle;
+            headerLink.innerHTML = streamInfo.radio_name + ': ' + streamInfo.stream_name;
             header.appendChild(headerLink);
 
             let headerButton = document.createElement('button');
-            headerButton.className = 'btn btn-secondary';
+            if (this.initializePlaying) {
+                headerButton.className = 'btn btn-primary';
+                headerButton.innerHTML = '&#x23f8;';
+            } else {
+                headerButton.className = 'btn btn-secondary';
+                headerButton.innerHTML = '&#x25b6';
+            }
             headerButton.name = 'play_stream';
             headerButton.onclick = function () {
-                playStream(this, streamInfo.stream_url, streamTitle);
+                playStream(this, streamInfo.stream_url, streamInfo.radio_name, streamInfo.stream_name);
             };
-            headerButton.innerHTML = '&#x25b6';
             header.appendChild(headerButton);
 
             this.domElement.appendChild(header);
-
 
             // add body
             this.cardBody = document.createElement('div');
@@ -95,10 +74,33 @@ class RadioStream {
             this.domElementInitialized = true;
         }
 
-        this.cardBody.innerHTML = bodyContent;
+        if (streamInfo.artist === null || typeof streamInfo.artist === 'undefined') {
+            streamInfo.artist = 'n/a';
+        }
+        if (streamInfo.track === null || typeof streamInfo.track === 'undefined') {
+            streamInfo.track = 'n/a';
+        }
 
-        if (footerContent) {
+        this.cardBody.innerHTML = '<strong>' + streamInfo.artist + '</strong>' +
+            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
+            '<strong>' + streamInfo.track + '</strong>';
+
+        if (
+            streamInfo.show.name !== null
+            && streamInfo.show.moderator !== null
+        ) {
+            let footerContent = '<strong>' + streamInfo.show.name + '</strong>';
+            if (streamInfo.show.genre !== null) {
+                footerContent += ' (' + streamInfo.show.genre + ')';
+            }
+
+            footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
+            if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
+                footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
+            }
+
             this.cardFooter.innerHTML = footerContent;
+
             if (this.cardFooterAppended === false) {
                 this.domElement.appendChild(this.cardFooter);
                 this.cardFooterAppended = true;
