@@ -76,24 +76,14 @@ class RadioGalaxy extends AbstractRadioStream
                 array_key_exists('show', $data)
                 && is_array($data['show'])
             ) {
-                $show = null;
                 if (
                     array_key_exists('title', $data['show'])
+                    && array_key_exists('desc', $data['show'])
                     && !empty($data['show']['title'])
-                ) {
-                    $show = trim($data['show']['title']);
-
-                    if (!in_array($show, ['Radio Galaxy am Vormittag', 'Radio Galaxy am Mittag', 'Radio Galaxy am Mittag / Nachmittag'])) {
-                        $this->setShow($show);
-                    }
-                }
-
-                if (
-                    array_key_exists('desc', $data['show'])
                     && !empty($data['show']['desc'])
                 ) {
                     $this->setModerator(preg_replace('/^mit /', '', trim($data['show']['desc'])));
-                    $this->setShow($show);
+                    $this->setShow(trim($data['show']['title']));
                 }
             }
         }
