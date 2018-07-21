@@ -6,7 +6,7 @@ namespace NPRadio\Stream;
 
 class StarFm extends AbstractRadioStream
 {
-    const RADIO_NAME = 'StarFM';
+    const RADIO_NAME = 'STAR FM';
     const URL = 'https://nbg.starfm.de';
 
     const NUREMBERG = 'Nürnberg';

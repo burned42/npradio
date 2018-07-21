@@ -188,10 +188,10 @@ let defaultStreams = [
     ['RauteMusik', 'House'],
     ['TechnoBase', 'HouseTime'],
     ['RauteMusik', 'HappyHardcore'],
-    ['StarFM', 'Nürnberg'],
+    ['STAR FM', 'Nürnberg'],
     ['RauteMusik', 'Rock'],
     ['RauteMusik', 'WackenRadio'],
-    ['MetalOnly', 'MetalOnly']
+    ['Metal Only', 'Metal Only']
 ];
 let nowPlayingRadioStream = null;
 
@@ -212,3 +212,4 @@ setInterval(function () {
     } catch (e) {
     }
 }, 30 * 1000);
+
