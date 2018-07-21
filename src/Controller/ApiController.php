@@ -7,6 +7,7 @@ namespace NPRadio\Controller;
 use NPRadio\DataFetcher\HttpDomFetcher;
 use NPRadio\Stream\AbstractRadioStream;
 use NPRadio\Stream\MetalOnly;
+use NPRadio\Stream\RadioGalaxy;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
@@ -22,6 +23,7 @@ class ApiController
 
     const RADIO_CLASSES = [
         MetalOnly::class,
+        RadioGalaxy::class,
         RauteMusik::class,
         StarFm::class,
         TechnoBase::class,

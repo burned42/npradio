@@ -183,11 +183,11 @@ function setAvailableRadioStreams() {
 
 let defaultStreams = [
     ['RauteMusik', 'Main'],
+    ['Radio Galaxy', 'Mittelfranken'],
     ['RauteMusik', 'Club'],
     ['TechnoBase', 'TechnoBase'],
     ['RauteMusik', 'House'],
     ['TechnoBase', 'HouseTime'],
-    ['RauteMusik', 'HappyHardcore'],
     ['STAR FM', 'Nürnberg'],
     ['RauteMusik', 'Rock'],
     ['RauteMusik', 'WackenRadio'],

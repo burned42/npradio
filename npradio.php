@@ -5,12 +5,14 @@ require_once 'vendor/autoload.php';
 
 use NPRadio\Stream\MetalOnly;
 use NPRadio\DataFetcher\HttpDomFetcher;
+use NPRadio\Stream\RadioGalaxy;
 use NPRadio\Stream\RauteMusik;
 use NPRadio\Stream\StarFm;
 use NPRadio\Stream\TechnoBase;
 
 $radioStreams = [
     MetalOnly::class,
+    RadioGalaxy::class,
     RauteMusik::class,
     StarFm::class,
     TechnoBase::class,
