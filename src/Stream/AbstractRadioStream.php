@@ -70,7 +70,7 @@ abstract class AbstractRadioStream
         }
 
         return [
-            'radio_name' => $this->getRadioName(),
+            'radio_name' => self::getRadioName(),
             'stream_name' => $this->getStreamName(),
             'homepage' => $this->getHomepageUrl(),
             'stream_url' => $this->getStreamUrl(),

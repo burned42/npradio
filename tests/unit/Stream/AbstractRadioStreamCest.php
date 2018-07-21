@@ -10,7 +10,7 @@ use UnitTester;
 
 class AbstractRadioStreamCest
 {
-    private function getDummy()
+    private function getDummy(): DummyRadioStream
     {
         return new DummyRadioStream(new HttpDomFetcher(), 'fake_stream');
     }

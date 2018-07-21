@@ -63,7 +63,7 @@ class RadioGalaxy extends AbstractRadioStream
             if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
                 $current = array_pop($data['playlist']);
                 if (
-                    is_array($current)
+                    \is_array($current)
                     && array_key_exists('interpret', $current)
                     && array_key_exists('title', $current)
                 ) {
@@ -74,17 +74,14 @@ class RadioGalaxy extends AbstractRadioStream
 
             if (
                 array_key_exists('show', $data)
-                && is_array($data['show'])
+                && \is_array($data['show'])
+                && array_key_exists('title', $data['show'])
+                && array_key_exists('desc', $data['show'])
+                && !empty($data['show']['title'])
+                && !empty($data['show']['desc'])
             ) {
-                if (
-                    array_key_exists('title', $data['show'])
-                    && array_key_exists('desc', $data['show'])
-                    && !empty($data['show']['title'])
-                    && !empty($data['show']['desc'])
-                ) {
-                    $this->setModerator(preg_replace('/^mit /', '', trim($data['show']['desc'])));
-                    $this->setShow(trim($data['show']['title']));
-                }
+                $this->setModerator(preg_replace('/^mit /', '', trim($data['show']['desc'])));
+                $this->setShow(trim($data['show']['title']));
             }
         }
     }
