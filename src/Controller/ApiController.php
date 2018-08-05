@@ -11,9 +11,9 @@ use App\Stream\RadioGalaxy;
 use App\Stream\RauteMusik;
 use App\Stream\StarFm;
 use App\Stream\TechnoBase;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
