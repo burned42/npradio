@@ -18,12 +18,14 @@ class RauteMusikCest
     private function getDomFetcher()
     {
         $trackInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
-        @$trackInfoDom->loadXML($xml);
+        $html = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
+        libxml_use_internal_errors(true);
+        $trackInfoDom->loadHTML($html);
 
         $showInfoDom = new \DOMDocument();
-        $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubShowInfoSample.html');
-        @$showInfoDom->loadXML($xml);
+        $html = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubShowInfoSample.html');
+        libxml_use_internal_errors(true);
+        $showInfoDom->loadHTML($html);
 
         /* @var HttpDomFetcher $domFetcher */
         return Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => Stub::consecutive(
