@@ -17,12 +17,8 @@ class RadioGalaxyCest
      */
     public function _before()
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
-            $dom = new \DOMDocument();
-            $html = file_get_contents(__DIR__.'/../TestSamples/RadioGalaxySample.json');
-            @$dom->loadHTML($html);
-
-            return $dom;
+        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
+            return file_get_contents(__DIR__.'/../TestSamples/RadioGalaxySample.json');
         }]);
     }
 
