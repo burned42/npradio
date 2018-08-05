@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Stream;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\TechnoBase;
+use App\DataFetcher\HttpDomFetcher;
+use App\Stream\TechnoBase;
 
 class TechnoBaseCest
 {

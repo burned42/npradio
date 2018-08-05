@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
 class TechnoBase extends AbstractRadioStream
 {

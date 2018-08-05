@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\DataFetcher;
+namespace App\DataFetcher;
 
 class HttpDomFetcher implements DomFetcher
 {

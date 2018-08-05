@@ -1,6 +1,21 @@
 /tests/_output/
 /tests/_support/_generated
+
+/public/css/bootstrap.min.css
+/public/css/bootstrap.min.css.map
+
+###> symfony/framework-bundle ###
+/.env
+/public/bundles/
+/var/
 /vendor/
-/web/cache/
-/web/css/bootstrap.min.css
-/web/css/bootstrap.min.css.map
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php_cs
+/.php_cs.cache
+###< friendsofphp/php-cs-fixer ###

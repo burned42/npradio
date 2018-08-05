@@ -10,3 +10,6 @@ modules:
         # add framework module here
         - \Helper\Functional
         - Asserts
+        - Symfony:
+            app_path: 'src'
+            environment: 'test'

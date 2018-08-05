@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDomFetcher;
 
 abstract class AbstractRadioStream
 {

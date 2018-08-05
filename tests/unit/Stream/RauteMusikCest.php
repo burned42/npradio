@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
 use Codeception\Util\Stub;
-use NPRadio\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class RauteMusikCest

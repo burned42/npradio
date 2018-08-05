@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
 use Codeception\Example;
-use NPRadio\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class AbstractRadioStreamCest
@@ -22,10 +22,11 @@ class AbstractRadioStreamCest
      */
     public function testConstructor(UnitTester $I)
     {
-        $I->assertInstanceOf(
-            AbstractRadioStream::class,
-            $this->getDummy()
-        );
+        $this->getDummy();
+
+        // dummy assertion, updateInfo() just shall not throw an exception so
+        // if we get here everything is ok
+        $I->assertTrue(true);
     }
 
     public function testConstructorException(UnitTester $I)

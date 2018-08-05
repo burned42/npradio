@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Stream;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\MetalOnly;
+use App\DataFetcher\HttpDomFetcher;
+use App\Stream\MetalOnly;
 
 class MetalOnlyCest
 {

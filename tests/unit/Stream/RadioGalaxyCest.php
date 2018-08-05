@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
 use Codeception\Util\Stub;
-use NPRadio\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class RadioGalaxyCest
@@ -13,11 +13,9 @@ class RadioGalaxyCest
     private $domFetcher;
 
     /**
-     * @param UnitTester $I
-     *
      * @throws \Exception
      */
-    public function _before(UnitTester $I)
+    public function _before()
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();

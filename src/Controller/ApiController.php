@@ -2,25 +2,24 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Controller;
+namespace App\Controller;
 
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\AbstractRadioStream;
-use NPRadio\Stream\MetalOnly;
-use NPRadio\Stream\RadioGalaxy;
-use NPRadio\Stream\RauteMusik;
-use NPRadio\Stream\StarFm;
-use NPRadio\Stream\TechnoBase;
-use Psr\Container\ContainerInterface;
-use Slim\Http\Request;
-use Slim\Http\Response;
-use Slim\HttpCache\CacheProvider;
+use App\DataFetcher\HttpDomFetcher;
+use App\Stream\AbstractRadioStream;
+use App\Stream\MetalOnly;
+use App\Stream\RadioGalaxy;
+use App\Stream\RauteMusik;
+use App\Stream\StarFm;
+use App\Stream\TechnoBase;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ApiController
+/**
+ * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
+ */
+class ApiController extends AbstractController
 {
-    /** @var ContainerInterface */
-    private $container;
-
     const RADIO_CLASSES = [
         MetalOnly::class,
         RadioGalaxy::class,
@@ -32,20 +31,8 @@ class ApiController
     /** @var array */
     private static $radios;
 
-    /** @var HttpDomFetcher */
-    private static $httpDomFetcher;
-
-    /**
-     * ApiController constructor.
-     *
-     * @param ContainerInterface $container
-     *
-     * @throws \RuntimeException
-     */
-    public function __construct(ContainerInterface $container)
+    public function __construct()
     {
-        $this->container = $container;
-
         if (!static::$radios) {
             /** @var AbstractRadioStream $radioClass */
             foreach (self::RADIO_CLASSES as $radioClass) {
@@ -55,65 +42,57 @@ class ApiController
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
-     *
-     * @return Response
-     *
-     * @throws \RuntimeException
+     * @Route("/radios")
      */
-    public function getRadioNames(Request $request, Response $response, array $args): Response
+    public function getRadioNames(): JsonResponse
     {
-        return $response->withJson(array_keys(static::$radios));
+        return $this->json(array_keys(static::$radios));
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
+     * @Route("/radios/{radioName}/streams")
      *
-     * @return Response
+     * @param string $radioName
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @return JsonResponse
      */
-    public function getStreams(Request $request, Response $response, array $args): Response
+    public function getStreams(string $radioName): JsonResponse
     {
-        /** @var AbstractRadioStream $radioClass */
-        $radioClass = $this->getRadioClass($args['radioName']);
+        try {
+            /** @var AbstractRadioStream $radioClass */
+            $radioClass = $this->getRadioClass($radioName);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json($e->getMessage(), 404);
+        }
 
-        return $response->withJson($radioClass::getAvailableStreams());
+        return $this->json($radioClass::getAvailableStreams());
     }
 
     /**
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
+     * @Route("/radios/{radioName}/streams/{streamName}")
      *
-     * @return Response
+     * @param string         $radioName
+     * @param string         $streamName
+     * @param HttpDomFetcher $httpDomFetcher
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return JsonResponse
      */
-    public function getStreamInfo(Request $request, Response $response, array $args): Response
+    public function getStreamInfo(string $radioName, string $streamName, HttpDomFetcher $httpDomFetcher): JsonResponse
     {
-        /** @var CacheProvider $cache */
-        $cache = $this->container->get('cache');
+        try {
+            $radioClass = $this->getRadioClass($radioName);
+            /** @var AbstractRadioStream $stream */
+            $stream = new $radioClass($httpDomFetcher, $streamName);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json($e->getMessage(), 404);
+        }
 
-        $eTagPrefix = 'NPRadio-'.$args['radioName'].'-'.$args['streamName'].'_';
-        /** @var Response $newResponse */
-        $newResponse = $cache->withEtag($response, uniqid($eTagPrefix, true));
-        $newResponse = $cache->withExpires($newResponse, time() + 30);
-        $newResponse = $cache->withLastModified($newResponse, time());
+        $response = $this->json($stream->getAsArray());
 
-        $radioClass = $this->getRadioClass($args['radioName']);
-        /** @var AbstractRadioStream $stream */
-        $stream = new $radioClass($this->getHttpDomFetcher(), $args['streamName']);
+        $response->setSharedMaxAge(30);
+        $response->headers->addCacheControlDirective('must-revalidate', true);
 
-        return $newResponse->withJson($stream->getAsArray());
+        return $response;
     }
 
     private function getRadioClass(string $radioName): string
@@ -123,14 +102,5 @@ class ApiController
         }
 
         return static::$radios[$radioName];
-    }
-
-    private function getHttpDomFetcher(): HttpDomFetcher
-    {
-        if (!(static::$httpDomFetcher instanceof HttpDomFetcher)) {
-            static::$httpDomFetcher = new HttpDomFetcher();
-        }
-
-        return static::$httpDomFetcher;
     }
 }
