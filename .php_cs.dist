@@ -5,11 +5,12 @@ declare(strict_types=1);
 return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
+        'array_syntax' => ['syntax' => 'short'],
         'declare_strict_types' => true,
     ])
     ->setFinder(
         PhpCsFixer\Finder::create()
             ->in(__DIR__)
-            ->exclude(['tests/_support'])
+            ->exclude(['tests/_support', 'var/'])
             ->notName('_bootstrap.php')
     );
