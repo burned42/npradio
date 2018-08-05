@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\DataFetcher;
+namespace App\DataFetcher;
 
 use UnitTester;
 
@@ -11,16 +11,10 @@ class HttpDomFetcherCest
     /** @var HttpDomFetcher */
     private $domFetcher;
 
-    public function _before(UnitTester $I)
+    public function _before()
     {
         $this->domFetcher = new HttpDomFetcher();
     }
-
-    public function _after(UnitTester $I)
-    {
-    }
-
-    // tests
 
     /**
      * @param UnitTester $I
@@ -78,9 +72,11 @@ class HttpDomFetcherCest
      */
     public function testGetXmlDom(UnitTester $I)
     {
-        $xmlDom = $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSample.xml');
+        $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSample.xml');
 
-        $I->assertInstanceOf(\DOMDocument::class, $xmlDom);
+        // dummy assertion, updateInfo() just shall not throw an exception so
+        // if we get here everything is ok
+        $I->assertTrue(true);
     }
 
     /**
@@ -107,9 +103,11 @@ class HttpDomFetcherCest
      */
     public function testGetHtmlDom(UnitTester $I)
     {
-        $htmlDom = $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
+        $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
 
-        $I->assertInstanceOf(\DOMDocument::class, $htmlDom);
+        // dummy assertion, updateInfo() just shall not throw an exception so
+        // if we get here everything is ok
+        $I->assertTrue(true);
     }
 
     /**

@@ -3,12 +3,12 @@
 
 require_once 'vendor/autoload.php';
 
-use NPRadio\Stream\MetalOnly;
-use NPRadio\DataFetcher\HttpDomFetcher;
-use NPRadio\Stream\RadioGalaxy;
-use NPRadio\Stream\RauteMusik;
-use NPRadio\Stream\StarFm;
-use NPRadio\Stream\TechnoBase;
+use App\Stream\MetalOnly;
+use App\DataFetcher\HttpDomFetcher;
+use App\Stream\RadioGalaxy;
+use App\Stream\RauteMusik;
+use App\Stream\StarFm;
+use App\Stream\TechnoBase;
 
 $radioStreams = [
     MetalOnly::class,
@@ -64,7 +64,7 @@ try {
         foreach ($streams as $streamName) {
             echo '    '.$streamName.":\n";
 
-            /** @var \NPRadio\Stream\AbstractRadioStream $radioStream */
+            /** @var \App\Stream\AbstractRadioStream $radioStream */
             $radioStream = new $availableRadios[$radioName]($domFetcher, $streamName);
 
             if (null !== $radioStream->getShow()) {

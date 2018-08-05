@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace NPRadio\Stream;
+namespace App\Stream;
 
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
-use NPRadio\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class TechnoBaseCest
@@ -14,11 +14,9 @@ class TechnoBaseCest
     private $domFetcher;
 
     /**
-     * @param UnitTester $I
-     *
      * @throws \Exception
      */
-    public function _before(UnitTester $I)
+    public function _before()
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => function () {
             $dom = new \DOMDocument();
