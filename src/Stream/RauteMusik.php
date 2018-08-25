@@ -68,7 +68,7 @@ final class RauteMusik extends AbstractRadioStream
     private function updateTrackInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
+            $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -94,7 +94,7 @@ final class RauteMusik extends AbstractRadioStream
     private function updateShowInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
+            $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }

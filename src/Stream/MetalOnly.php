@@ -45,7 +45,7 @@ final class MetalOnly extends AbstractRadioStream
     public function updateInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::URL.self::URL_INFO_PATH);
+            $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }

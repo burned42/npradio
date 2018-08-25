@@ -9,26 +9,26 @@ use App\DataFetcher\HttpDomFetcher;
 abstract class AbstractRadioStream
 {
     /** @var HttpDomFetcher */
-    protected $domFetcher;
+    private $domFetcher;
 
     /** @var string */
-    protected $streamName;
+    private $streamName;
 
     /** @var string */
-    protected $show;
+    private $show;
     /** @var string */
-    protected $genre;
+    private $genre;
     /** @var string */
-    protected $moderator;
+    private $moderator;
     /** @var \DateTime */
-    protected $showStartTime;
+    private $showStartTime;
     /** @var \DateTime */
-    protected $showEndTime;
+    private $showEndTime;
 
     /** @var string */
-    protected $track;
+    private $track;
     /** @var string */
-    protected $artist;
+    private $artist;
 
     public function __construct(HttpDomFetcher $domFetcher, string $streamName)
     {
@@ -40,6 +40,11 @@ abstract class AbstractRadioStream
         $this->streamName = $streamName;
 
         $this->updateInfo();
+    }
+
+    protected function getDomFetcher(): HttpDomFetcher
+    {
+        return $this->domFetcher;
     }
 
     abstract public function updateInfo();

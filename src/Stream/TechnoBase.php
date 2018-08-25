@@ -65,7 +65,7 @@ final class TechnoBase extends AbstractRadioStream
     public function updateInfo()
     {
         try {
-            $dom = $this->domFetcher->getXmlDom(self::URL);
+            $dom = $this->getDomFetcher()->getXmlDom(self::URL);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get xml dom: '.$e->getMessage());
         }
