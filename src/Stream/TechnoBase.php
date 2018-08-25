@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class TechnoBase extends AbstractRadioStream
+final class TechnoBase extends AbstractRadioStream
 {
     const RADIO_NAME = 'TechnoBase';
     const URL = 'http://tray.technobase.fm/radio.xml';
@@ -65,7 +65,7 @@ class TechnoBase extends AbstractRadioStream
     public function updateInfo()
     {
         try {
-            $dom = $this->domFetcher->getXmlDom(self::URL);
+            $dom = $this->getDomFetcher()->getXmlDom(self::URL);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get xml dom: '.$e->getMessage());
         }

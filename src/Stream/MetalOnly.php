@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class MetalOnly extends AbstractRadioStream
+final class MetalOnly extends AbstractRadioStream
 {
     const RADIO_NAME = 'Metal Only';
     const URL = 'https://www.metal-only.de';
@@ -45,7 +45,7 @@ class MetalOnly extends AbstractRadioStream
     public function updateInfo()
     {
         try {
-            $dom = $this->domFetcher->getHtmlDom(self::URL.self::URL_INFO_PATH);
+            $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get html dom: '.$e->getMessage());
         }

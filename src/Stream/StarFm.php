@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class StarFm extends AbstractRadioStream
+final class StarFm extends AbstractRadioStream
 {
     const RADIO_NAME = 'STAR FM';
     const URL = 'https://nbg.starfm.de';
@@ -57,7 +57,7 @@ class StarFm extends AbstractRadioStream
     {
         try {
             $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$this->getStreamName()].self::URL_INFO_SUFFIX;
-            $data = json_decode($this->domFetcher->getUrlContent($url), true);
+            $data = json_decode($this->getDomFetcher()->getUrlContent($url), true);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get url content: '.$e->getMessage());
         }
