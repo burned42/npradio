@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class TechnoBase extends AbstractRadioStream
+final class TechnoBase extends AbstractRadioStream
 {
     const RADIO_NAME = 'TechnoBase';
     const URL = 'http://tray.technobase.fm/radio.xml';

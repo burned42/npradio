@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class RadioGalaxy extends AbstractRadioStream
+final class RadioGalaxy extends AbstractRadioStream
 {
     const RADIO_NAME = 'Radio Galaxy';
 

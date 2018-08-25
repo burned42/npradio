@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class DummyRadioStream extends AbstractRadioStream
+final class DummyRadioStream extends AbstractRadioStream
 {
     protected function getHomepageUrl(): string
     {

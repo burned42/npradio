@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class StarFm extends AbstractRadioStream
+final class StarFm extends AbstractRadioStream
 {
     const RADIO_NAME = 'STAR FM';
     const URL = 'https://nbg.starfm.de';

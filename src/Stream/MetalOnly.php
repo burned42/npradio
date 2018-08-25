@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-class MetalOnly extends AbstractRadioStream
+final class MetalOnly extends AbstractRadioStream
 {
     const RADIO_NAME = 'Metal Only';
     const URL = 'https://www.metal-only.de';
