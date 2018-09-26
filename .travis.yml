@@ -1,0 +1,33 @@
+sudo: false
+
+language: php
+
+php:
+  - 7.2
+
+before_script:
+  - composer self-update
+
+install:
+  - composer install
+
+stages:
+  - code_style
+  - tests
+  - update_check
+
+jobs:
+  allow_failures:
+    - stage: update_check
+  include:
+    - stage: code_style
+      script: vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff
+    - stage: tests
+      script: vendor/bin/codecept run --coverage --coverage-html --ansi
+    - stage: update_check
+      script: composer outdated --strict --ansi
+
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
