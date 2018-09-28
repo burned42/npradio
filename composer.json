@@ -2,7 +2,7 @@
     "name": "burned42/npradio",
     "description": "Now Playing Radio",
     "type": "project",
-    "license": "proprietary",
+    "license": "",
     "require": {
         "php": "^7.0.8",
         "ext-ctype": "*",
@@ -15,7 +15,6 @@
         "symfony/console": "^3.4",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^3.4",
-        "symfony/lts": "^3",
         "symfony/twig-bundle": "^3.4",
         "symfony/yaml": "^3.4",
         "twbs/bootstrap": "^4.1.1"
