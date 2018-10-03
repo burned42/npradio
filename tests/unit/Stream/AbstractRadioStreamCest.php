@@ -8,6 +8,33 @@ use Codeception\Example;
 use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
+final class DummyRadioStream extends AbstractRadioStream
+{
+    protected function getHomepageUrl(): string
+    {
+        return 'fake_url';
+    }
+
+    protected function getStreamUrl(): string
+    {
+        return 'fake_stream_url';
+    }
+
+    public function updateInfo()
+    {
+    }
+
+    public static function getAvailableStreams(): array
+    {
+        return ['fake_stream'];
+    }
+
+    public static function getRadioName(): string
+    {
+        return 'fake_radio';
+    }
+}
+
 class AbstractRadioStreamCest
 {
     private function getDummy(): DummyRadioStream
