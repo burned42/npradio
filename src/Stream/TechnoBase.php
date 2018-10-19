@@ -36,14 +36,8 @@ final class TechnoBase extends AbstractRadioStream
     {
         //return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
 
-        $fileName = '';
-        $ucLetters = range('A', 'Z');
-        $streamNameLength = \strlen($this->getStreamName());
-        for ($i = 0; $i < $streamNameLength; ++$i) {
-            if (\in_array($this->getStreamName()[$i], $ucLetters, true)) {
-                $fileName .= strtolower($this->getStreamName()[$i]);
-            }
-        }
+        $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamName());
+        $fileName = strtolower($shortName);
 
         return 'http://lw2.mp3.tb-group.fm/'.$fileName.'.mp3';
     }
