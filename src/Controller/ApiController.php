@@ -6,11 +6,6 @@ namespace App\Controller;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
-use App\Stream\MetalOnly;
-use App\Stream\RadioGalaxy;
-use App\Stream\RauteMusik;
-use App\Stream\StarFm;
-use App\Stream\TechnoBase;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,25 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
-    const RADIO_CLASSES = [
-        MetalOnly::class,
-        RadioGalaxy::class,
-        RauteMusik::class,
-        StarFm::class,
-        TechnoBase::class,
-    ];
-
     /** @var array */
-    private static $radios;
+    private $radios = [];
 
-    public function __construct()
+    public function addRadio(string $radio)
     {
-        if (!static::$radios) {
-            /** @var AbstractRadioStream $radioClass */
-            foreach (self::RADIO_CLASSES as $radioClass) {
-                static::$radios[$radioClass::getRadioName()] = $radioClass;
-            }
-        }
+        $this->radios[$radio::getRadioName()] = $radio;
     }
 
     /**
@@ -46,7 +28,7 @@ class ApiController extends AbstractController
      */
     public function getRadioNames(): JsonResponse
     {
-        return $this->json(array_keys(static::$radios));
+        return $this->json(array_keys($this->radios));
     }
 
     /**
@@ -97,10 +79,10 @@ class ApiController extends AbstractController
 
     private function getRadioClass(string $radioName): string
     {
-        if (!array_key_exists($radioName, static::$radios)) {
+        if (!array_key_exists($radioName, $this->radios)) {
             throw new \InvalidArgumentException('Invalid radio name given');
         }
 
-        return static::$radios[$radioName];
+        return $this->radios[$radioName];
     }
 }
