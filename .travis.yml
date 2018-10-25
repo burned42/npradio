@@ -15,15 +15,20 @@ install:
 
 stages:
   - code_style
-  - tests
+  - test
+  - code_coverage
   - update_check
+
+script: vendor/bin/codecept run --ansi
 
 jobs:
   include:
     - stage: code_style
       script: vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff
-    - stage: tests
-      script: vendor/bin/codecept run --coverage --coverage-html --ansi
+    - stage: cove_coverage
+      script: vendor/bin/codecept run --coverage --coverage-xml --ansi
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
     - stage: update_check
       script: composer outdated --direct --strict --ansi
 
@@ -31,3 +36,4 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
+
