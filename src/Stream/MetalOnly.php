@@ -57,31 +57,52 @@ final class MetalOnly extends AbstractRadioStream
         if (1 === $nodeList->length) {
             $matches = [];
             if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
-                $this->setModerator(trim($matches[1]));
+                $moderator = trim($matches[1]);
+                if (!empty($moderator)) {
+                    $this->setModerator($moderator);
+                }
             }
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
         if (1 === $nodeList->length) {
-            $this->setShow(trim($nodeList->item(0)->nodeValue));
+            $show = trim($nodeList->item(0)->nodeValue);
+            if (!empty($show)) {
+                $this->setShow($show);
+            }
         }
 
         /** @var \DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
         if (1 === $nodeList->length) {
-            $this->setGenre(trim($nodeList->item(0)->nodeValue));
+            $genre = trim($nodeList->item(0)->nodeValue);
+            if (!empty($genre)) {
+                $this->setGenre($genre);
+            }
         }
 
-        // if there is no show/moderator then it displays some default values
+        // Check if there is just some default data set for the current show
+        $defaultModerators = [
+            'MetalHead',
+            'frei',
+        ];
+        $defaultShowNames = [
+            'Keine Grüsse und Wünsche möglich.',
+            'Keine Wünsche und Grüße möglich.',
+            'Keine GrÃ¼sse und WÃ¼nsche mÃ¶glich.',
+        ];
+        $defaultGenres = [
+            'Mixed Metal',
+        ];
         if (
-            'MetalHead' === $this->getModerator()
-            && 'Mixed Metal' === $this->getGenre()
-            && \in_array($this->getShow(), ['Keine Grüsse und Wünsche möglich.', 'Keine Wünsche und Grüße möglich.'], true)
+            \in_array($this->getModerator(), $defaultModerators, true)
+            && \in_array($this->getShow(), $defaultShowNames, true)
+            && \in_array($this->getGenre(), $defaultGenres, true)
         ) {
-            $this->setModerator(null)
-                ->setShow(null)
-                ->setGenre(null);
+            $this->setModerator()
+                ->setShow()
+                ->setGenre();
         }
 
         /** @var \DOMNodeList $nodeList */
