@@ -143,7 +143,7 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             if (
-                $item instanceof \DomElement
+                $item instanceof \DOMElement
                 && $item->hasAttribute('class')
                 && 'nowonair' === trim($item->getAttribute('class'))
                 && !\in_array(trim($moderator), ['', 'MetalHead'], true)
