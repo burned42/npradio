@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Stream;
+namespace App\Tests\Functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\StarFm;

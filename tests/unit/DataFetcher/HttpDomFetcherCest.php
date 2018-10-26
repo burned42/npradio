@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\DataFetcher;
+namespace App\Tests\Unit\DataFetcher;
 
+use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
 
 class HttpDomFetcherCest

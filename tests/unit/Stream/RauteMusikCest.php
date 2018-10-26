@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Stream;
+namespace App\Tests\Unit\Stream;
 
+use App\Stream\RauteMusik;
 use Codeception\Util\Stub;
 use App\DataFetcher\HttpDomFetcher;
 use UnitTester;

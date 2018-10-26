@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Stream;
+namespace App\Tests\Unit\Stream;
 
+use App\Stream\AbstractRadioStream;
 use Codeception\Example;
 use App\DataFetcher\HttpDomFetcher;
 use UnitTester;
