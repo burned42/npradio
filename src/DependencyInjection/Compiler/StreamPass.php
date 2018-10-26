@@ -20,7 +20,7 @@ class StreamPass implements CompilerPassInterface
 
         $streamServices = $container->findTaggedServiceIds('app.stream');
 
-        foreach ($streamServices as $id => $service) {
+        foreach (array_keys($streamServices) as $id) {
             $definition->addMethodCall('addRadio', [$id]);
         }
     }
