@@ -14,20 +14,20 @@ abstract class AbstractRadioStream
     /** @var string */
     private $streamName;
 
-    /** @var string */
+    /** @var string|null */
     private $show;
-    /** @var string */
+    /** @var string|null */
     private $genre;
-    /** @var string */
+    /** @var string|null */
     private $moderator;
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     private $showStartTime;
-    /** @var \DateTime */
+    /** @var \DateTime|null */
     private $showEndTime;
 
-    /** @var string */
+    /** @var string|null */
     private $track;
-    /** @var string */
+    /** @var string|null */
     private $artist;
 
     public function __construct(HttpDomFetcher $domFetcher, string $streamName)
