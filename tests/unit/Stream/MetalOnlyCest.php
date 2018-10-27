@@ -34,6 +34,14 @@ class MetalOnlyCest
 
             return $dom;
         }]);
+
+        $this->domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
+            $dom = new \DOMDocument();
+            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleOnAir.html');
+            @$dom->loadHTML($html);
+
+            return $dom;
+        }]);
     }
 
     public function canInstantiate(UnitTester $I)
@@ -68,6 +76,23 @@ class MetalOnlyCest
         // dummy assertion, updateInfo() just shall not throw an exception so
         // if we get here everything is ok
         $I->assertTrue(true);
+    }
+
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \InvalidArgumentException
+     * @throws \RuntimeException
+     */
+    public function testGetInfoOnAir(UnitTester $I)
+    {
+        foreach (MetalOnly::getAvailableStreams() as $streamName) {
+            $mo = new MetalOnly($this->domFetcherOnAir, $streamName);
+
+            $I->assertNotNull($mo->getModerator());
+            $I->assertNotNull($mo->getShow());
+            $I->assertNotNull($mo->getGenre());
+        }
     }
 
     /**
