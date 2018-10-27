@@ -13,24 +13,29 @@ before_script:
 install:
   - composer install
 
+# define script for default stage 'test' separately so it will only be
+# run once for every php version specified above
+script: composer codeception
+
+# and specify that 'test' stage should run after 'code quality' checks
 stages:
-  - code_style
+  - "code quality"
   - test
-  - code_coverage
-  - update_check
 
-script: vendor/bin/codecept run --ansi
-
+# define additional jobs/stages
 jobs:
   include:
-    - stage: code_style
-      script: vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff
-    - stage: cove_coverage
-      script: vendor/bin/codecept run --coverage --coverage-xml --ansi
+    - stage: "code quality"
+      script: composer php-cs-fixer
+      name: "php-cs-fixer"
+    - script: composer phpstan
+      name: "phpstan"
+    - stage: "code coverage"
+      script: composer codeception-coverage-xml
       after_success:
         - bash <(curl -s https://codecov.io/bash)
-    - stage: update_check
-      script: composer outdated --direct --strict --ansi
+    - stage: "update check"
+      script: composer update-check
 
 cache:
   directories:
