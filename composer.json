@@ -22,6 +22,7 @@
     "require-dev": {
         "codeception/codeception": "^2.2",
         "friendsofphp/php-cs-fixer": "^2.0",
+        "phpstan/phpstan": "^0.9.2",
         "symfony/dotenv": "^3.4"
     },
     "config": {
@@ -63,7 +64,13 @@
         "post-update-cmd": [
             "@auto-scripts",
             "@copy-bootstrap"
-        ]
+        ],
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
+        "phpstan": "vendor/bin/phpstan analyse --level max --ansi src",
+        "codeception": "vendor/bin/codecept run --ansi",
+        "codeception-coverage-xml": "vendor/bin/codecept run --ansi --coverage --coverage-xml",
+        "codeception-coverage-html": "vendor/bin/codecept run --ansi --coverage --coverage-html",
+        "update-check": "composer outdated --direct --strict --ansi"
     },
     "conflict": {
         "symfony/symfony": "*"
