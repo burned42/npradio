@@ -42,6 +42,7 @@ class RadioStream {
             headerLink.className = 'my-auto';
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
+            headerLink.setAttribute('rel', 'noreferrer');
             headerLink.innerHTML = streamInfo.radio_name + ': ' + streamInfo.stream_name;
             header.appendChild(headerLink);
 
