@@ -30,6 +30,8 @@ jobs:
       name: "php-cs-fixer"
     - script: composer phpstan
       name: "phpstan"
+    - script: composer phpcs
+      name: "phpcs"
     - stage: "code coverage"
       script: composer codeception-coverage-xml
       after_success:

@@ -65,7 +65,10 @@ final class MetalOnly extends AbstractRadioStream
         }
 
         /** @var \DOMNodeList $nodeList */
-        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='sendung']//span");
+        $nodeList = $xpath->query(
+            ".//div[@class='boxx onair']//div[@class='data']"
+            ."//div[@class='streaminfo']//span[@class='sendung']//span"
+        );
         if (1 === $nodeList->length) {
             $show = trim($nodeList->item(0)->nodeValue);
             if (!empty($show)) {
@@ -74,7 +77,10 @@ final class MetalOnly extends AbstractRadioStream
         }
 
         /** @var \DOMNodeList $nodeList */
-        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='gerne']//span");
+        $nodeList = $xpath->query(
+            ".//div[@class='boxx onair']//div[@class='data']"
+            ."//div[@class='streaminfo']//span[@class='gerne']//span"
+        );
         if (1 === $nodeList->length) {
             $genre = trim($nodeList->item(0)->nodeValue);
             if (!empty($genre)) {
@@ -95,8 +101,7 @@ final class MetalOnly extends AbstractRadioStream
         $defaultGenres = [
             'Mixed Metal',
         ];
-        if (
-            \in_array($this->getModerator(), $defaultModerators, true)
+        if (\in_array($this->getModerator(), $defaultModerators, true)
             && \in_array($this->getShow(), $defaultShowNames, true)
             && \in_array($this->getGenre(), $defaultGenres, true)
         ) {
@@ -106,7 +111,10 @@ final class MetalOnly extends AbstractRadioStream
         }
 
         /** @var \DOMNodeList $nodeList */
-        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='data']//div[@class='streaminfo']//span[@class='track']//span");
+        $nodeList = $xpath->query(
+            ".//div[@class='boxx onair']//div[@class='data']"
+            ."//div[@class='streaminfo']//span[@class='track']//span"
+        );
         if (1 === $nodeList->length) {
             $matches = [];
             if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
@@ -117,7 +125,10 @@ final class MetalOnly extends AbstractRadioStream
 
         // fetch showtime
         $dayOfWeek = date('N');
-        $nodeList = $xpath->query("(.//div[@class='sendeplan']//div[@class='day']//ul[@class='list'])[".$dayOfWeek.']//li[position()>2]');
+        $nodeList = $xpath->query(
+            "(.//div[@class='sendeplan']//div[@class='day']"
+            ."//ul[@class='list'])[".$dayOfWeek.']//li[position()>2]'
+        );
 
         $lastModerator = null;
         $found = false;
@@ -135,15 +146,13 @@ final class MetalOnly extends AbstractRadioStream
                 if (false === $found) {
                     // set new value for start time
                     $startTime = new \DateTime($currentHour.':00');
-                }
-                // or we did already find the on air mod and can stop here
-                else {
+                } else {
+                    // or we did already find the on air mod and can stop here
                     break;
                 }
             }
 
-            if (
-                $item instanceof \DOMElement
+            if ($item instanceof \DOMElement
                 && $item->hasAttribute('class')
                 && 'nowonair' === trim($item->getAttribute('class'))
                 && !\in_array(trim($moderator), ['', 'MetalHead'], true)
@@ -161,8 +170,7 @@ final class MetalOnly extends AbstractRadioStream
             $lastModerator = $moderator;
         }
 
-        if (
-            true === $found
+        if (true === $found
             && $startTime instanceof \DateTime
             && $endTime instanceof \DateTime
         ) {

@@ -56,7 +56,8 @@ final class StarFm extends AbstractRadioStream
     public function updateInfo()
     {
         try {
-            $url = self::URL.self::URL_INFO_BASE_PATH.self::URL_INFO_STREAM_NAMES[$this->getStreamName()].self::URL_INFO_SUFFIX;
+            $streamName = self::URL_INFO_STREAM_NAMES[$this->getStreamName()];
+            $url = self::URL.self::URL_INFO_BASE_PATH.$streamName.self::URL_INFO_SUFFIX;
             $data = json_decode($this->getDomFetcher()->getUrlContent($url), true);
         } catch (\Exception $e) {
             throw new \RuntimeException('could not get url content: '.$e->getMessage());
