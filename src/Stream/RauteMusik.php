@@ -75,7 +75,10 @@ final class RauteMusik extends AbstractRadioStream
 
         $xpath = new \DOMXPath($dom);
         /** @var \DOMNodeList $nodeList */
-        $nodeList = $xpath->query(".//li[@class='current']//p[@class='title'] | .//li[@class='current']//p[@class='artist']");
+        $nodeList = $xpath->query(
+            ".//li[@class='current']//p[@class='title']"
+            ." | .//li[@class='current']//p[@class='artist']"
+        );
 
         /** @var \DOMNode $node */
         foreach ($nodeList as $node) {

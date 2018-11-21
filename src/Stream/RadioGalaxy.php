@@ -62,8 +62,7 @@ final class RadioGalaxy extends AbstractRadioStream
         if (!empty($data)) {
             if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
                 $current = array_pop($data['playlist']);
-                if (
-                    \is_array($current)
+                if (\is_array($current)
                     && array_key_exists('interpret', $current)
                     && array_key_exists('title', $current)
                 ) {
@@ -72,8 +71,7 @@ final class RadioGalaxy extends AbstractRadioStream
                 }
             }
 
-            if (
-                array_key_exists('show', $data)
+            if (array_key_exists('show', $data)
                 && \is_array($data['show'])
                 && array_key_exists('title', $data['show'])
                 && array_key_exists('desc', $data['show'])
