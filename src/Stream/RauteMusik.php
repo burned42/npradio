@@ -8,7 +8,7 @@ final class RauteMusik extends AbstractRadioStream
 {
     private const RADIO_NAME = 'RauteMusik';
     private const BASE_URL = 'https://www.rautemusik.fm/';
-    private  const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
+    private const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
     private const MAIN = 'Main';
     private const CLUB = 'Club';

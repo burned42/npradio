@@ -20,7 +20,7 @@ class ApiController extends AbstractController
 
     public function addRadio(string $radio): void
     {
-        /** @var $radio AbstractRadioStream */
+        /* @var $radio AbstractRadioStream */
         $this->radios[$radio::getRadioName()] = $radio;
     }
 

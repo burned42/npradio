@@ -97,7 +97,7 @@ class AbstractRadioStreamCest
 
     /**
      * @param UnitTester $I
-     * @param Example $example
+     * @param Example    $example
      *
      * @example ["ShowStartTime"]
      * @example ["ShowEndTime"]
