@@ -6,15 +6,15 @@ namespace App\Stream;
 
 final class MetalOnly extends AbstractRadioStream
 {
-    const RADIO_NAME = 'Metal Only';
-    const URL = 'https://www.metal-only.de';
+    private const RADIO_NAME = 'Metal Only';
+    private const URL = 'https://www.metal-only.de';
     // use page 'Impressum' because there is only text and the page should load quicker
-    const URL_INFO_PATH = '/sendeplan.html';
-    const STREAM_URL = 'http://server1.blitz-stream.de:4400/;';
+    private const URL_INFO_PATH = '/sendeplan.html';
+    private const STREAM_URL = 'http://server1.blitz-stream.de:4400/;';
 
-    const METAL_ONLY = 'Metal Only';
+    private const METAL_ONLY = 'Metal Only';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::METAL_ONLY,
     ];
 
@@ -41,8 +41,9 @@ final class MetalOnly extends AbstractRadioStream
     /**
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);

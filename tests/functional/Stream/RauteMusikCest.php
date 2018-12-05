@@ -15,7 +15,7 @@ class RauteMusikCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I)
+    public function testWithLiveData(\FunctionalTester $I): void
     {
         foreach (RauteMusik::getAvailableStreams() as $streamName) {
             new RauteMusik(new HttpDomFetcher(), $streamName);

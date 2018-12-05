@@ -16,26 +16,26 @@ class StarFmCest
     /**
      * @throws \Exception
      */
-    public function _before()
+    public function _before(): void
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
             return file_get_contents(__DIR__.'/../TestSamples/StarFmSample.json');
         }]);
     }
 
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $starFm = new StarFm($this->domFetcher, StarFm::getAvailableStreams()[0]);
 
         $I->assertInstanceOf(StarFm::class, $starFm);
     }
 
-    public function testRadioNameSet(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I): void
     {
         $I->assertNotEmpty(StarFm::getRadioName());
     }
 
-    public function testStreamsSet(UnitTester $I)
+    public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty(StarFm::getAvailableStreams());
     }
@@ -46,7 +46,7 @@ class StarFmCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testUpdateInfo(UnitTester $I)
+    public function testUpdateInfo(UnitTester $I): void
     {
         foreach (StarFm::getAvailableStreams() as $availableStream) {
             new StarFm($this->domFetcher, $availableStream);
@@ -62,14 +62,14 @@ class StarFmCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherException(UnitTester $I)
+    public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
             throw new \RuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get url content: test'),
             function () use ($domFetcher) {
                 new StarFm($domFetcher, StarFm::getAvailableStreams()[0]);
@@ -77,7 +77,7 @@ class StarFmCest
         );
     }
 
-    public function testProtectedMethods(UnitTester $I)
+    public function testProtectedMethods(UnitTester $I): void
     {
         $starFm = new StarFm($this->domFetcher, StarFm::getAvailableStreams()[0]);
         $info = $starFm->getAsArray();

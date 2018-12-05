@@ -10,7 +10,7 @@ use Codeception\Util\HttpCode;
 
 class ApiCest
 {
-    public function testGetRadioNames(ApiTester $I)
+    public function testGetRadioNames(ApiTester $I): void
     {
         $I->sendGET('radios');
         $I->seeResponseCodeIs(HttpCode::OK);
@@ -18,7 +18,7 @@ class ApiCest
         $I->seeResponseMatchesJsonType(['string']);
     }
 
-    public function testGetStreams(ApiTester $I)
+    public function testGetStreams(ApiTester $I): void
     {
         $radioName = TechnoBase::getRadioName();
 
@@ -28,7 +28,7 @@ class ApiCest
         $I->seeResponseMatchesJsonType(['string']);
     }
 
-    public function testGetStreamsWithInvalidRadioName(ApiTester $I)
+    public function testGetStreamsWithInvalidRadioName(ApiTester $I): void
     {
         $I->sendGET('radios/foobar/streams');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
@@ -36,7 +36,7 @@ class ApiCest
         $I->seeResponseContainsJson(['Invalid radio name given']);
     }
 
-    public function testGetStreamInfo(ApiTester $I)
+    public function testGetStreamInfo(ApiTester $I): void
     {
         $radioName = TechnoBase::getRadioName();
         $streamName = TechnoBase::getAvailableStreams()[0];
@@ -61,7 +61,7 @@ class ApiCest
         ]);
     }
 
-    public function testGetStreamInfoWithInvalidRadioName(ApiTester $I)
+    public function testGetStreamInfoWithInvalidRadioName(ApiTester $I): void
     {
         $I->sendGET('radios/foo/streams/bar');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
@@ -69,7 +69,7 @@ class ApiCest
         $I->seeResponseContainsJson(['Invalid radio name given']);
     }
 
-    public function testGetStreamInfoWithInvalidStreamName(ApiTester $I)
+    public function testGetStreamInfoWithInvalidStreamName(ApiTester $I): void
     {
         $radioName = TechnoBase::getRadioName();
 

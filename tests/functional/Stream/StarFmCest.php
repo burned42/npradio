@@ -15,7 +15,7 @@ class StarFmCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I)
+    public function testWithLiveData(\FunctionalTester $I): void
     {
         foreach (StarFm::getAvailableStreams() as $streamName) {
             new StarFm(new HttpDomFetcher(), $streamName);

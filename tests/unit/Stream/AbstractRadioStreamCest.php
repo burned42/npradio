@@ -21,7 +21,7 @@ final class DummyRadioStream extends AbstractRadioStream
         return 'fake_stream_url';
     }
 
-    public function updateInfo()
+    public function updateInfo(): void
     {
     }
 
@@ -48,7 +48,7 @@ class AbstractRadioStreamCest
      *
      * @throws \Exception
      */
-    public function testConstructor(UnitTester $I)
+    public function testConstructor(UnitTester $I): void
     {
         $this->getDummy();
 
@@ -57,9 +57,9 @@ class AbstractRadioStreamCest
         $I->assertTrue(true);
     }
 
-    public function testConstructorException(UnitTester $I)
+    public function testConstructorException(UnitTester $I): void
     {
-        $I->expectException(
+        $I->expectThrowable(
             new \InvalidArgumentException('Invalid stream name given'),
             function () {
                 new DummyRadioStream(new HttpDomFetcher(), 'foobar');
@@ -67,7 +67,7 @@ class AbstractRadioStreamCest
         );
     }
 
-    public function testGetStreamName(UnitTester $I)
+    public function testGetStreamName(UnitTester $I): void
     {
         $I->assertEquals('fake_stream', $this->getDummy()->getStreamName());
     }
@@ -82,7 +82,7 @@ class AbstractRadioStreamCest
      * @example ["Track"]
      * @example ["Artist"]
      */
-    public function testStringPropertySettersAndGetters(UnitTester $I, Example $example)
+    public function testStringPropertySettersAndGetters(UnitTester $I, Example $example): void
     {
         $value = 'foobar';
 
@@ -97,12 +97,14 @@ class AbstractRadioStreamCest
 
     /**
      * @param UnitTester $I
-     * @param Example    $example
+     * @param Example $example
      *
      * @example ["ShowStartTime"]
      * @example ["ShowEndTime"]
+     *
+     * @throws \Exception
      */
-    public function testDateTimePropertySettersAndGetters(UnitTester $I, Example $example)
+    public function testDateTimePropertySettersAndGetters(UnitTester $I, Example $example): void
     {
         $value = new \DateTime();
 
@@ -115,7 +117,12 @@ class AbstractRadioStreamCest
         $I->assertEquals($value, $dummy->$getter());
     }
 
-    public function testGetAsArray(UnitTester $I)
+    /**
+     * @param UnitTester $I
+     *
+     * @throws \Exception
+     */
+    public function testGetAsArray(UnitTester $I): void
     {
         $radioName = 'fake_radio';
         $streamName = 'fake_stream';

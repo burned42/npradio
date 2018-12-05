@@ -8,7 +8,7 @@ use FunctionalTester;
 
 class HomepageControllerCest
 {
-    public function testHomepage(FunctionalTester $I)
+    public function testHomepage(FunctionalTester $I): void
     {
         $I->amOnPage('/');
         $I->seeResponseCodeIs(200);

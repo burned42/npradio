@@ -47,7 +47,7 @@ abstract class AbstractRadioStream
         return $this->domFetcher;
     }
 
-    abstract public function updateInfo();
+    abstract public function updateInfo(): void;
 
     abstract public static function getRadioName(): string;
 
@@ -91,10 +91,7 @@ abstract class AbstractRadioStream
         ];
     }
 
-    /**
-     * @return null|string
-     */
-    public function getShow()
+    public function getShow(): ?string
     {
         return $this->show;
     }
@@ -106,10 +103,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getGenre()
+    public function getGenre(): ?string
     {
         return $this->genre;
     }
@@ -121,10 +115,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getModerator()
+    public function getModerator(): ?string
     {
         return $this->moderator;
     }
@@ -136,10 +127,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getShowStartTime()
+    public function getShowStartTime(): ?\DateTime
     {
         return $this->showStartTime;
     }
@@ -151,10 +139,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getShowEndTime()
+    public function getShowEndTime(): ?\DateTime
     {
         return $this->showEndTime;
     }
@@ -166,10 +151,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getTrack()
+    public function getTrack(): ?string
     {
         return $this->track;
     }
@@ -181,10 +163,7 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getArtist()
+    public function getArtist(): ?string
     {
         return $this->artist;
     }

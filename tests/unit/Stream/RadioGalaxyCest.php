@@ -16,26 +16,26 @@ class RadioGalaxyCest
     /**
      * @throws \Exception
      */
-    public function _before()
+    public function _before(): void
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
             return file_get_contents(__DIR__.'/../TestSamples/RadioGalaxySample.json');
         }]);
     }
 
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $starFm = new RadioGalaxy($this->domFetcher, RadioGalaxy::getAvailableStreams()[0]);
 
         $I->assertInstanceOf(RadioGalaxy::class, $starFm);
     }
 
-    public function testRadioNameSet(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I): void
     {
         $I->assertNotEmpty(RadioGalaxy::getRadioName());
     }
 
-    public function testStreamsSet(UnitTester $I)
+    public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty(RadioGalaxy::getAvailableStreams());
     }
@@ -46,7 +46,7 @@ class RadioGalaxyCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testUpdateInfo(UnitTester $I)
+    public function testUpdateInfo(UnitTester $I): void
     {
         foreach (RadioGalaxy::getAvailableStreams() as $availableStream) {
             new RadioGalaxy($this->domFetcher, $availableStream);
@@ -62,14 +62,14 @@ class RadioGalaxyCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherException(UnitTester $I)
+    public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
             throw new \RuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get url content: test'),
             function () use ($domFetcher) {
                 new RadioGalaxy($domFetcher, RadioGalaxy::getAvailableStreams()[0]);
@@ -77,7 +77,7 @@ class RadioGalaxyCest
         );
     }
 
-    public function testProtectedMethods(UnitTester $I)
+    public function testProtectedMethods(UnitTester $I): void
     {
         $starFm = new RadioGalaxy($this->domFetcher, RadioGalaxy::getAvailableStreams()[0]);
         $info = $starFm->getAsArray();

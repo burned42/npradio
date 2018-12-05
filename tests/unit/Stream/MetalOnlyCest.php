@@ -13,11 +13,12 @@ class MetalOnlyCest
 {
     private $domFetcher;
     private $domFetcherNotOnAir;
+    private $domFetcherOnAir;
 
     /**
      * @throws \Exception
      */
-    public function _before()
+    public function _before(): void
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
             $dom = new \DOMDocument();
@@ -44,19 +45,19 @@ class MetalOnlyCest
         }]);
     }
 
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $mo = new MetalOnly($this->domFetcher, MetalOnly::getAvailableStreams()[0]);
 
         $I->assertInstanceOf(MetalOnly::class, $mo);
     }
 
-    public function testRadioNameSet(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I): void
     {
         $I->assertNotEmpty(MetalOnly::getRadioName());
     }
 
-    public function testStreamsSet(UnitTester $I)
+    public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty(MetalOnly::getAvailableStreams());
     }
@@ -67,7 +68,7 @@ class MetalOnlyCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testUpdateInfo(UnitTester $I)
+    public function testUpdateInfo(UnitTester $I): void
     {
         foreach (MetalOnly::getAvailableStreams() as $streamName) {
             new MetalOnly($this->domFetcher, $streamName);
@@ -84,7 +85,7 @@ class MetalOnlyCest
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function testGetInfoOnAir(UnitTester $I)
+    public function testGetInfoOnAir(UnitTester $I): void
     {
         foreach (MetalOnly::getAvailableStreams() as $streamName) {
             $mo = new MetalOnly($this->domFetcherOnAir, $streamName);
@@ -101,7 +102,7 @@ class MetalOnlyCest
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */
-    public function testGetInfoNotOnAir(UnitTester $I)
+    public function testGetInfoNotOnAir(UnitTester $I): void
     {
         foreach (MetalOnly::getAvailableStreams() as $streamName) {
             $mo = new MetalOnly($this->domFetcherNotOnAir, $streamName);
@@ -117,14 +118,14 @@ class MetalOnlyCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherException(UnitTester $I)
+    public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
             throw new \RuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get html dom: test'),
             function () use ($domFetcher) {
                 new MetalOnly($domFetcher, MetalOnly::getAvailableStreams()[0]);
@@ -132,7 +133,7 @@ class MetalOnlyCest
         );
     }
 
-    public function testProtectedMethods(UnitTester $I)
+    public function testProtectedMethods(UnitTester $I): void
     {
         $mo = new MetalOnly($this->domFetcher, MetalOnly::getAvailableStreams()[0]);
         $info = $mo->getAsArray();

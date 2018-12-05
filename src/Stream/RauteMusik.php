@@ -6,21 +6,21 @@ namespace App\Stream;
 
 final class RauteMusik extends AbstractRadioStream
 {
-    const RADIO_NAME = 'RauteMusik';
-    const BASE_URL = 'https://www.rautemusik.fm/';
-    const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
+    private const RADIO_NAME = 'RauteMusik';
+    private const BASE_URL = 'https://www.rautemusik.fm/';
+    private  const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
-    const MAIN = 'Main';
-    const CLUB = 'Club';
-    const CHRISTMAS = 'Christmas';
-    const HAPPYHARDCORE = 'HappyHardcore';
-    const HOUSE = 'House';
-    const ROCK = 'Rock';
-    const TECHHOUSE = 'TechHouse';
-    const WACKENRADIO = 'WackenRadio';
-    const WEIHNACHTEN = 'Weihnachten';
+    private const MAIN = 'Main';
+    private const CLUB = 'Club';
+    private const CHRISTMAS = 'Christmas';
+    private const HAPPYHARDCORE = 'HappyHardcore';
+    private const HOUSE = 'House';
+    private const ROCK = 'Rock';
+    private const TECHHOUSE = 'TechHouse';
+    private const WACKENRADIO = 'WackenRadio';
+    private const WEIHNACHTEN = 'Weihnachten';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::MAIN,
         self::CLUB,
         self::CHRISTMAS,
@@ -55,8 +55,9 @@ final class RauteMusik extends AbstractRadioStream
     /**
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         $this->updateTrackInfo();
         $this->updateShowInfo();
@@ -65,7 +66,7 @@ final class RauteMusik extends AbstractRadioStream
     /**
      * @throws \RuntimeException
      */
-    private function updateTrackInfo()
+    private function updateTrackInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
@@ -93,8 +94,9 @@ final class RauteMusik extends AbstractRadioStream
 
     /**
      * @throws \RuntimeException
+     * @throws \Exception
      */
-    private function updateShowInfo()
+    private function updateShowInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
