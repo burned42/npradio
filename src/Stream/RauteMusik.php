@@ -83,7 +83,12 @@ final class RauteMusik extends AbstractRadioStream
 
         /** @var \DOMNode $node */
         foreach ($nodeList as $node) {
-            $class = $node->attributes->getNamedItem('class')->nodeValue;
+            $classNode = $node->attributes->getNamedItem('class');
+            if (!($classNode instanceof \DOMNode)) {
+                throw new \RuntimeException('could not find DOMNode for parsing artist and title');
+            }
+
+            $class = $classNode->nodeValue;
             if ('artist' === $class) {
                 $this->setArtist(trim($node->nodeValue));
             } elseif ('title' === $class) {
@@ -111,17 +116,32 @@ final class RauteMusik extends AbstractRadioStream
         $numNodes = $nodeList->length;
         if ($numNodes >= 1) {
             $matches = [];
-            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing show start and end time');
+            }
+
+            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
                 $this->setShowStartTime(new \DateTime($matches[1]));
                 $this->setShowEndTime(new \DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
-                $this->setShow(trim($nodeList->item(1)->nodeValue));
+                $node = $nodeList->item(1);
+                if (!($node instanceof \DOMNode)) {
+                    throw new \RuntimeException('could not get DOMNode for parsing the show');
+                }
+
+                $this->setShow(trim($node->nodeValue));
 
                 if ($numNodes >= 3) {
+                    $node = $nodeList->item(2);
+                    if (!($node instanceof \DOMNode)) {
+                        throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+                    }
+
                     $this->setModerator(
-                        preg_replace('/\s+/', ' ', trim($nodeList->item(2)->nodeValue))
+                        preg_replace('/\s+/', ' ', trim($node->nodeValue))
                     );
                 }
             }

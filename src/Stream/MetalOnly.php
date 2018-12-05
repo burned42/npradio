@@ -57,7 +57,12 @@ final class MetalOnly extends AbstractRadioStream
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
         if (1 === $nodeList->length) {
             $matches = [];
-            if (preg_match('/^(.*) ist ON AIR$/', $nodeList->item(0)->nodeValue, $matches)) {
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+            }
+
+            if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue, $matches)) {
                 $moderator = trim($matches[1]);
                 if (!empty($moderator)) {
                     $this->setModerator($moderator);
@@ -71,7 +76,12 @@ final class MetalOnly extends AbstractRadioStream
             ."//div[@class='streaminfo']//span[@class='sendung']//span"
         );
         if (1 === $nodeList->length) {
-            $show = trim($nodeList->item(0)->nodeValue);
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing the show');
+            }
+
+            $show = trim($node->nodeValue);
             if (!empty($show)) {
                 $this->setShow($show);
             }
@@ -83,7 +93,12 @@ final class MetalOnly extends AbstractRadioStream
             ."//div[@class='streaminfo']//span[@class='gerne']//span"
         );
         if (1 === $nodeList->length) {
-            $genre = trim($nodeList->item(0)->nodeValue);
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing the genre');
+            }
+
+            $genre = trim($node->nodeValue);
             if (!empty($genre)) {
                 $this->setGenre($genre);
             }
@@ -118,7 +133,12 @@ final class MetalOnly extends AbstractRadioStream
         );
         if (1 === $nodeList->length) {
             $matches = [];
-            if (preg_match('/^(.*) - ([^-]*)$/', $nodeList->item(0)->nodeValue, $matches)) {
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing the artist and track');
+            }
+
+            if (preg_match('/^(.*) - ([^-]*)$/', $node->nodeValue, $matches)) {
                 $this->setArtist(trim($matches[1]));
                 $this->setTrack(trim($matches[2]));
             }
@@ -138,7 +158,11 @@ final class MetalOnly extends AbstractRadioStream
         for ($i = 0; $i < $nodeList->length; ++$i) {
             // the time table starts at 14:00 so the first row (0) represents 14:00
             $currentHour = (14 + $i) % 24;
-            $item = $nodeList->item($i)->firstChild;
+            $node = $nodeList->item($i);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+            }
+            $item = $node->firstChild;
             $moderator = $item->nodeValue;
 
             // if moderator changed since last loop run
