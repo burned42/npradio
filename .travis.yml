@@ -12,7 +12,7 @@ install:
 
 # define script for default stage 'test' separately so it will only be
 # run once for every php version specified above
-script: composer codeception
+script: SYMFONY_DEPRECATIONS_HELPER=disabled composer codeception
 
 # and specify that 'test' stage should run after 'code quality' checks
 stages:
@@ -30,7 +30,7 @@ jobs:
     - script: composer phpcs
       name: "phpcs"
     - stage: "code coverage"
-      script: composer codeception-coverage-xml
+      script: SYMFONY_DEPRECATIONS_HELPER=disabled composer codeception-coverage-xml
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "update check"
