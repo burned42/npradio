@@ -33,7 +33,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "7.2.12"
+            "php": "7.2.13"
         },
         "optimize-autoloader": true
     },
