@@ -17,7 +17,7 @@ class TechnoBaseCest
     /**
      * @throws \Exception
      */
-    public function _before()
+    public function _before(): void
     {
         $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => function () {
             $dom = new \DOMDocument();
@@ -28,19 +28,19 @@ class TechnoBaseCest
         }]);
     }
 
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $tb = new TechnoBase($this->domFetcher, TechnoBase::getAvailableStreams()[0]);
 
         $I->assertInstanceOf(TechnoBase::class, $tb);
     }
 
-    public function testRadioNameSet(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I): void
     {
         $I->assertNotNull(TechnoBase::getRadioName());
     }
 
-    public function testStreamsSet(UnitTester $I)
+    public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty(TechnoBase::getAvailableStreams());
     }
@@ -51,7 +51,7 @@ class TechnoBaseCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testUpdateInfo(UnitTester $I)
+    public function testUpdateInfo(UnitTester $I): void
     {
         foreach (TechnoBase::getAvailableStreams() as $availableStream) {
             new TechnoBase($this->domFetcher, $availableStream);
@@ -67,14 +67,14 @@ class TechnoBaseCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherException(UnitTester $I)
+    public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => function () {
             throw new TestRuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get xml dom: test'),
             function () use ($domFetcher) {
                 new TechnoBase($domFetcher, TechnoBase::getAvailableStreams()[0]);
@@ -82,7 +82,7 @@ class TechnoBaseCest
         );
     }
 
-    public function testProtectedMethods(UnitTester $I)
+    public function testProtectedMethods(UnitTester $I): void
     {
         $tb = new TechnoBase($this->domFetcher, TechnoBase::getAvailableStreams()[0]);
         $info = $tb->getAsArray();

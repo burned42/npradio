@@ -6,25 +6,25 @@ namespace App\Stream;
 
 final class StarFm extends AbstractRadioStream
 {
-    const RADIO_NAME = 'STAR FM';
-    const URL = 'https://nbg.starfm.de';
+    private const RADIO_NAME = 'STAR FM';
+    private const URL = 'https://nbg.starfm.de';
 
-    const NUREMBERG = 'Nürnberg';
-    const FROM_HELL = 'From Hell';
+    private const NUREMBERG = 'Nürnberg';
+    private const FROM_HELL = 'From Hell';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::FROM_HELL,
         self::NUREMBERG,
     ];
 
-    const STREAM_URLS = [
+    private const STREAM_URLS = [
         self::FROM_HELL => 'http://85.25.43.55:80/hell.mp3',
         self::NUREMBERG => 'http://85.25.209.150:80/nuernberg.mp3',
     ];
 
-    const URL_INFO_BASE_PATH = '/player/cache/currentSong/currentSong_';
-    const URL_INFO_SUFFIX = '.json';
-    const URL_INFO_STREAM_NAMES = [
+    private const URL_INFO_BASE_PATH = '/player/cache/currentSong/currentSong_';
+    private const URL_INFO_SUFFIX = '.json';
+    private const URL_INFO_STREAM_NAMES = [
         self::FROM_HELL => '2',
         self::NUREMBERG => '4',
     ];
@@ -53,7 +53,7 @@ final class StarFm extends AbstractRadioStream
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         try {
             $streamName = self::URL_INFO_STREAM_NAMES[$this->getStreamName()];

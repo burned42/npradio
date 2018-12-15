@@ -6,23 +6,23 @@ namespace App\Stream;
 
 final class RadioGalaxy extends AbstractRadioStream
 {
-    const RADIO_NAME = 'Radio Galaxy';
+    private const RADIO_NAME = 'Radio Galaxy';
 
-    const MITTELFRANKEN = 'Mittelfranken';
+    private const MITTELFRANKEN = 'Mittelfranken';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::MITTELFRANKEN,
     ];
 
-    const HOMEPAGE_URLS = [
+    private const HOMEPAGE_URLS = [
         self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de',
     ];
 
-    const STREAM_URLS = [
+    private const STREAM_URLS = [
         self::MITTELFRANKEN => 'http://www.galaxyansbach.de:8000/live',
     ];
 
-    const INFO_URLS_BY_STREAM = [
+    private const INFO_URLS_BY_STREAM = [
         self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de/wp-content/themes/radio-galaxy/tmp/1.json',
     ];
 
@@ -50,7 +50,7 @@ final class RadioGalaxy extends AbstractRadioStream
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         try {
             $url = self::INFO_URLS_BY_STREAM[$this->getStreamName()];

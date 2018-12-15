@@ -6,21 +6,21 @@ namespace App\Stream;
 
 final class RauteMusik extends AbstractRadioStream
 {
-    const RADIO_NAME = 'RauteMusik';
-    const BASE_URL = 'https://www.rautemusik.fm/';
-    const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
+    private const RADIO_NAME = 'RauteMusik';
+    private const BASE_URL = 'https://www.rautemusik.fm/';
+    private const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
-    const MAIN = 'Main';
-    const CLUB = 'Club';
-    const CHRISTMAS = 'Christmas';
-    const HAPPYHARDCORE = 'HappyHardcore';
-    const HOUSE = 'House';
-    const ROCK = 'Rock';
-    const TECHHOUSE = 'TechHouse';
-    const WACKENRADIO = 'WackenRadio';
-    const WEIHNACHTEN = 'Weihnachten';
+    private const MAIN = 'Main';
+    private const CLUB = 'Club';
+    private const CHRISTMAS = 'Christmas';
+    private const HAPPYHARDCORE = 'HappyHardcore';
+    private const HOUSE = 'House';
+    private const ROCK = 'Rock';
+    private const TECHHOUSE = 'TechHouse';
+    private const WACKENRADIO = 'WackenRadio';
+    private const WEIHNACHTEN = 'Weihnachten';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::MAIN,
         self::CLUB,
         self::CHRISTMAS,
@@ -55,8 +55,9 @@ final class RauteMusik extends AbstractRadioStream
     /**
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
+     * @throws \Exception
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         $this->updateTrackInfo();
         $this->updateShowInfo();
@@ -65,7 +66,7 @@ final class RauteMusik extends AbstractRadioStream
     /**
      * @throws \RuntimeException
      */
-    private function updateTrackInfo()
+    private function updateTrackInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
@@ -82,7 +83,12 @@ final class RauteMusik extends AbstractRadioStream
 
         /** @var \DOMNode $node */
         foreach ($nodeList as $node) {
-            $class = $node->attributes->getNamedItem('class')->nodeValue;
+            $classNode = $node->attributes->getNamedItem('class');
+            if (!($classNode instanceof \DOMNode)) {
+                throw new \RuntimeException('could not find DOMNode for parsing artist and title');
+            }
+
+            $class = $classNode->nodeValue;
             if ('artist' === $class) {
                 $this->setArtist(trim($node->nodeValue));
             } elseif ('title' === $class) {
@@ -93,8 +99,9 @@ final class RauteMusik extends AbstractRadioStream
 
     /**
      * @throws \RuntimeException
+     * @throws \Exception
      */
-    private function updateShowInfo()
+    private function updateShowInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
@@ -109,17 +116,32 @@ final class RauteMusik extends AbstractRadioStream
         $numNodes = $nodeList->length;
         if ($numNodes >= 1) {
             $matches = [];
-            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $nodeList->item(0)->nodeValue, $matches)) {
+            $node = $nodeList->item(0);
+            if (!($node instanceof \DOMNode)) {
+                throw new \RuntimeException('could not get DOMNode for parsing show start and end time');
+            }
+
+            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
                 $this->setShowStartTime(new \DateTime($matches[1]));
                 $this->setShowEndTime(new \DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
-                $this->setShow(trim($nodeList->item(1)->nodeValue));
+                $node = $nodeList->item(1);
+                if (!($node instanceof \DOMNode)) {
+                    throw new \RuntimeException('could not get DOMNode for parsing the show');
+                }
+
+                $this->setShow(trim($node->nodeValue));
 
                 if ($numNodes >= 3) {
+                    $node = $nodeList->item(2);
+                    if (!($node instanceof \DOMNode)) {
+                        throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+                    }
+
                     $this->setModerator(
-                        preg_replace('/\s+/', ' ', trim($nodeList->item(2)->nodeValue))
+                        preg_replace('/\s+/', ' ', trim($node->nodeValue))
                     );
                 }
             }

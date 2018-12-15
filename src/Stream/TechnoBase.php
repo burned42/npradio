@@ -6,18 +6,18 @@ namespace App\Stream;
 
 final class TechnoBase extends AbstractRadioStream
 {
-    const RADIO_NAME = 'TechnoBase';
-    const URL = 'http://tray.technobase.fm/radio.xml';
+    private const RADIO_NAME = 'TechnoBase';
+    private const URL = 'http://tray.technobase.fm/radio.xml';
 
-    const TECHNOBASE = 'TechnoBase';
-    const HOUSETIME = 'HouseTime';
-    const HARDBASE = 'HardBase';
-    const TRANCEBASE = 'TranceBase';
-    const CORETIME = 'CoreTime';
-    const CLUBTIME = 'ClubTime';
-    const TEATIME = 'TeaTime';
+    private const TECHNOBASE = 'TechnoBase';
+    private const HOUSETIME = 'HouseTime';
+    private const HARDBASE = 'HardBase';
+    private const TRANCEBASE = 'TranceBase';
+    private const CORETIME = 'CoreTime';
+    private const CLUBTIME = 'ClubTime';
+    private const TEATIME = 'TeaTime';
 
-    const AVAILABLE_STREAMS = [
+    private const AVAILABLE_STREAMS = [
         self::TECHNOBASE,
         self::HOUSETIME,
         self::HARDBASE,
@@ -37,6 +37,10 @@ final class TechnoBase extends AbstractRadioStream
         //return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
 
         $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamName());
+        if (!is_string($shortName)) {
+            throw new \LogicException('could not process stream name "'.$this->getStreamName().'"');
+        }
+
         $fileName = strtolower($shortName);
 
         return 'http://lw2.mp3.tb-group.fm/'.$fileName.'.mp3';
@@ -55,8 +59,9 @@ final class TechnoBase extends AbstractRadioStream
     /**
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
+     * @throws \Exception
      */
-    public function updateInfo()
+    public function updateInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getXmlDom(self::URL);

@@ -40,19 +40,19 @@ class RauteMusikCest
      *
      * @throws \Exception
      */
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $rm = new RauteMusik($this->getDomFetcher(), RauteMusik::getAvailableStreams()[0]);
 
         $I->assertInstanceOf(RauteMusik::class, $rm);
     }
 
-    public function testRadioNameSet(UnitTester $I)
+    public function testRadioNameSet(UnitTester $I): void
     {
         $I->assertNotEmpty(RauteMusik::getRadioName());
     }
 
-    public function testStreamsSet(UnitTester $I)
+    public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty(RauteMusik::getAvailableStreams());
     }
@@ -62,7 +62,7 @@ class RauteMusikCest
      *
      * @throws \Exception
      */
-    public function testUpdateInfo(UnitTester $I)
+    public function testUpdateInfo(UnitTester $I): void
     {
         foreach (RauteMusik::getAvailableStreams() as $availableStream) {
             new RauteMusik($this->getDomFetcher(), $availableStream);
@@ -78,14 +78,14 @@ class RauteMusikCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherExceptionOnTrackInfo(UnitTester $I)
+    public function testDomFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
             throw new \RuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get html dom: test'),
             function () use ($domFetcher) {
                 new RauteMusik($domFetcher, RauteMusik::getAvailableStreams()[0]);
@@ -98,7 +98,7 @@ class RauteMusikCest
      *
      * @throws \Exception
      */
-    public function testDomFetcherExceptionOnShowInfo(UnitTester $I)
+    public function testDomFetcherExceptionOnShowInfo(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
@@ -117,7 +117,7 @@ class RauteMusikCest
             throw new \RuntimeException('test');
         }]);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \RuntimeException('could not get html dom: test'),
             function () use ($domFetcher) {
                 new RauteMusik($domFetcher, RauteMusik::getAvailableStreams()[0]);
@@ -130,7 +130,7 @@ class RauteMusikCest
      *
      * @throws \Exception
      */
-    public function testProtectedMethods(UnitTester $I)
+    public function testProtectedMethods(UnitTester $I): void
     {
         $rm = new RauteMusik($this->getDomFetcher(), RauteMusik::getAvailableStreams()[0]);
         $info = $rm->getAsArray();

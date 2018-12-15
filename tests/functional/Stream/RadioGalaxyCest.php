@@ -15,7 +15,7 @@ class RadioGalaxyCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I)
+    public function testWithLiveData(\FunctionalTester $I): void
     {
         foreach (RadioGalaxy::getAvailableStreams() as $streamName) {
             new RadioGalaxy(new HttpDomFetcher(), $streamName);

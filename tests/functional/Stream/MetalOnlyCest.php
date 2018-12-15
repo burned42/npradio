@@ -15,7 +15,7 @@ class MetalOnlyCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I)
+    public function testWithLiveData(\FunctionalTester $I): void
     {
         foreach (MetalOnly::getAvailableStreams() as $streamName) {
             new MetalOnly(new HttpDomFetcher(), $streamName);

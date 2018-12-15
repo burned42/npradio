@@ -16,17 +16,17 @@ class StreamPassCest
     /** @var StreamPass */
     private $streamPass;
 
-    public function _before()
+    public function _before(): void
     {
         $this->streamPass = new StreamPass();
     }
 
-    public function canInstantiate(UnitTester $I)
+    public function canInstantiate(UnitTester $I): void
     {
         $I->assertInstanceOf(StreamPass::class, $this->streamPass);
     }
 
-    public function testCanProcessEmptyContainer(UnitTester $I)
+    public function testCanProcessEmptyContainer(UnitTester $I): void
     {
         $container = new ContainerBuilder();
 
@@ -35,7 +35,7 @@ class StreamPassCest
         $I->assertTrue(true, 'no error on processing');
     }
 
-    public function testCanProcessFilledContainer(UnitTester $I)
+    public function testCanProcessFilledContainer(UnitTester $I): void
     {
         $container = new ContainerBuilder();
         $container->setDefinition(ApiController::class, new Definition(ApiController::class));

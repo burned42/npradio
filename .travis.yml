@@ -2,8 +2,7 @@ language: php
 
 php:
   - 7.2
-  - 7.1
-  - 7.0
+  - 7.3
 
 before_script:
   - composer self-update
@@ -14,6 +13,11 @@ install:
 # define script for default stage 'test' separately so it will only be
 # run once for every php version specified above
 script: composer codeception
+
+# don't fail on deprecation warnings for now as they come from
+# dependencies, not from the test code in this repository
+env:
+  - SYMFONY_DEPRECATIONS_HELPER=disabled
 
 # and specify that 'test' stage should run after 'code quality' checks
 stages:

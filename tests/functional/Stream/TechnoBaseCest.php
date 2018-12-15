@@ -15,7 +15,7 @@ class TechnoBaseCest
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I)
+    public function testWithLiveData(\FunctionalTester $I): void
     {
         foreach (TechnoBase::getAvailableStreams() as $streamName) {
             new TechnoBase(new HttpDomFetcher(), $streamName);
