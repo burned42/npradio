@@ -5,8 +5,9 @@ ENV APP_DEBUG 0
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
 RUN apt-get update && apt-get install -y \
-    libicu-dev \
     git \
+    libicu-dev \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-configure intl
