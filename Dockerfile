@@ -4,7 +4,7 @@ ENV APP_ENV prod
 ENV APP_DEBUG 0
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     libicu-dev \
     unzip \
