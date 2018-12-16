@@ -28,10 +28,11 @@ RUN a2enmod rewrite
 
 RUN echo 'PassEnv APP_ENV APP_SECRET' > /etc/apache2/conf-enabled/pass-env.conf
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 COPY . /var/www/html/
 RUN rm -rf /var/www/html/.git/
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev -d /var/www/html/
 
 RUN php /var/www/html/bin/console cache:clear
