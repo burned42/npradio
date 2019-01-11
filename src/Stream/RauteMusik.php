@@ -14,6 +14,7 @@ final class RauteMusik extends AbstractRadioStream
     private const CLUB = 'Club';
     private const CHRISTMAS = 'Christmas';
     private const HAPPYHARDCORE = 'HappyHardcore';
+    private const HARDER = 'HardeR';
     private const HOUSE = 'House';
     private const ROCK = 'Rock';
     private const TECHHOUSE = 'TechHouse';
@@ -25,6 +26,7 @@ final class RauteMusik extends AbstractRadioStream
         self::CLUB,
         self::CHRISTMAS,
         self::HAPPYHARDCORE,
+        self::HARDER,
         self::HOUSE,
         self::ROCK,
         self::TECHHOUSE,
