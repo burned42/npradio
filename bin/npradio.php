@@ -76,8 +76,7 @@ try {
             if (null !== $radioStream->getModerator()) {
                 echo '        Moderator: '.$radioStream->getModerator()."\n";
             }
-            if (
-                $radioStream->getShowStartTime() instanceof DateTime
+            if ($radioStream->getShowStartTime() instanceof DateTime
                 && $radioStream->getShowEndTime() instanceof DateTime
             ) {
                 echo '        Showtime:  '.$radioStream->getShowStartTime()->format('H:i')
