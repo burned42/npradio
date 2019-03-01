@@ -18,6 +18,7 @@ RUN docker-php-ext-configure opcache
 RUN docker-php-ext-install opcache
 RUN docker-php-ext-enable opcache
 
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN echo 'date.timezone = "Europe/Berlin"' > /usr/local/etc/php/conf.d/timezone.ini \
     && echo 'short_open_tag = Off' > /usr/local/etc/php/conf.d/short_open_tag.ini
 
