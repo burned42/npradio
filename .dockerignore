@@ -1,0 +1,16 @@
+/.env.*
+/.git
+/.gitignore
+/.idea
+/.phpcs-cache
+/.php_cs.dist
+/.travis.yml
+/codeception.yml
+/Dockerfile
+/phpcs.xml.dist
+/phpunit.xml.dist
+/tests/
+/todo.txt
+/var/*
+/vendor
+
