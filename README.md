@@ -9,3 +9,5 @@ and displays the current playing songs, if there is a moderator online and
 how the show is named etc. and offers the possibility to play these streams
 directly in your browser.
 
+A Docker image is available on [Docker Hub](https://hub.docker.com/r/burned42/npradio).
+
