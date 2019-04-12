@@ -38,14 +38,8 @@
     "doctrine/collections": {
         "version": "v1.5.0"
     },
-    "doctrine/common": {
-        "version": "v2.10.0"
-    },
     "doctrine/event-manager": {
         "version": "v1.0.0"
-    },
-    "doctrine/inflector": {
-        "version": "v1.3.0"
     },
     "doctrine/instantiator": {
         "version": "1.1.0"
