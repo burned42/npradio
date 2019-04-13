@@ -6,16 +6,19 @@ namespace App\Tests\Functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;
+use FunctionalTester;
+use InvalidArgumentException;
+use RuntimeException;
 
 class MetalOnlyCest
 {
     /**
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I): void
+    public function testWithLiveData(FunctionalTester $I): void
     {
         foreach (MetalOnly::getAvailableStreams() as $streamName) {
             new MetalOnly(new HttpDomFetcher(), $streamName);

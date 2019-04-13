@@ -7,6 +7,10 @@ namespace App\Tests\Unit\Stream;
 use App\Stream\MetalOnly;
 use Codeception\Util\Stub;
 use App\DataFetcher\HttpDomFetcher;
+use DOMDocument;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use UnitTester;
 
 class MetalOnlyCest
@@ -16,28 +20,28 @@ class MetalOnlyCest
     private $domFetcherOnAir;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
-            $dom = new \DOMDocument();
+        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+            $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySample.html');
             @$dom->loadHTML($html);
 
             return $dom;
         }]);
 
-        $this->domFetcherNotOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
-            $dom = new \DOMDocument();
+        $this->domFetcherNotOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+            $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
         }]);
 
-        $this->domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
-            $dom = new \DOMDocument();
+        $this->domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+            $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleOnAir.html');
             @$dom->loadHTML($html);
 
@@ -65,8 +69,8 @@ class MetalOnlyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function testUpdateInfo(UnitTester $I): void
     {
@@ -82,8 +86,8 @@ class MetalOnlyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testGetInfoOnAir(UnitTester $I): void
     {
@@ -99,8 +103,8 @@ class MetalOnlyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testGetInfoNotOnAir(UnitTester $I): void
     {
@@ -116,18 +120,18 @@ class MetalOnlyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => function () {
-            throw new \RuntimeException('test');
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+            throw new RuntimeException('test');
         }]);
 
         $I->expectThrowable(
-            new \RuntimeException('could not get html dom: test'),
-            function () use ($domFetcher) {
+            new RuntimeException('could not get html dom: test'),
+            static function () use ($domFetcher) {
                 new MetalOnly($domFetcher, MetalOnly::getAvailableStreams()[0]);
             }
         );

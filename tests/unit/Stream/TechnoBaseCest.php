@@ -8,6 +8,10 @@ use App\Stream\TechnoBase;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
 use App\DataFetcher\HttpDomFetcher;
+use DOMDocument;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use UnitTester;
 
 class TechnoBaseCest
@@ -15,12 +19,12 @@ class TechnoBaseCest
     private $domFetcher;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => function () {
-            $dom = new \DOMDocument();
+        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
+            $dom = new DOMDocument();
             $xml = file_get_contents(__DIR__.'/../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
@@ -48,8 +52,8 @@ class TechnoBaseCest
     /**
      * @param UnitTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function testUpdateInfo(UnitTester $I): void
     {
@@ -65,18 +69,18 @@ class TechnoBaseCest
     /**
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => function () {
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');
         }]);
 
         $I->expectThrowable(
-            new \RuntimeException('could not get xml dom: test'),
-            function () use ($domFetcher) {
+            new RuntimeException('could not get xml dom: test'),
+            static function () use ($domFetcher) {
                 new TechnoBase($domFetcher, TechnoBase::getAvailableStreams()[0]);
             }
         );

@@ -6,16 +6,19 @@ namespace App\Tests\Functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RadioGalaxy;
+use FunctionalTester;
+use InvalidArgumentException;
+use RuntimeException;
 
 class RadioGalaxyCest
 {
     /**
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I): void
+    public function testWithLiveData(FunctionalTester $I): void
     {
         foreach (RadioGalaxy::getAvailableStreams() as $streamName) {
             new RadioGalaxy(new HttpDomFetcher(), $streamName);

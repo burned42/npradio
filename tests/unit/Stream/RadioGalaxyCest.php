@@ -7,6 +7,9 @@ namespace App\Tests\Unit\Stream;
 use App\Stream\RadioGalaxy;
 use Codeception\Util\Stub;
 use App\DataFetcher\HttpDomFetcher;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use UnitTester;
 
 class RadioGalaxyCest
@@ -14,11 +17,11 @@ class RadioGalaxyCest
     private $domFetcher;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
+        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => static function () {
             return file_get_contents(__DIR__.'/../TestSamples/RadioGalaxySample.json');
         }]);
     }
@@ -43,8 +46,8 @@ class RadioGalaxyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function testUpdateInfo(UnitTester $I): void
     {
@@ -60,18 +63,18 @@ class RadioGalaxyCest
     /**
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testDomFetcherException(UnitTester $I): void
     {
         /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => function () {
-            throw new \RuntimeException('test');
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => static function () {
+            throw new RuntimeException('test');
         }]);
 
         $I->expectThrowable(
-            new \RuntimeException('could not get url content: test'),
-            function () use ($domFetcher) {
+            new RuntimeException('could not get url content: test'),
+            static function () use ($domFetcher) {
                 new RadioGalaxy($domFetcher, RadioGalaxy::getAvailableStreams()[0]);
             }
         );

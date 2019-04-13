@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\DataFetcher;
 
 use App\DataFetcher\HttpDomFetcher;
+use InvalidArgumentException;
+use RuntimeException;
 use UnitTester;
 
 class HttpDomFetcherCest
@@ -20,20 +22,20 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function testExceptionOnInvalidUrl(UnitTester $I): void
     {
         $I->expectThrowable(
-            new \InvalidArgumentException('invalid url given: ""'),
+            new InvalidArgumentException('invalid url given: ""'),
             function () {
                 $this->domFetcher->getHtmlDom('invalid_url');
             }
         );
 
         $I->expectThrowable(
-            new \InvalidArgumentException('invalid url given: ""'),
+            new InvalidArgumentException('invalid url given: ""'),
             function () {
                 $this->domFetcher->getXmlDom('invalid_url');
             }
@@ -43,22 +45,22 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function testExceptionOnNonExistingUrl(UnitTester $I): void
     {
         $url = 'http://127.0.0.1/this/foo/does/hopefully/never.exist';
 
         $I->expectThrowable(
-            \RuntimeException::class,
+            RuntimeException::class,
             function () use ($url) {
                 $this->domFetcher->getHtmlDom($url);
             }
         );
 
         $I->expectThrowable(
-            \RuntimeException::class,
+            RuntimeException::class,
             function () use ($url) {
                 $this->domFetcher->getXmlDom($url);
             }
@@ -68,8 +70,8 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testGetXmlDom(UnitTester $I): void
     {
@@ -83,13 +85,13 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testExceptionOnBrokenXml(UnitTester $I): void
     {
         $I->expectThrowable(
-            \RuntimeException::class,
+            RuntimeException::class,
             function () {
                 $this->domFetcher->getXmlDom('file://'.__DIR__.'/../TestSamples/TechnoBaseSampleBroken.xml');
             }
@@ -99,8 +101,8 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testGetHtmlDom(UnitTester $I): void
     {
@@ -114,13 +116,13 @@ class HttpDomFetcherCest
     /**
      * @param UnitTester $I
      *
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
      */
     public function testExceptionOnBrokenHtml(UnitTester $I): void
     {
         $I->expectThrowable(
-            \RuntimeException::class,
+            RuntimeException::class,
             function () {
                 $this->domFetcher->getHtmlDom('file://'.__DIR__.'/../TestSamples/Empty.html');
             }

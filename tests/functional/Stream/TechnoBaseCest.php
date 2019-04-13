@@ -6,16 +6,19 @@ namespace App\Tests\Functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\TechnoBase;
+use FunctionalTester;
+use InvalidArgumentException;
+use RuntimeException;
 
 class TechnoBaseCest
 {
     /**
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I): void
+    public function testWithLiveData(FunctionalTester $I): void
     {
         foreach (TechnoBase::getAvailableStreams() as $streamName) {
             new TechnoBase(new HttpDomFetcher(), $streamName);

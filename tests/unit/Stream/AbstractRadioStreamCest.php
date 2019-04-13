@@ -7,6 +7,9 @@ namespace App\Tests\Unit\Stream;
 use App\Stream\AbstractRadioStream;
 use Codeception\Example;
 use App\DataFetcher\HttpDomFetcher;
+use DateTime;
+use Exception;
+use InvalidArgumentException;
 use UnitTester;
 
 final class DummyRadioStream extends AbstractRadioStream
@@ -46,7 +49,7 @@ class AbstractRadioStreamCest
     /**
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testConstructor(UnitTester $I): void
     {
@@ -60,8 +63,8 @@ class AbstractRadioStreamCest
     public function testConstructorException(UnitTester $I): void
     {
         $I->expectThrowable(
-            new \InvalidArgumentException('Invalid stream name given'),
-            function () {
+            new InvalidArgumentException('Invalid stream name given'),
+            static function () {
                 new DummyRadioStream(new HttpDomFetcher(), 'foobar');
             }
         );
@@ -102,11 +105,11 @@ class AbstractRadioStreamCest
      * @example ["ShowStartTime"]
      * @example ["ShowEndTime"]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testDateTimePropertySettersAndGetters(UnitTester $I, Example $example): void
     {
-        $value = new \DateTime();
+        $value = new DateTime();
 
         $setter = 'set'.$example[0];
         $getter = 'get'.$example[0];
@@ -120,7 +123,7 @@ class AbstractRadioStreamCest
     /**
      * @param UnitTester $I
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function testGetAsArray(UnitTester $I): void
     {
@@ -133,9 +136,9 @@ class AbstractRadioStreamCest
         $genre = 'test_genre';
         $moderator = 'test_moderator';
         $showStartTime = '16:00';
-        $showStartTimeDateTime = new \DateTime($showStartTime);
+        $showStartTimeDateTime = new DateTime($showStartTime);
         $showEndTime = '18:00';
-        $showEndTimeDateTime = new \DateTime($showEndTime);
+        $showEndTimeDateTime = new DateTime($showEndTime);
         $track = 'test_track';
         $artist = 'test_artist';
 

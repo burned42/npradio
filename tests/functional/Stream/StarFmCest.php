@@ -6,16 +6,19 @@ namespace App\Tests\Functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\StarFm;
+use FunctionalTester;
+use InvalidArgumentException;
+use RuntimeException;
 
 class StarFmCest
 {
     /**
-     * @param \FunctionalTester $I
+     * @param FunctionalTester $I
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
-    public function testWithLiveData(\FunctionalTester $I): void
+    public function testWithLiveData(FunctionalTester $I): void
     {
         foreach (StarFm::getAvailableStreams() as $streamName) {
             new StarFm(new HttpDomFetcher(), $streamName);
