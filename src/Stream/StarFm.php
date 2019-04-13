@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 final class StarFm extends AbstractRadioStream
 {
     private const RADIO_NAME = 'STAR FM';
@@ -50,8 +54,8 @@ final class StarFm extends AbstractRadioStream
     }
 
     /**
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
     public function updateInfo(): void
     {
@@ -59,8 +63,8 @@ final class StarFm extends AbstractRadioStream
             $streamName = self::URL_INFO_STREAM_NAMES[$this->getStreamName()];
             $url = self::URL.self::URL_INFO_BASE_PATH.$streamName.self::URL_INFO_SUFFIX;
             $data = json_decode($this->getDomFetcher()->getUrlContent($url), true);
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get url content: '.$e->getMessage());
+        } catch (Exception $e) {
+            throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
         if (!empty($data) && array_key_exists('c', $data)) {

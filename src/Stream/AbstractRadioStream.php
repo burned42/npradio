@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
+use DateTime;
+use InvalidArgumentException;
 
 abstract class AbstractRadioStream
 {
@@ -20,9 +22,9 @@ abstract class AbstractRadioStream
     private $genre;
     /** @var string|null */
     private $moderator;
-    /** @var \DateTime|null */
+    /** @var DateTime|null */
     private $showStartTime;
-    /** @var \DateTime|null */
+    /** @var DateTime|null */
     private $showEndTime;
 
     /** @var string|null */
@@ -32,8 +34,8 @@ abstract class AbstractRadioStream
 
     public function __construct(HttpDomFetcher $domFetcher, string $streamName)
     {
-        if (!\in_array($streamName, static::getAvailableStreams(), true)) {
-            throw new \InvalidArgumentException('Invalid stream name given');
+        if (!in_array($streamName, static::getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
         }
 
         $this->domFetcher = $domFetcher;
@@ -127,24 +129,24 @@ abstract class AbstractRadioStream
         return $this;
     }
 
-    public function getShowStartTime(): ?\DateTime
+    public function getShowStartTime(): ?DateTime
     {
         return $this->showStartTime;
     }
 
-    public function setShowStartTime(\DateTime $showStartTime = null): self
+    public function setShowStartTime(DateTime $showStartTime = null): self
     {
         $this->showStartTime = $showStartTime;
 
         return $this;
     }
 
-    public function getShowEndTime(): ?\DateTime
+    public function getShowEndTime(): ?DateTime
     {
         return $this->showEndTime;
     }
 
-    public function setShowEndTime(\DateTime $showEndTime = null): self
+    public function setShowEndTime(DateTime $showEndTime = null): self
     {
         $this->showEndTime = $showEndTime;
 

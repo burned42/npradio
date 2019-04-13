@@ -3,6 +3,7 @@
 
 require_once 'vendor/autoload.php';
 
+use App\Stream\AbstractRadioStream;
 use App\Stream\MetalOnly;
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RadioGalaxy;
@@ -64,7 +65,7 @@ try {
         foreach ($streams as $streamName) {
             echo '    '.$streamName.":\n";
 
-            /** @var \App\Stream\AbstractRadioStream $radioStream */
+            /** @var AbstractRadioStream $radioStream */
             $radioStream = new $availableRadios[$radioName]($domFetcher, $streamName);
 
             if (null !== $radioStream->getShow()) {

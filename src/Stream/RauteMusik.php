@@ -4,6 +4,14 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use DateTime;
+use DOMNode;
+use DOMNodeList;
+use DOMXPath;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 final class RauteMusik extends AbstractRadioStream
 {
     private const RADIO_NAME = 'RauteMusik';
@@ -55,9 +63,9 @@ final class RauteMusik extends AbstractRadioStream
     }
 
     /**
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function updateInfo(): void
     {
@@ -66,28 +74,28 @@ final class RauteMusik extends AbstractRadioStream
     }
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     private function updateTrackInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
+        } catch (Exception $e) {
+            throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
-        $xpath = new \DOMXPath($dom);
-        /** @var \DOMNodeList $nodeList */
+        $xpath = new DOMXPath($dom);
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(
             ".//li[@class='current']//p[@class='title']"
             ." | .//li[@class='current']//p[@class='artist']"
         );
 
-        /** @var \DOMNode $node */
+        /** @var DOMNode $node */
         foreach ($nodeList as $node) {
             $classNode = $node->attributes->getNamedItem('class');
-            if (!($classNode instanceof \DOMNode)) {
-                throw new \RuntimeException('could not find DOMNode for parsing artist and title');
+            if (!($classNode instanceof DOMNode)) {
+                throw new RuntimeException('could not find DOMNode for parsing artist and title');
             }
 
             $class = $classNode->nodeValue;
@@ -100,46 +108,46 @@ final class RauteMusik extends AbstractRadioStream
     }
 
     /**
-     * @throws \RuntimeException
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws Exception
      */
     private function updateShowInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
+        } catch (Exception $e) {
+            throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
-        $xpath = new \DOMXPath($dom);
-        /** @var \DOMNodeList $nodeList */
+        $xpath = new DOMXPath($dom);
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//tr[@class='current']//td");
 
         $numNodes = $nodeList->length;
         if ($numNodes >= 1) {
             $matches = [];
             $node = $nodeList->item(0);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing show start and end time');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing show start and end time');
             }
 
             if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
-                $this->setShowStartTime(new \DateTime($matches[1]));
-                $this->setShowEndTime(new \DateTime($matches[2]));
+                $this->setShowStartTime(new DateTime($matches[1]));
+                $this->setShowEndTime(new DateTime($matches[2]));
             }
 
             if ($numNodes >= 2) {
                 $node = $nodeList->item(1);
-                if (!($node instanceof \DOMNode)) {
-                    throw new \RuntimeException('could not get DOMNode for parsing the show');
+                if (!($node instanceof DOMNode)) {
+                    throw new RuntimeException('could not get DOMNode for parsing the show');
                 }
 
                 $this->setShow(trim($node->nodeValue));
 
                 if ($numNodes >= 3) {
                     $node = $nodeList->item(2);
-                    if (!($node instanceof \DOMNode)) {
-                        throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+                    if (!($node instanceof DOMNode)) {
+                        throw new RuntimeException('could not get DOMNode for parsing the moderator');
                     }
 
                     $this->setModerator(

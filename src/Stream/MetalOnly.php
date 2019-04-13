@@ -4,6 +4,15 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use DateTime;
+use DOMElement;
+use DOMNode;
+use DOMNodeList;
+use DOMXPath;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 final class MetalOnly extends AbstractRadioStream
 {
     private const RADIO_NAME = 'Metal Only';
@@ -39,27 +48,27 @@ final class MetalOnly extends AbstractRadioStream
     }
 
     /**
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \Exception
+     * @throws RuntimeException
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function updateInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get html dom: '.$e->getMessage());
+        } catch (Exception $e) {
+            throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
 
-        /** @var \DOMNodeList $nodeList */
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
         if (1 === $nodeList->length) {
             $matches = [];
             $node = $nodeList->item(0);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing the moderator');
             }
 
             if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue, $matches)) {
@@ -70,15 +79,15 @@ final class MetalOnly extends AbstractRadioStream
             }
         }
 
-        /** @var \DOMNodeList $nodeList */
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='sendung']//span"
         );
         if (1 === $nodeList->length) {
             $node = $nodeList->item(0);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing the show');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing the show');
             }
 
             $show = trim($node->nodeValue);
@@ -87,15 +96,15 @@ final class MetalOnly extends AbstractRadioStream
             }
         }
 
-        /** @var \DOMNodeList $nodeList */
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='gerne']//span"
         );
         if (1 === $nodeList->length) {
             $node = $nodeList->item(0);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing the genre');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing the genre');
             }
 
             $genre = trim($node->nodeValue);
@@ -117,16 +126,16 @@ final class MetalOnly extends AbstractRadioStream
         $defaultGenres = [
             'Mixed Metal',
         ];
-        if (\in_array($this->getModerator(), $defaultModerators, true)
-            && \in_array($this->getShow(), $defaultShowNames, true)
-            && \in_array($this->getGenre(), $defaultGenres, true)
+        if (in_array($this->getModerator(), $defaultModerators, true)
+            && in_array($this->getShow(), $defaultShowNames, true)
+            && in_array($this->getGenre(), $defaultGenres, true)
         ) {
             $this->setModerator()
                 ->setShow()
                 ->setGenre();
         }
 
-        /** @var \DOMNodeList $nodeList */
+        /** @var DOMNodeList $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='track']//span"
@@ -134,8 +143,8 @@ final class MetalOnly extends AbstractRadioStream
         if (1 === $nodeList->length) {
             $matches = [];
             $node = $nodeList->item(0);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing the artist and track');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing the artist and track');
             }
 
             if (preg_match('/^(.*) - ([^-]*)$/', $node->nodeValue, $matches)) {
@@ -159,8 +168,8 @@ final class MetalOnly extends AbstractRadioStream
             // the time table starts at 14:00 so the first row (0) represents 14:00
             $currentHour = (14 + $i) % 24;
             $node = $nodeList->item($i);
-            if (!($node instanceof \DOMNode)) {
-                throw new \RuntimeException('could not get DOMNode for parsing the moderator');
+            if (!($node instanceof DOMNode)) {
+                throw new RuntimeException('could not get DOMNode for parsing the moderator');
             }
             $item = $node->firstChild;
             $moderator = $item->nodeValue;
@@ -170,17 +179,17 @@ final class MetalOnly extends AbstractRadioStream
                 // and if we didn't find the on air mod until now
                 if (false === $found) {
                     // set new value for start time
-                    $startTime = new \DateTime($currentHour.':00');
+                    $startTime = new DateTime($currentHour.':00');
                 } else {
                     // or we did already find the on air mod and can stop here
                     break;
                 }
             }
 
-            if ($item instanceof \DOMElement
+            if ($item instanceof DOMElement
                 && $item->hasAttribute('class')
                 && 'nowonair' === trim($item->getAttribute('class'))
-                && !\in_array(trim($moderator), ['', 'MetalHead'], true)
+                && !in_array(trim($moderator), ['', 'MetalHead'], true)
             ) {
                 $found = true;
             }
@@ -189,15 +198,15 @@ final class MetalOnly extends AbstractRadioStream
             if (true === $found) {
                 // then set the end time to the current hour + 1
                 $endHour = ($currentHour + 1) % 24;
-                $endTime = new \DateTime($endHour.':00');
+                $endTime = new DateTime($endHour.':00');
             }
 
             $lastModerator = $moderator;
         }
 
         if (true === $found
-            && $startTime instanceof \DateTime
-            && $endTime instanceof \DateTime
+            && $startTime instanceof DateTime
+            && $endTime instanceof DateTime
         ) {
             $this->setShowStartTime($startTime);
             $this->setShowEndTime($endTime);

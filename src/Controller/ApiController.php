@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
+use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class ApiController extends AbstractController
         try {
             /** @var AbstractRadioStream $radioClass */
             $radioClass = $this->getRadioClass($radioName);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return $this->json($e->getMessage(), 404);
         }
 
@@ -66,7 +67,7 @@ class ApiController extends AbstractController
             $radioClass = $this->getRadioClass($radioName);
             /** @var AbstractRadioStream $stream */
             $stream = new $radioClass($httpDomFetcher, $streamName);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             return $this->json($e->getMessage(), 404);
         }
 
@@ -81,7 +82,7 @@ class ApiController extends AbstractController
     private function getRadioClass(string $radioName): string
     {
         if (!array_key_exists($radioName, $this->radios)) {
-            throw new \InvalidArgumentException('Invalid radio name given');
+            throw new InvalidArgumentException('Invalid radio name given');
         }
 
         return $this->radios[$radioName];

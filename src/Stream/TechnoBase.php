@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use DateTime;
+use DOMNode;
+use Exception;
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
+
 final class TechnoBase extends AbstractRadioStream
 {
     private const RADIO_NAME = 'TechnoBase';
@@ -38,7 +45,7 @@ final class TechnoBase extends AbstractRadioStream
 
         $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamName());
         if (!is_string($shortName)) {
-            throw new \LogicException('could not process stream name "'.$this->getStreamName().'"');
+            throw new LogicException('could not process stream name "'.$this->getStreamName().'"');
         }
 
         $fileName = strtolower($shortName);
@@ -57,27 +64,27 @@ final class TechnoBase extends AbstractRadioStream
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \RuntimeException
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     * @throws Exception
      */
     public function updateInfo(): void
     {
         try {
             $dom = $this->getDomFetcher()->getXmlDom(self::URL);
-        } catch (\Exception $e) {
-            throw new \RuntimeException('could not get xml dom: '.$e->getMessage());
+        } catch (Exception $e) {
+            throw new RuntimeException('could not get xml dom: '.$e->getMessage());
         }
 
         $streamInfoNode = null;
 
-        /** @var \DOMNode $weAreOneNode */
+        /** @var DOMNode $weAreOneNode */
         foreach ($dom->childNodes as $weAreOneNode) {
             if ('weareone' === $weAreOneNode->nodeName) {
-                /** @var \DOMNode $radioNode */
+                /** @var DOMNode $radioNode */
                 foreach ($weAreOneNode->childNodes as $radioNode) {
                     if ('radio' === $radioNode->nodeName) {
-                        /** @var \DOMNode $streamNode */
+                        /** @var DOMNode $streamNode */
                         foreach ($radioNode->childNodes as $streamNode) {
                             if ('name' === $streamNode->nodeName
                                 && $streamNode->nodeValue === $this->getStreamName()
@@ -102,15 +109,15 @@ final class TechnoBase extends AbstractRadioStream
                 'setShowEndTime' => 'endtime',
             ];
 
-            /** @var \DOMNode $childNode */
+            /** @var DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = $childNode->nodeValue;
                 if ('0' === $nodeValue || !empty(trim($nodeValue))) {
                     foreach ($infos as $setter => $info) {
                         if ($childNode->nodeName === $info) {
-                            if (\in_array($info, ['starttime', 'endtime'])) {
+                            if (in_array($info, ['starttime', 'endtime'])) {
                                 $this->$setter(
-                                    new \DateTime(
+                                    new DateTime(
                                         str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
                                     )
                                 );
@@ -125,8 +132,8 @@ final class TechnoBase extends AbstractRadioStream
 
         $showStartTime = $this->getShowStartTime();
         $showEndTime = $this->getShowEndTime();
-        if ($showStartTime instanceof \DateTime
-            && $showEndTime instanceof \DateTime
+        if ($showStartTime instanceof DateTime
+            && $showEndTime instanceof DateTime
             && $showStartTime->format('H:i') === $showEndTime->format('H:i')
         ) {
             $this->setShowStartTime(null);
