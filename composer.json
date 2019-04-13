@@ -4,7 +4,7 @@
     "type": "project",
     "license": "",
     "require": {
-        "php": "^7.2.0",
+        "php": "^7.3.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-iconv": "*",
@@ -33,7 +33,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "7.2.13"
+            "php": "7.3"
         },
         "optimize-autoloader": true
     },

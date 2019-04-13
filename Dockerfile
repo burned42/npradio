@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.3-apache
 
 ENV APP_ENV prod
 ENV APP_DEBUG 0
@@ -38,4 +38,3 @@ RUN composer install --no-dev -d /var/www/html/
 RUN php /var/www/html/bin/console cache:clear
 
 RUN chown -R www-data:www-data /var/www/html/
-
