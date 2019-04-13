@@ -1,5 +1,6 @@
 [![CI pipeline](https://travis-ci.org/burned42/npradio.svg?branch=master)](https://travis-ci.org/burned42/npradio)
 [![code coverage](https://codecov.io/gh/burned42/npradio/branch/master/graph/badge.svg)](https://codecov.io/gh/burned42/npradio)
+[![docker build](https://img.shields.io/docker/cloud/build/burned42/npradio.svg)](https://hub.docker.com/r/burned42/npradio)
 
 Now Playing Radio
 =================
