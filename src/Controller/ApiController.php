@@ -74,7 +74,7 @@ class ApiController extends AbstractController
         $response = $this->json($stream->getAsArray());
 
         $response->setSharedMaxAge(30);
-        $response->headers->addCacheControlDirective('must-revalidate', true);
+        $response->headers->addCacheControlDirective('must-revalidate');
 
         return $response;
     }

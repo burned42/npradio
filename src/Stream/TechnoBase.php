@@ -136,8 +136,8 @@ final class TechnoBase extends AbstractRadioStream
             && $showEndTime instanceof DateTime
             && $showStartTime->format('H:i') === $showEndTime->format('H:i')
         ) {
-            $this->setShowStartTime(null);
-            $this->setShowEndTime(null);
+            $this->setShowStartTime();
+            $this->setShowEndTime();
         }
     }
 }
