@@ -8,6 +8,7 @@ use App\Stream\MetalOnly;
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RadioGalaxy;
 use App\Stream\RauteMusik;
+use App\Stream\SlayRadio;
 use App\Stream\StarFm;
 use App\Stream\TechnoBase;
 
@@ -15,6 +16,7 @@ $radioStreams = [
     MetalOnly::class,
     RadioGalaxy::class,
     RauteMusik::class,
+    SlayRadio::class,
     StarFm::class,
     TechnoBase::class,
 ];
