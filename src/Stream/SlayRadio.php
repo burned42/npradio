@@ -27,7 +27,7 @@ final class SlayRadio extends AbstractRadioStream
 
     protected function getStreamUrl(): string
     {
-        return 'http://relay1.slayradio.org:8000';
+        return 'http://relay3.slayradio.org:8000';
     }
 
     public static function getAvailableStreams(): array
