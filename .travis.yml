@@ -40,6 +40,9 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "update check"
       script: composer update-check
+      env: ALLOW_FAILURE=true
+  allow_failures:
+    - env: ALLOW_FAILURE=true
 
 cache:
   directories:
