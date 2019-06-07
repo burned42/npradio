@@ -16,8 +16,8 @@ script: composer codeception
 
 # don't fail on deprecation warnings for now as they come from
 # dependencies, not from the test code in this repository
-#env:
-#  - SYMFONY_DEPRECATIONS_HELPER=disabled
+env:
+  - SYMFONY_DEPRECATIONS_HELPER=max[self]=0
 
 # and specify that 'test' stage should run after 'code quality' checks
 stages:
@@ -40,6 +40,9 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "update check"
       script: composer update-check
+      env: ALLOW_FAILURE=true
+  allow_failures:
+    - env: ALLOW_FAILURE=true
 
 cache:
   directories:
