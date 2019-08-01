@@ -419,6 +419,9 @@
     "symfony/stopwatch": {
         "version": "v4.2.3"
     },
+    "symfony/translation-contracts": {
+        "version": "v1.1.5"
+    },
     "symfony/twig-bridge": {
         "version": "v4.2.3"
     },
