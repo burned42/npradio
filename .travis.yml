@@ -48,4 +48,3 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
-
