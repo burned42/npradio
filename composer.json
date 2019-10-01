@@ -73,7 +73,7 @@
         ],
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
         "phpcs": "vendor/bin/phpcs",
-        "phpstan": "vendor/bin/phpstan analyse --level max --ansi src",
+        "phpstan": "vendor/bin/phpstan analyse --ansi",
         "codeception": "vendor/bin/codecept run --ansi",
         "codeception-coverage-xml": "vendor/bin/codecept run --ansi --coverage --coverage-xml",
         "codeception-coverage-html": "vendor/bin/codecept run --ansi --coverage --coverage-html",
