@@ -126,7 +126,8 @@ final class MetalOnly extends AbstractRadioStream
         $defaultGenres = [
             'Mixed Metal',
         ];
-        if (in_array($this->getModerator(), $defaultModerators, true)
+        if (
+            in_array($this->getModerator(), $defaultModerators, true)
             && in_array($this->getShow(), $defaultShowNames, true)
             && in_array($this->getGenre(), $defaultGenres, true)
         ) {
@@ -186,7 +187,8 @@ final class MetalOnly extends AbstractRadioStream
                 }
             }
 
-            if ($item instanceof DOMElement
+            if (
+                $item instanceof DOMElement
                 && $item->hasAttribute('class')
                 && 'nowonair' === trim($item->getAttribute('class'))
                 && !in_array(trim($moderator), ['', 'MetalHead'], true)
@@ -204,7 +206,8 @@ final class MetalOnly extends AbstractRadioStream
             $lastModerator = $moderator;
         }
 
-        if (true === $found
+        if (
+            true === $found
             && $startTime instanceof DateTime
             && $endTime instanceof DateTime
         ) {

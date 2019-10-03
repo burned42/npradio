@@ -11,4 +11,3 @@ how the show is named etc. and offers the possibility to play these streams
 directly in your browser.
 
 A Docker image is available on [Docker Hub](https://hub.docker.com/r/burned42/npradio).
-

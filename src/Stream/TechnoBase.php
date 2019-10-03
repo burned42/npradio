@@ -86,7 +86,8 @@ final class TechnoBase extends AbstractRadioStream
                     if ('radio' === $radioNode->nodeName) {
                         /** @var DOMNode $streamNode */
                         foreach ($radioNode->childNodes as $streamNode) {
-                            if ('name' === $streamNode->nodeName
+                            if (
+                                'name' === $streamNode->nodeName
                                 && $streamNode->nodeValue === $this->getStreamName()
                             ) {
                                 $streamInfoNode = $radioNode;
@@ -132,7 +133,8 @@ final class TechnoBase extends AbstractRadioStream
 
         $showStartTime = $this->getShowStartTime();
         $showEndTime = $this->getShowEndTime();
-        if ($showStartTime instanceof DateTime
+        if (
+            $showStartTime instanceof DateTime
             && $showEndTime instanceof DateTime
             && $showStartTime->format('H:i') === $showEndTime->format('H:i')
         ) {

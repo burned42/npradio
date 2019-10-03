@@ -2,7 +2,6 @@ language: php
 
 php:
   - '7.3'
-  - '7.2'
 
 before_script:
   - composer self-update
@@ -48,4 +47,3 @@ cache:
   directories:
     - vendor
     - $HOME/.composer/cache
-
