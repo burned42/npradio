@@ -27,18 +27,19 @@ function playStream(e, streamUrl, radioName, streamName) {
 
         e.className = 'btn btn-primary';
         document.getElementById('npradio_title').innerText = radioName + ': ' + streamName;
-        streamPlayer.play().then(function () {
-            nowPlayingRadioStream = [radioName, streamName];
-        }).catch(function () {
-            e.className = 'btn btn-warning';
-            nowPlayingRadioStream = null;
-        });
+        streamPlayer.play()
+            .then(() => nowPlayingRadioStream = [radioName, streamName])
+            .catch(() => {
+                e.className = 'btn btn-warning';
+                nowPlayingRadioStream = null;
+            }
+        );
     }
 }
 
 function getNumberOfRunningRequests() {
     let requestsRunning = 0;
-    radioStreams.map(function (radioStream) {
+    radioStreams.map(radioStream => {
         if (radioStream.requestRunning) {
             requestsRunning++;
         }
@@ -49,9 +50,7 @@ function getNumberOfRunningRequests() {
 
 function updateData() {
     if (getNumberOfRunningRequests() < 3) {
-        radioStreams.map(function (radioStream) {
-            radioStream.update();
-        });
+        radioStreams.map((radioStream) => radioStream.update());
 
         let lastUpdated = document.getElementById('last_updated');
         let currentDate = new Date();
@@ -96,9 +95,9 @@ function showSettings() {
         '<div class="card">' +
         '    <div class="card-body">' +
         '        <div class="list-group" id="stream_selection">';
-    allStreams.map(function (streamData) {
+    allStreams.map(streamData => {
         let checked = '';
-        preselectStreams.map(function (selectedData) {
+        preselectStreams.map(selectedData => {
             if (selectedData[0] === streamData[0] && selectedData[1] === streamData[1]) {
                 checked = ' checked="checked"';
             }
@@ -153,7 +152,7 @@ function showStreamInfo() {
     document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
 
-    localStreamSelection.map(function (stream) {
+    localStreamSelection.map(stream => {
         let playing = false;
         if (
             nowPlayingRadioStream !== null
@@ -213,7 +212,7 @@ setAvailableRadioStreams();
 let radioStreams = [];
 showStreamInfo();
 
-setInterval(function () {
+setInterval(() => {
     try {
         updateData();
     } catch (e) {

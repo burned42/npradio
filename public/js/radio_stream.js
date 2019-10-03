@@ -55,9 +55,7 @@ class RadioStream {
                 headerButton.innerHTML = '&#x25b6';
             }
             headerButton.name = 'play_stream';
-            headerButton.onclick = function () {
-                playStream(this, streamInfo.stream_url, streamInfo.radio_name, streamInfo.stream_name);
-            };
+            headerButton.onclick = () => playStream(headerButton, streamInfo.stream_url, streamInfo.radio_name, streamInfo.stream_name);
             header.appendChild(headerButton);
 
             this.domElement.appendChild(header);
