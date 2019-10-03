@@ -16,11 +16,20 @@ function playStream(e, streamUrl, radioName, streamName) {
 
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayer.setAttribute('src', streamUrl);
-        e.className = 'btn btn-primary';
-        streamPlayer.play().then(function () {
+        streamPlayer.onpause = () => {
+            e.className = 'btn btn-secondary';
+            e.innerHTML = '&#x25b6;';
+            console.log('pause');
+        };
+        streamPlayer.onplaying = () => {
+            e.className = 'btn btn-primary';
             e.innerHTML = '&#x23f8;';
+            console.log('playing');
+        };
 
-            document.title = 'NPRadio | ' + radioName + ': ' + streamName;
+        e.className = 'btn btn-primary';
+        document.getElementById('npradio_title').innerText = radioName + ': ' + streamName;
+        streamPlayer.play().then(function () {
             nowPlayingRadioStream = [radioName, streamName];
         }).catch(function () {
             e.className = 'btn btn-warning';
