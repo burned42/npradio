@@ -19,12 +19,10 @@ function playStream(e, streamUrl, radioName, streamName) {
         streamPlayer.onpause = () => {
             e.className = 'btn btn-secondary';
             e.innerHTML = '&#x25b6;';
-            console.log('pause');
         };
         streamPlayer.onplaying = () => {
             e.className = 'btn btn-primary';
             e.innerHTML = '&#x23f8;';
-            console.log('playing');
         };
 
         e.className = 'btn btn-primary';
