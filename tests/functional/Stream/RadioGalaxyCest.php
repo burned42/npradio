@@ -13,8 +13,6 @@ use RuntimeException;
 class RadioGalaxyCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */

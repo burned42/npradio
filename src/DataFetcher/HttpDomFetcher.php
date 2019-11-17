@@ -12,10 +12,6 @@ use RuntimeException;
 class HttpDomFetcher implements DomFetcher
 {
     /**
-     * @param string $url
-     *
-     * @return string
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -39,10 +35,6 @@ class HttpDomFetcher implements DomFetcher
     }
 
     /**
-     * @param string $url
-     *
-     * @return DOMDocument
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -63,10 +55,6 @@ class HttpDomFetcher implements DomFetcher
     }
 
     /**
-     * @param string $url
-     *
-     * @return DOMDocument
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */

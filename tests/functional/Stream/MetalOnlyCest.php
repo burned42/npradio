@@ -13,8 +13,6 @@ use RuntimeException;
 class MetalOnlyCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */

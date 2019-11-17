@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stream;
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\SlayRadio;
 use Codeception\Util\Stub;
-use App\DataFetcher\HttpDomFetcher;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -44,8 +44,6 @@ class SlayRadioCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -61,8 +59,6 @@ class SlayRadioCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testDomFetcherException(UnitTester $I): void

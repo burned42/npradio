@@ -3,9 +3,9 @@
 
 require_once 'vendor/autoload.php';
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
 use App\Stream\MetalOnly;
-use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RadioGalaxy;
 use App\Stream\RauteMusik;
 use App\Stream\SlayRadio;

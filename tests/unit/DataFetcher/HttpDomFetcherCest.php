@@ -20,8 +20,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -43,8 +41,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -68,8 +64,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -83,8 +77,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -99,8 +91,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -114,8 +104,6 @@ class HttpDomFetcherCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */

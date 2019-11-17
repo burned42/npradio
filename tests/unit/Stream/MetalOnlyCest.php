@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stream;
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;
 use Codeception\Util\Stub;
-use App\DataFetcher\HttpDomFetcher;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
@@ -67,8 +67,6 @@ class MetalOnlyCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
@@ -84,8 +82,6 @@ class MetalOnlyCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -101,8 +97,6 @@ class MetalOnlyCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
@@ -118,8 +112,6 @@ class MetalOnlyCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testDomFetcherException(UnitTester $I): void

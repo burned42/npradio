@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stream;
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
 use Codeception\Example;
-use App\DataFetcher\HttpDomFetcher;
 use DateTime;
 use Exception;
 use InvalidArgumentException;
@@ -47,8 +47,6 @@ class AbstractRadioStreamCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testConstructor(UnitTester $I): void
@@ -76,9 +74,6 @@ class AbstractRadioStreamCest
     }
 
     /**
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @example ["Show"]
      * @example ["Genre"]
      * @example ["Moderator"]
@@ -99,9 +94,6 @@ class AbstractRadioStreamCest
     }
 
     /**
-     * @param UnitTester $I
-     * @param Example    $example
-     *
      * @example ["ShowStartTime"]
      * @example ["ShowEndTime"]
      *
@@ -121,8 +113,6 @@ class AbstractRadioStreamCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testGetAsArray(UnitTester $I): void

@@ -13,8 +13,6 @@ use RuntimeException;
 class StarFmCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */

@@ -13,8 +13,6 @@ use RuntimeException;
 class SlayRadioCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */

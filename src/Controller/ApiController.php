@@ -35,10 +35,6 @@ class ApiController extends AbstractController
 
     /**
      * @Route("/radios/{radioName}/streams")
-     *
-     * @param string $radioName
-     *
-     * @return JsonResponse
      */
     public function getStreams(string $radioName): JsonResponse
     {
@@ -54,12 +50,6 @@ class ApiController extends AbstractController
 
     /**
      * @Route("/radios/{radioName}/streams/{streamName}")
-     *
-     * @param string         $radioName
-     * @param string         $streamName
-     * @param HttpDomFetcher $httpDomFetcher
-     *
-     * @return JsonResponse
      */
     public function getStreamInfo(string $radioName, string $streamName, HttpDomFetcher $httpDomFetcher): JsonResponse
     {

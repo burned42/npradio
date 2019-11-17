@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Stream;
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RauteMusik;
 use Codeception\Util\Stub;
-use App\DataFetcher\HttpDomFetcher;
 use DOMDocument;
 use Exception;
 use RuntimeException;
@@ -39,8 +39,6 @@ class RauteMusikCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function canInstantiate(UnitTester $I): void
@@ -61,8 +59,6 @@ class RauteMusikCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testUpdateInfo(UnitTester $I): void
@@ -77,8 +73,6 @@ class RauteMusikCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testDomFetcherExceptionOnTrackInfo(UnitTester $I): void
@@ -97,8 +91,6 @@ class RauteMusikCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testDomFetcherExceptionOnShowInfo(UnitTester $I): void
@@ -129,8 +121,6 @@ class RauteMusikCest
     }
 
     /**
-     * @param UnitTester $I
-     *
      * @throws Exception
      */
     public function testProtectedMethods(UnitTester $I): void

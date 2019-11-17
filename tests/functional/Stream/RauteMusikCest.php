@@ -13,8 +13,6 @@ use RuntimeException;
 class RauteMusikCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */

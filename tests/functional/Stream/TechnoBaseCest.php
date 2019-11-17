@@ -13,8 +13,6 @@ use RuntimeException;
 class TechnoBaseCest
 {
     /**
-     * @param FunctionalTester $I
-     *
      * @throws RuntimeException
      * @throws InvalidArgumentException
      */
