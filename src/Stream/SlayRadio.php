@@ -48,7 +48,7 @@ final class SlayRadio extends AbstractRadioStream
     {
         try {
             $url = self::URL.self::API_PATH;
-            $data = json_decode($this->getDomFetcher()->getUrlContent($url), true);
+            $data = json_decode($this->getDomFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
