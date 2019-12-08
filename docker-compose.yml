@@ -1,0 +1,11 @@
+version: "3.6"
+
+services:
+    app:
+        build: .
+        volumes:
+            - .:/var/www/html
+        ports:
+            - 8000:80
+        env_file:
+            - .env
