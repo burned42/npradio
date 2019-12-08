@@ -15,38 +15,44 @@ use UnitTester;
 
 class MetalOnlyCest
 {
-    private $domFetcher;
-    private $domFetcherNotOnAir;
-    private $domFetcherOnAir;
+    private HttpDomFetcher $domFetcher;
+    private HttpDomFetcher $domFetcherNotOnAir;
+    private HttpDomFetcher $domFetcherOnAir;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySample.html');
             @$dom->loadHTML($html);
 
             return $dom;
         }]);
+        $this->domFetcher = $domFetcher;
 
-        $this->domFetcherNotOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var HttpDomFetcher $domFetcherNotOnAir */
+        $domFetcherNotOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
         }]);
+        $this->domFetcherNotOnAir = $domFetcherNotOnAir;
 
-        $this->domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var HttpDomFetcher $domFetcherOnAir */
+        $domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
         }]);
+        $this->domFetcherOnAir = $domFetcherOnAir;
     }
 
     public function canInstantiate(UnitTester $I): void

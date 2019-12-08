@@ -11,8 +11,7 @@ use UnitTester;
 
 class HttpDomFetcherCest
 {
-    /** @var HttpDomFetcher */
-    private $domFetcher;
+    private HttpDomFetcher $domFetcher;
 
     public function _before(): void
     {

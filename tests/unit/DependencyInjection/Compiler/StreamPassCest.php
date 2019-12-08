@@ -13,8 +13,7 @@ use UnitTester;
 
 class StreamPassCest
 {
-    /** @var StreamPass */
-    private $streamPass;
+    private StreamPass $streamPass;
 
     public function _before(): void
     {
