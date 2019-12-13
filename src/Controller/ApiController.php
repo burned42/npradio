@@ -16,8 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ApiController extends AbstractController
 {
-    /** @var array */
-    private $radios = [];
+    /** @var array<string, string> */
+    private array $radios = [];
 
     public function addRadio(string $radio): void
     {

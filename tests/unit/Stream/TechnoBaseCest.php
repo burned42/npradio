@@ -16,20 +16,22 @@ use UnitTester;
 
 class TechnoBaseCest
 {
-    private $domFetcher;
+    private HttpDomFetcher $domFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
             $dom = new DOMDocument();
             $xml = file_get_contents(__DIR__.'/../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
             return $dom;
         }]);
+        $this->domFetcher = $domFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void

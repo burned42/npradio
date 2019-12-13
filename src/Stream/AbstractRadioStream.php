@@ -10,27 +10,16 @@ use InvalidArgumentException;
 
 abstract class AbstractRadioStream
 {
-    /** @var HttpDomFetcher */
-    private $domFetcher;
+    private HttpDomFetcher $domFetcher;
+    private string $streamName;
 
-    /** @var string */
-    private $streamName;
-
-    /** @var string|null */
-    private $show;
-    /** @var string|null */
-    private $genre;
-    /** @var string|null */
-    private $moderator;
-    /** @var DateTime|null */
-    private $showStartTime;
-    /** @var DateTime|null */
-    private $showEndTime;
-
-    /** @var string|null */
-    private $track;
-    /** @var string|null */
-    private $artist;
+    private ?string $track = null;
+    private ?string $artist = null;
+    private ?string $show = null;
+    private ?string $genre = null;
+    private ?string $moderator = null;
+    private ?DateTime $showStartTime = null;
+    private ?DateTime $showEndTime = null;
 
     public function __construct(HttpDomFetcher $domFetcher, string $streamName)
     {
@@ -53,6 +42,9 @@ abstract class AbstractRadioStream
 
     abstract public static function getRadioName(): string;
 
+    /**
+     * @return array<string>
+     */
     abstract public static function getAvailableStreams(): array;
 
     public function getStreamName(): string
@@ -64,6 +56,9 @@ abstract class AbstractRadioStream
 
     abstract protected function getStreamUrl(): string;
 
+    /**
+     * @return array<string, string|array<string|null>|null>
+     */
     public function getAsArray(): array
     {
         $showStartTime = $this->getShowStartTime();

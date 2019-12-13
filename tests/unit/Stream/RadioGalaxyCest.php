@@ -14,16 +14,18 @@ use UnitTester;
 
 class RadioGalaxyCest
 {
-    private $domFetcher;
+    private HttpDomFetcher $domFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        $this->domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => static function () {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getUrlContent' => static function () {
             return file_get_contents(__DIR__.'/../TestSamples/RadioGalaxySample.json');
         }]);
+        $this->domFetcher = $domFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void

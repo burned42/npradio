@@ -1,10 +1,7 @@
 language: php
 
 php:
-  - '7.3'
-
-before_script:
-  - composer self-update
+  - '7.4'
 
 install:
   - composer install

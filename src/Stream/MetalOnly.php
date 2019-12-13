@@ -62,7 +62,7 @@ final class MetalOnly extends AbstractRadioStream
 
         $xpath = new DOMXPath($dom);
 
-        /** @var DOMNodeList $nodeList */
+        /** @var DOMNodeList<DOMNode> $nodeList */
         $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
         if (1 === $nodeList->length) {
             $matches = [];
@@ -79,7 +79,7 @@ final class MetalOnly extends AbstractRadioStream
             }
         }
 
-        /** @var DOMNodeList $nodeList */
+        /** @var DOMNodeList<DOMNode> $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='sendung']//span"
@@ -96,7 +96,7 @@ final class MetalOnly extends AbstractRadioStream
             }
         }
 
-        /** @var DOMNodeList $nodeList */
+        /** @var DOMNodeList<DOMNode> $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='gerne']//span"
@@ -136,7 +136,7 @@ final class MetalOnly extends AbstractRadioStream
                 ->setGenre();
         }
 
-        /** @var DOMNodeList $nodeList */
+        /** @var DOMNodeList<DOMNode> $nodeList */
         $nodeList = $xpath->query(
             ".//div[@class='boxx onair']//div[@class='data']"
             ."//div[@class='streaminfo']//span[@class='track']//span"
@@ -156,6 +156,7 @@ final class MetalOnly extends AbstractRadioStream
 
         // fetch showtime
         $dayOfWeek = date('N');
+        /** @var DOMNodeList<DOMNode> $nodeList */
         $nodeList = $xpath->query(
             "(.//div[@class='sendeplan']//div[@class='day']"
             ."//ul[@class='list'])[".$dayOfWeek.']//li[position()>2]'
@@ -172,6 +173,7 @@ final class MetalOnly extends AbstractRadioStream
             if (!($node instanceof DOMNode)) {
                 throw new RuntimeException('could not get DOMNode for parsing the moderator');
             }
+            /** @var DOMNode $item */
             $item = $node->firstChild;
             $moderator = $item->nodeValue;
 
