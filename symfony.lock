@@ -11,6 +11,21 @@
             "ref": "d2a29c0abee586aff913fd45fae1f59b669f4cbe"
         }
     },
+    "codeception/lib-asserts": {
+        "version": "1.10.1"
+    },
+    "codeception/lib-innerbrowser": {
+        "version": "1.2.3"
+    },
+    "codeception/module-asserts": {
+        "version": "1.1.1"
+    },
+    "codeception/module-rest": {
+        "version": "1.0.0"
+    },
+    "codeception/module-symfony": {
+        "version": "1.0.0"
+    },
     "codeception/phpunit-wrapper": {
         "version": "8.1.0"
     },
@@ -38,8 +53,8 @@
     "doctrine/lexer": {
         "version": "1.2.0"
     },
-    "facebook/webdriver": {
-        "version": "1.7.1"
+    "flow/jsonpath": {
+        "version": "0.4.0"
     },
     "friendsofphp/php-cs-fixer": {
         "version": "2.2",
@@ -53,41 +68,8 @@
             ".php_cs.dist"
         ]
     },
-    "guzzlehttp/guzzle": {
-        "version": "6.5.0"
-    },
-    "guzzlehttp/promises": {
-        "version": "v1.3.1"
-    },
     "guzzlehttp/psr7": {
         "version": "1.6.1"
-    },
-    "hoa/consistency": {
-        "version": "1.17.05.02"
-    },
-    "hoa/console": {
-        "version": "3.17.05.02"
-    },
-    "hoa/event": {
-        "version": "1.17.01.13"
-    },
-    "hoa/exception": {
-        "version": "1.17.01.16"
-    },
-    "hoa/file": {
-        "version": "1.17.07.11"
-    },
-    "hoa/iterator": {
-        "version": "2.17.01.10"
-    },
-    "hoa/protocol": {
-        "version": "1.17.01.14"
-    },
-    "hoa/stream": {
-        "version": "1.17.02.21"
-    },
-    "hoa/ustring": {
-        "version": "4.17.01.16"
     },
     "myclabs/deep-copy": {
         "version": "1.9.3"
@@ -124,6 +106,9 @@
     },
     "phpstan/phpstan": {
         "version": "0.12.2"
+    },
+    "phpstan/phpstan-deprecation-rules": {
+        "version": "0.12.0"
     },
     "phpstan/phpstan-symfony": {
         "version": "0.12.1"
@@ -162,6 +147,9 @@
         "version": "1.0.1"
     },
     "psr/container": {
+        "version": "1.0.0"
+    },
+    "psr/event-dispatcher": {
         "version": "1.0.0"
     },
     "psr/http-message": {
@@ -240,7 +228,7 @@
         ]
     },
     "symfony/browser-kit": {
-        "version": "v4.4.1"
+        "version": "v5.0.2"
     },
     "symfony/cache": {
         "version": "v4.4.1"
@@ -267,14 +255,11 @@
     "symfony/css-selector": {
         "version": "v4.4.1"
     },
-    "symfony/debug": {
-        "version": "v4.4.1"
-    },
     "symfony/dependency-injection": {
         "version": "v4.4.1"
     },
     "symfony/dom-crawler": {
-        "version": "v4.4.1"
+        "version": "v5.0.2"
     },
     "symfony/dotenv": {
         "version": "v4.4.1"
