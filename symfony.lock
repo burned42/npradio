@@ -74,9 +74,6 @@
     "myclabs/deep-copy": {
         "version": "1.9.3"
     },
-    "nikic/php-parser": {
-        "version": "v4.3.0"
-    },
     "phar-io/manifest": {
         "version": "1.0.3"
     },
