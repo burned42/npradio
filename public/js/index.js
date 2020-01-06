@@ -187,6 +187,20 @@ function setAvailableRadioStreams() {
         });
 }
 
+function setUpdateInterval() {
+    if (null !== updateInterval) {
+        clearInterval(updateInterval);
+    }
+
+    updateInterval = setInterval(() => {
+        try {
+            updateData();
+        } catch (e) {
+            alert(e);
+        }
+    }, 30 * 1000);
+}
+
 let defaultStreams = [
     ['RauteMusik', 'Main'],
     ['Radio Galaxy', 'Mittelfranken'],
@@ -207,14 +221,13 @@ if (localStorage.streamSelection) {
 }
 
 let availableStreams = localStreamSelection.slice();
-setAvailableRadioStreams();
-
 let radioStreams = [];
-showStreamInfo();
 
-setInterval(() => {
-    try {
-        updateData();
-    } catch (e) {
-    }
-}, 30 * 1000);
+let updateInterval = null;
+
+window.onload = () => {
+    setAvailableRadioStreams();
+    showStreamInfo();
+    setUpdateInterval();
+};
+window.onfocus = () => setUpdateInterval();
