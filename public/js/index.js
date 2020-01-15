@@ -225,9 +225,12 @@ let radioStreams = [];
 
 let updateInterval = null;
 
-window.onload = () => {
+window.addEventListener('load', () => {
     setAvailableRadioStreams();
     showStreamInfo();
     setUpdateInterval();
-};
-window.onfocus = () => setUpdateInterval();
+
+    window.addEventListener('focus', setUpdateInterval);
+    window.addEventListener('online', setUpdateInterval);
+    window.addEventListener('offline', () => clearInterval(updateInterval));
+});
