@@ -71,6 +71,9 @@
     "guzzlehttp/psr7": {
         "version": "1.6.1"
     },
+    "justinrainbow/json-schema": {
+        "version": "5.2.9"
+    },
     "myclabs/deep-copy": {
         "version": "1.9.3"
     },
