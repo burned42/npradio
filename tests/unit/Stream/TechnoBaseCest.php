@@ -90,9 +90,9 @@ class TechnoBaseCest
         $info = $tb->getAsArray();
 
         $I->assertNotEmpty($info['homepage']);
-        $I->assertInternalType('string', $info['homepage']);
+        $I->assertIsString($info['homepage']);
 
         $I->assertNotEmpty($info['stream_url']);
-        $I->assertInternalType('string', $info['stream_url']);
+        $I->assertIsString($info['stream_url']);
     }
 }
