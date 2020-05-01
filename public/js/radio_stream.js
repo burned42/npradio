@@ -1,5 +1,6 @@
 class RadioStream {
-    constructor(radioName, streamName, initializePlaying) {
+    constructor(radioName, streamName, initializePlaying)
+    {
         this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
         this.requestRunning = false;
         this.initializePlaying = initializePlaying;
@@ -17,7 +18,8 @@ class RadioStream {
         this.updateStreamInfoDom = this.updateStreamInfoDom.bind(this);
     }
 
-    async update() {
+    async update()
+    {
         if (this.requestRunning === false) {
             this.requestRunning = true;
             try {
@@ -32,7 +34,8 @@ class RadioStream {
         }
     };
 
-    updateStreamInfoDom(streamInfo) {
+    updateStreamInfoDom(streamInfo)
+    {
         if (this.domElementInitialized === false) {
             // add header
             let header = document.createElement('h5');

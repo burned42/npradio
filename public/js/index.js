@@ -1,4 +1,5 @@
-function initializePlayButtonsToPaused() {
+function initializePlayButtonsToPaused()
+{
     let playButtons = document.getElementsByName('play_stream');
     for (let i = 0; i < playButtons.length; i++) {
         playButtons[i].className = 'btn btn-secondary';
@@ -7,7 +8,8 @@ function initializePlayButtonsToPaused() {
     nowPlayingRadioStream = null;
 }
 
-function playStream(e, streamUrl, radioName, streamName) {
+function playStream(e, streamUrl, radioName, streamName)
+{
     initializePlayButtonsToPaused();
 
     let streamPlayer = document.getElementById('stream_player');
@@ -37,7 +39,8 @@ function playStream(e, streamUrl, radioName, streamName) {
     }
 }
 
-function getNumberOfRunningRequests() {
+function getNumberOfRunningRequests()
+{
     let requestsRunning = 0;
     radioStreams.map(radioStream => {
         if (radioStream.requestRunning) {
@@ -48,7 +51,8 @@ function getNumberOfRunningRequests() {
     return requestsRunning;
 }
 
-function updateData() {
+function updateData()
+{
     if (getNumberOfRunningRequests() < 3) {
         radioStreams.map((radioStream) => radioStream.update());
 
@@ -63,14 +67,16 @@ function updateData() {
     }
 }
 
-function resetLocalStreamSelection() {
+function resetLocalStreamSelection()
+{
     localStreamSelection = defaultStreams;
     localStorage.streamSelection = JSON.stringify(defaultStreams);
 
     showStreamInfo();
 }
 
-function showSettings() {
+function showSettings()
+{
     document.getElementById('stream_infos').innerHTML = '';
 
     let settings = document.getElementById('settings');
@@ -131,7 +137,8 @@ function showSettings() {
     settings.style.display = 'block';
 }
 
-function saveSettings() {
+function saveSettings()
+{
     let streamSettings = document.getElementsByName('stream_setting_selection');
 
     let selectedStreams = [];
@@ -147,7 +154,8 @@ function saveSettings() {
     showStreamInfo();
 }
 
-function showStreamInfo() {
+function showStreamInfo()
+{
     document.getElementById('settings').style.display = 'none';
     document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
@@ -166,7 +174,8 @@ function showStreamInfo() {
     updateData();
 }
 
-function setAvailableRadioStreams() {
+function setAvailableRadioStreams()
+{
     fetch('/api/radios')
         .then(data => data.json())
         .then(radios => {
@@ -187,7 +196,8 @@ function setAvailableRadioStreams() {
         });
 }
 
-function setUpdateInterval() {
+function setUpdateInterval()
+{
     if (null !== updateInterval) {
         clearInterval(updateInterval);
     }
