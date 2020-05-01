@@ -13,8 +13,8 @@ final class StarFm extends AbstractRadioStream
     private const RADIO_NAME = 'STAR FM';
     private const URL = 'https://nbg.starfm.de';
 
-    private const NUREMBERG = 'Nürnberg';
-    private const FROM_HELL = 'From Hell';
+    private const NUREMBERG = 'STAR FM Nürnberg';
+    private const FROM_HELL = 'STAR FM From Hell';
 
     private const AVAILABLE_STREAMS = [
         self::FROM_HELL,

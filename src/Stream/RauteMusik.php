@@ -18,16 +18,16 @@ final class RauteMusik extends AbstractRadioStream
     private const BASE_URL = 'https://www.rautemusik.fm/';
     private const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
 
-    private const MAIN = 'Main';
-    private const CLUB = 'Club';
-    private const CHRISTMAS = 'Christmas';
-    private const HAPPYHARDCORE = 'HappyHardcore';
-    private const HARDER = 'HardeR';
-    private const HOUSE = 'House';
-    private const ROCK = 'Rock';
-    private const TECHHOUSE = 'TechHouse';
-    private const WACKENRADIO = 'WackenRadio';
-    private const WEIHNACHTEN = 'Weihnachten';
+    private const MAIN = 'RauteMusik Main';
+    private const CLUB = 'RauteMusik Club';
+    private const CHRISTMAS = 'RauteMusik Christmas';
+    private const HAPPYHARDCORE = 'RauteMusik HappyHardcore';
+    private const HARDER = 'RauteMusik HardeR';
+    private const HOUSE = 'RauteMusik House';
+    private const ROCK = 'RauteMusik Rock';
+    private const TECHHOUSE = 'RauteMusik TechHouse';
+    private const WACKENRADIO = 'Wacken Radio';
+    private const WEIHNACHTEN = 'RauteMusik Weihnachten';
 
     private const AVAILABLE_STREAMS = [
         self::MAIN,
@@ -42,14 +42,25 @@ final class RauteMusik extends AbstractRadioStream
         self::WEIHNACHTEN,
     ];
 
+    private function getStreamNameForUrl(): string
+    {
+        return strtolower(
+            str_replace(
+                ['RauteMusik', ' '],
+                '',
+                $this->getStreamName()
+            )
+        );
+    }
+
     protected function getHomepageUrl(): string
     {
-        return self::BASE_URL.strtolower($this->getStreamName());
+        return self::BASE_URL.$this->getStreamNameForUrl();
     }
 
     protected function getStreamUrl(): string
     {
-        return 'http://'.strtolower($this->getStreamName()).'-high.rautemusik.fm';
+        return 'http://'.$this->getStreamNameForUrl().'-high.rautemusik.fm';
     }
 
     public static function getAvailableStreams(): array
@@ -79,7 +90,7 @@ final class RauteMusik extends AbstractRadioStream
     private function updateTrackInfo(): void
     {
         try {
-            $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.strtolower($this->getStreamName()));
+            $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.$this->getStreamNameForUrl());
         } catch (Exception $e) {
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -114,7 +125,7 @@ final class RauteMusik extends AbstractRadioStream
     private function updateShowInfo(): void
     {
         try {
-            $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.strtolower($this->getStreamName()));
+            $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.$this->getStreamNameForUrl());
         } catch (Exception $e) {
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }

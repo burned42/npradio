@@ -28,7 +28,7 @@ function playStream(e, streamUrl, radioName, streamName)
         };
 
         e.className = 'btn btn-primary';
-        document.getElementById('npradio_title').innerText = radioName + ': ' + streamName;
+        document.getElementById('npradio_title').innerText = streamName;
         streamPlayer.play()
             .then(() => nowPlayingRadioStream = [radioName, streamName])
             .catch(() => {
@@ -212,15 +212,15 @@ function setUpdateInterval()
 }
 
 let defaultStreams = [
-    ['RauteMusik', 'Main'],
-    ['Radio Galaxy', 'Mittelfranken'],
-    ['RauteMusik', 'Club'],
-    ['TechnoBase', 'TechnoBase'],
-    ['RauteMusik', 'House'],
-    ['TechnoBase', 'HouseTime'],
-    ['STAR FM', 'Nürnberg'],
-    ['RauteMusik', 'Rock'],
-    ['RauteMusik', 'WackenRadio'],
+    ['RauteMusik', 'RauteMusik Main'],
+    ['Radio Galaxy', 'Radio Galaxy Mittelfranken'],
+    ['RauteMusik', 'RauteMusik Club'],
+    ['TechnoBase.FM', 'TechnoBase.FM'],
+    ['RauteMusik', 'RauteMusik House'],
+    ['TechnoBase.FM', 'HouseTime.FM'],
+    ['STAR FM', 'STAR FM Nürnberg'],
+    ['RauteMusik', 'RauteMusik Rock'],
+    ['RauteMusik', 'Wacken Radio'],
     ['Metal Only', 'Metal Only']
 ];
 let nowPlayingRadioStream = null;

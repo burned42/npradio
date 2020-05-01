@@ -12,7 +12,7 @@ final class RadioGalaxy extends AbstractRadioStream
 {
     private const RADIO_NAME = 'Radio Galaxy';
 
-    private const MITTELFRANKEN = 'Mittelfranken';
+    private const MITTELFRANKEN = 'Radio Galaxy Mittelfranken';
 
     private const AVAILABLE_STREAMS = [
         self::MITTELFRANKEN,

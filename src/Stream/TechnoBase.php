@@ -13,16 +13,16 @@ use RuntimeException;
 
 final class TechnoBase extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'TechnoBase';
+    private const RADIO_NAME = 'TechnoBase.FM';
     private const URL = 'http://tray.technobase.fm/radio.xml';
 
-    private const TECHNOBASE = 'TechnoBase';
-    private const HOUSETIME = 'HouseTime';
-    private const HARDBASE = 'HardBase';
-    private const TRANCEBASE = 'TranceBase';
-    private const CORETIME = 'CoreTime';
-    private const CLUBTIME = 'ClubTime';
-    private const TEATIME = 'TeaTime';
+    private const TECHNOBASE = 'TechnoBase.FM';
+    private const HOUSETIME = 'HouseTime.FM';
+    private const HARDBASE = 'HardBase.FM';
+    private const TRANCEBASE = 'TranceBase.FM';
+    private const CORETIME = 'CoreTime.FM';
+    private const CLUBTIME = 'ClubTime.FM';
+    private const TEATIME = 'TeaTime.FM';
 
     private const AVAILABLE_STREAMS = [
         self::TECHNOBASE,
@@ -34,18 +34,21 @@ final class TechnoBase extends AbstractRadioStream
         self::TEATIME,
     ];
 
+    private function getStreamNameWithoutSuffix(): string
+    {
+        return substr($this->getStreamName(), 0, -3);
+    }
+
     protected function getHomepageUrl(): string
     {
-        return 'https://www.'.strtolower($this->getStreamName()).'.fm';
+        return 'https://www.'.strtolower($this->getStreamName());
     }
 
     protected function getStreamUrl(): string
     {
-        //return 'http://listen.' . strtolower($streamName) . '.fm/tunein-dsl-pls';
-
-        $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamName());
+        $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamNameWithoutSuffix());
         if (!is_string($shortName)) {
-            throw new LogicException('could not process stream name "'.$this->getStreamName().'"');
+            throw new LogicException('could not process stream name "'.$this->getStreamNameWithoutSuffix().'"');
         }
 
         $fileName = strtolower($shortName);
@@ -88,7 +91,7 @@ final class TechnoBase extends AbstractRadioStream
                         foreach ($radioNode->childNodes as $streamNode) {
                             if (
                                 'name' === $streamNode->nodeName
-                                && $streamNode->nodeValue === $this->getStreamName()
+                                && $streamNode->nodeValue === $this->getStreamNameWithoutSuffix()
                             ) {
                                 $streamInfoNode = $radioNode;
                                 break 3;

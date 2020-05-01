@@ -46,7 +46,7 @@ class RadioStream {
             headerLink.setAttribute('href', streamInfo.homepage);
             headerLink.setAttribute('target', '_blank');
             headerLink.setAttribute('rel', 'noreferrer');
-            headerLink.innerHTML = streamInfo.radio_name + ': ' + streamInfo.stream_name;
+            headerLink.innerHTML = streamInfo.stream_name;
             header.appendChild(headerLink);
 
             let headerButton = document.createElement('button');

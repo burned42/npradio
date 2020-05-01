@@ -10,11 +10,11 @@ use RuntimeException;
 
 final class SlayRadio extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'SlayRadio';
+    private const RADIO_NAME = 'SLAY Radio';
     private const URL = 'https://www.slayradio.org';
     private const API_PATH = '/api.php?query=nowplaying';
 
-    private const SLAYRADIO = 'SlayRadio';
+    private const SLAYRADIO = 'SLAY Radio';
 
     private const AVAILABLE_STREAMS = [
         self::SLAYRADIO,
