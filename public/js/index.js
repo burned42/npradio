@@ -179,20 +179,18 @@ function setAvailableRadioStreams()
     fetch('/api/radios')
         .then(data => data.json())
         .then(radios => {
+            let allStreams = [];
             radios.map(async radio => {
                 fetch('/api/radios/' + radio + '/streams')
                     .then(data => data.json())
                     .then(streams => {
                         streams.map(async stream => {
-                            let found = availableStreams.find(element => {
-                                return element[0] === radio && element[1] === stream;
-                            });
-                            if (typeof found === 'undefined') {
-                                availableStreams.push([radio, stream]);
-                            }
+                            allStreams.push([radio, stream]);
                         });
                     });
             });
+
+            availableStreams = allStreams;
         });
 }
 
