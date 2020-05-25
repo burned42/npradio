@@ -8,7 +8,6 @@ use DateTime;
 use DOMNode;
 use Exception;
 use InvalidArgumentException;
-use LogicException;
 use RuntimeException;
 
 final class TechnoBase extends AbstractRadioStream
