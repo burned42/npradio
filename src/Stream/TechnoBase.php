@@ -24,14 +24,17 @@ final class TechnoBase extends AbstractRadioStream
     private const CLUBTIME = 'ClubTime.FM';
     private const TEATIME = 'TeaTime.FM';
 
+    /*
+     * Values are the filenames for the stream urls
+     */
     private const AVAILABLE_STREAMS = [
-        self::TECHNOBASE,
-        self::HOUSETIME,
-        self::HARDBASE,
-        self::TRANCEBASE,
-        self::CORETIME,
-        self::CLUBTIME,
-        self::TEATIME,
+        self::TECHNOBASE => 'tb',
+        self::HOUSETIME => 'ht',
+        self::HARDBASE => 'hb',
+        self::TRANCEBASE => 'trb',
+        self::CORETIME => 'ct',
+        self::CLUBTIME => 'clt',
+        self::TEATIME => 'tt',
     ];
 
     private function getStreamNameWithoutSuffix(): string
@@ -46,19 +49,14 @@ final class TechnoBase extends AbstractRadioStream
 
     protected function getStreamUrl(): string
     {
-        $shortName = preg_replace('/[^A-Z]/', '', $this->getStreamNameWithoutSuffix());
-        if (!is_string($shortName)) {
-            throw new LogicException('could not process stream name "'.$this->getStreamNameWithoutSuffix().'"');
-        }
+        $fileName = self::AVAILABLE_STREAMS[$this->getStreamName()];
 
-        $fileName = strtolower($shortName);
-
-        return 'http://lw2.mp3.tb-group.fm/'.$fileName.'.mp3';
+        return 'http://mp3.stream.tb-group.fm/'.$fileName.'.mp3';
     }
 
     public static function getAvailableStreams(): array
     {
-        return self::AVAILABLE_STREAMS;
+        return array_keys(self::AVAILABLE_STREAMS);
     }
 
     public static function getRadioName(): string
