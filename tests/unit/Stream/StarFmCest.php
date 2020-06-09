@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Stream;
+namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\StarFm;

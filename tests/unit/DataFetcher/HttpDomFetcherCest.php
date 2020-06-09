@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\DataFetcher;
+namespace App\Tests\unit\DataFetcher;
 
 use App\DataFetcher\HttpDomFetcher;
 use InvalidArgumentException;

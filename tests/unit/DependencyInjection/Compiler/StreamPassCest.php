@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\DependencyInjection\Compiler;
+namespace App\Tests\unit\DependencyInjection\Compiler;
 
 use App\Controller\ApiController;
 use App\DependencyInjection\Compiler\StreamPass;

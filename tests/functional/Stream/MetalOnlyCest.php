@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Functional\Stream;
+namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Api;
+namespace App\Tests\api;
 
 use ApiTester;
 use App\Stream\TechnoBase;
