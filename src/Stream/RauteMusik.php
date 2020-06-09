@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use DateTime;
+use DOMNamedNodeMap;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
@@ -104,6 +105,9 @@ final class RauteMusik extends AbstractRadioStream
 
         /** @var DOMNode $node */
         foreach ($nodeList as $node) {
+            if (!($node->attributes instanceof DOMNamedNodeMap)) {
+                throw new RuntimeException('could not find DOMNamedNodeMap for parsing artist and title');
+            }
             $classNode = $node->attributes->getNamedItem('class');
             if (!($classNode instanceof DOMNode)) {
                 throw new RuntimeException('could not find DOMNode for parsing artist and title');
