@@ -59,7 +59,7 @@ final class RauteMusik extends AbstractRadioStream
         return self::BASE_URL.$this->getStreamNameForUrl();
     }
 
-    public function getStreamUrl(): string
+    protected function getStreamUrl(): string
     {
         return 'http://'.$this->getStreamNameForUrl().'-high.rautemusik.fm';
     }

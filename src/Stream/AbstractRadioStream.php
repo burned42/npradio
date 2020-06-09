@@ -54,7 +54,7 @@ abstract class AbstractRadioStream
 
     abstract protected function getHomepageUrl(): string;
 
-    abstract public function getStreamUrl(): string;
+    abstract protected function getStreamUrl(): string;
 
     /**
      * @return array<string, string|array<string|null>|null>

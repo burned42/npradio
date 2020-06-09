@@ -60,7 +60,7 @@ class RadioStream {
             headerButton.name = 'play_stream';
             headerButton.onclick = () => playStream(
                 headerButton,
-                this.streamInfoUrl + '/redirect_to_stream',
+                streamInfo.stream_url,
                 streamInfo.radio_name,
                 streamInfo.stream_name
             );

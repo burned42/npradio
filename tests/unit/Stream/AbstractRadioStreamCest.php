@@ -19,7 +19,7 @@ final class DummyRadioStream extends AbstractRadioStream
         return 'fake_url';
     }
 
-    public function getStreamUrl(): string
+    protected function getStreamUrl(): string
     {
         return 'fake_stream_url';
     }
@@ -71,11 +71,6 @@ class AbstractRadioStreamCest
     public function testGetStreamName(UnitTester $I): void
     {
         $I->assertEquals('fake_stream', $this->getDummy()->getStreamName());
-    }
-
-    public function testGetStreamUrl(UnitTester $I): void
-    {
-        $I->assertEquals('fake_stream_url', $this->getDummy()->getStreamUrl());
     }
 
     /**
