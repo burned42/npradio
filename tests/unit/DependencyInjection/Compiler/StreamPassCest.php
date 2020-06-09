@@ -7,9 +7,9 @@ namespace App\Tests\unit\DependencyInjection\Compiler;
 use App\Controller\ApiController;
 use App\DependencyInjection\Compiler\StreamPass;
 use App\Stream\AbstractRadioStream;
+use App\Tests\UnitTester;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
-use UnitTester;
 
 class StreamPassCest
 {

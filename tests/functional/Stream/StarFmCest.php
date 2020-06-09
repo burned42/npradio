@@ -6,7 +6,7 @@ namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\StarFm;
-use FunctionalTester;
+use App\Tests\FunctionalTester;
 use InvalidArgumentException;
 use RuntimeException;
 

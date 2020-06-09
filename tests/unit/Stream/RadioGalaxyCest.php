@@ -6,11 +6,11 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RadioGalaxy;
+use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use UnitTester;
 
 class RadioGalaxyCest
 {

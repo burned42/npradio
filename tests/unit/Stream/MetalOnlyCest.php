@@ -6,12 +6,12 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;
+use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use UnitTester;
 
 class MetalOnlyCest
 {

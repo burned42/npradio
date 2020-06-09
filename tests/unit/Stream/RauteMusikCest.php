@@ -6,11 +6,11 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RauteMusik;
+use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use DOMDocument;
 use Exception;
 use RuntimeException;
-use UnitTester;
 
 class RauteMusikCest
 {

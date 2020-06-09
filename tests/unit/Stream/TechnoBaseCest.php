@@ -6,13 +6,13 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\TechnoBase;
+use App\Tests\UnitTester;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use UnitTester;
 
 class TechnoBaseCest
 {

@@ -6,11 +6,11 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
+use App\Tests\UnitTester;
 use Codeception\Example;
 use DateTime;
 use Exception;
 use InvalidArgumentException;
-use UnitTester;
 
 final class DummyRadioStream extends AbstractRadioStream
 {

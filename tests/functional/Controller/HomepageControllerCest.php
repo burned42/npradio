@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\functional\Controller;
 
-use FunctionalTester;
+use App\Tests\FunctionalTester;
 
 class HomepageControllerCest
 {

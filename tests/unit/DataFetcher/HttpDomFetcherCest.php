@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\unit\DataFetcher;
 
 use App\DataFetcher\HttpDomFetcher;
+use App\Tests\UnitTester;
 use InvalidArgumentException;
 use RuntimeException;
-use UnitTester;
 
 class HttpDomFetcherCest
 {
