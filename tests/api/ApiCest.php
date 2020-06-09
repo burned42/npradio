@@ -78,4 +78,23 @@ class ApiCest
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson(['Invalid stream name given']);
     }
+
+    public function testRedirectToStreamUrl(ApiTester $I): void
+    {
+        $radioName = TechnoBase::getRadioName();
+        $streamName = TechnoBase::getAvailableStreams()[0];
+
+        $I->stopFollowingRedirects();
+        $I->sendGET('radios/'.$radioName.'/streams/'.$streamName.'/redirect_to_stream');
+        $I->seeResponseCodeIs(HttpCode::FOUND);
+    }
+
+    public function testRedirectToStreamUrlFailsWithInvalidRadioName(ApiTester $I): void
+    {
+        $I->stopFollowingRedirects();
+        $I->sendGET('radios/foo/streams/bar/redirect_to_stream');
+        $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['Invalid radio name given']);
+    }
 }

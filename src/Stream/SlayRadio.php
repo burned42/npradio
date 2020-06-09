@@ -25,7 +25,7 @@ final class SlayRadio extends AbstractRadioStream
         return self::URL;
     }
 
-    protected function getStreamUrl(): string
+    public function getStreamUrl(): string
     {
         return 'http://relay3.slayradio.org:8000';
     }

@@ -38,7 +38,7 @@ final class StarFm extends AbstractRadioStream
         return self::URL;
     }
 
-    protected function getStreamUrl(): string
+    public function getStreamUrl(): string
     {
         return self::STREAM_URLS[$this->getStreamName()];
     }

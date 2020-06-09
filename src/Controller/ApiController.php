@@ -9,6 +9,7 @@ use App\Stream\AbstractRadioStream;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -67,6 +68,22 @@ class ApiController extends AbstractController
         $response->headers->addCacheControlDirective('must-revalidate');
 
         return $response;
+    }
+
+    /**
+     * @Route("/radios/{radioName}/streams/{streamName}/redirect_to_stream")
+     */
+    public function redirectToStreamUrl(string $radioName, string $streamName, HttpDomFetcher $httpDomFetcher): Response
+    {
+        try {
+            $radioClass = $this->getRadioClass($radioName);
+            /** @var AbstractRadioStream $stream */
+            $stream = new $radioClass($httpDomFetcher, $streamName);
+        } catch (InvalidArgumentException $e) {
+            return $this->json($e->getMessage(), 404);
+        }
+
+        return $this->redirect($stream->getStreamUrl());
     }
 
     private function getRadioClass(string $radioName): string

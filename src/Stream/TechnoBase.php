@@ -46,7 +46,7 @@ final class TechnoBase extends AbstractRadioStream
         return 'https://www.'.strtolower($this->getStreamName());
     }
 
-    protected function getStreamUrl(): string
+    public function getStreamUrl(): string
     {
         $fileName = self::AVAILABLE_STREAMS[$this->getStreamName()];
 

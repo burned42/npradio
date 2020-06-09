@@ -35,7 +35,7 @@ final class RadioGalaxy extends AbstractRadioStream
         return self::HOMEPAGE_URLS[$this->getStreamName()];
     }
 
-    protected function getStreamUrl(): string
+    public function getStreamUrl(): string
     {
         return self::STREAM_URLS[$this->getStreamName()];
     }
