@@ -12,5 +12,4 @@ return PhpCsFixer\Config::create()
         PhpCsFixer\Finder::create()
             ->in(__DIR__)
             ->exclude(['tests/_support/_generated', 'var/'])
-            ->notName('_bootstrap.php')
     );
