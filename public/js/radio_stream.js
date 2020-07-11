@@ -51,10 +51,10 @@ class RadioStream {
 
             let headerButton = document.createElement('button');
             if (this.initializePlaying) {
-                headerButton.className = 'btn btn-primary';
+                headerButton.className = 'btn btn-npradio';
                 headerButton.innerHTML = '&#x23f8;';
             } else {
-                headerButton.className = 'btn btn-secondary';
+                headerButton.className = 'btn btn-dark';
                 headerButton.innerHTML = '&#x25b6';
             }
             headerButton.name = 'play_stream';
@@ -75,7 +75,7 @@ class RadioStream {
 
             // add footer
             this.cardFooter = document.createElement('div');
-            this.cardFooter.className = 'card-footer alert alert-danger mb-0';
+            this.cardFooter.className = 'card-footer mb-0 bg-dark';
 
             this.domElement.className = 'card';
             this.domElementInitialized = true;

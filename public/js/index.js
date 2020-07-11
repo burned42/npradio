@@ -2,7 +2,7 @@ function initializePlayButtonsToPaused()
 {
     let playButtons = document.getElementsByName('play_stream');
     for (let i = 0; i < playButtons.length; i++) {
-        playButtons[i].className = 'btn btn-secondary';
+        playButtons[i].className = 'btn btn-dark';
         playButtons[i].innerHTML = '&#x25b6;';
     }
     nowPlayingRadioStream = null;
@@ -19,15 +19,15 @@ function playStream(e, streamUrl, radioName, streamName)
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayer.setAttribute('src', streamUrl);
         streamPlayer.onpause = () => {
-            e.className = 'btn btn-secondary';
+            e.className = 'btn btn-dark';
             e.innerHTML = '&#x25b6;';
         };
         streamPlayer.onplaying = () => {
-            e.className = 'btn btn-primary';
+            e.className = 'btn btn-npradio';
             e.innerHTML = '&#x23f8;';
         };
 
-        e.className = 'btn btn-primary';
+        e.className = 'btn btn-npradio';
         document.getElementById('npradio_title').innerText = streamName;
         streamPlayer.play()
             .then(() => nowPlayingRadioStream = [radioName, streamName])
@@ -98,7 +98,7 @@ function showSettings()
     let allStreams = preselectStreams.concat(otherStreams);
 
     let text = '<form>' +
-        '<div class="card">' +
+        '<div class="card bg-dark">' +
         '    <div class="card-body">' +
         '        <div class="list-group" id="stream_selection">';
     allStreams.map(streamData => {
@@ -109,7 +109,7 @@ function showSettings()
             }
         });
 
-        text += '<div class="selectable_stream list-group-item list-group-item-action">' +
+        text += '<div class="selectable_stream list-group-item list-group-item-dark list-group-item-action">' +
             '    <div class="form-check">' +
             '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
             '        ' + streamData[0] + ': <b>' + streamData[1] + '</b>' +
@@ -120,7 +120,7 @@ function showSettings()
     text += '</div>' +
         '        </div>' +
         '        <div class="card-footer">' +
-        '            <button class="btn btn-primary" type="button" onclick="saveSettings()">&#10003;</button>' +
+        '            <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
         '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
         '            &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
         '        </div>' +
