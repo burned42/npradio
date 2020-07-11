@@ -75,7 +75,7 @@ class RadioStream {
 
             // add footer
             this.cardFooter = document.createElement('div');
-            this.cardFooter.className = 'card-footer mb-0 bg-dark';
+            this.cardFooter.className = 'card-footer mb-0';
 
             this.domElement.className = 'card';
             this.domElementInitialized = true;
