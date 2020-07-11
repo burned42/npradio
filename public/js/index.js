@@ -99,6 +99,11 @@ function showSettings()
 
     let text = '<form>' +
         '<div class="card bg-dark">' +
+        '    <div class="card-header">' +
+        '        <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
+        '        &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '        &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
+        '    </div>' +
         '    <div class="card-body">' +
         '        <div class="list-group" id="stream_selection">';
     allStreams.map(streamData => {
@@ -118,11 +123,6 @@ function showSettings()
             '</div>';
     });
     text += '</div>' +
-        '        </div>' +
-        '        <div class="card-footer">' +
-        '            <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
-        '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
-        '            &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
         '        </div>' +
         '    </div>' +
         '</form>';
