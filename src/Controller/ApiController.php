@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
 use InvalidArgumentException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,6 +51,7 @@ class ApiController extends AbstractController
 
     /**
      * @Route("/radios/{radioName}/streams/{streamName}")
+     * @Cache(smaxage="30", mustRevalidate=true)
      */
     public function getStreamInfo(string $radioName, string $streamName, HttpDomFetcher $httpDomFetcher): JsonResponse
     {
@@ -61,12 +63,7 @@ class ApiController extends AbstractController
             return $this->json($e->getMessage(), 404);
         }
 
-        $response = $this->json($stream->getAsArray());
-
-        $response->setSharedMaxAge(30);
-        $response->headers->addCacheControlDirective('must-revalidate');
-
-        return $response;
+        return $this->json($stream->getAsArray());
     }
 
     private function getRadioClass(string $radioName): string
