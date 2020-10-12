@@ -158,7 +158,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.7",
-            "ref": "00fdb38c318774cd39f475a753028a5e8d25d47c"
+            "ref": "477e1387616f39505ba79715f43f124836020d71"
         },
         "files": [
             ".env.test",
@@ -334,18 +334,22 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.1",
-            "ref": "3dac571bf6f375bd38d66ff79f7e99c0340c2a3f"
+            "ref": "6ee1194b036378b21884e7f57b6a2ac721167f16"
         },
         "files": [
             "config/packages/cache.yaml",
             "config/packages/framework.yaml",
             "config/packages/test/framework.yaml",
+            "config/preload.php",
             "config/routes/dev/framework.yaml",
             "config/services.yaml",
             "public/index.php",
             "src/Controller/.gitignore",
             "src/Kernel.php"
         ]
+    },
+    "symfony/http-client-contracts": {
+        "version": "v2.2.0"
     },
     "symfony/http-foundation": {
         "version": "v5.1.0"
