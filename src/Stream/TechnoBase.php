@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use DOMNode;
 use Exception;
 use InvalidArgumentException;
@@ -126,7 +127,7 @@ final class TechnoBase extends AbstractRadioStream
                     foreach ($infos as $property => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
-                                $streamInfo->$property = new \DateTimeImmutable(
+                                $streamInfo->$property = new DateTimeImmutable(
                                     str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
                                 );
                             } else {
@@ -141,8 +142,8 @@ final class TechnoBase extends AbstractRadioStream
         $showStartTime = $streamInfo->showStartTime;
         $showEndTime = $streamInfo->showEndTime;
         if (
-            $showStartTime instanceof DateTime
-            && $showEndTime instanceof DateTime
+            $showStartTime instanceof DateTimeInterface
+            && $showEndTime instanceof DateTimeInterface
             && $showStartTime->format('H:i') === $showEndTime->format('H:i')
         ) {
             $streamInfo->showStartTime = null;

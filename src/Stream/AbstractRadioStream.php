@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
-use DateTime;
+use DateTimeInterface;
 
 abstract class AbstractRadioStream
 {
@@ -16,8 +16,8 @@ abstract class AbstractRadioStream
     protected ?string $show = null;
     protected ?string $genre = null;
     protected ?string $moderator = null;
-    protected ?DateTime $showStartTime = null;
-    protected ?DateTime $showEndTime = null;
+    protected ?DateTimeInterface $showStartTime = null;
+    protected ?DateTimeInterface $showEndTime = null;
 
     public function __construct(HttpDomFetcher $domFetcher)
     {
