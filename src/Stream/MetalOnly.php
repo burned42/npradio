@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use DateTime;
 use DOMElement;
 use DOMNode;
 use DOMNodeList;
@@ -27,17 +26,7 @@ final class MetalOnly extends AbstractRadioStream
         self::METAL_ONLY,
     ];
 
-    protected function getHomepageUrl(): string
-    {
-        return self::URL;
-    }
-
-    protected function getStreamUrl(): string
-    {
-        return self::STREAM_URL;
-    }
-
-    public static function getAvailableStreams(): array
+    public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
@@ -48,12 +37,21 @@ final class MetalOnly extends AbstractRadioStream
     }
 
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function updateInfo(): void
+    public function getStreamInfo(string $streamName): StreamInfo
     {
+        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
+        }
+
+        $streamInfo = new StreamInfo(
+            self::RADIO_NAME,
+            $streamName,
+            self::URL,
+            self::STREAM_URL,
+        );
+
         try {
             $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (Exception $e) {
@@ -74,7 +72,7 @@ final class MetalOnly extends AbstractRadioStream
             if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue, $matches)) {
                 $moderator = trim($matches[1]);
                 if (!empty($moderator)) {
-                    $this->setModerator($moderator);
+                    $streamInfo->moderator = $moderator;
                 }
             }
         }
@@ -92,7 +90,7 @@ final class MetalOnly extends AbstractRadioStream
 
             $show = trim($node->nodeValue);
             if (!empty($show)) {
-                $this->setShow($show);
+                $streamInfo->show = $show;
             }
         }
 
@@ -109,7 +107,7 @@ final class MetalOnly extends AbstractRadioStream
 
             $genre = trim($node->nodeValue);
             if (!empty($genre)) {
-                $this->setGenre($genre);
+                $streamInfo->genre = $genre;
             }
         }
 
@@ -127,13 +125,13 @@ final class MetalOnly extends AbstractRadioStream
             'Mixed Metal',
         ];
         if (
-            in_array($this->getModerator(), $defaultModerators, true)
-            && in_array($this->getShow(), $defaultShowNames, true)
-            && in_array($this->getGenre(), $defaultGenres, true)
+            in_array($streamInfo->moderator, $defaultModerators, true)
+            && in_array($streamInfo->show, $defaultShowNames, true)
+            && in_array($streamInfo->genre, $defaultGenres, true)
         ) {
-            $this->setModerator()
-                ->setShow()
-                ->setGenre();
+            $streamInfo->moderator = null;
+            $streamInfo->show = null;
+            $streamInfo->genre = null;
         }
 
         /** @var DOMNodeList<DOMNode> $nodeList */
@@ -149,8 +147,8 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             if (preg_match('/^(.*) - ([^-]*)$/', $node->nodeValue, $matches)) {
-                $this->setArtist(trim($matches[1]));
-                $this->setTrack(trim($matches[2]));
+                $streamInfo->artist = trim($matches[1]);
+                $streamInfo->track = trim($matches[2]);
             }
         }
 
@@ -182,7 +180,7 @@ final class MetalOnly extends AbstractRadioStream
                 // and if we didn't find the on air mod until now
                 if (false === $found) {
                     // set new value for start time
-                    $startTime = new DateTime($currentHour.':00');
+                    $startTime = new \DateTimeImmutable($currentHour.':00');
                 } else {
                     // or we did already find the on air mod and can stop here
                     break;
@@ -202,7 +200,7 @@ final class MetalOnly extends AbstractRadioStream
             if (true === $found) {
                 // then set the end time to the current hour + 1
                 $endHour = ($currentHour + 1) % 24;
-                $endTime = new DateTime($endHour.':00');
+                $endTime = new \DateTimeImmutable($endHour.':00');
             }
 
             $lastModerator = $moderator;
@@ -210,11 +208,13 @@ final class MetalOnly extends AbstractRadioStream
 
         if (
             true === $found
-            && $startTime instanceof DateTime
-            && $endTime instanceof DateTime
+            && $startTime instanceof \DateTimeInterface
+            && $endTime instanceof \DateTimeInterface
         ) {
-            $this->setShowStartTime($startTime);
-            $this->setShowEndTime($endTime);
+            $streamInfo->showStartTime = $startTime;
+            $streamInfo->showEndTime = $endTime;
         }
+
+        return $streamInfo;
     }
 }

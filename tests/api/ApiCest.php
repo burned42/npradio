@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\api;
 
+use App\DataFetcher\HttpDomFetcher;
 use App\Stream\TechnoBase;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
@@ -39,7 +40,8 @@ class ApiCest
     public function testGetStreamInfo(ApiTester $I): void
     {
         $radioName = TechnoBase::getRadioName();
-        $streamName = TechnoBase::getAvailableStreams()[0];
+        $tb = new TechnoBase(new HttpDomFetcher());
+        $streamName = $tb->getAvailableStreams()[0];
 
         $I->sendGET('radios/'.$radioName.'/streams/'.$streamName);
         $I->seeResponseCodeIs(HttpCode::OK);

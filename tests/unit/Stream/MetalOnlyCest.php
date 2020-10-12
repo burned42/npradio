@@ -6,6 +6,7 @@ namespace App\Tests\unit\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;
+use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use DOMDocument;
@@ -57,7 +58,7 @@ class MetalOnlyCest
 
     public function canInstantiate(UnitTester $I): void
     {
-        $mo = new MetalOnly($this->domFetcher, MetalOnly::getAvailableStreams()[0]);
+        $mo = new MetalOnly($this->domFetcher);
 
         $I->assertInstanceOf(MetalOnly::class, $mo);
     }
@@ -69,52 +70,75 @@ class MetalOnlyCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty(MetalOnly::getAvailableStreams());
+        $I->assertNotEmpty((new MetalOnly($this->domFetcher))->getAvailableStreams());
     }
 
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public function testUpdateInfo(UnitTester $I): void
+    public function testGetStreamInfo(UnitTester $I): void
     {
-        foreach (MetalOnly::getAvailableStreams() as $streamName) {
-            new MetalOnly($this->domFetcher, $streamName);
-        }
+        $mo = new MetalOnly($this->domFetcher);
 
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
+        foreach ($mo->getAvailableStreams() as $streamName) {
+            $info = $mo->getStreamInfo($streamName);
+            $I->assertInstanceOf(StreamInfo::class, $info);
+
+            $I->assertIsString($info->radioName);
+            $I->assertIsString($info->streamName);
+            $I->assertIsString($info->homepageUrl);
+            $I->assertIsString($info->streamUrl);
+        }
     }
 
     /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
+     * @throws Exception
      */
     public function testGetInfoOnAir(UnitTester $I): void
     {
-        foreach (MetalOnly::getAvailableStreams() as $streamName) {
-            $mo = new MetalOnly($this->domFetcherOnAir, $streamName);
+        $mo = new MetalOnly($this->domFetcherOnAir);
 
-            $I->assertNotNull($mo->getModerator());
-            $I->assertNotNull($mo->getShow());
-            $I->assertNotNull($mo->getGenre());
+        foreach ($mo->getAvailableStreams() as $streamName) {
+            $info = $mo->getStreamInfo($streamName);
+
+            $I->assertNotNull($info->moderator);
+            $I->assertNotNull($info->show);
+            $I->assertNotNull($info->genre);
+
+            $I->assertNotNull($info->artist);
+            $I->assertNotNull($info->track);
         }
     }
 
     /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
+     * @throws Exception
      */
     public function testGetInfoNotOnAir(UnitTester $I): void
     {
-        foreach (MetalOnly::getAvailableStreams() as $streamName) {
-            $mo = new MetalOnly($this->domFetcherNotOnAir, $streamName);
+        $mo = new MetalOnly($this->domFetcherNotOnAir);
 
-            $I->assertNull($mo->getModerator());
-            $I->assertNull($mo->getShow());
-            $I->assertNull($mo->getGenre());
+        foreach ($mo->getAvailableStreams() as $streamName) {
+            $info = $mo->getStreamInfo($streamName);
+
+            $I->assertNull($info->moderator);
+            $I->assertNull($info->show);
+            $I->assertNull($info->genre);
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
+    {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        $s = new MetalOnly($domFetcher);
+
+        $I->expectThrowable(
+            new InvalidArgumentException('Invalid stream name given'),
+            static fn () => $s->getStreamInfo('foobar'),
+        );
     }
 
     /**
@@ -126,24 +150,11 @@ class MetalOnlyCest
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
+        $mo = new MetalOnly($domFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get html dom: test'),
-            static function () use ($domFetcher) {
-                new MetalOnly($domFetcher, MetalOnly::getAvailableStreams()[0]);
-            }
+            static fn () => $mo->getStreamInfo($mo->getAvailableStreams()[0]),
         );
-    }
-
-    public function testProtectedMethods(UnitTester $I): void
-    {
-        $mo = new MetalOnly($this->domFetcher, MetalOnly::getAvailableStreams()[0]);
-        $info = $mo->getAsArray();
-
-        $I->assertNotEmpty($info['homepage']);
-        $I->assertIsString($info['homepage']);
-
-        $I->assertNotEmpty($info['stream_url']);
-        $I->assertIsString($info['stream_url']);
     }
 }

@@ -6,24 +6,19 @@ namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\StarFm;
+use App\Stream\StreamInfo;
 use App\Tests\FunctionalTester;
-use InvalidArgumentException;
-use RuntimeException;
 
 class StarFmCest
 {
-    /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     */
     public function testWithLiveData(FunctionalTester $I): void
     {
-        foreach (StarFm::getAvailableStreams() as $streamName) {
-            new StarFm(new HttpDomFetcher(), $streamName);
+        $r = new StarFm(new HttpDomFetcher());
+        foreach ($r->getAvailableStreams() as $streamName) {
+            $I->assertInstanceOf(
+                StreamInfo::class,
+                $r->getStreamInfo($streamName)
+            );
         }
-
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
     }
 }

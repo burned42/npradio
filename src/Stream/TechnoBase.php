@@ -36,24 +36,24 @@ final class TechnoBase extends AbstractRadioStream
         self::TEATIME => 'tt',
     ];
 
-    private function getStreamNameWithoutSuffix(): string
+    private function getStreamNameWithoutSuffix(string $streamName): string
     {
-        return substr($this->getStreamName(), 0, -3);
+        return substr($streamName, 0, -3);
     }
 
-    protected function getHomepageUrl(): string
+    protected function getHomepageUrl(string $streamName): string
     {
-        return 'https://www.'.strtolower($this->getStreamName());
+        return 'https://www.'.strtolower($streamName);
     }
 
-    protected function getStreamUrl(): string
+    protected function getStreamUrl(string $streamName): string
     {
-        $fileName = self::AVAILABLE_STREAMS[$this->getStreamName()];
+        $fileName = self::AVAILABLE_STREAMS[$streamName];
 
         return 'http://mp3.stream.tb-group.fm/'.$fileName.'.mp3';
     }
 
-    public static function getAvailableStreams(): array
+    public function getAvailableStreams(): array
     {
         return array_keys(self::AVAILABLE_STREAMS);
     }
@@ -64,12 +64,21 @@ final class TechnoBase extends AbstractRadioStream
     }
 
     /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
      * @throws Exception
      */
-    public function updateInfo(): void
+    public function getStreamInfo(string $streamName): StreamInfo
     {
+        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
+        }
+
+        $streamInfo = new StreamInfo(
+            self::RADIO_NAME,
+            $streamName,
+            $this->getHomepageUrl($streamName),
+            $this->getStreamUrl($streamName),
+        );
+
         try {
             $dom = $this->getDomFetcher()->getXmlDom(self::URL);
         } catch (Exception $e) {
@@ -88,7 +97,7 @@ final class TechnoBase extends AbstractRadioStream
                         foreach ($radioNode->childNodes as $streamNode) {
                             if (
                                 'name' === $streamNode->nodeName
-                                && $streamNode->nodeValue === $this->getStreamNameWithoutSuffix()
+                                && $streamNode->nodeValue === $this->getStreamNameWithoutSuffix($streamName)
                             ) {
                                 $streamInfoNode = $radioNode;
                                 break 3;
@@ -101,29 +110,27 @@ final class TechnoBase extends AbstractRadioStream
 
         if (null !== $streamInfoNode) {
             $infos = [
-                'setModerator' => 'moderator',
-                'setShow' => 'show',
-                'setGenre' => 'style',
-                'setArtist' => 'artist',
-                'setTrack' => 'song',
-                'setShowStartTime' => 'starttime',
-                'setShowEndTime' => 'endtime',
+                'moderator' => 'moderator',
+                'show' => 'show',
+                'genre' => 'style',
+                'artist' => 'artist',
+                'track' => 'song',
+                'showStartTime' => 'starttime',
+                'showEndTime' => 'endtime',
             ];
 
             /** @var DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = $childNode->nodeValue;
                 if ('0' === $nodeValue || !empty(trim($nodeValue))) {
-                    foreach ($infos as $setter => $info) {
+                    foreach ($infos as $property => $info) {
                         if ($childNode->nodeName === $info) {
                             if (in_array($info, ['starttime', 'endtime'])) {
-                                $this->$setter(
-                                    new DateTime(
-                                        str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
-                                    )
+                                $streamInfo->$property = new \DateTimeImmutable(
+                                    str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
                                 );
                             } else {
-                                $this->$setter(trim($nodeValue));
+                                $streamInfo->$property = trim($nodeValue);
                             }
                         }
                     }
@@ -131,15 +138,17 @@ final class TechnoBase extends AbstractRadioStream
             }
         }
 
-        $showStartTime = $this->getShowStartTime();
-        $showEndTime = $this->getShowEndTime();
+        $showStartTime = $streamInfo->showStartTime;
+        $showEndTime = $streamInfo->showEndTime;
         if (
             $showStartTime instanceof DateTime
             && $showEndTime instanceof DateTime
             && $showStartTime->format('H:i') === $showEndTime->format('H:i')
         ) {
-            $this->setShowStartTime();
-            $this->setShowEndTime();
+            $streamInfo->showStartTime = null;
+            $streamInfo->showEndTime = null;
         }
+
+        return $streamInfo;
     }
 }

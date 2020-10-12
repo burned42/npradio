@@ -33,17 +33,7 @@ final class StarFm extends AbstractRadioStream
         self::NUREMBERG => '4',
     ];
 
-    protected function getHomepageUrl(): string
-    {
-        return self::URL;
-    }
-
-    protected function getStreamUrl(): string
-    {
-        return self::STREAM_URLS[$this->getStreamName()];
-    }
-
-    public static function getAvailableStreams(): array
+    public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
@@ -53,15 +43,22 @@ final class StarFm extends AbstractRadioStream
         return self::RADIO_NAME;
     }
 
-    /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     */
-    public function updateInfo(): void
+    public function getStreamInfo(string $streamName): StreamInfo
     {
+        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
+        }
+
+        $streamInfo = new StreamInfo(
+            self::RADIO_NAME,
+            $streamName,
+            self::URL,
+            self::STREAM_URLS[$streamName],
+        );
+
         try {
-            $streamName = self::URL_INFO_STREAM_NAMES[$this->getStreamName()];
-            $url = self::URL.self::URL_INFO_BASE_PATH.$streamName.self::URL_INFO_SUFFIX;
+            $streamUrlName = self::URL_INFO_STREAM_NAMES[$streamName];
+            $url = self::URL.self::URL_INFO_BASE_PATH.$streamUrlName.self::URL_INFO_SUFFIX;
             $data = json_decode($this->getDomFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
@@ -69,11 +66,13 @@ final class StarFm extends AbstractRadioStream
 
         if (!empty($data) && array_key_exists('c', $data)) {
             if (array_key_exists('artist', $data['c'])) {
-                $this->setArtist($data['c']['artist']);
+                $streamInfo->artist = $data['c']['artist'];
             }
             if (array_key_exists('song', $data['c'])) {
-                $this->setTrack($data['c']['song']);
+                $streamInfo->track = $data['c']['song'];
             }
         }
+
+        return $streamInfo;
     }
 }

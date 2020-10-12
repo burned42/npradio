@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use DateTime;
 use DOMNamedNodeMap;
 use DOMNode;
 use DOMNodeList;
@@ -43,28 +42,28 @@ final class RauteMusik extends AbstractRadioStream
         self::WEIHNACHTEN,
     ];
 
-    private function getStreamNameForUrl(): string
+    private function getStreamNameForUrl(string $streamName): string
     {
         return strtolower(
             str_replace(
                 ['RauteMusik', ' '],
                 '',
-                $this->getStreamName()
+                $streamName
             )
         );
     }
 
-    protected function getHomepageUrl(): string
+    protected function getHomepageUrl(string $streamName): string
     {
-        return self::BASE_URL.$this->getStreamNameForUrl();
+        return self::BASE_URL.$this->getStreamNameForUrl($streamName);
     }
 
-    protected function getStreamUrl(): string
+    protected function getStreamUrl(string $streamName): string
     {
-        return 'http://'.$this->getStreamNameForUrl().'-high.rautemusik.fm';
+        return 'http://'.$this->getStreamNameForUrl($streamName).'-high.rautemusik.fm';
     }
 
-    public static function getAvailableStreams(): array
+    public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
@@ -75,23 +74,32 @@ final class RauteMusik extends AbstractRadioStream
     }
 
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function updateInfo(): void
+    public function getStreamInfo(string $streamName): StreamInfo
     {
-        $this->updateTrackInfo();
-        $this->updateShowInfo();
+        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
+        }
+
+        $streamInfo = new StreamInfo(
+            self::RADIO_NAME,
+            $streamName,
+            $this->getHomepageUrl($streamName),
+            $this->getStreamUrl($streamName),
+        );
+
+        $streamInfo = $this->addTrackInfo($streamInfo);
+        $streamInfo = $this->addShowInfo($streamInfo);
+
+        return $streamInfo;
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    private function updateTrackInfo(): void
+    private function addTrackInfo(StreamInfo $streamInfo): StreamInfo
     {
         try {
-            $dom = $this->getDomFetcher()->getHtmlDom(self::BASE_URL.$this->getStreamNameForUrl());
+            $url = self::BASE_URL.$this->getStreamNameForUrl($streamInfo->streamName);
+            $dom = $this->getDomFetcher()->getHtmlDom($url);
         } catch (Exception $e) {
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -115,21 +123,23 @@ final class RauteMusik extends AbstractRadioStream
 
             $class = $classNode->nodeValue;
             if ('artist' === $class) {
-                $this->setArtist(trim($node->nodeValue));
+                $streamInfo->artist = trim($node->nodeValue);
             } elseif ('title' === $class) {
-                $this->setTrack(trim($node->nodeValue));
+                $streamInfo->track = trim($node->nodeValue);
             }
         }
+
+        return $streamInfo;
     }
 
     /**
-     * @throws RuntimeException
      * @throws Exception
      */
-    private function updateShowInfo(): void
+    private function addShowInfo(StreamInfo $streamInfo): StreamInfo
     {
         try {
-            $dom = $this->getDomFetcher()->getHtmlDom(self::SHOW_INFO_URL.$this->getStreamNameForUrl());
+            $url = self::SHOW_INFO_URL.$this->getStreamNameForUrl($streamInfo->streamName);
+            $dom = $this->getDomFetcher()->getHtmlDom($url);
         } catch (Exception $e) {
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
@@ -147,8 +157,8 @@ final class RauteMusik extends AbstractRadioStream
             }
 
             if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
-                $this->setShowStartTime(new DateTime($matches[1]));
-                $this->setShowEndTime(new DateTime($matches[2]));
+                $streamInfo->showStartTime = new \DateTimeImmutable($matches[1]);
+                $streamInfo->showEndTime = new \DateTimeImmutable($matches[2]);
             }
 
             if ($numNodes >= 2) {
@@ -157,7 +167,7 @@ final class RauteMusik extends AbstractRadioStream
                     throw new RuntimeException('could not get DOMNode for parsing the show');
                 }
 
-                $this->setShow(trim($node->nodeValue));
+                $streamInfo->show = trim($node->nodeValue);
 
                 if ($numNodes >= 3) {
                     $node = $nodeList->item(2);
@@ -165,11 +175,11 @@ final class RauteMusik extends AbstractRadioStream
                         throw new RuntimeException('could not get DOMNode for parsing the moderator');
                     }
 
-                    $this->setModerator(
-                        preg_replace('/\s+/', ' ', trim($node->nodeValue))
-                    );
+                    $streamInfo->moderator = preg_replace('/\s+/', ' ', trim($node->nodeValue));
                 }
             }
         }
+
+        return $streamInfo;
     }
 }
