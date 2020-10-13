@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use DateTimeImmutable;
 use DOMNamedNodeMap;
 use DOMNode;
 use DOMNodeList;
@@ -157,8 +158,8 @@ final class RauteMusik extends AbstractRadioStream
             }
 
             if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
-                $streamInfo->showStartTime = new \DateTimeImmutable($matches[1]);
-                $streamInfo->showEndTime = new \DateTimeImmutable($matches[2]);
+                $streamInfo->showStartTime = new DateTimeImmutable($matches[1]);
+                $streamInfo->showEndTime = new DateTimeImmutable($matches[2]);
             }
 
             if ($numNodes >= 2) {

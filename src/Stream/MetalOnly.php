@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
+use DateTimeImmutable;
+use DateTimeInterface;
 use DOMElement;
 use DOMNode;
 use DOMNodeList;
@@ -180,7 +182,7 @@ final class MetalOnly extends AbstractRadioStream
                 // and if we didn't find the on air mod until now
                 if (false === $found) {
                     // set new value for start time
-                    $startTime = new \DateTimeImmutable($currentHour.':00');
+                    $startTime = new DateTimeImmutable($currentHour.':00');
                 } else {
                     // or we did already find the on air mod and can stop here
                     break;
@@ -200,7 +202,7 @@ final class MetalOnly extends AbstractRadioStream
             if (true === $found) {
                 // then set the end time to the current hour + 1
                 $endHour = ($currentHour + 1) % 24;
-                $endTime = new \DateTimeImmutable($endHour.':00');
+                $endTime = new DateTimeImmutable($endHour.':00');
             }
 
             $lastModerator = $moderator;
@@ -208,8 +210,8 @@ final class MetalOnly extends AbstractRadioStream
 
         if (
             true === $found
-            && $startTime instanceof \DateTimeInterface
-            && $endTime instanceof \DateTimeInterface
+            && $startTime instanceof DateTimeInterface
+            && $endTime instanceof DateTimeInterface
         ) {
             $streamInfo->showStartTime = $startTime;
             $streamInfo->showEndTime = $endTime;
