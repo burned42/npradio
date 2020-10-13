@@ -42,7 +42,6 @@ class ApiController extends AbstractController
     public function getStreams(string $radioName): JsonResponse
     {
         try {
-            /** @var AbstractRadioStream $radioClass */
             $radioClass = $this->getRadioClass($radioName);
         } catch (InvalidArgumentException $e) {
             return $this->json($e->getMessage(), 404);
