@@ -23,9 +23,12 @@ $radioStreams = [
     TechnoBase::class,
 ];
 
+/** @var AbstractRadioStream[] $availableRadios */
 $availableRadios = [];
+$httpDomFetcher = new HttpDomFetcher();
+/** @var AbstractRadioStream $radioClass */
 foreach ($radioStreams as $radioClass) {
-    $availableRadios[$radioClass::getRadioName()] = $radioClass;
+    $availableRadios[$radioClass::getRadioName()] = new $radioClass($httpDomFetcher);
 }
 
 $radios = [];
@@ -41,7 +44,7 @@ if (1 !== $argc) {
             exit;
         }
 
-        $streams = $availableRadios[$argv[1]]::getAvailableStreams();
+        $streams = $availableRadios[$argv[1]]->getAvailableStreams();
 
         if ($argc > 2) {
             if (!in_array($argv[2], $streams, true)) {
@@ -55,8 +58,8 @@ if (1 !== $argc) {
         }
     }
 } else {
-    foreach ($availableRadios as $name => $radioClass) {
-        $radios[$name] = $radioClass::getAvailableStreams();
+    foreach ($availableRadios as $name => $radio) {
+        $radios[$name] = $radio->getAvailableStreams();
     }
 }
 
@@ -65,32 +68,31 @@ $domFetcher = new HttpDomFetcher();
 try {
     foreach ($radios as $radioName => $streams) {
         echo $radioName.":\n";
+        $radioStream = $availableRadios[$radioName];
         /** @var array $streams */
         foreach ($streams as $streamName) {
             echo '    '.$streamName.":\n";
+            $streamInfo = $radioStream->getStreamInfo($streamName);
 
-            /** @var AbstractRadioStream $radioStream */
-            $radioStream = new $availableRadios[$radioName]($domFetcher, $streamName);
-
-            if (null !== $radioStream->getShow()) {
-                echo '        Show:      '.$radioStream->getShow()."\n";
+            if (null !== $streamInfo->show) {
+                echo '        Show:      '.$streamInfo->show."\n";
             }
-            if (null !== $radioStream->getGenre()) {
-                echo '        Genre:     '.$radioStream->getGenre()."\n";
+            if (null !== $streamInfo->genre) {
+                echo '        Genre:     '.$streamInfo->genre."\n";
             }
-            if (null !== $radioStream->getModerator()) {
-                echo '        Moderator: '.$radioStream->getModerator()."\n";
+            if (null !== $streamInfo->moderator) {
+                echo '        Moderator: '.$streamInfo->moderator."\n";
             }
             if (
-                $radioStream->getShowStartTime() instanceof DateTime
-                && $radioStream->getShowEndTime() instanceof DateTime
+                $streamInfo->showStartTime instanceof DateTimeInterface
+                && $streamInfo->showEndTime instanceof DateTimeInterface
             ) {
-                echo '        Showtime:  '.$radioStream->getShowStartTime()->format('H:i')
-                    .' - '.$radioStream->getShowEndTime()->format('H:i')."\n";
+                echo '        Showtime:  '.$streamInfo->showStartTime->format('H:i')
+                    .' - '.$streamInfo->showEndTime->format('H:i')."\n";
             }
             echo '        Track:     ';
-            $artist = $radioStream->getArtist();
-            $track = $radioStream->getTrack();
+            $artist = $streamInfo->artist;
+            $track = $streamInfo->track;
             if (null !== $artist || null !== $track) {
                 if (null !== $artist) {
                     echo $artist;

@@ -30,17 +30,7 @@ final class RadioGalaxy extends AbstractRadioStream
         self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de/wp-content/themes/radio-galaxy/tmp/1.json',
     ];
 
-    protected function getHomepageUrl(): string
-    {
-        return self::HOMEPAGE_URLS[$this->getStreamName()];
-    }
-
-    protected function getStreamUrl(): string
-    {
-        return self::STREAM_URLS[$this->getStreamName()];
-    }
-
-    public static function getAvailableStreams(): array
+    public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
@@ -50,14 +40,21 @@ final class RadioGalaxy extends AbstractRadioStream
         return self::RADIO_NAME;
     }
 
-    /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     */
-    public function updateInfo(): void
+    public function getStreamInfo(string $streamName): StreamInfo
     {
+        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
+            throw new InvalidArgumentException('Invalid stream name given');
+        }
+
+        $streamInfo = new StreamInfo(
+            self::RADIO_NAME,
+            $streamName,
+            self::HOMEPAGE_URLS[$streamName],
+            self::STREAM_URLS[$streamName],
+        );
+
         try {
-            $url = self::INFO_URLS_BY_STREAM[$this->getStreamName()];
+            $url = self::INFO_URLS_BY_STREAM[$streamName];
             $data = json_decode($this->getDomFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
@@ -71,8 +68,8 @@ final class RadioGalaxy extends AbstractRadioStream
                     && array_key_exists('interpret', $current)
                     && array_key_exists('title', $current)
                 ) {
-                    $this->setArtist($current['interpret']);
-                    $this->setTrack($current['title']);
+                    $streamInfo->artist = $current['interpret'];
+                    $streamInfo->track = $current['title'];
                 }
             }
 
@@ -84,9 +81,11 @@ final class RadioGalaxy extends AbstractRadioStream
                 && !empty($data['show']['title'])
                 && !empty($data['show']['desc'])
             ) {
-                $this->setModerator(preg_replace('/^mit /', '', trim($data['show']['desc'])));
-                $this->setShow(trim($data['show']['title']));
+                $streamInfo->moderator = preg_replace('/^mit /', '', trim($data['show']['desc']));
+                $streamInfo->show = trim($data['show']['title']);
             }
         }
+
+        return $streamInfo;
     }
 }

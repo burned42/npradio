@@ -9,6 +9,7 @@ use App\Stream\TechnoBase;
 use App\Tests\UnitTester;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
+use DateTimeInterface;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
@@ -36,7 +37,7 @@ class TechnoBaseCest
 
     public function canInstantiate(UnitTester $I): void
     {
-        $tb = new TechnoBase($this->domFetcher, TechnoBase::getAvailableStreams()[0]);
+        $tb = new TechnoBase($this->domFetcher);
 
         $I->assertInstanceOf(TechnoBase::class, $tb);
     }
@@ -48,22 +49,49 @@ class TechnoBaseCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty(TechnoBase::getAvailableStreams());
+        $I->assertNotEmpty((new TechnoBase($this->domFetcher))->getAvailableStreams());
     }
 
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public function testUpdateInfo(UnitTester $I): void
+    public function testGetStreamInfo(UnitTester $I): void
     {
-        foreach (TechnoBase::getAvailableStreams() as $availableStream) {
-            new TechnoBase($this->domFetcher, $availableStream);
+        $radio = new TechnoBase($this->domFetcher);
+        foreach ($radio->getAvailableStreams() as $streamName) {
+            $info = $radio->getStreamInfo($streamName);
+
+            $I->assertIsString($info->radioName);
+            $I->assertIsString($info->streamName);
+            $I->assertIsString($info->homepageUrl);
+            $I->assertIsString($info->streamUrl);
+
+            $I->assertIsString($info->artist);
+            $I->assertIsString($info->track);
         }
 
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
+        // Test additional properties with a stream where the test sample has data
+        $info = $radio->getStreamInfo('TechnoBase.FM');
+        $I->assertIsString($info->moderator);
+        $I->assertIsString($info->show);
+        $I->assertIsString($info->genre);
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
+    {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        $s = new TechnoBase($domFetcher);
+
+        $I->expectThrowable(
+            new InvalidArgumentException('Invalid stream name given'),
+            static fn () => $s->getStreamInfo('foobar'),
+        );
     }
 
     /**
@@ -75,24 +103,11 @@ class TechnoBaseCest
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');
         }]);
+        $s = new TechnoBase($domFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get xml dom: test'),
-            static function () use ($domFetcher) {
-                new TechnoBase($domFetcher, TechnoBase::getAvailableStreams()[0]);
-            }
+            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
         );
-    }
-
-    public function testProtectedMethods(UnitTester $I): void
-    {
-        $tb = new TechnoBase($this->domFetcher, TechnoBase::getAvailableStreams()[0]);
-        $info = $tb->getAsArray();
-
-        $I->assertNotEmpty($info['homepage']);
-        $I->assertIsString($info['homepage']);
-
-        $I->assertNotEmpty($info['stream_url']);
-        $I->assertIsString($info['stream_url']);
     }
 }

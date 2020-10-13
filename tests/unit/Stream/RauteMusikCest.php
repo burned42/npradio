@@ -8,8 +8,10 @@ use App\DataFetcher\HttpDomFetcher;
 use App\Stream\RauteMusik;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
+use DateTimeInterface;
 use DOMDocument;
 use Exception;
+use InvalidArgumentException;
 use RuntimeException;
 
 class RauteMusikCest
@@ -43,7 +45,7 @@ class RauteMusikCest
      */
     public function canInstantiate(UnitTester $I): void
     {
-        $rm = new RauteMusik($this->getDomFetcher(), RauteMusik::getAvailableStreams()[0]);
+        $rm = new RauteMusik($this->getDomFetcher());
 
         $I->assertInstanceOf(RauteMusik::class, $rm);
     }
@@ -55,21 +57,45 @@ class RauteMusikCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty(RauteMusik::getAvailableStreams());
+        $I->assertNotEmpty((new RauteMusik($this->getDomFetcher()))->getAvailableStreams());
     }
 
     /**
      * @throws Exception
      */
-    public function testUpdateInfo(UnitTester $I): void
+    public function testGetStreamInfo(UnitTester $I): void
     {
-        foreach (RauteMusik::getAvailableStreams() as $availableStream) {
-            new RauteMusik($this->getDomFetcher(), $availableStream);
-        }
+        $radio = new RauteMusik($this->getDomFetcher());
+        foreach ($radio->getAvailableStreams() as $streamName) {
+            // re-instantiate to get a fresh DomFetcher mock
+            $r = new RauteMusik($this->getDomFetcher());
+            $info = $r->getStreamInfo($streamName);
 
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
+            $I->assertIsString($info->radioName);
+            $I->assertIsString($info->streamName);
+            $I->assertIsString($info->homepageUrl);
+            $I->assertIsString($info->streamUrl);
+
+            $I->assertIsString($info->artist);
+            $I->assertIsString($info->track);
+
+            $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
+            $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
+            $I->assertIsString($info->show);
+            $I->assertIsString($info->moderator);
+        }
+    }
+
+    public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
+    {
+        /** @var HttpDomFetcher $domFetcher */
+        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        $s = new RauteMusik($domFetcher);
+
+        $I->expectThrowable(
+            new InvalidArgumentException('Invalid stream name given'),
+            static fn () => $s->getStreamInfo('foobar'),
+        );
     }
 
     /**
@@ -81,12 +107,11 @@ class RauteMusikCest
         $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
+        $s = new RauteMusik($domFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get html dom: test'),
-            static function () use ($domFetcher) {
-                new RauteMusik($domFetcher, RauteMusik::getAvailableStreams()[0]);
-            }
+            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
         );
     }
 
@@ -111,27 +136,11 @@ class RauteMusikCest
             // throw exception on second call to test fetchShowInfo()
             throw new RuntimeException('test');
         }]);
+        $s = new RauteMusik($domFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get html dom: test'),
-            static function () use ($domFetcher) {
-                new RauteMusik($domFetcher, RauteMusik::getAvailableStreams()[0]);
-            }
+            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
         );
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testProtectedMethods(UnitTester $I): void
-    {
-        $rm = new RauteMusik($this->getDomFetcher(), RauteMusik::getAvailableStreams()[0]);
-        $info = $rm->getAsArray();
-
-        $I->assertNotEmpty($info['homepage']);
-        $I->assertIsString($info['homepage']);
-
-        $I->assertNotEmpty($info['stream_url']);
-        $I->assertIsString($info['stream_url']);
     }
 }

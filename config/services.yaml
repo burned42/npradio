@@ -14,13 +14,17 @@ services:
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
@@ -29,5 +33,10 @@ services:
     # Tag all stream classes
     App\Stream\:
         resource: '../src/Stream'
-        exclude: '../src/Stream/AbstractRadioStream.php'
+        exclude:
+            - '../src/Stream/AbstractRadioStream.php'
+            - '../src/Stream/StreamInfo.php'
         tags: ['app.stream']
+
+    App\Controller\ApiController:
+        arguments: [!tagged_iterator { tag: 'app.stream', default_index_method: 'getRadioName', index_by: '' }]

@@ -17,7 +17,9 @@ RUN php_extensions="intl opcache zip" \
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN echo 'date.timezone = "Europe/Berlin"' > /usr/local/etc/php/conf.d/timezone.ini \
-    && echo 'short_open_tag = Off' > /usr/local/etc/php/conf.d/short_open_tag.ini
+    && echo 'short_open_tag = Off' > /usr/local/etc/php/conf.d/short_open_tag.ini \
+    && echo 'opcache.preload_user = www-data' > /usr/local/etc/php/conf.d/preloading.ini \
+    && echo 'opcache.preload = /var/www/html/config/preload.php' >> /usr/local/etc/php/conf.d/preloading.ini
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \

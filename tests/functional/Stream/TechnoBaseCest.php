@@ -5,25 +5,24 @@ declare(strict_types=1);
 namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
+use App\Stream\StreamInfo;
 use App\Stream\TechnoBase;
 use App\Tests\FunctionalTester;
-use InvalidArgumentException;
-use RuntimeException;
+use Exception;
 
 class TechnoBaseCest
 {
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testWithLiveData(FunctionalTester $I): void
     {
-        foreach (TechnoBase::getAvailableStreams() as $streamName) {
-            new TechnoBase(new HttpDomFetcher(), $streamName);
+        $r = new TechnoBase(new HttpDomFetcher());
+        foreach ($r->getAvailableStreams() as $streamName) {
+            $I->assertInstanceOf(
+                StreamInfo::class,
+                $r->getStreamInfo($streamName)
+            );
         }
-
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
     }
 }

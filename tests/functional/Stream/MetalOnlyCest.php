@@ -6,24 +6,23 @@ namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\MetalOnly;
+use App\Stream\StreamInfo;
 use App\Tests\FunctionalTester;
-use InvalidArgumentException;
-use RuntimeException;
+use Exception;
 
 class MetalOnlyCest
 {
     /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function testWithLiveData(FunctionalTester $I): void
     {
-        foreach (MetalOnly::getAvailableStreams() as $streamName) {
-            new MetalOnly(new HttpDomFetcher(), $streamName);
+        $r = new MetalOnly(new HttpDomFetcher());
+        foreach ($r->getAvailableStreams() as $streamName) {
+            $I->assertInstanceOf(
+                StreamInfo::class,
+                $r->getStreamInfo($streamName)
+            );
         }
-
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
     }
 }

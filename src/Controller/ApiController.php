@@ -4,26 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
 use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Traversable;
 
 /**
  * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
  */
 class ApiController extends AbstractController
 {
-    /** @var array<string, string> */
-    private array $radios = [];
+    /** @var array<string, AbstractRadioStream> */
+    private array $radios;
 
-    public function addRadio(string $radio): void
+    /**
+     * @param Traversable<AbstractRadioStream> $radios
+     */
+    public function __construct(Traversable $radios)
     {
-        /* @var $radio AbstractRadioStream */
-        $this->radios[$radio::getRadioName()] = $radio;
+        $this->radios = iterator_to_array($radios);
     }
 
     /**
@@ -40,33 +42,31 @@ class ApiController extends AbstractController
     public function getStreams(string $radioName): JsonResponse
     {
         try {
-            /** @var AbstractRadioStream $radioClass */
             $radioClass = $this->getRadioClass($radioName);
         } catch (InvalidArgumentException $e) {
             return $this->json($e->getMessage(), 404);
         }
 
-        return $this->json($radioClass::getAvailableStreams());
+        return $this->json($radioClass->getAvailableStreams());
     }
 
     /**
      * @Route("/radios/{radioName}/streams/{streamName}")
      * @Cache(smaxage="30", mustRevalidate=true)
      */
-    public function getStreamInfo(string $radioName, string $streamName, HttpDomFetcher $httpDomFetcher): JsonResponse
+    public function getStreamInfo(string $radioName, string $streamName): JsonResponse
     {
         try {
             $radioClass = $this->getRadioClass($radioName);
-            /** @var AbstractRadioStream $stream */
-            $stream = new $radioClass($httpDomFetcher, $streamName);
+            $streamInfo = $radioClass->getStreamInfo($streamName);
         } catch (InvalidArgumentException $e) {
             return $this->json($e->getMessage(), 404);
         }
 
-        return $this->json($stream->getAsArray());
+        return $this->json($streamInfo);
     }
 
-    private function getRadioClass(string $radioName): string
+    private function getRadioClass(string $radioName): AbstractRadioStream
     {
         if (!array_key_exists($radioName, $this->radios)) {
             throw new InvalidArgumentException('Invalid radio name given');

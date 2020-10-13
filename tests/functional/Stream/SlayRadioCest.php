@@ -6,24 +6,19 @@ namespace App\Tests\functional\Stream;
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\SlayRadio;
+use App\Stream\StreamInfo;
 use App\Tests\FunctionalTester;
-use InvalidArgumentException;
-use RuntimeException;
 
 class SlayRadioCest
 {
-    /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     */
     public function testWithLiveData(FunctionalTester $I): void
     {
-        foreach (SlayRadio::getAvailableStreams() as $streamName) {
-            new SlayRadio(new HttpDomFetcher(), $streamName);
+        $r = new SlayRadio(new HttpDomFetcher());
+        foreach ($r->getAvailableStreams() as $streamName) {
+            $I->assertInstanceOf(
+                StreamInfo::class,
+                $r->getStreamInfo($streamName)
+            );
         }
-
-        // dummy assertion, updateInfo() just shall not throw an exception so
-        // if we get here everything is ok
-        $I->assertTrue(true);
     }
 }
