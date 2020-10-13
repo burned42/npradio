@@ -68,8 +68,6 @@ class TechnoBaseCest
 
             $I->assertIsString($info->artist);
             $I->assertIsString($info->track);
-            $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
-            $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
         }
 
         // Test additional properties with a stream where the test sample has data
@@ -77,6 +75,8 @@ class TechnoBaseCest
         $I->assertIsString($info->moderator);
         $I->assertIsString($info->show);
         $I->assertIsString($info->genre);
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
     }
 
     /**
