@@ -22,15 +22,11 @@ class RadioStream {
     {
         if (this.requestRunning === false) {
             this.requestRunning = true;
-            try {
-                fetch(this.streamInfoUrl)
-                    .then(data => data.json())
-                    .then(result => this.updateStreamInfoDom(result))
-                    .then(() => {
-                        this.requestRunning = false;
-                    });
-            } catch (e) {
-            }
+            fetch(this.streamInfoUrl)
+                .then(response => response.json())
+                .then(data => this.updateStreamInfoDom(data))
+                .catch(() => {})
+                .finally(() => this.requestRunning = false);
         }
     };
 
