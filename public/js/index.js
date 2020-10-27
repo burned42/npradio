@@ -78,6 +78,7 @@ function resetLocalStreamSelection()
 function showSettings()
 {
     document.getElementById('stream_infos').innerHTML = '';
+    clearInterval(updateInterval);
 
     let settings = document.getElementById('settings');
 
@@ -171,7 +172,8 @@ function showStreamInfo()
         }
         radioStreams.push(new RadioStream(stream[0], stream[1], playing));
     });
-    updateData();
+
+    setUpdateInterval();
 }
 
 function setAvailableRadioStreams()
