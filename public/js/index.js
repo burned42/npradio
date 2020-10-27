@@ -202,17 +202,10 @@ function setUpdateInterval()
         return;
     }
 
-    if (null !== updateInterval) {
-        clearInterval(updateInterval);
-    }
+    updateData();
 
-    updateInterval = setInterval(() => {
-        try {
-            updateData();
-        } catch (e) {
-            alert(e);
-        }
-    }, 30 * 1000);
+    clearInterval(updateInterval)
+    updateInterval = setInterval(updateData, 30 * 1000);
 }
 
 let defaultStreams = [
@@ -242,7 +235,6 @@ let updateInterval = null;
 window.addEventListener('load', () => {
     setAvailableRadioStreams();
     showStreamInfo();
-    setUpdateInterval();
 
     window.addEventListener('focus', setUpdateInterval);
     window.addEventListener('online', setUpdateInterval);
