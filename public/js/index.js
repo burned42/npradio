@@ -198,6 +198,10 @@ function setAvailableRadioStreams()
 
 function setUpdateInterval()
 {
+    if (document.getElementById('settings').style.display !== 'none') {
+        return;
+    }
+
     if (null !== updateInterval) {
         clearInterval(updateInterval);
     }
