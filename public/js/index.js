@@ -34,8 +34,7 @@ function playStream(e, streamUrl, radioName, streamName)
             .catch(() => {
                 e.className = 'btn btn-warning';
                 nowPlayingRadioStream = null;
-            }
-        );
+            });
     }
 }
 
@@ -78,6 +77,7 @@ function resetLocalStreamSelection()
 function showSettings()
 {
     document.getElementById('stream_infos').innerHTML = '';
+    clearInterval(updateInterval);
 
     let settings = document.getElementById('settings');
 
@@ -171,7 +171,8 @@ function showStreamInfo()
         }
         radioStreams.push(new RadioStream(stream[0], stream[1], playing));
     });
-    updateData();
+
+    setUpdateInterval();
 }
 
 function setAvailableRadioStreams()
@@ -196,17 +197,14 @@ function setAvailableRadioStreams()
 
 function setUpdateInterval()
 {
-    if (null !== updateInterval) {
-        clearInterval(updateInterval);
+    if (document.getElementById('settings').style.display !== 'none') {
+        return;
     }
 
-    updateInterval = setInterval(() => {
-        try {
-            updateData();
-        } catch (e) {
-            alert(e);
-        }
-    }, 30 * 1000);
+    updateData();
+
+    clearInterval(updateInterval)
+    updateInterval = setInterval(updateData, 30 * 1000);
 }
 
 let defaultStreams = [
@@ -236,7 +234,6 @@ let updateInterval = null;
 window.addEventListener('load', () => {
     setAvailableRadioStreams();
     showStreamInfo();
-    setUpdateInterval();
 
     window.addEventListener('focus', setUpdateInterval);
     window.addEventListener('online', setUpdateInterval);
