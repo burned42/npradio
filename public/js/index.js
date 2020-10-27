@@ -34,8 +34,7 @@ function playStream(e, streamUrl, radioName, streamName)
             .catch(() => {
                 e.className = 'btn btn-warning';
                 nowPlayingRadioStream = null;
-            }
-        );
+            });
     }
 }
 
