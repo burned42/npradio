@@ -6,7 +6,7 @@ namespace App\Tests\functional\Controller;
 
 use App\Tests\FunctionalTester;
 
-class HomepageControllerCest
+final class HomepageControllerCest
 {
     public function testHomepage(FunctionalTester $I): void
     {

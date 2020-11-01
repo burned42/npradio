@@ -9,7 +9,7 @@ use App\Stream\TechnoBase;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 
-class ApiCest
+final class ApiCest
 {
     public function testGetRadioNames(ApiTester $I): void
     {

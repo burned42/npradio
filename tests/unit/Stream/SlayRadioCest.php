@@ -12,7 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class SlayRadioCest
+final class SlayRadioCest
 {
     private DomFetcherInterface $domFetcher;
 

@@ -10,7 +10,7 @@ use DateTimeImmutable;
 use Exception;
 use JsonSerializable;
 
-class StreamInfoCest
+final class StreamInfoCest
 {
     public function testConstructor(UnitTester $I): void
     {

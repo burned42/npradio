@@ -15,7 +15,7 @@ use Traversable;
 /**
  * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
  */
-class ApiController extends AbstractController
+final class ApiController extends AbstractController
 {
     /** @var array<string, AbstractRadioStream> */
     private array $radios;

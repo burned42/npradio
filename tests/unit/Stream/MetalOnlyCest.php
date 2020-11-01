@@ -14,7 +14,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class MetalOnlyCest
+final class MetalOnlyCest
 {
     private DomFetcherInterface $domFetcher;
     private DomFetcherInterface $domFetcherNotOnAir;

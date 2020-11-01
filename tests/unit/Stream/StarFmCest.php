@@ -12,7 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class StarFmCest
+final class StarFmCest
 {
     private DomFetcherInterface $domFetcher;
 

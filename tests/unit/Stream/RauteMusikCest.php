@@ -14,7 +14,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class RauteMusikCest
+final class RauteMusikCest
 {
     /**
      * @return DomFetcherInterface|object

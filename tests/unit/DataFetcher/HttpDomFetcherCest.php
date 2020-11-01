@@ -9,7 +9,7 @@ use App\Tests\UnitTester;
 use InvalidArgumentException;
 use RuntimeException;
 
-class HttpDomFetcherCest
+final class HttpDomFetcherCest
 {
     private HttpDomFetcher $domFetcher;
 

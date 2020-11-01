@@ -6,6 +6,6 @@ namespace App;
 
 use Symfony\Bundle\FrameworkBundle\HttpCache\HttpCache;
 
-class CacheKernel extends HttpCache
+final class CacheKernel extends HttpCache
 {
 }

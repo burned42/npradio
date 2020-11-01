@@ -12,7 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class RadioGalaxyCest
+final class RadioGalaxyCest
 {
     private DomFetcherInterface $domFetcher;
 

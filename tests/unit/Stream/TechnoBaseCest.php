@@ -15,7 +15,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class TechnoBaseCest
+final class TechnoBaseCest
 {
     private DomFetcherInterface $domFetcher;
 
