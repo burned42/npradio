@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\DomFetcherInterface;
 use App\Stream\MetalOnly;
 use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
@@ -16,17 +16,17 @@ use RuntimeException;
 
 class MetalOnlyCest
 {
-    private HttpDomFetcher $domFetcher;
-    private HttpDomFetcher $domFetcherNotOnAir;
-    private HttpDomFetcher $domFetcherOnAir;
+    private DomFetcherInterface $domFetcher;
+    private DomFetcherInterface $domFetcherNotOnAir;
+    private DomFetcherInterface $domFetcherOnAir;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySample.html');
             @$dom->loadHTML($html);
@@ -35,8 +35,8 @@ class MetalOnlyCest
         }]);
         $this->domFetcher = $domFetcher;
 
-        /** @var HttpDomFetcher $domFetcherNotOnAir */
-        $domFetcherNotOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcherNotOnAir */
+        $domFetcherNotOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
@@ -45,8 +45,8 @@ class MetalOnlyCest
         }]);
         $this->domFetcherNotOnAir = $domFetcherNotOnAir;
 
-        /** @var HttpDomFetcher $domFetcherOnAir */
-        $domFetcherOnAir = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcherOnAir */
+        $domFetcherOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
             $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleOnAir.html');
             @$dom->loadHTML($html);
@@ -131,8 +131,8 @@ class MetalOnlyCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
         $s = new MetalOnly($domFetcher);
 
         $I->expectThrowable(
@@ -146,8 +146,8 @@ class MetalOnlyCest
      */
     public function testDomFetcherException(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
         $mo = new MetalOnly($domFetcher);

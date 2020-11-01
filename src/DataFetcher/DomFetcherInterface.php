@@ -6,7 +6,7 @@ namespace App\DataFetcher;
 
 use DOMDocument;
 
-interface DomFetcher
+interface DomFetcherInterface
 {
     public function getUrlContent(string $url): string;
 

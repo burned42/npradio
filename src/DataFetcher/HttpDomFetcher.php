@@ -9,7 +9,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-class HttpDomFetcher implements DomFetcher
+final class HttpDomFetcher implements DomFetcherInterface
 {
     /**
      * @throws InvalidArgumentException

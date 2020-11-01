@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\DomFetcherInterface;
 use App\Stream\TechnoBase;
 use App\Tests\UnitTester;
 use Codeception\Exception\TestRuntimeException;
@@ -17,15 +17,15 @@ use RuntimeException;
 
 class TechnoBaseCest
 {
-    private HttpDomFetcher $domFetcher;
+    private DomFetcherInterface $domFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getXmlDom' => static function () {
             $dom = new DOMDocument();
             $xml = file_get_contents(__DIR__.'/../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
@@ -84,8 +84,8 @@ class TechnoBaseCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
         $s = new TechnoBase($domFetcher);
 
         $I->expectThrowable(
@@ -99,8 +99,8 @@ class TechnoBaseCest
      */
     public function testDomFetcherException(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getXmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');
         }]);
         $s = new TechnoBase($domFetcher);

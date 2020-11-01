@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\DomFetcherInterface;
 use App\Stream\RauteMusik;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
@@ -17,7 +17,7 @@ use RuntimeException;
 class RauteMusikCest
 {
     /**
-     * @return HttpDomFetcher|object
+     * @return DomFetcherInterface|object
      *
      * @throws Exception
      */
@@ -33,8 +33,8 @@ class RauteMusikCest
         libxml_use_internal_errors(true);
         $showInfoDom->loadHTML($html);
 
-        /* @var HttpDomFetcher $domFetcher */
-        return Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => Stub::consecutive(
+        /* @var DomFetcherInterface $domFetcher */
+        return Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => Stub::consecutive(
             $trackInfoDom,
             $showInfoDom
         )]);
@@ -88,8 +88,8 @@ class RauteMusikCest
 
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class);
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
         $s = new RauteMusik($domFetcher);
 
         $I->expectThrowable(
@@ -103,8 +103,8 @@ class RauteMusikCest
      */
     public function testDomFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
         $s = new RauteMusik($domFetcher);
@@ -120,8 +120,8 @@ class RauteMusikCest
      */
     public function testDomFetcherExceptionOnShowInfo(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::makeEmpty(HttpDomFetcher::class, ['getHtmlDom' => static function () {
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             static $first = true;
             if ($first) {
                 $first = false;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\DomFetcherInterface;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
@@ -39,8 +39,8 @@ class AbstractRadioStreamCest
 {
     public function testConstructor(UnitTester $I): void
     {
-        /** @var HttpDomFetcher $domFetcher */
-        $domFetcher = Stub::make(HttpDomFetcher::class);
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
 
         $radioStream = new DummyRadioStream($domFetcher);
 

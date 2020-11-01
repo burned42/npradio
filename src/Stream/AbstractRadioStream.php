@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\DomFetcherInterface;
 use DateTimeInterface;
 
 abstract class AbstractRadioStream
 {
-    private HttpDomFetcher $domFetcher;
+    private DomFetcherInterface $domFetcher;
 
     protected ?string $track = null;
     protected ?string $artist = null;
@@ -19,12 +19,12 @@ abstract class AbstractRadioStream
     protected ?DateTimeInterface $showStartTime = null;
     protected ?DateTimeInterface $showEndTime = null;
 
-    public function __construct(HttpDomFetcher $domFetcher)
+    public function __construct(DomFetcherInterface $domFetcher)
     {
         $this->domFetcher = $domFetcher;
     }
 
-    protected function getDomFetcher(): HttpDomFetcher
+    protected function getDomFetcher(): DomFetcherInterface
     {
         return $this->domFetcher;
     }
