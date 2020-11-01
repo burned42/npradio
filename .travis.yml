@@ -26,14 +26,21 @@ stages:
 jobs:
   include:
     - stage: "code quality"
-      script: composer php-cs-fixer
+      script: composer lint-yaml
+      name: "lint yaml"
+    - script: composer lint-container
+      name: "lint container"
+    - script: composer lint-twig
+      name: "lint twig"
+    - script: composer php-cs-fixer
       name: "php-cs-fixer"
     - script: composer phpstan
       name: "phpstan"
     - script: composer phpcs
       name: "phpcs"
-    - stage: "code coverage"
+    - stage: "tests"
       script: composer codeception-coverage-xml
+      name: "codeception"
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "update check"

@@ -79,13 +79,27 @@
             "@auto-scripts",
             "@copy-bootstrap"
         ],
+        "lint-yaml": "bin/console lint:yaml --parse-tags *.yml .travis.yml config/ tests/",
+        "lint-container": "bin/console lint:container",
+        "lint-twig": "bin/console lint:twig --show-deprecations templates/",
         "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
-        "phpcs": "vendor/bin/phpcs",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
+        "phpcs": "vendor/bin/phpcs",
         "codeception": "vendor/bin/codecept run --ansi",
-        "codeception-coverage-xml": "vendor/bin/codecept run --ansi --coverage --coverage-xml",
-        "codeception-coverage-html": "vendor/bin/codecept run --ansi --coverage --coverage-html",
-        "update-check": "composer outdated --direct --strict --ansi"
+        "codeception-coverage-xml": "@codeception --coverage --coverage-xml",
+        "codeception-coverage-html": "@codeception --coverage --coverage-html",
+        "update-check": "composer outdated --direct --strict --ansi",
+        "run-checks": [
+            "@lint-yaml",
+            "@lint-container",
+            "@lint-twig",
+            "@php-cs-fixer",
+            "@phpstan",
+            "@phpcs",
+            "@codeception",
+            "@update-check"
+        ],
+        "sync-flex-recipes": "composer symfony:sync-recipes --force"
     },
     "conflict": {
         "symfony/symfony": "*"
