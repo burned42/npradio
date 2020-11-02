@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
@@ -7,12 +7,12 @@ require_once 'vendor/autoload.php';
 
 use App\DataFetcher\HttpDomFetcher;
 use App\Stream\AbstractRadioStream;
-use App\Stream\MetalOnly;
-use App\Stream\RadioGalaxy;
-use App\Stream\RauteMusik;
-use App\Stream\SlayRadio;
-use App\Stream\StarFm;
-use App\Stream\TechnoBase;
+use App\Stream\Radio\MetalOnly;
+use App\Stream\Radio\RadioGalaxy;
+use App\Stream\Radio\RauteMusik;
+use App\Stream\Radio\SlayRadio;
+use App\Stream\Radio\StarFm;
+use App\Stream\Radio\TechnoBase;
 
 $radioStreams = [
     MetalOnly::class,

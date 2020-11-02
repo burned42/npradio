@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Stream;
+namespace App\Stream\Radio;
 
+use App\Stream\AbstractRadioStream;
+use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DOMNode;

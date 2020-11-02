@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\unit\Stream;
+namespace App\Tests\unit\Stream\Radio;
 
 use App\DataFetcher\DomFetcherInterface;
-use App\Stream\RauteMusik;
+use App\Stream\Radio\RauteMusik;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use DateTimeInterface;
@@ -24,12 +24,12 @@ final class RauteMusikCest
     private function getDomFetcher()
     {
         $trackInfoDom = new DOMDocument();
-        $html = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
+        $html = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubTrackInfoSample.html');
         libxml_use_internal_errors(true);
         $trackInfoDom->loadHTML($html);
 
         $showInfoDom = new DOMDocument();
-        $html = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubShowInfoSample.html');
+        $html = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubShowInfoSample.html');
         libxml_use_internal_errors(true);
         $showInfoDom->loadHTML($html);
 
@@ -127,7 +127,7 @@ final class RauteMusikCest
                 $first = false;
 
                 $trackInfoDom = new DOMDocument();
-                $xml = file_get_contents(__DIR__.'/../TestSamples/RauteMusikClubTrackInfoSample.html');
+                $xml = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubTrackInfoSample.html');
                 @$trackInfoDom->loadXML($xml);
 
                 return $trackInfoDom;

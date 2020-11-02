@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\api;
 
 use App\DataFetcher\HttpDomFetcher;
-use App\Stream\TechnoBase;
+use App\Stream\Radio\TechnoBase;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
 

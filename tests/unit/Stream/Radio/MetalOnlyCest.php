@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\unit\Stream;
+namespace App\Tests\unit\Stream\Radio;
 
 use App\DataFetcher\DomFetcherInterface;
-use App\Stream\MetalOnly;
+use App\Stream\Radio\MetalOnly;
 use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
@@ -28,7 +28,7 @@ final class MetalOnlyCest
         /** @var DomFetcherInterface $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySample.html');
+            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySample.html');
             @$dom->loadHTML($html);
 
             return $dom;
@@ -38,7 +38,7 @@ final class MetalOnlyCest
         /** @var DomFetcherInterface $domFetcherNotOnAir */
         $domFetcherNotOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html');
+            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleNotOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;
@@ -48,7 +48,7 @@ final class MetalOnlyCest
         /** @var DomFetcherInterface $domFetcherOnAir */
         $domFetcherOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
             $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../TestSamples/MetalOnlySampleOnAir.html');
+            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleOnAir.html');
             @$dom->loadHTML($html);
 
             return $dom;

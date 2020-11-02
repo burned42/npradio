@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\unit\Stream;
+namespace App\Tests\unit\Stream\Radio;
 
 use App\DataFetcher\DomFetcherInterface;
-use App\Stream\TechnoBase;
+use App\Stream\Radio\TechnoBase;
 use App\Tests\UnitTester;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Util\Stub;
@@ -27,7 +27,7 @@ final class TechnoBaseCest
         /** @var DomFetcherInterface $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getXmlDom' => static function () {
             $dom = new DOMDocument();
-            $xml = file_get_contents(__DIR__.'/../TestSamples/TechnoBaseSample.xml');
+            $xml = file_get_contents(__DIR__.'/../../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
             return $dom;

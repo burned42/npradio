@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\unit\Stream;
+namespace App\Tests\unit\Stream\Radio;
 
 use App\DataFetcher\DomFetcherInterface;
-use App\Stream\SlayRadio;
+use App\Stream\Radio\RadioGalaxy;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-final class SlayRadioCest
+final class RadioGalaxyCest
 {
     private DomFetcherInterface $domFetcher;
 
@@ -23,31 +23,31 @@ final class SlayRadioCest
     {
         /** @var DomFetcherInterface $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
-            return file_get_contents(__DIR__.'/../TestSamples/SlayRadioSample.json');
+            return file_get_contents(__DIR__.'/../../TestSamples/RadioGalaxySample.json');
         }]);
         $this->domFetcher = $domFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void
     {
-        $SlayRadio = new SlayRadio($this->domFetcher);
+        $starFm = new RadioGalaxy($this->domFetcher);
 
-        $I->assertInstanceOf(SlayRadio::class, $SlayRadio);
+        $I->assertInstanceOf(RadioGalaxy::class, $starFm);
     }
 
     public function testRadioNameSet(UnitTester $I): void
     {
-        $I->assertNotEmpty(SlayRadio::getRadioName());
+        $I->assertNotEmpty(RadioGalaxy::getRadioName());
     }
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new SlayRadio($this->domFetcher))->getAvailableStreams());
+        $I->assertNotEmpty((new RadioGalaxy($this->domFetcher))->getAvailableStreams());
     }
 
-    public function testGetStreamInfo(UnitTester $I): void
+    public function testUpdateInfo(UnitTester $I): void
     {
-        $radio = new SlayRadio($this->domFetcher);
+        $radio = new RadioGalaxy($this->domFetcher);
         foreach ($radio->getAvailableStreams() as $streamName) {
             $info = $radio->getStreamInfo($streamName);
 
@@ -58,17 +58,17 @@ final class SlayRadioCest
 
             $I->assertIsString($info->artist);
             $I->assertIsString($info->track);
+
+            $I->assertIsString($info->moderator);
+            $I->assertIsString($info->show);
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         /** @var DomFetcherInterface $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new SlayRadio($domFetcher);
+        $s = new RadioGalaxy($domFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -85,7 +85,8 @@ final class SlayRadioCest
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');
         }]);
-        $s = new SlayRadio($domFetcher);
+
+        $s = new RadioGalaxy($domFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get url content: test'),

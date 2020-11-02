@@ -30,12 +30,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # Tag all stream classes
-    App\Stream\:
-        resource: '../src/Stream'
-        exclude:
-            - '../src/Stream/AbstractRadioStream.php'
-            - '../src/Stream/StreamInfo.php'
+    # Tag all radio stream classes
+    App\Stream\Radio\:
+        resource: '../src/Stream/Radio'
         tags: ['app.stream']
 
     App\Controller\ApiController:
