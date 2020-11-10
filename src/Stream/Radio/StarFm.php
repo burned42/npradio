@@ -13,7 +13,7 @@ use RuntimeException;
 final class StarFm extends AbstractRadioStream
 {
     private const RADIO_NAME = 'STAR FM';
-    private const URL = 'https://nbg.starfm.de';
+    private const HOMEPAGE_URL = 'https://nbg.starfm.de';
 
     private const NUREMBERG = 'STAR FM Nürnberg';
     private const FROM_HELL = 'STAR FM From Hell';
@@ -27,12 +27,10 @@ final class StarFm extends AbstractRadioStream
         self::FROM_HELL => 'http://starfm-4.explodio.com/hell.mp3',
         self::NUREMBERG => 'http://starfm-1.explodio.com/nuernberg.mp3',
     ];
-
-    private const URL_INFO_BASE_PATH = '/player/cache/currentSong/currentSong_';
-    private const URL_INFO_SUFFIX = '.json';
-    private const URL_INFO_STREAM_NAMES = [
-        self::FROM_HELL => '2',
-        self::NUREMBERG => '4',
+    private const STREAM_INFO_URL = 'https://nbg.starfm.de/services/program-info/live/starfm';
+    private const STREAM_INFO_API_NAMES = [
+        self::FROM_HELL => 'fromhell',
+        self::NUREMBERG => 'nbg',
     ];
 
     public function getAvailableStreams(): array
@@ -54,25 +52,38 @@ final class StarFm extends AbstractRadioStream
         $streamInfo = new StreamInfo(
             self::RADIO_NAME,
             $streamName,
-            self::URL,
+            self::HOMEPAGE_URL,
             self::STREAM_URLS[$streamName],
         );
 
         try {
-            $streamUrlName = self::URL_INFO_STREAM_NAMES[$streamName];
-            $url = self::URL.self::URL_INFO_BASE_PATH.$streamUrlName.self::URL_INFO_SUFFIX;
-            $data = json_decode($this->getDomFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
+            $data = json_decode(
+                $this->getDomFetcher()->getUrlContent(self::STREAM_INFO_URL),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
-        if (!empty($data) && array_key_exists('c', $data)) {
-            if (array_key_exists('artist', $data['c'])) {
-                $streamInfo->artist = $data['c']['artist'];
-            }
-            if (array_key_exists('song', $data['c'])) {
-                $streamInfo->track = $data['c']['song'];
-            }
+        $apiStreamName = self::STREAM_INFO_API_NAMES[$streamName];
+        $data = array_filter(
+            $data,
+            static fn ($streamData) => $apiStreamName === ($streamData['name'] ?? null),
+        );
+        if (empty($data)) {
+            return $streamInfo;
+        }
+
+        $trackInfo = $data[array_key_first($data)];
+        $track = $trackInfo['playHistories'][0]['track']['title'] ?? null;
+        if (is_string($track) && !empty($track)) {
+            $streamInfo->track = $track;
+        }
+        $artist = $trackInfo['playHistories'][0]['track']['artist'] ?? null;
+        if (is_string($artist) && !empty($artist)) {
+            $streamInfo->artist = $artist;
         }
 
         return $streamInfo;
