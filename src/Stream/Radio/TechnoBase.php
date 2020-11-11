@@ -53,7 +53,7 @@ final class TechnoBase extends AbstractRadioStream
     {
         $fileName = self::AVAILABLE_STREAMS[$streamName];
 
-        return 'http://mp3.stream.tb-group.fm/'.$fileName.'.mp3';
+        return 'https://mp3.stream.tb-group.fm/'.$fileName.'.mp3';
     }
 
     public function getAvailableStreams(): array

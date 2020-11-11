@@ -24,8 +24,8 @@ final class StarFm extends AbstractRadioStream
     ];
 
     private const STREAM_URLS = [
-        self::FROM_HELL => 'http://starfm-4.explodio.com/hell.mp3',
-        self::NUREMBERG => 'http://starfm-1.explodio.com/nuernberg.mp3',
+        self::FROM_HELL => 'https://starfm-4.explodio.com/hell.mp3',
+        self::NUREMBERG => 'https://starfm-1.explodio.com/nuernberg.mp3',
     ];
     private const STREAM_INFO_URL = 'https://nbg.starfm.de/services/program-info/live/starfm';
     private const STREAM_INFO_API_NAMES = [

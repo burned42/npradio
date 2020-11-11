@@ -25,7 +25,7 @@ final class RadioGalaxy extends AbstractRadioStream
     ];
 
     private const STREAM_URLS = [
-        self::MITTELFRANKEN => 'http://www.galaxyansbach.de:8000/live',
+        self::MITTELFRANKEN => 'https://live.galaxy-mittelfranken.de/galaxy-mittelfranken.mp3',
     ];
 
     private const INFO_URLS_BY_STREAM = [
