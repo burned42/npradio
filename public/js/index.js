@@ -128,10 +128,13 @@ function showSettings()
         '</form>';
     settings.innerHTML = text;
 
-    const settingsForm = document.getElementById('stream_selection');
-    new DragonDrop(settingsForm, {
-        item: '#selectable_stream',
-        handle: false,
+    const streamSelection = document.getElementById('stream_selection');
+    new Sortable(streamSelection, {
+        delay: 100,
+        delayOnTouchOnly: true,
+        ghostClass: 'dragging',
+        chosenClass: 'dragging',
+        dragClass: 'dragging'
     });
 
     settings.style.display = 'block';
