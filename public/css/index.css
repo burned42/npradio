@@ -15,7 +15,7 @@ body {
     background-color: #000000;
 }
 
-.card, .navbar {
+.card, .navbar, .selectable_stream {
     background-color: #1a1a1a;
 }
 

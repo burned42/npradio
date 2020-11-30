@@ -98,7 +98,7 @@ function showSettings()
     let allStreams = preselectStreams.concat(otherStreams);
 
     let text = '<form>' +
-        '<div class="card bg-dark">' +
+        '<div class="card">' +
         '    <div class="card-header">' +
         '        <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
         '        &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
@@ -114,7 +114,7 @@ function showSettings()
             }
         });
 
-        text += '<div class="selectable_stream list-group-item list-group-item-dark list-group-item-action">' +
+        text += '<div class="selectable_stream list-group-item">' +
             '    <div class="form-check">' +
             '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
             '        ' + streamData[0] + ': <b>' + streamData[1] + '</b>' +
