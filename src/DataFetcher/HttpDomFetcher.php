@@ -8,6 +8,7 @@ use DOMDocument;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class HttpDomFetcher implements DomFetcherInterface
 {
@@ -69,8 +70,8 @@ final class HttpDomFetcher implements DomFetcherInterface
             if (false === $dom->loadHTML($html)) {
                 throw new RuntimeException('\DomDocument::loadHTML returned false');
             }
-        } catch (Exception $e) {
-            throw new RuntimeException('could not parse html data: '.$e->getMessage());
+        } catch (Throwable $t) {
+            throw new RuntimeException('could not parse html data: '.$t->getMessage());
         }
 
         return $dom;
