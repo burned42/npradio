@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 ENV APP_ENV prod
 ENV APP_DEBUG 0
