@@ -112,31 +112,39 @@ final class TechnoBase extends AbstractRadioStream
         }
 
         if (null !== $streamInfoNode) {
-            $infos = [
-                'moderator' => 'moderator',
-                'show' => 'show',
-                'genre' => 'style',
-                'artist' => 'artist',
-                'track' => 'song',
-                'showStartTime' => 'starttime',
-                'showEndTime' => 'endtime',
-            ];
-
             /** @var DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
-                $nodeValue = $childNode->nodeValue;
-                if ('0' === $nodeValue || !empty(trim($nodeValue))) {
-                    foreach ($infos as $property => $info) {
-                        if ($childNode->nodeName === $info) {
-                            if (in_array($info, ['starttime', 'endtime'])) {
-                                $streamInfo->$property = new DateTimeImmutable(
-                                    str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
-                                );
-                            } else {
-                                $streamInfo->$property = trim($nodeValue);
-                            }
-                        }
-                    }
+                $nodeValue = trim($childNode->nodeValue);
+                if ('0' !== $nodeValue && empty($nodeValue)) {
+                    continue;
+                }
+
+                switch ($childNode->nodeName) {
+                    case 'moderator':
+                        $streamInfo->moderator = $nodeValue;
+                        break;
+                    case 'show':
+                        $streamInfo->show = $nodeValue;
+                        break;
+                    case 'style':
+                        $streamInfo->genre = $nodeValue;
+                        break;
+                    case 'artist':
+                        $streamInfo->artist = $nodeValue;
+                        break;
+                    case 'song':
+                        $streamInfo->track = $nodeValue;
+                        break;
+                    case 'starttime':
+                        $streamInfo->showStartTime = new DateTimeImmutable(
+                            str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
+                        );
+                        break;
+                    case 'endtime':
+                        $streamInfo->showEndTime = new DateTimeImmutable(
+                            str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
+                        );
+                        break;
                 }
             }
         }
