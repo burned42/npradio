@@ -30,15 +30,8 @@ final class StreamInfo implements JsonSerializable
      */
     public function jsonSerialize(): array
     {
-        $showStartTime = $this->showStartTime;
-        if (null !== $showStartTime) {
-            $showStartTime = $showStartTime->format('H:i');
-        }
-
-        $showEndTime = $this->showEndTime;
-        if (null !== $showEndTime) {
-            $showEndTime = $showEndTime->format('H:i');
-        }
+        $showStartTime = $this->showStartTime?->format('H:i');
+        $showEndTime = $this->showEndTime?->format('H:i');
 
         return [
             'radio_name' => $this->radioName,
