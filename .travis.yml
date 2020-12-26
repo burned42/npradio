@@ -3,7 +3,7 @@ dist: focal
 language: php
 
 php:
-  - '7.4'
+  - '8.0'
 
 install:
   - composer install
@@ -41,6 +41,7 @@ jobs:
     - stage: "tests"
       script: composer codeception-coverage-xml
       name: "codeception"
+      env: XDEBUG_MODE=coverage
       after_success:
         - bash <(curl -s https://codecov.io/bash)
     - stage: "update check"

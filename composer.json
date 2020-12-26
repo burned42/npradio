@@ -4,7 +4,7 @@
     "type": "project",
     "license": "",
     "require": {
-        "php": "^7.4.0",
+        "php": "^8.0.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-iconv": "*",
@@ -40,7 +40,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "optimize-autoloader": true
     },
@@ -58,6 +58,7 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php80": "*",
         "symfony/polyfill-php74": "*",
         "symfony/polyfill-php73": "*",
         "symfony/polyfill-php72": "*",
@@ -82,7 +83,7 @@
         "lint-yaml": "bin/console lint:yaml --parse-tags *.yml .travis.yml config/ tests/",
         "lint-container": "bin/console lint:container",
         "lint-twig": "bin/console lint:twig --show-deprecations templates/",
-        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
         "phpcs": "vendor/bin/phpcs",
         "codeception": "vendor/bin/codecept run --ansi",

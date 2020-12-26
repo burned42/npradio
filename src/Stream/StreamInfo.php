@@ -26,7 +26,7 @@ final class StreamInfo implements JsonSerializable
         string $radioName,
         string $streamName,
         string $homepageUrl,
-        string $streamUrl
+        string $streamUrl,
     ) {
         $this->radioName = $radioName;
         $this->streamName = $streamName;

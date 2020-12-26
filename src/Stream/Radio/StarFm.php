@@ -72,11 +72,8 @@ final class StarFm extends AbstractRadioStream
             $data,
             static fn ($streamData) => $apiStreamName === ($streamData['name'] ?? null),
         );
-        if (empty($data)) {
-            return $streamInfo;
-        }
 
-        $trackInfo = $data[array_key_first($data)];
+        $trackInfo = $data[array_key_first($data)] ?? null;
         $track = $trackInfo['playHistories'][0]['track']['title'] ?? null;
         if (is_string($track) && !empty($track)) {
             $streamInfo->track = $track;
