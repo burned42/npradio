@@ -5,7 +5,6 @@ declare(strict_types=1);
 
 require_once 'vendor/autoload.php';
 
-use App\DataFetcher\HttpDomFetcher;
 use App\Kernel;
 use App\Stream\AbstractRadioStream;
 use App\Stream\Radio\MetalOnly;
@@ -65,8 +64,6 @@ if (1 !== $argc) {
         $radios[$name] = $radio->getAvailableStreams();
     }
 }
-
-$domFetcher = new HttpDomFetcher();
 
 try {
     foreach ($radios as $radioName => $streams) {
