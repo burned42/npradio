@@ -15,6 +15,7 @@ use App\Stream\Radio\TechnoBase;
 use Codeception\Example;
 use Exception;
 use Generator;
+use Symfony\Component\HttpClient\HttpClient;
 
 final class RadioStreamCest
 {
@@ -43,7 +44,14 @@ final class RadioStreamCest
     private function getExamples(): Generator
     {
         foreach (self::RADIOS as $radioClass) {
-            $radio = new $radioClass(new HttpDomFetcher());
+            if (RauteMusik::class === $radioClass) {
+                $radio = new $radioClass(
+                    new HttpDomFetcher(),
+                    HttpClient::create()
+                );
+            } else {
+                $radio = new $radioClass(new HttpDomFetcher());
+            }
 
             foreach ($radio->getAvailableStreams() as $streamName) {
                 yield [$radio, $streamName];

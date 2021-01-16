@@ -1,0 +1,90 @@
+{
+  "items" : [ {
+    "id" : "rock",
+    "show" : {
+      "start_time" : "2021-01-16T15:00:00.000+01:00",
+      "end_time" : "2021-01-16T17:30:00.000+01:00",
+      "name" : "Ulis Time Machine",
+      "moderator" : {
+        "id" : "77561",
+        "username" : "UliS",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5d962f320efe1.jpg"
+        }
+      },
+      "co_moderators" : [ ]
+    }
+  }, {
+    "id" : "main",
+    "show" : {
+      "start_time" : "2021-01-16T14:00:00.000+01:00",
+      "end_time" : "2021-01-16T18:00:00.000+01:00",
+      "name" : "Weekend Wiedenhaupt",
+      "moderator" : {
+        "id" : "189008",
+        "username" : "TorbenWie",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5e809f8043591.jpg"
+        }
+      },
+      "co_moderators" : [ ]
+    }
+  }, {
+    "id" : "club",
+    "show" : {
+      "start_time" : "2021-01-16T16:00:00.000+01:00",
+      "end_time" : "2021-01-16T18:00:00.000+01:00",
+      "name" : "Welcome to the Future ",
+      "moderator" : {
+        "id" : "258664",
+        "username" : "NoTYPE",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5eef38cb5dcf3.jpg"
+        }
+      },
+      "co_moderators" : [ ]
+    }
+  }, {
+    "id" : "jam",
+    "show" : {
+      "start_time" : "2021-01-16T16:00:00.000+01:00",
+      "end_time" : "2021-01-16T18:00:00.000+01:00",
+      "name" : "Beastmode",
+      "moderator" : {
+        "id" : "261615",
+        "username" : "DJAndyBee",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5f5a7e812093f.jpg"
+        }
+      },
+      "co_moderators" : [ ]
+    }
+  }, {
+    "id" : "breakz",
+    "show" : {
+      "start_time" : "2021-01-16T16:00:00.000+01:00",
+      "end_time" : "2021-01-16T20:00:00.000+01:00",
+      "name" : "Berlin Radioshow #9 mit Paxxi & Fixxi",
+      "moderator" : {
+        "id" : "240169",
+        "username" : "DJLeTrace",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5e33518c74780.jpg"
+        }
+      },
+      "co_moderators" : [ {
+        "id" : "253941",
+        "username" : "Pat_Sundaze",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5fbe76f00965b.jpg"
+        }
+      }, {
+        "id" : "253872",
+        "username" : "PRIZM",
+        "picture" : {
+          "thumb_url" : "https://static.rautemusik.fm/profilepic/s63x63/5fbe76fa0cedb.jpg"
+        }
+      } ]
+    }
+  } ]
+}

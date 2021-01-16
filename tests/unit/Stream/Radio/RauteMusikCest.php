@@ -7,37 +7,34 @@ namespace App\Tests\unit\Stream\Radio;
 use App\DataFetcher\DomFetcherInterface;
 use App\Stream\Radio\RauteMusik;
 use App\Tests\UnitTester;
+use BadMethodCallException;
 use Codeception\Util\Stub;
 use DateTimeInterface;
-use DOMDocument;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class RauteMusikCest
 {
-    /**
-     * @return DomFetcherInterface|object
-     *
-     * @throws Exception
-     */
-    private function getDomFetcher()
+    private function getHttpClientMock(): MockHttpClient
     {
-        $trackInfoDom = new DOMDocument();
-        $html = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubTrackInfoSample.html');
-        libxml_use_internal_errors(true);
-        $trackInfoDom->loadHTML($html);
+        return new MockHttpClient(function ($method, $url, $options) {
+            if ('https://api.rautemusik.fm/streams/club/tracks/' === $url) {
+                $data = file_get_contents(
+                    __DIR__.'/../../TestSamples/RauteMusikClubTracksSample.json'
+                );
+            } elseif ('https://api.rautemusik.fm/streams_onair/' === $url) {
+                $data = file_get_contents(
+                    __DIR__.'/../../TestSamples/RauteMusikStreamsOnairSample.json'
+                );
+            } else {
+                throw new BadMethodCallException('unknown url called: '.$url);
+            }
 
-        $showInfoDom = new DOMDocument();
-        $html = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubShowInfoSample.html');
-        libxml_use_internal_errors(true);
-        $showInfoDom->loadHTML($html);
-
-        /* @var DomFetcherInterface $domFetcher */
-        return Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => Stub::consecutive(
-            $trackInfoDom,
-            $showInfoDom
-        )]);
+            return new MockResponse($data);
+        });
     }
 
     /**
@@ -45,7 +42,10 @@ final class RauteMusikCest
      */
     public function canInstantiate(UnitTester $I): void
     {
-        $rm = new RauteMusik($this->getDomFetcher());
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+
+        $rm = new RauteMusik($domFetcher, $this->getHttpClientMock());
 
         $I->assertInstanceOf(RauteMusik::class, $rm);
     }
@@ -57,7 +57,10 @@ final class RauteMusikCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new RauteMusik($this->getDomFetcher()))->getAvailableStreams());
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+
+        $I->assertNotEmpty((new RauteMusik($domFetcher, $this->getHttpClientMock()))->getAvailableStreams());
     }
 
     /**
@@ -65,32 +68,32 @@ final class RauteMusikCest
      */
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $radio = new RauteMusik($this->getDomFetcher());
-        foreach ($radio->getAvailableStreams() as $streamName) {
-            // re-instantiate to get a fresh DomFetcher mock
-            $r = new RauteMusik($this->getDomFetcher());
-            $info = $r->getStreamInfo($streamName);
+        /** @var DomFetcherInterface $domFetcher */
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+        $httpClient = $this->getHttpClientMock();
 
-            $I->assertIsString($info->radioName);
-            $I->assertIsString($info->streamName);
-            $I->assertIsString($info->homepageUrl);
-            $I->assertIsString($info->streamUrl);
+        $radio = new RauteMusik($domFetcher, $httpClient);
+        $info = $radio->getStreamInfo('RauteMusik Club');
 
-            $I->assertIsString($info->artist);
-            $I->assertIsString($info->track);
+        $I->assertIsString($info->radioName);
+        $I->assertIsString($info->streamName);
+        $I->assertIsString($info->homepageUrl);
+        $I->assertIsString($info->streamUrl);
 
-            $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
-            $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
-            $I->assertIsString($info->show);
-            $I->assertIsString($info->moderator);
-        }
+        $I->assertIsString($info->artist);
+        $I->assertIsString($info->track);
+
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showStartTime);
+        $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
+        $I->assertIsString($info->show);
+        $I->assertIsString($info->moderator);
     }
 
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         /** @var DomFetcherInterface $domFetcher */
         $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new RauteMusik($domFetcher);
+        $s = new RauteMusik($domFetcher, $this->getHttpClientMock());
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -104,13 +107,14 @@ final class RauteMusikCest
     public function testDomFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
         /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+        $httpClient = new MockHttpClient(function ($method, $url, $options) {
             throw new RuntimeException('test');
-        }]);
-        $s = new RauteMusik($domFetcher);
+        });
+        $s = new RauteMusik($domFetcher, $httpClient);
 
         $I->expectThrowable(
-            new RuntimeException('could not get html dom: test'),
+            new RuntimeException('could not fetch track info: test'),
             static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
         );
     }
@@ -121,25 +125,23 @@ final class RauteMusikCest
     public function testDomFetcherExceptionOnShowInfo(UnitTester $I): void
     {
         /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
-            static $first = true;
-            if ($first) {
-                $first = false;
-
-                $trackInfoDom = new DOMDocument();
-                $xml = file_get_contents(__DIR__.'/../../TestSamples/RauteMusikClubTrackInfoSample.html');
-                @$trackInfoDom->loadXML($xml);
-
-                return $trackInfoDom;
+        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+        $httpClient = new MockHttpClient(function ($method, $url, $options) {
+            if ('https://api.rautemusik.fm/streams/main/tracks/' === $url) {
+                $data = file_get_contents(
+                    __DIR__.'/../../TestSamples/RauteMusikClubTracksSample.json'
+                );
+            } else {
+                // throw exception to test addShowInfo()
+                throw new RuntimeException('test');
             }
 
-            // throw exception on second call to test fetchShowInfo()
-            throw new RuntimeException('test');
-        }]);
-        $s = new RauteMusik($domFetcher);
+            return new MockResponse($data);
+        });
+        $s = new RauteMusik($domFetcher, $httpClient);
 
         $I->expectThrowable(
-            new RuntimeException('could not get html dom: test'),
+            new RuntimeException('could not fetch show info: test'),
             static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
         );
     }

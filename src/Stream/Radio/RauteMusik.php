@@ -4,22 +4,26 @@ declare(strict_types=1);
 
 namespace App\Stream\Radio;
 
+use App\DataFetcher\DomFetcherInterface;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
-use DOMNamedNodeMap;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Throwable;
 
 final class RauteMusik extends AbstractRadioStream
 {
     private const RADIO_NAME = 'RauteMusik';
-    private const BASE_URL = 'https://www.rautemusik.fm/';
-    private const SHOW_INFO_URL = self::BASE_URL.'radio/sendeplan/';
+    private const BASE_URL = 'https://www.rm.fm/';
+    private const API_URL = 'https://api.rautemusik.fm';
 
     private const MAIN = 'RauteMusik Main';
     private const CLUB = 'RauteMusik Club';
@@ -44,6 +48,17 @@ final class RauteMusik extends AbstractRadioStream
         self::WACKENRADIO,
         self::WEIHNACHTEN,
     ];
+
+    private HttpClientInterface $httpClient;
+
+    public function __construct(
+        DomFetcherInterface $domFetcher,
+        HttpClientInterface $httpClient
+    ) {
+        parent::__construct($domFetcher);
+
+        $this->httpClient = $httpClient;
+    }
 
     private function getStreamNameForUrl(string $streamName): string
     {
@@ -98,39 +113,48 @@ final class RauteMusik extends AbstractRadioStream
         return $streamInfo;
     }
 
+    /**
+     * @return array<mixed>
+     *
+     * @throws ClientExceptionInterface
+     * @throws DecodingExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     */
+    private function getApiData(string $path): array
+    {
+        $timestamp = (string) time();
+        $hash = sha1($timestamp.'17426'.$path.'Wo+AEi47[ajKJpPgb1EU0QLLS355R{cz');
+        $hashPart = substr($hash, 0, 12);
+
+        return $this->httpClient->request(
+            'GET',
+            self::API_URL.$path,
+            ['headers' => [
+                'Accept' => 'application/json',
+                'x-client-id' => '17426',
+                'x-timestamp' => $timestamp,
+                'x-hash' => $hashPart,
+            ]]
+        )->toArray();
+    }
+
+    /**
+     * @throws RuntimeException
+     */
     private function addTrackInfo(StreamInfo $streamInfo): StreamInfo
     {
         try {
-            $url = self::BASE_URL.$this->getStreamNameForUrl($streamInfo->streamName);
-            $dom = $this->getDomFetcher()->getHtmlDom($url);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get html dom: '.$e->getMessage());
+            $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
+            $data = $this->getApiData('/streams/'.$streamName.'/tracks/');
+        } catch (Throwable $t) {
+            throw new RuntimeException('could not fetch track info: '.$t->getMessage());
         }
 
-        $xpath = new DOMXPath($dom);
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(
-            ".//li[@class='current']//p[@class='title']"
-            ." | .//li[@class='current']//p[@class='artist']"
-        );
-
-        /** @var DOMNode $node */
-        foreach ($nodeList as $node) {
-            if (!($node->attributes instanceof DOMNamedNodeMap)) {
-                throw new RuntimeException('could not find DOMNamedNodeMap for parsing artist and title');
-            }
-            $classNode = $node->attributes->getNamedItem('class');
-            if (!($classNode instanceof DOMNode)) {
-                throw new RuntimeException('could not find DOMNode for parsing artist and title');
-            }
-
-            $class = $classNode->nodeValue;
-            if ('artist' === $class) {
-                $streamInfo->artist = trim($node->nodeValue);
-            } elseif ('title' === $class) {
-                $streamInfo->track = trim($node->nodeValue);
-            }
-        }
+        $currentTrack = $data['items'][0] ?? null;
+        $streamInfo->track = $currentTrack['track']['name'] ?? null;
+        $streamInfo->artist = $currentTrack['artist']['name'] ?? null;
 
         return $streamInfo;
     }
@@ -141,47 +165,43 @@ final class RauteMusik extends AbstractRadioStream
     private function addShowInfo(StreamInfo $streamInfo): StreamInfo
     {
         try {
-            $url = self::SHOW_INFO_URL.$this->getStreamNameForUrl($streamInfo->streamName);
-            $dom = $this->getDomFetcher()->getHtmlDom($url);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get html dom: '.$e->getMessage());
+            $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
+            $data = $this->getApiData('/streams_onair/');
+        } catch (Throwable $t) {
+            throw new RuntimeException('could not fetch show info: '.$t->getMessage());
         }
 
-        $xpath = new DOMXPath($dom);
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(".//tr[@class='current']//td");
+        $streamData = array_filter(
+            $data['items'],
+            static fn ($stream) => $streamName === $stream['id']
+        );
+        if (empty($streamData) || 1 !== count($streamData)) {
+            return $streamInfo;
+        }
 
-        $numNodes = $nodeList->length;
-        if ($numNodes >= 1) {
-            $matches = [];
-            $node = $nodeList->item(0);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing show start and end time');
-            }
+        $currentShow = $streamData[array_key_first($streamData)]['show'] ?? null;
 
-            if (preg_match('/^(\d{2}:\d{2}) - (\d{2}:\d{2}) Uhr$/', $node->nodeValue, $matches)) {
-                $streamInfo->showStartTime = new DateTimeImmutable($matches[1]);
-                $streamInfo->showEndTime = new DateTimeImmutable($matches[2]);
-            }
+        $startTime = $currentShow['start_time'] ?? null;
+        $endTime = $currentShow['end_time'] ?? null;
+        if (is_string($startTime) && is_string($endTime)) {
+            $streamInfo->showStartTime = new DateTimeImmutable($startTime);
+            $streamInfo->showEndTime = new DateTimeImmutable($endTime);
+        }
 
-            if ($numNodes >= 2) {
-                $node = $nodeList->item(1);
-                if (!($node instanceof DOMNode)) {
-                    throw new RuntimeException('could not get DOMNode for parsing the show');
-                }
+        $streamInfo->show = $currentShow['name'] ?? null;
 
-                $streamInfo->show = trim($node->nodeValue);
-
-                if ($numNodes >= 3) {
-                    $node = $nodeList->item(2);
-                    if (!($node instanceof DOMNode)) {
-                        throw new RuntimeException('could not get DOMNode for parsing the moderator');
-                    }
-
-                    $streamInfo->moderator = preg_replace('/\s+/', ' ', trim($node->nodeValue));
-                }
+        $moderator = $currentShow['moderator']['username'];
+        $coModerators = $currentShow['moderator']['co_moderators'] ?? null;
+        if (is_array($coModerators) && !empty($coModerators)) {
+            $coModeratorNames = array_filter(array_map(
+                static fn ($data) => $data['username'] ?? null,
+                $coModerators
+            ));
+            if (!empty($coModeratorNames)) {
+                $moderator .= ', '.implode(', ', $coModeratorNames);
             }
         }
+        $streamInfo->moderator = $moderator;
 
         return $streamInfo;
     }

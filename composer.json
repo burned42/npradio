@@ -17,6 +17,7 @@
         "symfony/dotenv": "^5.2",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^5.2",
+        "symfony/http-client": "5.2.*",
         "symfony/twig-bundle": "^5.2",
         "symfony/yaml": "^5.2",
         "twbs/bootstrap": "^4.1.1"
