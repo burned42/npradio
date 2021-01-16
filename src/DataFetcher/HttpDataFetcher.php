@@ -6,39 +6,41 @@ namespace App\DataFetcher;
 
 use DOMDocument;
 use Exception;
-use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
-final class HttpDomFetcher implements DomFetcherInterface
+final class HttpDataFetcher implements DomFetcherInterface
 {
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
-    public function getUrlContent(string $url): string
+    private HttpClientInterface $httpClient;
+
+    public function __construct(HttpClientInterface $httpClient)
     {
-        $url = filter_var($url, FILTER_VALIDATE_URL);
-        if (false === $url) {
-            throw new InvalidArgumentException('invalid url given: "'.$url.'"');
-        }
-
-        try {
-            $content = file_get_contents($url);
-            if (false === $content) {
-                throw new RuntimeException('file_get_contents returned false');
-            }
-        } catch (Exception $e) {
-            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$e->getMessage());
-        }
-
-        return $content;
+        $this->httpClient = $httpClient;
     }
 
-    /**
-     * @throws RuntimeException
-     * @throws InvalidArgumentException
-     */
+    public function getJsonData(string $url, array $headers = []): array
+    {
+        try {
+            return $this->httpClient->request(
+                'GET',
+                $url,
+                ['headers' => $headers]
+            )->toArray();
+        } catch (Throwable $t) {
+            throw new RuntimeException('could not fetch json data from url "'.$url.'": '.$t->getMessage());
+        }
+    }
+
+    public function getUrlContent(string $url): string
+    {
+        try {
+            return $this->httpClient->request('GET', $url)->getContent();
+        } catch (Throwable $t) {
+            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
+        }
+    }
+
     public function getXmlDom(string $url): DOMDocument
     {
         $xml = $this->getUrlContent($url);
@@ -55,10 +57,6 @@ final class HttpDomFetcher implements DomFetcherInterface
         return $dom;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function getHtmlDom(string $url): DOMDocument
     {
         $html = $this->getUrlContent($url);

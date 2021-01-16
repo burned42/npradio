@@ -37,6 +37,9 @@ final class DummyRadioStream extends AbstractRadioStream
 
 class AbstractRadioStreamCest
 {
+    /**
+     * @throws Exception
+     */
     public function testConstructor(UnitTester $I): void
     {
         /** @var DomFetcherInterface $domFetcher */

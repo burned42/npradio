@@ -4,19 +4,12 @@ declare(strict_types=1);
 
 namespace App\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
 final class RauteMusik extends AbstractRadioStream
@@ -48,17 +41,6 @@ final class RauteMusik extends AbstractRadioStream
         self::WACKENRADIO,
         self::WEIHNACHTEN,
     ];
-
-    private HttpClientInterface $httpClient;
-
-    public function __construct(
-        DomFetcherInterface $domFetcher,
-        HttpClientInterface $httpClient
-    ) {
-        parent::__construct($domFetcher);
-
-        $this->httpClient = $httpClient;
-    }
 
     private function getStreamNameForUrl(string $streamName): string
     {
@@ -115,12 +97,6 @@ final class RauteMusik extends AbstractRadioStream
 
     /**
      * @return array<mixed>
-     *
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
      */
     private function getApiData(string $path): array
     {
@@ -128,16 +104,15 @@ final class RauteMusik extends AbstractRadioStream
         $hash = sha1($timestamp.'17426'.$path.'Wo+AEi47[ajKJpPgb1EU0QLLS355R{cz');
         $hashPart = substr($hash, 0, 12);
 
-        return $this->httpClient->request(
-            'GET',
+        return $this->getDomFetcher()->getJsonData(
             self::API_URL.$path,
-            ['headers' => [
+            [
                 'Accept' => 'application/json',
                 'x-client-id' => '17426',
                 'x-timestamp' => $timestamp,
                 'x-hash' => $hashPart,
-            ]]
-        )->toArray();
+            ]
+        );
     }
 
     /**

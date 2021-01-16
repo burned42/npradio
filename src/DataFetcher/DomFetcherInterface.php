@@ -8,6 +8,13 @@ use DOMDocument;
 
 interface DomFetcherInterface
 {
+    /**
+     * @param array<string, string> $headers
+     *
+     * @return array<mixed>
+     */
+    public function getJsonData(string $url, array $headers): array;
+
     public function getUrlContent(string $url): string;
 
     public function getXmlDom(string $url): DOMDocument;

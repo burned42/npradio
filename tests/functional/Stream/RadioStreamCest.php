@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\functional\Stream;
 
-use App\DataFetcher\HttpDomFetcher;
+use App\DataFetcher\HttpDataFetcher;
 use App\Stream\AbstractRadioStream;
 use App\Stream\Radio\MetalOnly;
 use App\Stream\Radio\RadioGalaxy;
@@ -12,6 +12,7 @@ use App\Stream\Radio\RauteMusik;
 use App\Stream\Radio\SlayRadio;
 use App\Stream\Radio\StarFm;
 use App\Stream\Radio\TechnoBase;
+use App\Tests\FunctionalTester;
 use Codeception\Example;
 use Exception;
 use Generator;
@@ -44,14 +45,7 @@ final class RadioStreamCest
     private function getExamples(): Generator
     {
         foreach (self::RADIOS as $radioClass) {
-            if (RauteMusik::class === $radioClass) {
-                $radio = new $radioClass(
-                    new HttpDomFetcher(),
-                    HttpClient::create()
-                );
-            } else {
-                $radio = new $radioClass(new HttpDomFetcher());
-            }
+            $radio = new $radioClass(new HttpDataFetcher(HttpClient::create()));
 
             foreach ($radio->getAvailableStreams() as $streamName) {
                 yield [$radio, $streamName];
