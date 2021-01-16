@@ -166,7 +166,7 @@ final class RauteMusik extends AbstractRadioStream
         $streamInfo->show = $currentShow['name'] ?? null;
 
         $moderator = $currentShow['moderator']['username'];
-        $coModerators = $currentShow['moderator']['co_moderators'] ?? null;
+        $coModerators = $currentShow['co_moderators'] ?? null;
         if (is_array($coModerators) && !empty($coModerators)) {
             $coModeratorNames = array_filter(array_map(
                 static fn ($data) => $data['username'] ?? null,
