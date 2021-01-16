@@ -34,12 +34,15 @@ final class RadioStreamCest
      *
      * @throws Exception
      */
-    public function testGetStreamInfoWithLiveData(Example $example): void
+    public function testGetStreamInfoWithLiveData(FunctionalTester $I, Example $example): void
     {
         /** @var AbstractRadioStream $radio */
         [$radio, $stream] = $example;
 
-        $radio->getStreamInfo($stream);
+        $info = $radio->getStreamInfo($stream);
+
+        $I->assertIsString($info->track);
+        $I->assertIsString($info->artist);
     }
 
     private function getExamples(): Generator
