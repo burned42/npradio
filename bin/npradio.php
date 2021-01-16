@@ -6,6 +6,7 @@ declare(strict_types=1);
 require_once 'vendor/autoload.php';
 
 use App\DataFetcher\HttpDomFetcher;
+use App\Kernel;
 use App\Stream\AbstractRadioStream;
 use App\Stream\Radio\MetalOnly;
 use App\Stream\Radio\RadioGalaxy;
@@ -23,12 +24,14 @@ $radioStreams = [
     TechnoBase::class,
 ];
 
+$kernel = new Kernel('test', false);
+$kernel->boot();
+$container = $kernel->getContainer()->get('test.service_container');
 /** @var AbstractRadioStream[] $availableRadios */
 $availableRadios = [];
-$httpDomFetcher = new HttpDomFetcher();
 /** @var AbstractRadioStream $radioClass */
 foreach ($radioStreams as $radioClass) {
-    $availableRadios[$radioClass::getRadioName()] = new $radioClass($httpDomFetcher);
+    $availableRadios[$radioClass::getRadioName()] = $container->get($radioClass);
 }
 
 $radios = [];
