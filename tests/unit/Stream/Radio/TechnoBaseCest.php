@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\TechnoBase;
 use App\Tests\UnitTester;
 use Codeception\Exception\TestRuntimeException;
@@ -17,27 +17,26 @@ use RuntimeException;
 
 final class TechnoBaseCest
 {
-    private DomFetcherInterface $domFetcher;
+    private HttpDataFetcherInterface $httpDataFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getXmlDom' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {
             $dom = new DOMDocument();
             $xml = file_get_contents(__DIR__.'/../../TestSamples/TechnoBaseSample.xml');
             @$dom->loadXML($xml);
 
             return $dom;
         }]);
-        $this->domFetcher = $domFetcher;
+        $this->httpDataFetcher = $httpDataFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void
     {
-        $tb = new TechnoBase($this->domFetcher);
+        $tb = new TechnoBase($this->httpDataFetcher);
 
         $I->assertInstanceOf(TechnoBase::class, $tb);
     }
@@ -49,7 +48,7 @@ final class TechnoBaseCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new TechnoBase($this->domFetcher))->getAvailableStreams());
+        $I->assertNotEmpty((new TechnoBase($this->httpDataFetcher))->getAvailableStreams());
     }
 
     /**
@@ -57,7 +56,7 @@ final class TechnoBaseCest
      */
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $radio = new TechnoBase($this->domFetcher);
+        $radio = new TechnoBase($this->httpDataFetcher);
         foreach ($radio->getAvailableStreams() as $streamName) {
             $info = $radio->getStreamInfo($streamName);
 
@@ -84,9 +83,8 @@ final class TechnoBaseCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new TechnoBase($domFetcher);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
+        $s = new TechnoBase($httpDataFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -97,13 +95,12 @@ final class TechnoBaseCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherException(UnitTester $I): void
+    public function testHttpDataFetcherException(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getXmlDom' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');
         }]);
-        $s = new TechnoBase($domFetcher);
+        $s = new TechnoBase($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get xml dom: test'),

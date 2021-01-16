@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\MetalOnly;
 use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
@@ -16,49 +16,55 @@ use RuntimeException;
 
 final class MetalOnlyCest
 {
-    private DomFetcherInterface $domFetcher;
-    private DomFetcherInterface $domFetcherNotOnAir;
-    private DomFetcherInterface $domFetcherOnAir;
+    private HttpDataFetcherInterface $httpDataFetcher;
+    private HttpDataFetcherInterface $httpDataFetcherNotOnAir;
+    private HttpDataFetcherInterface $httpDataFetcherOnAir;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
-            $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySample.html');
-            @$dom->loadHTML($html);
+        $httpDataFetcher = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
+            ['getHtmlDom' => static function () {
+                $dom = new DOMDocument();
+                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySample.html');
+                @$dom->loadHTML($html);
 
-            return $dom;
-        }]);
-        $this->domFetcher = $domFetcher;
+                return $dom;
+            }]
+        );
+        $this->httpDataFetcher = $httpDataFetcher;
 
-        /** @var DomFetcherInterface $domFetcherNotOnAir */
-        $domFetcherNotOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
-            $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleNotOnAir.html');
-            @$dom->loadHTML($html);
+        $httpDataFetcherNotOnAir = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
+            ['getHtmlDom' => static function () {
+                $dom = new DOMDocument();
+                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleNotOnAir.html');
+                @$dom->loadHTML($html);
 
-            return $dom;
-        }]);
-        $this->domFetcherNotOnAir = $domFetcherNotOnAir;
+                return $dom;
+            }]
+        );
+        $this->httpDataFetcherNotOnAir = $httpDataFetcherNotOnAir;
 
-        /** @var DomFetcherInterface $domFetcherOnAir */
-        $domFetcherOnAir = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
-            $dom = new DOMDocument();
-            $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleOnAir.html');
-            @$dom->loadHTML($html);
+        $httpDataFetcherOnAir = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
+            ['getHtmlDom' => static function () {
+                $dom = new DOMDocument();
+                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleOnAir.html');
+                @$dom->loadHTML($html);
 
-            return $dom;
-        }]);
-        $this->domFetcherOnAir = $domFetcherOnAir;
+                return $dom;
+            }]
+        );
+        $this->httpDataFetcherOnAir = $httpDataFetcherOnAir;
     }
 
     public function canInstantiate(UnitTester $I): void
     {
-        $mo = new MetalOnly($this->domFetcher);
+        $mo = new MetalOnly($this->httpDataFetcher);
 
         $I->assertInstanceOf(MetalOnly::class, $mo);
     }
@@ -70,7 +76,7 @@ final class MetalOnlyCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new MetalOnly($this->domFetcher))->getAvailableStreams());
+        $I->assertNotEmpty((new MetalOnly($this->httpDataFetcher))->getAvailableStreams());
     }
 
     /**
@@ -78,7 +84,7 @@ final class MetalOnlyCest
      */
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $mo = new MetalOnly($this->domFetcher);
+        $mo = new MetalOnly($this->httpDataFetcher);
 
         foreach ($mo->getAvailableStreams() as $streamName) {
             $info = $mo->getStreamInfo($streamName);
@@ -96,7 +102,7 @@ final class MetalOnlyCest
      */
     public function testGetInfoOnAir(UnitTester $I): void
     {
-        $mo = new MetalOnly($this->domFetcherOnAir);
+        $mo = new MetalOnly($this->httpDataFetcherOnAir);
 
         foreach ($mo->getAvailableStreams() as $streamName) {
             $info = $mo->getStreamInfo($streamName);
@@ -115,7 +121,7 @@ final class MetalOnlyCest
      */
     public function testGetInfoNotOnAir(UnitTester $I): void
     {
-        $mo = new MetalOnly($this->domFetcherNotOnAir);
+        $mo = new MetalOnly($this->httpDataFetcherNotOnAir);
 
         foreach ($mo->getAvailableStreams() as $streamName) {
             $info = $mo->getStreamInfo($streamName);
@@ -131,9 +137,8 @@ final class MetalOnlyCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new MetalOnly($domFetcher);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
+        $s = new MetalOnly($httpDataFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -144,13 +149,12 @@ final class MetalOnlyCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherException(UnitTester $I): void
+    public function testHttpDataFetcherException(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getHtmlDom' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
-        $mo = new MetalOnly($domFetcher);
+        $mo = new MetalOnly($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get html dom: test'),

@@ -57,7 +57,7 @@ final class MetalOnly extends AbstractRadioStream
         );
 
         try {
-            $dom = $this->getDomFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
+            $dom = $this->getHttpDataFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (Exception $e) {
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }

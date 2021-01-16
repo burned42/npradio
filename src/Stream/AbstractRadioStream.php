@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Stream;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 
 abstract class AbstractRadioStream
 {
-    private DomFetcherInterface $domFetcher;
+    private HttpDataFetcherInterface $httpDataFetcher;
 
-    public function __construct(DomFetcherInterface $domFetcher)
+    public function __construct(HttpDataFetcherInterface $httpDataFetcher)
     {
-        $this->domFetcher = $domFetcher;
+        $this->httpDataFetcher = $httpDataFetcher;
     }
 
-    protected function getDomFetcher(): DomFetcherInterface
+    protected function getHttpDataFetcher(): HttpDataFetcherInterface
     {
-        return $this->domFetcher;
+        return $this->httpDataFetcher;
     }
 
     abstract public static function getRadioName(): string;

@@ -6,7 +6,7 @@ namespace App\DataFetcher;
 
 use DOMDocument;
 
-interface DomFetcherInterface
+interface HttpDataFetcherInterface
 {
     /**
      * @param array<string, string> $headers

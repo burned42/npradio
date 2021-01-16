@@ -58,7 +58,7 @@ final class StarFm extends AbstractRadioStream
 
         try {
             $data = json_decode(
-                $this->getDomFetcher()->getUrlContent(self::STREAM_INFO_URL),
+                $this->getHttpDataFetcher()->getUrlContent(self::STREAM_INFO_URL),
                 true,
                 512,
                 JSON_THROW_ON_ERROR

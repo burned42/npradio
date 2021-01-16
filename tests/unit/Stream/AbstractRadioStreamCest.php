@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use App\Tests\UnitTester;
@@ -28,10 +28,7 @@ final class DummyRadioStream extends AbstractRadioStream
      */
     public function getStreamInfo(string $streamName): StreamInfo
     {
-        /** @var StreamInfo $streamInfo */
-        $streamInfo = Stub::make(StreamInfo::class);
-
-        return $streamInfo;
+        return Stub::make(StreamInfo::class);
     }
 }
 
@@ -42,10 +39,9 @@ class AbstractRadioStreamCest
      */
     public function testConstructor(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
 
-        $radioStream = new DummyRadioStream($domFetcher);
+        $radioStream = new DummyRadioStream($httpDataFetcher);
 
         $I->assertInstanceOf(AbstractRadioStream::class, $radioStream);
     }

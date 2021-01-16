@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\StarFm;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
@@ -14,23 +14,22 @@ use RuntimeException;
 
 final class StarFmCest
 {
-    private DomFetcherInterface $domFetcher;
+    private HttpDataFetcherInterface $httpDataFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             return file_get_contents(__DIR__.'/../../TestSamples/StarFmSample.json');
         }]);
-        $this->domFetcher = $domFetcher;
+        $this->httpDataFetcher = $httpDataFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void
     {
-        $starFm = new StarFm($this->domFetcher);
+        $starFm = new StarFm($this->httpDataFetcher);
 
         $I->assertInstanceOf(StarFm::class, $starFm);
     }
@@ -42,12 +41,12 @@ final class StarFmCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new StarFm($this->domFetcher))->getAvailableStreams());
+        $I->assertNotEmpty((new StarFm($this->httpDataFetcher))->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $radio = new StarFm($this->domFetcher);
+        $radio = new StarFm($this->httpDataFetcher);
         foreach ($radio->getAvailableStreams() as $streamName) {
             $info = $radio->getStreamInfo($streamName);
 
@@ -66,9 +65,8 @@ final class StarFmCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new StarFm($domFetcher);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
+        $s = new StarFm($httpDataFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -79,13 +77,12 @@ final class StarFmCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherException(UnitTester $I): void
+    public function testHttpDataException(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');
         }]);
-        $s = new StarFm($domFetcher);
+        $s = new StarFm($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get url content: test'),

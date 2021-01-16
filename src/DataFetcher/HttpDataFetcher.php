@@ -10,7 +10,7 @@ use RuntimeException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
-final class HttpDataFetcher implements DomFetcherInterface
+final class HttpDataFetcher implements HttpDataFetcherInterface
 {
     private HttpClientInterface $httpClient;
 

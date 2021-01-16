@@ -57,7 +57,7 @@ final class RadioGalaxy extends AbstractRadioStream
 
         try {
             $url = self::INFO_URLS_BY_STREAM[$streamName];
-            $data = json_decode($this->getDomFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
+            $data = json_decode($this->getHttpDataFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }

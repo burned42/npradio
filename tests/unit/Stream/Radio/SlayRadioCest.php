@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\SlayRadio;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
@@ -14,23 +14,22 @@ use RuntimeException;
 
 final class SlayRadioCest
 {
-    private DomFetcherInterface $domFetcher;
+    private HttpDataFetcherInterface $httpDataFetcher;
 
     /**
      * @throws Exception
      */
     public function _before(): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             return file_get_contents(__DIR__.'/../../TestSamples/SlayRadioSample.json');
         }]);
-        $this->domFetcher = $domFetcher;
+        $this->httpDataFetcher = $httpDataFetcher;
     }
 
     public function canInstantiate(UnitTester $I): void
     {
-        $SlayRadio = new SlayRadio($this->domFetcher);
+        $SlayRadio = new SlayRadio($this->httpDataFetcher);
 
         $I->assertInstanceOf(SlayRadio::class, $SlayRadio);
     }
@@ -42,12 +41,12 @@ final class SlayRadioCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new SlayRadio($this->domFetcher))->getAvailableStreams());
+        $I->assertNotEmpty((new SlayRadio($this->httpDataFetcher))->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $radio = new SlayRadio($this->domFetcher);
+        $radio = new SlayRadio($this->httpDataFetcher);
         foreach ($radio->getAvailableStreams() as $streamName) {
             $info = $radio->getStreamInfo($streamName);
 
@@ -66,9 +65,8 @@ final class SlayRadioCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new SlayRadio($domFetcher);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
+        $s = new SlayRadio($httpDataFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -79,13 +77,12 @@ final class SlayRadioCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherException(UnitTester $I): void
+    public function testHttpDataFetcherException(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class, ['getUrlContent' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');
         }]);
-        $s = new SlayRadio($domFetcher);
+        $s = new SlayRadio($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not get url content: test'),

@@ -104,7 +104,7 @@ final class RauteMusik extends AbstractRadioStream
         $hash = sha1($timestamp.'17426'.$path.'Wo+AEi47[ajKJpPgb1EU0QLLS355R{cz');
         $hashPart = substr($hash, 0, 12);
 
-        return $this->getDomFetcher()->getJsonData(
+        return $this->getHttpDataFetcher()->getJsonData(
             self::API_URL.$path,
             [
                 'Accept' => 'application/json',

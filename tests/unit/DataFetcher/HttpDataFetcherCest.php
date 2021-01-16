@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\DataFetcher;
 
-use App\DataFetcher\DomFetcherInterface;
 use App\DataFetcher\HttpDataFetcher;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Tests\UnitTester;
 use DOMDocument;
 use InvalidArgumentException;
@@ -17,15 +17,15 @@ final class HttpDataFetcherCest
 {
     public function testCanInstantiate(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient());
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient());
 
-        $I->assertInstanceOf(DomFetcherInterface::class, $domFetcher);
-        $I->assertInstanceOf(HttpDataFetcher::class, $domFetcher);
+        $I->assertInstanceOf(HttpDataFetcherInterface::class, $httpDataFetcher);
+        $I->assertInstanceOf(HttpDataFetcher::class, $httpDataFetcher);
     }
 
     public function testGetJsonData(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/JsonExample.json'
@@ -34,28 +34,25 @@ final class HttpDataFetcherCest
         ));
 
         $expected = ['foo' => ['bar', 'baz']];
-        $data = $domFetcher->getJsonData('https://api.rautemusik.fm/streams_onair/');
+        $data = $httpDataFetcher->getJsonData('https://api.rautemusik.fm/streams_onair/');
 
         $I->assertEquals($expected, $data);
     }
 
     public function testGetJsonDataExceptionOnError(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(
-            new MockHttpClient(
-                fn () => throw new RuntimeException('test')
-            )
-        );
+        $callback = fn () => throw new RuntimeException('test');
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient($callback));
 
         $I->expectThrowable(
             RuntimeException::class,
-            fn () => $domFetcher->getJsonData('https://api.rautemusik.fm/streams_onair/')
+            fn () => $httpDataFetcher->getJsonData('https://api.rautemusik.fm/streams_onair/')
         );
     }
 
     public function testGetUrlContent(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/JsonExample.json'
@@ -63,7 +60,7 @@ final class HttpDataFetcherCest
             )
         ));
 
-        $data = $domFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/');
+        $data = $httpDataFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/');
 
         $expected = <<<EXAMPLE
             {
@@ -78,15 +75,12 @@ final class HttpDataFetcherCest
 
     public function testGetUrlContentExceptionOnError(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(
-            new MockHttpClient(
-                fn () => throw new RuntimeException('test')
-            )
-        );
+        $callback = fn () => throw new RuntimeException('test');
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient($callback));
 
         $I->expectThrowable(
             RuntimeException::class,
-            fn () => $domFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/')
+            fn () => $httpDataFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/')
         );
     }
 
@@ -96,7 +90,7 @@ final class HttpDataFetcherCest
      */
     public function testGetXmlDom(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/TechnoBaseSample.xml'
@@ -106,7 +100,7 @@ final class HttpDataFetcherCest
 
         $I->assertInstanceOf(
             DOMDocument::class,
-            $domFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
+            $httpDataFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
         );
     }
 
@@ -116,7 +110,7 @@ final class HttpDataFetcherCest
      */
     public function testExceptionOnBrokenXml(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/TechnoBaseSampleBroken.xml'
@@ -126,7 +120,7 @@ final class HttpDataFetcherCest
 
         $I->expectThrowable(
             RuntimeException::class,
-            fn () => $domFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
+            fn () => $httpDataFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
         );
     }
 
@@ -136,7 +130,7 @@ final class HttpDataFetcherCest
      */
     public function testGetHtmlDom(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/MetalOnlySampleNotOnAir.html'
@@ -146,7 +140,7 @@ final class HttpDataFetcherCest
 
         $I->assertInstanceOf(
             DOMDocument::class,
-            $domFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
+            $httpDataFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
         );
     }
 
@@ -156,7 +150,7 @@ final class HttpDataFetcherCest
      */
     public function testExceptionOnBrokenHtml(UnitTester $I): void
     {
-        $domFetcher = new HttpDataFetcher(new MockHttpClient(
+        $httpDataFetcher = new HttpDataFetcher(new MockHttpClient(
             new MockResponse(
                 file_get_contents(
                     'file://'.__DIR__.'/../TestSamples/Empty.html'
@@ -166,7 +160,7 @@ final class HttpDataFetcherCest
 
         $I->expectThrowable(
             RuntimeException::class,
-            fn () => $domFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
+            fn () => $httpDataFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
         );
     }
 }

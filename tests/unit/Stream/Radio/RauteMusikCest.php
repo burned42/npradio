@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\unit\Stream\Radio;
 
-use App\DataFetcher\DomFetcherInterface;
+use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\RauteMusik;
 use App\Tests\UnitTester;
 use Codeception\Util\Stub;
@@ -18,10 +18,9 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    private function getDomFetcher(): DomFetcherInterface
+    private function getHttpDataFetcher(): HttpDataFetcherInterface
     {
-        /* @var DomFetcherInterface $domFetcher */
-        return Stub::makeEmpty(DomFetcherInterface::class, ['getJsonData' => Stub::consecutive(
+        return Stub::makeEmpty(HttpDataFetcherInterface::class, ['getJsonData' => Stub::consecutive(
             json_decode(file_get_contents(
                 __DIR__.'/../../TestSamples/RauteMusikClubTracksSample.json'
             ), true, 512, JSON_THROW_ON_ERROR),
@@ -36,7 +35,7 @@ final class RauteMusikCest
      */
     public function canInstantiate(UnitTester $I): void
     {
-        $rm = new RauteMusik($this->getDomFetcher());
+        $rm = new RauteMusik($this->getHttpDataFetcher());
 
         $I->assertInstanceOf(RauteMusik::class, $rm);
     }
@@ -51,7 +50,7 @@ final class RauteMusikCest
      */
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new RauteMusik($this->getDomFetcher()))->getAvailableStreams());
+        $I->assertNotEmpty((new RauteMusik($this->getHttpDataFetcher()))->getAvailableStreams());
     }
 
     /**
@@ -59,7 +58,7 @@ final class RauteMusikCest
      */
     public function testGetStreamInfo(UnitTester $I): void
     {
-        $radio = new RauteMusik($this->getDomFetcher());
+        $radio = new RauteMusik($this->getHttpDataFetcher());
         $info = $radio->getStreamInfo('RauteMusik Club');
 
         $I->assertIsString($info->radioName);
@@ -82,9 +81,8 @@ final class RauteMusikCest
      */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(DomFetcherInterface::class);
-        $s = new RauteMusik($domFetcher);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
+        $s = new RauteMusik($httpDataFetcher);
 
         $I->expectThrowable(
             new InvalidArgumentException('Invalid stream name given'),
@@ -95,16 +93,15 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherExceptionOnTrackInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(
-            DomFetcherInterface::class,
+        $httpDataFetcher = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
             ['getJsonData' => static function () {
                 throw new RuntimeException('test');
             }]
         );
-        $s = new RauteMusik($domFetcher);
+        $s = new RauteMusik($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not fetch track info: test'),
@@ -115,11 +112,10 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testDomFetcherExceptionOnShowInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnShowInfo(UnitTester $I): void
     {
-        /** @var DomFetcherInterface $domFetcher */
-        $domFetcher = Stub::makeEmpty(
-            DomFetcherInterface::class,
+        $httpDataFetcher = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
             ['getJsonData' => static function () {
                 static $first = true;
                 if ($first) {
@@ -134,7 +130,7 @@ final class RauteMusikCest
                 throw new RuntimeException('test');
             }]
         );
-        $s = new RauteMusik($domFetcher);
+        $s = new RauteMusik($httpDataFetcher);
 
         $I->expectThrowable(
             new RuntimeException('could not fetch show info: test'),
