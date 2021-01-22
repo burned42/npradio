@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN php_extensions="intl opcache zip" \
     && docker-php-ext-install $php_extensions \
-    && docker-php-ext-enable $php_extensions
+    && pecl install apcu \
+    && docker-php-ext-enable $php_extensions apcu
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 RUN echo 'date.timezone = "Europe/Berlin"' > /usr/local/etc/php/conf.d/timezone.ini \
