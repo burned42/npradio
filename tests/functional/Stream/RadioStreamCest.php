@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\functional\Stream;
 
-use App\DataFetcher\HttpDataFetcher;
 use App\Stream\AbstractRadioStream;
 use App\Stream\Radio\MetalOnly;
 use App\Stream\Radio\RadioGalaxy;
@@ -16,7 +15,8 @@ use App\Tests\FunctionalTester;
 use Codeception\Example;
 use Exception;
 use Generator;
-use Symfony\Component\HttpClient\HttpClient;
+use ReflectionClass;
+use ReflectionException;
 
 final class RadioStreamCest
 {
@@ -36,8 +36,10 @@ final class RadioStreamCest
      */
     public function testGetStreamInfoWithLiveData(FunctionalTester $I, Example $example): void
     {
+        [$radioClass, $stream] = $example;
+
         /** @var AbstractRadioStream $radio */
-        [$radio, $stream] = $example;
+        $radio = $I->grabService($radioClass);
 
         $info = $radio->getStreamInfo($stream);
 
@@ -45,13 +47,17 @@ final class RadioStreamCest
         $I->assertIsString($info->artist);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     private function getExamples(): Generator
     {
         foreach (self::RADIOS as $radioClass) {
-            $radio = new $radioClass(new HttpDataFetcher(HttpClient::create()));
+            $radio = (new ReflectionClass($radioClass))
+                ->newInstanceWithoutConstructor();
 
             foreach ($radio->getAvailableStreams() as $streamName) {
-                yield [$radio, $streamName];
+                yield [$radioClass, $streamName];
             }
         }
     }
