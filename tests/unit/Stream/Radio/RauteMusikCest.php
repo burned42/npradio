@@ -93,7 +93,7 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnTrackInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnTrackInfo(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
@@ -109,7 +109,7 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnShowInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnShowInfo(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,

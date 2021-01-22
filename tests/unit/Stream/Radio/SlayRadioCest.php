@@ -77,7 +77,7 @@ final class SlayRadioCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherException(UnitTester $I): void
+    public function testHttpDataFetcherException(): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');

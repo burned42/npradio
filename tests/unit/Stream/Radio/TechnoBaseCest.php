@@ -13,7 +13,6 @@ use DateTimeInterface;
 use DOMDocument;
 use Exception;
 use InvalidArgumentException;
-use RuntimeException;
 
 final class TechnoBaseCest
 {
@@ -95,7 +94,7 @@ final class TechnoBaseCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherException(UnitTester $I): void
+    public function testHttpDataFetcherException(): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');

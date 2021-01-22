@@ -77,7 +77,7 @@ final class StarFmCest
     /**
      * @throws Exception
      */
-    public function testHttpDataException(UnitTester $I): void
+    public function testHttpDataException(): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');
