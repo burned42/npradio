@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\api;
 
-use App\DataFetcher\HttpDataFetcher;
 use App\Stream\Radio\TechnoBase;
 use App\Tests\ApiTester;
 use Codeception\Util\HttpCode;
-use Symfony\Component\HttpClient\HttpClient;
 
 final class ApiCest
 {
@@ -41,7 +39,7 @@ final class ApiCest
     public function testGetStreamInfo(ApiTester $I): void
     {
         $radioName = TechnoBase::getRadioName();
-        $tb = new TechnoBase(new HttpDataFetcher(HttpClient::create()));
+        $tb = $I->grabService(TechnoBase::class);
         $streamName = $tb->getAvailableStreams()[0];
 
         $I->sendGET('radios/'.$radioName.'/streams/'.$streamName);

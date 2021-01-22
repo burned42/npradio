@@ -9,6 +9,7 @@ use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class SlayRadio extends AbstractRadioStream
 {
@@ -46,6 +47,16 @@ final class SlayRadio extends AbstractRadioStream
             self::STREAM_URL,
         );
 
+        try {
+            $streamInfo = $this->addTrackInfo($streamInfo);
+        } catch (Throwable) {
+        }
+
+        return $streamInfo;
+    }
+
+    public function addTrackInfo(StreamInfo $streamInfo): StreamInfo
+    {
         try {
             $url = self::URL.self::API_PATH;
             $data = json_decode($this->getHttpDataFetcher()->getUrlContent($url), true, 512, JSON_THROW_ON_ERROR);

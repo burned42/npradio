@@ -9,6 +9,7 @@ use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class StarFm extends AbstractRadioStream
 {
@@ -56,6 +57,16 @@ final class StarFm extends AbstractRadioStream
             self::STREAM_URLS[$streamName],
         );
 
+        try {
+            $streamInfo = $this->addTrackInfo($streamName, $streamInfo);
+        } catch (Throwable) {
+        }
+
+        return $streamInfo;
+    }
+
+    public function addTrackInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
+    {
         try {
             $data = json_decode(
                 $this->getHttpDataFetcher()->getUrlContent(self::STREAM_INFO_URL),

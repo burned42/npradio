@@ -89,8 +89,11 @@ final class RauteMusik extends AbstractRadioStream
             $this->getStreamUrl($streamName),
         );
 
-        $streamInfo = $this->addTrackInfo($streamInfo);
-        $streamInfo = $this->addShowInfo($streamInfo);
+        try {
+            $streamInfo = $this->addTrackInfo($streamInfo);
+            $streamInfo = $this->addShowInfo($streamInfo);
+        } catch (Throwable) {
+        }
 
         return $streamInfo;
     }

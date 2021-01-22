@@ -12,6 +12,7 @@ use DOMNode;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class TechnoBase extends AbstractRadioStream
 {
@@ -82,6 +83,16 @@ final class TechnoBase extends AbstractRadioStream
             $this->getStreamUrl($streamName),
         );
 
+        try {
+            $streamInfo = $this->addTrackAndShowInfo($streamName, $streamInfo);
+        } catch (Throwable) {
+        }
+
+        return $streamInfo;
+    }
+
+    public function addTrackAndShowInfo(mixed $streamName, StreamInfo $streamInfo): StreamInfo
+    {
         try {
             $dom = $this->getHttpDataFetcher()->getXmlDom(self::URL);
         } catch (Exception $e) {

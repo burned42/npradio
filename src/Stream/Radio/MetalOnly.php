@@ -15,6 +15,7 @@ use DOMXPath;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 final class MetalOnly extends AbstractRadioStream
 {
@@ -56,6 +57,19 @@ final class MetalOnly extends AbstractRadioStream
             self::STREAM_URL,
         );
 
+        try {
+            $streamInfo = $this->addTrackAndShowInfo($streamInfo);
+        } catch (Throwable) {
+        }
+
+        return $streamInfo;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function addTrackAndShowInfo(StreamInfo $streamInfo): StreamInfo
+    {
         try {
             $dom = $this->getHttpDataFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
         } catch (Exception $e) {

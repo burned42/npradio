@@ -93,7 +93,7 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnTrackInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnTrackInfo(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
@@ -103,16 +103,13 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not fetch track info: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnShowInfo(UnitTester $I): void
+    public function testHttpDataFetcherExceptionOnShowInfo(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
@@ -132,9 +129,6 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not fetch show info: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 }
