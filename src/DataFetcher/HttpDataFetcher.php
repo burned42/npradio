@@ -68,7 +68,7 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
 
             return $response;
         } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
+            throw new RuntimeException('could not fetch json data from url "'.$url.'": '.$t->getMessage());
         }
     }
 
