@@ -7,35 +7,78 @@ namespace App\DataFetcher;
 use DOMDocument;
 use Exception;
 use RuntimeException;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
 final class HttpDataFetcher implements HttpDataFetcherInterface
 {
     private HttpClientInterface $httpClient;
+    private CacheInterface $cache;
+    private SluggerInterface $slugger;
 
-    public function __construct(HttpClientInterface $httpClient)
-    {
+    public function __construct(
+        HttpClientInterface $httpClient,
+        CacheInterface $httpClientCache,
+        SluggerInterface $slugger,
+    ) {
         $this->httpClient = $httpClient;
+        $this->cache = $httpClientCache;
+        $this->slugger = $slugger;
+    }
+
+    /**
+     * @param array<string, mixed> $headers
+     *
+     * @return array<mixed>|string
+     */
+    private function request(string $url, array $headers = [], bool $json = false): array | string
+    {
+        return $this->cache->get(
+            $this->slugger->slug($url)->toString(),
+            function (ItemInterface $item) use ($url, $headers, $json) {
+                $item->expiresAfter(30);
+
+                try {
+                    $response = $this->httpClient->request(
+                        'GET',
+                        $url,
+                        ['headers' => $headers]
+                    );
+
+                    if ($json) {
+                        return $response->toArray();
+                    }
+
+                    return $response->getContent();
+                } catch (Throwable $t) {
+                    throw new RuntimeException('could not fetch json data from url "'.$url.'": '.$t->getMessage());
+                }
+            }
+        );
     }
 
     public function getJsonData(string $url, array $headers = []): array
     {
         try {
-            return $this->httpClient->request(
-                'GET',
-                $url,
-                ['headers' => $headers]
-            )->toArray();
+            /** @var array<mixed> $response */
+            $response = $this->request($url, $headers, true);
+
+            return $response;
         } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch json data from url "'.$url.'": '.$t->getMessage());
+            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
         }
     }
 
     public function getUrlContent(string $url): string
     {
         try {
-            return $this->httpClient->request('GET', $url)->getContent();
+            /** @var string $response */
+            $response = $this->request($url);
+
+            return $response;
         } catch (Throwable $t) {
             throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
         }
