@@ -85,9 +85,6 @@ final class RadioGalaxyCest
 
         $s = new RadioGalaxy($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not get url content: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 }

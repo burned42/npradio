@@ -102,9 +102,6 @@ final class TechnoBaseCest
         }]);
         $s = new TechnoBase($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not get xml dom: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 }

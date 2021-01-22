@@ -103,10 +103,7 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not fetch track info: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 
     /**
@@ -132,9 +129,6 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not fetch show info: test'),
-            static fn () => $s->getStreamInfo($s->getAvailableStreams()[0]),
-        );
+        $s->getStreamInfo($s->getAvailableStreams()[0]);
     }
 }

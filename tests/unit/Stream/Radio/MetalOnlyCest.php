@@ -156,9 +156,6 @@ final class MetalOnlyCest
         }]);
         $mo = new MetalOnly($httpDataFetcher);
 
-        $I->expectThrowable(
-            new RuntimeException('could not get html dom: test'),
-            static fn () => $mo->getStreamInfo($mo->getAvailableStreams()[0]),
-        );
+        $mo->getStreamInfo($mo->getAvailableStreams()[0]);
     }
 }
