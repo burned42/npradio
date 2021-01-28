@@ -114,7 +114,8 @@ final class RauteMusik extends AbstractRadioStream
                 'x-client-id' => '17426',
                 'x-timestamp' => $timestamp,
                 'x-hash' => $hashPart,
-            ]
+            ],
+            60
         );
     }
 

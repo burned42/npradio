@@ -34,12 +34,16 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
      *
      * @return array<mixed>|string
      */
-    private function request(string $url, array $headers = [], bool $json = false): array | string
-    {
+    private function request(
+        string $url,
+        array $headers = [],
+        bool $json = false,
+        int $cacheDuration = 30
+    ): array | string {
         return $this->cache->get(
             $this->slugger->slug($url)->toString(),
-            function (ItemInterface $item) use ($url, $headers, $json) {
-                $item->expiresAfter(30);
+            function (ItemInterface $item) use ($url, $headers, $json, $cacheDuration) {
+                $item->expiresAfter($cacheDuration);
 
                 try {
                     $response = $this->httpClient->request(
@@ -60,11 +64,11 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
         );
     }
 
-    public function getJsonData(string $url, array $headers = []): array
+    public function getJsonData(string $url, array $headers = [], int $cacheDuration = 30): array
     {
         try {
             /** @var array<mixed> $response */
-            $response = $this->request($url, $headers, true);
+            $response = $this->request($url, $headers, true, $cacheDuration);
 
             return $response;
         } catch (Throwable $t) {
