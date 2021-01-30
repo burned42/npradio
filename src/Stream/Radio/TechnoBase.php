@@ -26,6 +26,7 @@ final class TechnoBase extends AbstractRadioStream
     private const CORETIME = 'CoreTime.FM';
     private const CLUBTIME = 'ClubTime.FM';
     private const TEATIME = 'TeaTime.FM';
+    private const REPLAY = 'Replay.FM';
 
     /*
      * Values are the filenames for the stream urls
@@ -38,6 +39,7 @@ final class TechnoBase extends AbstractRadioStream
         self::CORETIME => 'ct',
         self::CLUBTIME => 'clt',
         self::TEATIME => 'tt',
+        self::REPLAY => 'rp',
     ];
 
     private function getStreamNameWithoutSuffix(string $streamName): string
