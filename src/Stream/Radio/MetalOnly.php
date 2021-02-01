@@ -15,8 +15,8 @@ use DOMXPath;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use Throwable;
 use function Sentry\captureException;
+use Throwable;
 
 final class MetalOnly extends AbstractRadioStream
 {
