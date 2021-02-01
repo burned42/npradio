@@ -16,6 +16,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Throwable;
+use function Sentry\captureException;
 
 final class MetalOnly extends AbstractRadioStream
 {
@@ -59,7 +60,8 @@ final class MetalOnly extends AbstractRadioStream
 
         try {
             $streamInfo = $this->addTrackAndShowInfo($streamInfo);
-        } catch (Throwable) {
+        } catch (Throwable $t) {
+            captureException($t);
         }
 
         return $streamInfo;

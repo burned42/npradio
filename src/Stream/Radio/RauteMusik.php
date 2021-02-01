@@ -11,6 +11,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Throwable;
+use function Sentry\captureException;
 
 final class RauteMusik extends AbstractRadioStream
 {
@@ -92,7 +93,8 @@ final class RauteMusik extends AbstractRadioStream
         try {
             $streamInfo = $this->addTrackInfo($streamInfo);
             $streamInfo = $this->addShowInfo($streamInfo);
-        } catch (Throwable) {
+        } catch (Throwable $t) {
+            captureException($t);
         }
 
         return $streamInfo;

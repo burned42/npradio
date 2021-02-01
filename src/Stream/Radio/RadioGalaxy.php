@@ -10,6 +10,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Throwable;
+use function Sentry\captureException;
 
 final class RadioGalaxy extends AbstractRadioStream
 {
@@ -58,7 +59,8 @@ final class RadioGalaxy extends AbstractRadioStream
 
         try {
             $streamInfo = $this->addTrackAndShowInfo($streamName, $streamInfo);
-        } catch (Throwable) {
+        } catch (Throwable $t) {
+            captureException($t);
         }
 
         return $streamInfo;

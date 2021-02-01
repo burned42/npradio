@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Traversable;
+use function Sentry\captureException;
 
 /**
  * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
@@ -44,6 +45,8 @@ final class ApiController extends AbstractController
         try {
             $radioClass = $this->getRadioClass($radioName);
         } catch (InvalidArgumentException $e) {
+            captureException($e);
+
             return $this->json($e->getMessage(), 404);
         }
 
@@ -60,6 +63,8 @@ final class ApiController extends AbstractController
             $radioClass = $this->getRadioClass($radioName);
             $streamInfo = $radioClass->getStreamInfo($streamName);
         } catch (InvalidArgumentException $e) {
+            captureException($e);
+
             return $this->json($e->getMessage(), 404);
         }
 

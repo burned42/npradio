@@ -10,6 +10,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Throwable;
+use function Sentry\captureException;
 
 final class SlayRadio extends AbstractRadioStream
 {
@@ -49,7 +50,8 @@ final class SlayRadio extends AbstractRadioStream
 
         try {
             $streamInfo = $this->addTrackInfo($streamInfo);
-        } catch (Throwable) {
+        } catch (Throwable $t) {
+            captureException($t);
         }
 
         return $streamInfo;
