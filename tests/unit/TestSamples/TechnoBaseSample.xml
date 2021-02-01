@@ -1,228 +1,123 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <weareone>
-<radio>
-<name>TechnoBase</name>
-<moderator>CANNONBALL</moderator>
-<show>This is my Sound</show>
-<style>Dance / Hands Up</style>
-<starttime>12</starttime>
-<endtime>16</endtime>
-<link>http://www.TechnoBase.FM/member/513720</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small513720-5-ca8026f82fd90bb728fc49de52237238.jpg</picture>
-<artist>Chemistry</artist>
-<song>Prophecy</song>
-<release>http://www.TechnoBase.FM/release/18539</release>
-<listener>1957</listener>
-<url>http://www.TechnoBase.FM</url>
-</radio>
-<radio>
-<name>HouseTime</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.HouseTime.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-6.jpg</picture>
-<artist>Shana Vanguarde</artist>
-<song>Mamma Mia</song>
-<release></release>
-<listener>569</listener>
-<url>http://www.HouseTime.FM</url>
-</radio>
-<radio>
-<name>HardBase</name>
-<moderator>Hossi</moderator>
-<show>The Power Of The Hossi Stylez *HARD EDITION*</show>
-<style>Hardstyle</style>
-<starttime>12</starttime>
-<endtime>14</endtime>
-<link>http://www.HardBase.FM/member/29986</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small29986-7-bcdfb9ebed2809272935bda1116d8809.jpg</picture>
-<artist>D-Attack &amp; MC Diesel</artist>
-<song>Running The Show</song>
-<release>http://www.HardBase.FM/release/41337</release>
-<listener>449</listener>
-<url>http://www.HardBase.FM</url>
-</radio>
-<radio>
-<name>TranceBase</name>
-<moderator>MasterH</moderator>
-<show>MasterTrance Classics</show>
-<style>Trance Classics</style>
-<starttime>13</starttime>
-<endtime>15</endtime>
-<link>http://www.TranceBase.FM/member/419756</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small419756-8-b37799fa5b82018bfffa94a31b0f4190.jpg</picture>
-<artist>Talla 2XLC</artist>
-<song>Carry Me</song>
-<release>http://www.TranceBase.FM/release/2589</release>
-<listener>354</listener>
-<url>http://www.TranceBase.FM</url>
-</radio>
-<radio>
-<name>CoreTime</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.CoreTime.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-10.jpg</picture>
-<artist>Dr. Peacock</artist>
-<song>Fool</song>
-<release></release>
-<listener>61</listener>
-<url>http://www.CoreTime.FM</url>
-</radio>
-<radio>
-<name>ClubTime</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.ClubTime.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-11.jpg</picture>
-<artist>Blondish, Shawnee</artist>
-<song>Wizard of Love</song>
-<release></release>
-<listener>53</listener>
-<url>http://www.ClubTime.FM</url>
-</radio>
-<radio>
-<name>TeaTime</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.TeaTime.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-13.jpg</picture>
-<artist>Dougal &amp; Gammer</artist>
-<song>Fires In The Sky (Face Lift)</song>
-<release></release>
-<listener>52</listener>
-<url>http://www.TeaTime.FM</url>
-</radio>
-<radio>
-<name>Replay60</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-14.jpg</picture>
-<artist>Chubby Checker</artist>
-<song>Let's Twist Again</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay80</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-15.jpg</picture>
-<artist>Krischan</artist>
-<song>100 Tage vor Kairo</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay90</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-16.jpg</picture>
-<artist>Interactive</artist>
-<song>Forever Young [Radio Edit]</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay2000</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-17.jpg</picture>
-<artist>Jeanette</artist>
-<song>Right Now [Radio Edit]</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay70</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-18.jpg</picture>
-<artist>Tony Joe White</artist>
-<song>Polk Salad Annie (live)</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay2010</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-19.jpg</picture>
-<artist></artist>
-<song></song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>Replay2010</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-19.jpg</picture>
-<artist></artist>
-<song></song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
-<radio>
-<name>ReplayParty</name>
-<moderator></moderator>
-<show></show>
-<style></style>
-<starttime>0</starttime>
-<endtime>0</endtime>
-<link>http://www.Replay.FM/member/0</link>
-<picture>http://p.image.web.tb-group.fm/profile/profil_small0-20.jpg</picture>
-<artist>Michelle</artist>
-<song>Paris (Single Version)</song>
-<release></release>
-<listener>11</listener>
-<url>http://www.Replay.FM</url>
-</radio>
+    <radio>
+        <name>TechnoBase</name>
+        <moderator>Petsch</moderator>
+        <show>Rhythm in Key</show>
+        <style>HandsUp / Dance</style>
+        <starttime>20</starttime>
+        <endtime>22</endtime>
+        <link>https://www.TechnoBase.FM/user/beschreibung?user=80269</link>
+        <picture>https://www.TechnoBase.FM/content/images/benutzer/79363/img_0842_c_01.jpg</picture>
+        <artist>Thomas Petersen</artist>
+        <song>Time Will Come Again</song>
+        <release>https://www.TechnoBase.FM/releases/8561</release>
+        <listener>2448</listener>
+        <url>https://www.TechnoBase.FM</url>
+    </radio>
+    <radio>
+        <name>HouseTime</name>
+        <moderator>DJ Bert S</moderator>
+        <show>Bigroom Blast</show>
+        <style>House / Elektro</style>
+        <starttime>20</starttime>
+        <endtime>22</endtime>
+        <link>https://www.HouseTime.FM/user/beschreibung?user=553066</link>
+        <picture>https://www.HouseTime.FM/content/images/benutzer/552156/20200918_183236_c_01.jpg</picture>
+        <artist>BlasterJaxx</artist>
+        <song>The Silmarillia</song>
+        <release>https://www.HouseTime.FM/releases/46985</release>
+        <listener>669</listener>
+        <url>https://www.HouseTime.FM</url>
+    </radio>
+    <radio>
+        <name>HardBase</name>
+        <moderator>x-mode</moderator>
+        <show>Frequencies of Akuma</show>
+        <style>Rawphoric</style>
+        <starttime>20</starttime>
+        <endtime>21</endtime>
+        <link>https://www.HardBase.FM/user/beschreibung?user=348287</link>
+        <picture>https://www.HardBase.FM/content/images/benutzer/347380/profil_c_01.png</picture>
+        <artist>Sub Zero Project &amp; Warface</artist>
+        <song>Obey No More</song>
+        <release>https://www.HardBase.FM/releases/54157</release>
+        <listener>542</listener>
+        <url>https://www.HardBase.FM</url>
+    </radio>
+    <radio>
+        <name>TranceBase</name>
+        <moderator>Infected Fay</moderator>
+        <show>Sternenfeuer</show>
+        <style>Trance</style>
+        <starttime>20</starttime>
+        <endtime>22</endtime>
+        <link>https://www.TranceBase.FM/user/beschreibung?user=1084</link>
+        <picture>https://www.TranceBase.FM/content/images/benutzer/177/4b98e109-ac71-43af-84bd-28e4395ee5ab_c_01.jpeg</picture>
+        <artist>Rank 1 &amp; Jochen Miller feat. Sarah Bettens</artist>
+        <song>Wild And Perfect Day</song>
+        <release>https://www.TranceBase.FM/releases/15230</release>
+        <listener>480</listener>
+        <url>https://www.TranceBase.FM</url>
+    </radio>
+    <radio>
+        <name>CoreTime</name>
+        <moderator></moderator>
+        <show></show>
+        <style></style>
+        <starttime>0</starttime>
+        <endtime>0</endtime>
+        <link>https://www.CoreTime.FM/user/beschreibung?user=0</link>
+        <picture>https://www.CoreTime.FM/null</picture>
+        <artist>Ex Infinium</artist>
+        <song>Misty Mountains</song>
+        <release>https://www.CoreTime.FM/releases/0</release>
+        <listener>137</listener>
+        <url>https://www.CoreTime.FM</url>
+    </radio>
+    <radio>
+        <name>ClubTime</name>
+        <moderator>Fabian Hout</moderator>
+        <show>Nothing But Techno!</show>
+        <style>Techno</style>
+        <starttime>20</starttime>
+        <endtime>21</endtime>
+        <link>https://www.ClubTime.FM/user/beschreibung?user=9081</link>
+        <picture>https://www.ClubTime.FM/content/images/benutzer/8175/img_6026_c_01.jpg</picture>
+        <artist>Dok &amp; Martin</artist>
+        <song>Reflection</song>
+        <release>https://www.ClubTime.FM/releases/0</release>
+        <listener>105</listener>
+        <url>https://www.ClubTime.FM</url>
+    </radio>
+    <radio>
+        <name>TeaTime</name>
+        <moderator></moderator>
+        <show></show>
+        <style></style>
+        <starttime>0</starttime>
+        <endtime>0</endtime>
+        <link>https://www.TeaTime.FM/user/beschreibung?user=0</link>
+        <picture>https://www.TeaTime.FM/null</picture>
+        <artist>Fracus &amp; Darwin vs. Michael Mansion</artist>
+        <song>Don&apos;t Let Me Go</song>
+        <release>https://www.TeaTime.FM/releases/0</release>
+        <listener>99</listener>
+        <url>https://www.TeaTime.FM</url>
+    </radio>
+    <radio>
+        <name>Replay</name>
+        <moderator></moderator>
+        <show></show>
+        <style></style>
+        <starttime>0</starttime>
+        <endtime>0</endtime>
+        <link>https://www.Replay.FM/user/beschreibung?user=0</link>
+        <picture>https://www.Replay.FM/null</picture>
+        <artist>Undercover</artist>
+        <song>Baker Street</song>
+        <release>https://www.Replay.FM/releases/0</release>
+        <listener>82</listener>
+        <url>https://www.Replay.FM</url>
+    </radio>
 </weareone>
