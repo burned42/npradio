@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN php_extensions="intl opcache zip" \
-    && docker-php-ext-install $php_extensions \
+    && docker-php-ext-install -j$(nproc) $php_extensions \
     && pecl install apcu \
     && docker-php-ext-enable $php_extensions apcu
 
