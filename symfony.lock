@@ -1,4 +1,10 @@
 {
+    "amphp/amp": {
+        "version": "v2.5.2"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.8.0"
+    },
     "behat/gherkin": {
         "version": "v4.6.2"
     },
@@ -62,6 +68,9 @@
     "composer/xdebug-handler": {
         "version": "1.4.5"
     },
+    "dnoegel/php-xdg-base-dir": {
+        "version": "v0.1.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -79,6 +88,12 @@
     },
     "doctrine/lexer": {
         "version": "1.2.1"
+    },
+    "felixfbecker/advanced-json-rpc": {
+        "version": "v3.2.0"
+    },
+    "felixfbecker/language-server-protocol": {
+        "version": "1.5.1"
     },
     "flow/jsonpath": {
         "version": "0.5.0"
@@ -113,8 +128,14 @@
     "myclabs/deep-copy": {
         "version": "1.10.2"
     },
+    "netresearch/jsonmapper": {
+        "version": "v2.1.0"
+    },
     "nikic/php-parser": {
         "version": "v4.10.4"
+    },
+    "openlss/lib-array2xml": {
+        "version": "1.0.0"
     },
     "phar-io/manifest": {
         "version": "2.0.1"
@@ -198,6 +219,9 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
+    },
+    "psalm/plugin-symfony": {
+        "version": "v2.2.1"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -523,7 +547,13 @@
     "twig/twig": {
         "version": "v3.2.1"
     },
+    "vimeo/psalm": {
+        "version": "4.6.4"
+    },
     "webmozart/assert": {
         "version": "1.9.1"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     }
 }

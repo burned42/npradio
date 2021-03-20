@@ -38,6 +38,8 @@ jobs:
       name: "phpstan"
     - script: composer phpcs
       name: "phpcs"
+    - script: composer psalm
+      name: "psalm"
     - stage: "tests"
       script: composer codeception-coverage-xml
       name: "codeception"
