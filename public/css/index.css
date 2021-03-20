@@ -48,3 +48,8 @@ a {
 .dragging {
     background-color: var(--primary-25);
 }
+
+.octocat {
+    fill: var(--primary-75);
+    height: 24px;
+}
