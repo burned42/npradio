@@ -10,10 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class HomepageController extends AbstractController
 {
-    /**
-     * @Route("/")
-     * @Template
-     */
+    #[Route('/')]
+    #[Template]
     public function index(): void
     {
     }

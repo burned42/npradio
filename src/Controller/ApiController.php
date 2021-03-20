@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Traversable;
 
-/**
- * @Route("/api", methods={"GET"}, defaults={"_format": "json"})
- */
+#[Route('/api', methods: ['GET'], format: 'json')]
 final class ApiController extends AbstractController
 {
     /** @var array<string, AbstractRadioStream> */
@@ -29,17 +27,13 @@ final class ApiController extends AbstractController
         $this->radios = iterator_to_array($radios);
     }
 
-    /**
-     * @Route("/radios")
-     */
+    #[Route('/radios')]
     public function getRadioNames(): JsonResponse
     {
         return $this->json(array_keys($this->radios));
     }
 
-    /**
-     * @Route("/radios/{radioName}/streams")
-     */
+    #[Route('/radios/{radioName}/streams')]
     public function getStreams(string $radioName): JsonResponse
     {
         try {
@@ -53,10 +47,8 @@ final class ApiController extends AbstractController
         return $this->json($radioClass->getAvailableStreams());
     }
 
-    /**
-     * @Route("/radios/{radioName}/streams/{streamName}")
-     * @Cache(smaxage="30", mustRevalidate=true)
-     */
+    #[Route('/radios/{radioName}/streams/{streamName}')]
+    #[Cache(smaxage: 30, mustRevalidate: true)]
     public function getStreamInfo(string $radioName, string $streamName): JsonResponse
     {
         try {
