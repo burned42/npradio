@@ -47,8 +47,8 @@ jobs:
         with:
           name: dependencies
       - uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ env.PHP_VERSION }}
+        with:
+          php-version: ${{ env.PHP_VERSION }}
       - run: composer lint-container
 
   lint-twig:
@@ -112,8 +112,8 @@ jobs:
         with:
           name: dependencies
       - uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ env.PHP_VERSION }}
+        with:
+          php-version: ${{ env.PHP_VERSION }}
       - run: composer psalm
 
   rector:
