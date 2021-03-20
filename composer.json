@@ -29,7 +29,7 @@
         "codeception/codeception": "^4.0",
         "codeception/module-asserts": "^1.0.0",
         "codeception/module-rest": "^1.0.0",
-        "codeception/module-symfony": "^1.0.0",
+        "codeception/module-symfony": "^2.0.0",
         "friendsofphp/php-cs-fixer": "^2.0",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12",
