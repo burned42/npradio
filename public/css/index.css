@@ -4,7 +4,7 @@
     --primary-75: rgba(var(--primary-rgb), 0.75);
     --primary-50: rgba(var(--primary-rgb), 0.5);
     --primary-25: rgba(var(--primary-rgb), 0.25);
-    --dark: gray(26);
+    --dark: #1a1a1a;
 }
 
 .container-fluid {
