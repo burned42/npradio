@@ -247,6 +247,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "rector/rector-prefixed": {
+        "version": "0.9.31"
+    },
     "sebastian/cli-parser": {
         "version": "1.0.1"
     },

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4134c1df3927d89b9c72bfd89cd6300",
+    "content-hash": "3ac6ab90777bd6466ae65818d0e44c7a",
     "packages": [
         {
             "name": "clue/stream-filter",
@@ -7207,6 +7207,38 @@
                 "source": "https://github.com/psalm/psalm-plugin-symfony/tree/v2.2.1"
             },
             "time": "2021-03-03T06:31:41+00:00"
+        },
+        {
+            "name": "rector/rector-prefixed",
+            "version": "0.9.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rectorphp/rector-prefixed.git",
+                "reference": "cff116f7c19bf898c2d76751c8f01debb3c9c13f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rectorphp/rector-prefixed/zipball/cff116f7c19bf898c2d76751c8f01debb3c9c13f",
+                "reference": "cff116f7c19bf898c2d76751c8f01debb3c9c13f",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0",
+                "phpstan/phpstan": "^0.12.64"
+            },
+            "bin": [
+                "bin/rector"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed scoped version of rector/rector package",
+            "support": {
+                "source": "https://github.com/rectorphp/rector-prefixed/tree/0.9.31"
+            },
+            "time": "2021-02-22T12:37:56+00:00"
         },
         {
             "name": "sebastian/cli-parser",
