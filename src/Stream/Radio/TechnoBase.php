@@ -95,7 +95,7 @@ final class TechnoBase extends AbstractRadioStream
         return $streamInfo;
     }
 
-    public function addTrackAndShowInfo(mixed $streamName, StreamInfo $streamInfo): StreamInfo
+    public function addTrackAndShowInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
     {
         try {
             $dom = $this->getHttpDataFetcher()->getXmlDom(self::URL);
