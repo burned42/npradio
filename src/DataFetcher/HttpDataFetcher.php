@@ -15,18 +15,11 @@ use Throwable;
 
 final class HttpDataFetcher implements HttpDataFetcherInterface
 {
-    private HttpClientInterface $httpClient;
-    private CacheInterface $cache;
-    private SluggerInterface $slugger;
-
     public function __construct(
-        HttpClientInterface $httpClient,
-        CacheInterface $httpClientCache,
-        SluggerInterface $slugger,
+        private HttpClientInterface $httpClient,
+        private CacheInterface $cache,
+        private SluggerInterface $slugger
     ) {
-        $this->httpClient = $httpClient;
-        $this->cache = $httpClientCache;
-        $this->slugger = $slugger;
     }
 
     /**

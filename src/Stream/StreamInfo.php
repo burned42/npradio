@@ -9,11 +9,6 @@ use JsonSerializable;
 
 final class StreamInfo implements JsonSerializable
 {
-    public string $radioName;
-    public string $streamName;
-    public string $homepageUrl;
-    public string $streamUrl;
-
     public ?string $track = null;
     public ?string $artist = null;
     public ?string $show = null;
@@ -23,15 +18,11 @@ final class StreamInfo implements JsonSerializable
     public ?DateTimeInterface $showEndTime = null;
 
     public function __construct(
-        string $radioName,
-        string $streamName,
-        string $homepageUrl,
-        string $streamUrl,
+        public string $radioName,
+        public string $streamName,
+        public string $homepageUrl,
+        public string $streamUrl
     ) {
-        $this->radioName = $radioName;
-        $this->streamName = $streamName;
-        $this->homepageUrl = $homepageUrl;
-        $this->streamUrl = $streamUrl;
     }
 
     /**
