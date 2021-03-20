@@ -97,7 +97,8 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
 
         $dom = new DOMDocument();
         try {
-            if (false === $dom->loadXML($xml)) {
+            $domLoadXML = $dom->loadXML($xml);
+            if (false === $domLoadXML) {
                 throw new RuntimeException('\DomDocument::loadXML returned false');
             }
         } catch (Exception $e) {
