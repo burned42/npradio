@@ -64,6 +64,9 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
         );
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function getJsonData(string $url, array $headers = [], int $cacheDuration = 30): array
     {
         try {
