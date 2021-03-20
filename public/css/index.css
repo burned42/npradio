@@ -1,3 +1,12 @@
+:root {
+    --primary-rgb: 61, 174, 233;
+    --primary: rgb(var(--primary-rgb));
+    --primary-75: rgba(var(--primary-rgb), 0.75);
+    --primary-50: rgba(var(--primary-rgb), 0.5);
+    --primary-25: rgba(var(--primary-rgb), 0.25);
+    --dark: gray(26);
+}
+
 .container-fluid {
     padding-top: 15px;
 }
@@ -16,15 +25,15 @@ body {
 }
 
 .card, .navbar, .selectable_stream {
-    background-color: #1a1a1a;
+    background-color: var(--dark);
 }
 
 a {
-    color: rgb(61, 174, 233);
+    color: var(--primary);
 }
 
 .btn-npradio {
-    background-color: rgba(61, 174, 233, 0.75);
+    background-color: var(--primary-75);
 }
 
 .card-header {
@@ -33,9 +42,9 @@ a {
 }
 
 .card-footer {
-    background-color: rgba(61, 174, 233, 0.5);
+    background-color: var(--primary-50);
 }
 
 .dragging {
-    background-color: rgba(61, 174, 233, 0.25);
+    background-color: var(--primary-25);
 }
