@@ -13,7 +13,11 @@ interface HttpDataFetcherInterface
      *
      * @return array<mixed>
      */
-    public function getJsonData(string $url, array $headers, int $cacheDuration): array;
+    public function getJsonData(
+        string $url,
+        array $headers,
+        int $cacheDuration
+    ): array;
 
     public function getUrlContent(string $url): string;
 
