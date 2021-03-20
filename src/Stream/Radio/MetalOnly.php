@@ -198,7 +198,7 @@ final class MetalOnly extends AbstractRadioStream
             // if moderator changed since last loop run
             if ($lastModerator !== $moderator) {
                 // and if we didn't find the on air mod until now
-                if (false === $found) {
+                if (!$found) {
                     // set new value for start time
                     $startTime = new DateTimeImmutable($currentHour.':00');
                 } else {
@@ -217,7 +217,7 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             // if we have found the on air mod and are still running the for loop
-            if (true === $found) {
+            if ($found) {
                 // then set the end time to the current hour + 1
                 $endHour = ($currentHour + 1) % 24;
                 $endTime = new DateTimeImmutable($endHour.':00');
@@ -227,7 +227,7 @@ final class MetalOnly extends AbstractRadioStream
         }
 
         if (
-            true === $found
+            $found
             && $startTime instanceof DateTimeInterface
             && $endTime instanceof DateTimeInterface
         ) {

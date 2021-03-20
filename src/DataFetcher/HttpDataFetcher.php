@@ -112,7 +112,7 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
         libxml_use_internal_errors(true);
 
         try {
-            if (false === $dom->loadHTML($html)) {
+            if (!$dom->loadHTML($html)) {
                 throw new RuntimeException('\DomDocument::loadHTML returned false');
             }
         } catch (Throwable $t) {
