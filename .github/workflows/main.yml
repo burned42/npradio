@@ -141,3 +141,4 @@ jobs:
         with:
           push: ${{ github.ref == 'refs/heads/master' }}
           tags: burned42/npradio:latest
+          pull: true
