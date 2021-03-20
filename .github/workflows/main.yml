@@ -3,8 +3,6 @@ name: CI
 on:
   push:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * 6'
 
 env:
   PHP_VERSION: 8.0
@@ -102,16 +100,6 @@ jobs:
       - run: composer codeception-coverage-xml
       - uses: codecov/codecov-action@v1
 
-  update-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v1
-      - run: composer update-check
-
   symfony-security-check:
     runs-on: ubuntu-latest
     steps:
@@ -120,24 +108,7 @@ jobs:
 
   docker:
     runs-on: ubuntu-latest
-    needs:
-      - lint-yaml
-      - lint-container
-      - lint-twig
-      - php-cs-fixer
-      - phpstan
-      - phpcs
-      - psalm
-      - rector
-      - codeception
     steps:
-      - uses: docker/login-action@v1
-        if: github.ref == 'refs/heads/master'
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - uses: docker/build-push-action@v2
         with:
-          push: ${{ github.ref == 'refs/heads/master' }}
-          tags: burned42/npradio:latest
           pull: true
