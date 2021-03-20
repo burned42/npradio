@@ -40,7 +40,7 @@ jobs:
       name: "phpcs"
     - script: composer psalm
       name: "psalm"
-    - script: composre rector
+    - script: composer rector
       name: "rector"
     - stage: "tests"
       script: composer codeception-coverage-xml
