@@ -3,8 +3,7 @@
 [![docker build](https://img.shields.io/docker/cloud/build/burned42/npradio.svg)](https://hub.docker.com/r/burned42/npradio)
 [![docker build automated](https://img.shields.io/docker/cloud/automated/burned42/npradio)](https://hub.docker.com/r/burned42/npradio)
 
-Now Playing Radio
-=================
+# ![](public/favicon-32x32.png) Now Playing Radio
 
 NPRadio is a webpage that collects information from different radio stations
 and displays the current playing songs, if there is a moderator online and
