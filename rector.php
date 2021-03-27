@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Core\Configuration\Option;
 use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\Set\SymfonySetList;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -15,10 +16,8 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         SetList::CODE_QUALITY_STRICT,
         SetList::PHP_80,
         SetList::PSR_4,
-        SetList::SYMFONY_52,
-        SetList::SYMFONY_AUTOWIRE,
-        SetList::SYMFONY_CODE_QUALITY,
-        SetList::SYMFONY_CONSTRUCTOR_INJECTION,
+        SymfonySetList::SYMFONY_52,
+        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ]);
 
     // get services (needed for register a single rule)
