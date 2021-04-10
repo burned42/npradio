@@ -27,15 +27,6 @@
 
     <exclude-pattern>tests/_support/</exclude-pattern>
 
-    <rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
-        <exclude-pattern>src/DataFetcher/HttpDataFetcher.php</exclude-pattern>
-        <exclude-pattern>src/Stream/StreamInfo.php</exclude-pattern>
-    </rule>
-
-    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
-        <exclude-pattern>src/Controller/ApiController.php</exclude-pattern>
-    </rule>
-
     <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
         <exclude-pattern>tests/</exclude-pattern>
     </rule>
