@@ -86,9 +86,7 @@ class StreamInfoCommand extends Command
                 }
             }
 
-            $io->definitionList(
-                ...$info,
-            );
+            $io->definitionList(...$info);
         }
 
         return Command::SUCCESS;
