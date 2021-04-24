@@ -105,12 +105,12 @@
         "version": "0.5.0"
     },
     "friendsofphp/php-cs-fixer": {
-        "version": "2.16",
+        "version": "2.17",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
-            "version": "2.16",
-            "ref": "c1947bad147704aeaf0285745f0baae927a58959"
+            "version": "2.17",
+            "ref": "f0d4b4ddb4e2bb73b227e3987b6ecc53cd8be431"
         },
         "files": [
             ".php_cs.dist"
@@ -239,7 +239,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "4.7",
-            "ref": "477e1387616f39505ba79715f43f124836020d71"
+            "ref": "fc18a41d910bd168b6d83b09330d3dd892ddbcdd"
         },
         "files": [
             ".env.test",
