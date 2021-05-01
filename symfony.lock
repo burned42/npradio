@@ -283,6 +283,9 @@
     "rector/rector-doctrine": {
         "version": "0.10.0"
     },
+    "rector/rector-installer": {
+        "version": "0.10.1"
+    },
     "rector/rector-laravel": {
         "version": "0.10.0"
     },
@@ -291,6 +294,9 @@
     },
     "rector/rector-phpunit": {
         "version": "0.10.2"
+    },
+    "rector/rector-prefixed": {
+        "version": "0.10.16"
     },
     "rector/rector-symfony": {
         "version": "0.10.0"
@@ -577,9 +583,6 @@
             "templates/base.html.twig"
         ]
     },
-    "symfony/uid": {
-        "version": "v5.2.4"
-    },
     "symfony/var-dumper": {
         "version": "v5.2.1"
     },
@@ -633,6 +636,9 @@
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
+    },
+    "tracy/tracy": {
+        "version": "v2.8.4"
     },
     "twbs/bootstrap": {
         "version": "v4.5.3"
