@@ -10,7 +10,6 @@ $finder = (new PhpCsFixer\Finder())
 return (new PhpCsFixer\Config())
     ->setRules([
         '@Symfony' => true,
-        'array_syntax' => ['syntax' => 'short'],
         'declare_strict_types' => true,
     ])
     ->setFinder($finder)
