@@ -95,6 +95,9 @@
     "doctrine/lexer": {
         "version": "1.2.1"
     },
+    "ergebnis/json-printer": {
+        "version": "3.1.1"
+    },
     "felixfbecker/advanced-json-rpc": {
         "version": "v3.2.0"
     },
@@ -125,6 +128,9 @@
     "http-interop/http-factory-guzzle": {
         "version": "1.0.0"
     },
+    "idiosyncratic/editorconfig": {
+        "version": "0.1.1"
+    },
     "jean85/pretty-package-versions": {
         "version": "1.5.1"
     },
@@ -145,9 +151,6 @@
     },
     "nette/neon": {
         "version": "v3.2.2"
-    },
-    "nette/robot-loader": {
-        "version": "v3.4.0"
     },
     "nette/utils": {
         "version": "v3.2.2"
@@ -204,7 +207,7 @@
         "version": "1.1.0"
     },
     "phpstan/phpdoc-parser": {
-        "version": "0.5.2"
+        "version": "0.5.4"
     },
     "phpstan/phpstan": {
         "version": "0.12.65"
@@ -274,29 +277,32 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "rector/extension-installer": {
+        "version": "0.10.2"
+    },
     "rector/rector": {
         "version": "0.10.3"
     },
     "rector/rector-cakephp": {
-        "version": "0.10.1"
+        "version": "0.10.4"
     },
     "rector/rector-doctrine": {
-        "version": "0.10.0"
-    },
-    "rector/rector-installer": {
-        "version": "0.10.1"
+        "version": "0.10.6"
     },
     "rector/rector-laravel": {
-        "version": "0.10.0"
-    },
-    "rector/rector-nette": {
-        "version": "0.10.1"
-    },
-    "rector/rector-phpunit": {
         "version": "0.10.2"
     },
-    "rector/rector-symfony": {
+    "rector/rector-nette": {
+        "version": "0.10.10"
+    },
+    "rector/rector-nette-to-symfony": {
         "version": "0.10.0"
+    },
+    "rector/rector-phpunit": {
+        "version": "0.10.8"
+    },
+    "rector/rector-symfony": {
+        "version": "0.11.2"
     },
     "sebastian/cli-parser": {
         "version": "1.0.1"
@@ -373,17 +379,23 @@
             "config/packages/sentry.yaml"
         ]
     },
+    "shanethehat/pretty-xml": {
+        "version": "1.0.2"
+    },
     "softcreatr/jsonpath": {
         "version": "0.7.2"
     },
     "squizlabs/php_codesniffer": {
-        "version": "3.0",
+        "version": "3.6",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
-            "version": "3.0",
-            "ref": "0dc9cceda799fd3a08b96987e176a261028a3709"
-        }
+            "version": "3.6",
+            "ref": "1019e5c08d4821cb9b77f4891f8e9c31ff20ac6f"
+        },
+        "files": [
+            "phpcs.xml.dist"
+        ]
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -590,46 +602,46 @@
         "version": "v5.2.1"
     },
     "symplify/astral": {
-        "version": "v9.2.14"
+        "version": "v9.3.4"
     },
     "symplify/autowire-array-parameter": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/composer-json-manipulator": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/console-color-diff": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/console-package-builder": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/easy-testing": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/package-builder": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/rule-doc-generator-contracts": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/set-config-resolver": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/simple-php-doc-parser": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/skipper": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/smart-file-system": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "symplify/symfony-php-config": {
-        "version": "v9.2.13"
+        "version": "v9.3.10"
     },
     "symplify/symplify-kernel": {
-        "version": "v9.2.14"
+        "version": "v9.3.11"
     },
     "theseer/tokenizer": {
         "version": "1.2.0"
