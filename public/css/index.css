@@ -30,6 +30,7 @@ body {
 
 a {
     color: var(--primary);
+    text-decoration: none;
 }
 
 .btn-npradio {
