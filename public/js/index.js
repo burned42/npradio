@@ -98,14 +98,15 @@ function showSettings()
     let allStreams = preselectStreams.concat(otherStreams);
 
     let text = '<form>' +
-        '<div class="card">' +
-        '    <div class="card-header">' +
-        '        <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
-        '        &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
-        '        &nbsp;<button class="btn btn-danger float-right" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
-        '    </div>' +
-        '    <div class="card-body">' +
-        '        <div class="list-group" id="stream_selection">';
+        '<div class="col">' +
+        '    <div class="card">' +
+        '        <div class="card-header">' +
+        '            <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
+        '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
+        '            &nbsp;<button class="btn btn-danger float-end" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
+        '        </div>' +
+        '        <div class="card-body">' +
+        '            <div class="list-group" id="stream_selection">';
     allStreams.map(streamData => {
         let checked = '';
         preselectStreams.map(selectedData => {
@@ -114,15 +115,16 @@ function showSettings()
             }
         });
 
-        text += '<div class="selectable_stream list-group-item">' +
+        text += '<div class="selectable_stream list-group-item text-light">' +
             '    <div class="form-check">' +
             '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
             '        ' + streamData[0] + ': <b>' + streamData[1] + '</b>' +
-            '        <a href="#" class="float-right">&#x2630;</a>' +
+            '        <a href="#" class="float-end">&#x2630;</a>' +
             '    </div>' +
             '</div>';
     });
     text += '</div>' +
+        '            </div>' +
         '        </div>' +
         '    </div>' +
         '</form>';

@@ -12,7 +12,11 @@ class RadioStream {
         this.cardFooter = '';
         this.cardFooterAppended = false;
 
-        document.getElementById('stream_infos').appendChild(this.domElement);
+        let colDiv = document.createElement('div');
+        colDiv.className = 'col';
+        colDiv.appendChild(this.domElement);
+
+        document.getElementById('stream_infos').appendChild(colDiv);
 
         this.update = this.update.bind(this);
         this.updateStreamInfoDom = this.updateStreamInfoDom.bind(this);
@@ -73,7 +77,7 @@ class RadioStream {
             this.cardFooter = document.createElement('div');
             this.cardFooter.className = 'card-footer mb-0';
 
-            this.domElement.className = 'card';
+            this.domElement.className = 'card h-100';
             this.domElementInitialized = true;
         }
 
