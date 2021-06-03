@@ -23,7 +23,7 @@
         "symfony/string": "5.2.*",
         "symfony/twig-bundle": "^5.2",
         "symfony/yaml": "^5.2",
-        "twbs/bootstrap": "^4.1.1"
+        "twbs/bootstrap": "^5.0.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.0",
