@@ -54,7 +54,7 @@ class StreamInfoCommand extends Command
             $info = [];
             /** @var string[] $streams */
             foreach ($streams as $streamName) {
-                if (0 !== count($info)) {
+                if ([] !== $info) {
                     $info[] = new TableSeparator();
                 }
                 $info[] = $streamName;
