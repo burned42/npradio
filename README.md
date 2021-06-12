@@ -1,7 +1,5 @@
 [![CI pipeline](https://github.com/burned42/npradio/actions/workflows/main.yml/badge.svg)](https://github.com/burned42/npradio/actions/workflows/main.yml)
 [![code coverage](https://codecov.io/gh/burned42/npradio/branch/master/graph/badge.svg)](https://codecov.io/gh/burned42/npradio)
-[![docker build](https://img.shields.io/docker/cloud/build/burned42/npradio.svg)](https://hub.docker.com/r/burned42/npradio)
-[![docker build automated](https://img.shields.io/docker/cloud/automated/burned42/npradio)](https://hub.docker.com/r/burned42/npradio)
 
 # ![](https://raw.githubusercontent.com/burned42/npradio/master/public/favicon-32x32.png) Now Playing Radio
 
