@@ -17,7 +17,7 @@
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "master",
             "version": "2.3",
-            "ref": "5d3fec49d4a7ecb411c417fc51cf48b06a86946d"
+            "ref": "b4f5e17f8122f4924b548baad06fd9a996a916a4"
         },
         "files": [
             "codeception.yml",
@@ -30,12 +30,12 @@
             "tests/_support/Helper/Unit.php",
             "tests/_support/UnitTester.php",
             "tests/_support/_generated/.gitignore",
-            "tests/acceptance/.gitignore",
-            "tests/functional/.gitignore",
-            "tests/unit/.gitignore",
             "tests/acceptance.suite.yml",
+            "tests/acceptance/.gitignore",
             "tests/functional.suite.yml",
-            "tests/unit.suite.yml"
+            "tests/functional/.gitignore",
+            "tests/unit.suite.yml",
+            "tests/unit/.gitignore"
         ]
     },
     "codeception/lib-asserts": {

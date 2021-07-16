@@ -8,8 +8,8 @@
 actor: FunctionalTester
 modules:
     enabled:
-        - \App\Tests\Helper\Functional
         - Asserts
         - Symfony:
             app_path: 'src'
             environment: 'test'
+        - \App\Tests\Helper\Functional

@@ -5,5 +5,5 @@
 actor: UnitTester
 modules:
     enabled:
-        - \App\Tests\Helper\Unit
         - Asserts
+        - \App\Tests\Helper\Unit
