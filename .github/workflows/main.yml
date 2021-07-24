@@ -98,7 +98,7 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
       - uses: ramsey/composer-install@v1
       - run: composer codeception-coverage-xml
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2
 
   symfony-security-check:
     runs-on: ubuntu-latest
