@@ -35,6 +35,21 @@ class RadioStream {
         }
     };
 
+    /**
+     * @param {Object} streamInfo
+     * @param {string} streamInfo.radio_name
+     * @param {string} streamInfo.stream_name
+     * @param {string} streamInfo.homepage
+     * @param {string} streamInfo.stream_url
+     * @param {Object} streamInfo.show
+     * @param {string|null} streamInfo.show.name
+     * @param {string|null} streamInfo.show.genre
+     * @param {string|null} streamInfo.show.moderator
+     * @param {string|null} streamInfo.show.start_time
+     * @param {string|null} streamInfo.show.end_time
+     * @param {string|null} streamInfo.artist
+     * @param {string|null} streamInfo.track
+     */
     updateStreamInfoDom(streamInfo)
     {
         if (streamInfo.artist === null || typeof streamInfo.artist === 'undefined') {
