@@ -14,7 +14,7 @@ class RadioStream {
             const streamButton = this.streamCard.querySelector('#stream_button');
             streamButton.classList.remove('btn-dark');
             streamButton.classList.add('btn-npradio');
-            streamButton.innerHTML = '&#x23f8;';
+            streamButton.textContent = '&#x23f8;';
         }
 
         document.getElementById('stream_infos').appendChild(cardContainer);
@@ -46,13 +46,13 @@ class RadioStream {
 
         const artistElement = this.streamCard.querySelector('#artist');
         const trackElement = this.streamCard.querySelector('#track');
-        artistElement.innerHTML = streamInfo.artist;
-        trackElement.innerHTML = streamInfo.track;
+        artistElement.textContent = streamInfo.artist;
+        trackElement.textContent = streamInfo.track;
 
         if (this.streamCardInitialized === false) {
             const streamLink = this.streamCard.querySelector('#stream_link');
             streamLink.setAttribute('href', streamInfo.homepage);
-            streamLink.innerHTML = streamInfo.stream_name;
+            streamLink.textContent = streamInfo.stream_name;
             streamLink.classList.remove('placeholder', 'col-3');
 
             const streamButton = this.streamCard.querySelector('#stream_button');
