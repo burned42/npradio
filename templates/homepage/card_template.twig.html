@@ -1,0 +1,16 @@
+<template id="card_template">
+    <div class="col">
+        <div class="card h-100 placeholder-glow" id="stream_card">
+            <h5 class="card-header text-nowrap d-flex justify-content-between">
+                <a class="my-auto placeholder col-3" target="_blank" rel="noreferrer" href="#" id="stream_link"></a>
+                <button class="btn btn-dark" name="play_stream" id="stream_button" disabled>&#x25b6</button>
+            </h5>
+            <div class="card-body">
+                <strong class="placeholder col-2" id="artist"></strong>
+                <span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>
+                <strong class="placeholder col-2" id="track"></strong>
+            </div>
+            <div class="card-footer mb-0 invisible" id="show_info"></div>
+        </div>
+    </div>
+</template>

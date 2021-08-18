@@ -1,22 +1,23 @@
 class RadioStream {
+    template = document.querySelector('#card_template');
+
     constructor(radioName, streamName, initializePlaying)
     {
         this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
         this.requestRunning = false;
-        this.initializePlaying = initializePlaying;
 
-        this.domElement = document.createElement('div');
-        this.domElement.className = 'card invisible';
-        this.domElementInitialized = false;
-        this.cardBody = '';
-        this.cardFooter = '';
-        this.cardFooterAppended = false;
+        const cardContainer = document.importNode(this.template.content, true);
+        this.streamCard = cardContainer.querySelector('#stream_card');
+        this.streamCardInitialized = false;
 
-        let colDiv = document.createElement('div');
-        colDiv.className = 'col';
-        colDiv.appendChild(this.domElement);
+        if (initializePlaying) {
+            const streamButton = this.streamCard.querySelector('#stream_button');
+            streamButton.classList.remove('btn-dark');
+            streamButton.classList.add('btn-npradio');
+            streamButton.innerHTML = '&#x23f8;';
+        }
 
-        document.getElementById('stream_infos').appendChild(colDiv);
+        document.getElementById('stream_infos').appendChild(cardContainer);
 
         this.update = this.update.bind(this);
         this.updateStreamInfoDom = this.updateStreamInfoDom.bind(this);
@@ -36,51 +37,6 @@ class RadioStream {
 
     updateStreamInfoDom(streamInfo)
     {
-        if (this.domElementInitialized === false) {
-            // add header
-            let header = document.createElement('h5');
-            header.className = 'card-header text-nowrap d-flex justify-content-between';
-
-            let headerLink = document.createElement('a');
-            headerLink.className = 'my-auto';
-            headerLink.setAttribute('href', streamInfo.homepage);
-            headerLink.setAttribute('target', '_blank');
-            headerLink.setAttribute('rel', 'noreferrer');
-            headerLink.innerHTML = streamInfo.stream_name;
-            header.appendChild(headerLink);
-
-            let headerButton = document.createElement('button');
-            if (this.initializePlaying) {
-                headerButton.className = 'btn btn-npradio';
-                headerButton.innerHTML = '&#x23f8;';
-            } else {
-                headerButton.className = 'btn btn-dark';
-                headerButton.innerHTML = '&#x25b6';
-            }
-            headerButton.name = 'play_stream';
-            headerButton.onclick = () => playStream(
-                headerButton,
-                streamInfo.stream_url,
-                streamInfo.radio_name,
-                streamInfo.stream_name
-            );
-            header.appendChild(headerButton);
-
-            this.domElement.appendChild(header);
-
-            // add body
-            this.cardBody = document.createElement('div');
-            this.cardBody.className = 'card-body';
-            this.domElement.appendChild(this.cardBody);
-
-            // add footer
-            this.cardFooter = document.createElement('div');
-            this.cardFooter.className = 'card-footer mb-0';
-
-            this.domElement.className = 'card h-100';
-            this.domElementInitialized = true;
-        }
-
         if (streamInfo.artist === null || typeof streamInfo.artist === 'undefined') {
             streamInfo.artist = 'n/a';
         }
@@ -88,10 +44,35 @@ class RadioStream {
             streamInfo.track = 'n/a';
         }
 
-        this.cardBody.innerHTML = '<strong>' + streamInfo.artist + '</strong>' +
-            '<span class="text-muted px-2 px-sm-2 px-md-2 px-lg-2 px-xl-2">-</span>' +
-            '<strong>' + streamInfo.track + '</strong>';
+        const artistElement = this.streamCard.querySelector('#artist');
+        const trackElement = this.streamCard.querySelector('#track');
+        artistElement.innerHTML = streamInfo.artist;
+        trackElement.innerHTML = streamInfo.track;
 
+        if (this.streamCardInitialized === false) {
+            const streamLink = this.streamCard.querySelector('#stream_link');
+            streamLink.setAttribute('href', streamInfo.homepage);
+            streamLink.innerHTML = streamInfo.stream_name;
+            streamLink.classList.remove('placeholder', 'col-3');
+
+            const streamButton = this.streamCard.querySelector('#stream_button');
+            streamButton.onclick = () => playStream(
+                streamButton,
+                streamInfo.stream_url,
+                streamInfo.radio_name,
+                streamInfo.stream_name
+            );
+            streamButton.attributes.removeNamedItem('disabled');
+
+            artistElement.classList.remove('placeholder', 'col-2');
+            trackElement.classList.remove('placeholder', 'col-2');
+
+            this.streamCard.classList.remove('placeholder-glow');
+
+            this.streamCardInitialized = true;
+        }
+
+        const footer = this.streamCard.querySelector('#show_info');
         if (
             streamInfo.show.name !== null
             && streamInfo.show.moderator !== null
@@ -99,22 +80,19 @@ class RadioStream {
             let footerContent = '<strong>' + streamInfo.show.name + '</strong>';
             if (streamInfo.show.genre !== null) {
                 footerContent += ' (' + streamInfo.show.genre + ')';
-            }
 
+            }
             footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
             if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
                 footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
             }
+            footer.innerHTML = footerContent;
 
-            this.cardFooter.innerHTML = footerContent;
-
-            if (this.cardFooterAppended === false) {
-                this.domElement.appendChild(this.cardFooter);
-                this.cardFooterAppended = true;
+            if (footer.classList.contains('invisible')) {
+                footer.classList.remove('invisible');
             }
-        } else if (this.cardFooterAppended) {
-            this.domElement.removeChild(this.cardFooter);
-            this.cardFooterAppended = false;
+        } else if (!footer.classList.contains('invisible')) {
+            footer.classList.add('invisible');
         }
     };
 }
