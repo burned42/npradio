@@ -94,10 +94,8 @@ class RadioStream {
                 footer.querySelector('#show_time_container').classList.remove('invisible');
             }
 
-            if (footer.classList.contains('invisible')) {
-                footer.classList.remove('invisible');
-            }
-        } else if (!footer.classList.contains('invisible')) {
+            footer.classList.remove('invisible');
+        } else {
             footer.classList.add('invisible');
         }
     };
