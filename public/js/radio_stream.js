@@ -77,16 +77,22 @@ class RadioStream {
             streamInfo.show.name !== null
             && streamInfo.show.moderator !== null
         ) {
-            let footerContent = '<strong>' + streamInfo.show.name + '</strong>';
+            footer.querySelector('#show_name').textContent = streamInfo.show.name;
             if (streamInfo.show.genre !== null) {
-                footerContent += ' (' + streamInfo.show.genre + ')';
+                footer.querySelector('#show_genre').textContent = streamInfo.show.genre;
+                footer.querySelector('#show_genre_container').classList.remove('invisible');
+            } else {
+                footer.querySelector('#show_genre_container').classList.add('invisible');
+            }
 
-            }
-            footerContent += '<hr>mit <strong>' + streamInfo.show.moderator + '</strong>';
+            footer.querySelector('#show_moderator').textContent = streamInfo.show.moderator;
             if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
-                footerContent += ' (' + streamInfo.show.start_time + ' - ' + streamInfo.show.end_time + ')';
+                footer.querySelector('#show_start_time').textContent = streamInfo.show.start_time;
+                footer.querySelector('#show_end_time').textContent = streamInfo.show.end_time;
+                footer.querySelector('#show_time_container').classList.remove('invisible');
+            } else {
+                footer.querySelector('#show_time_container').classList.remove('invisible');
             }
-            footer.innerHTML = footerContent;
 
             if (footer.classList.contains('invisible')) {
                 footer.classList.remove('invisible');
