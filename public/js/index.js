@@ -139,7 +139,7 @@ function showSettings()
         dragClass: 'dragging'
     });
 
-    settings.style.display = 'block';
+    settings.classList.remove('invisible');
 }
 
 function saveSettings()
@@ -161,7 +161,7 @@ function saveSettings()
 
 function showStreamInfo()
 {
-    document.getElementById('settings').style.display = 'none';
+    document.getElementById('settings').classList.add('invisible');
     document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
 
@@ -202,7 +202,7 @@ function setAvailableRadioStreams()
 
 function setUpdateInterval()
 {
-    if (document.getElementById('settings').style.display !== 'none') {
+    if (!document.getElementById('settings').classList.contains('invisible')) {
         return;
     }
 
