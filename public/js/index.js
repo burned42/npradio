@@ -1,6 +1,6 @@
 function initializePlayButtonsToPaused()
 {
-    let playButtons = document.getElementsByName('play_stream');
+    const playButtons = document.getElementsByName('play_stream');
     for (let i = 0; i < playButtons.length; i++) {
         playButtons[i].className = 'btn btn-dark';
         playButtons[i].innerHTML = '&#x25b6;';
@@ -12,8 +12,8 @@ function playStream(e, streamUrl, radioName, streamName)
 {
     initializePlayButtonsToPaused();
 
-    let streamPlayer = document.getElementById('stream_player');
-    let wasPaused = streamPlayer.paused;
+    const streamPlayer = document.getElementById('stream_player');
+    const wasPaused = streamPlayer.paused;
     streamPlayer.pause();
 
     if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
@@ -55,8 +55,8 @@ function updateData()
     if (getNumberOfRunningRequests() < 3) {
         radioStreams.map((radioStream) => radioStream.update());
 
-        let lastUpdated = document.getElementById('last_updated');
-        let currentDate = new Date();
+        const lastUpdated = document.getElementById('last_updated');
+        const currentDate = new Date();
         lastUpdated.innerHTML = '&#x21bb; '
             + currentDate.toLocaleTimeString([], {
                 hour: '2-digit',
@@ -79,12 +79,12 @@ function showSettings()
     document.getElementById('stream_infos').innerHTML = '';
     clearInterval(updateInterval);
 
-    let settings = document.getElementById('settings');
+    const settings = document.getElementById('settings');
 
-    let preselectStreams = [];
-    let otherStreams = availableStreams.slice();
+    const preselectStreams = [];
+    const otherStreams = availableStreams.slice();
     for (let i = 0; i < localStreamSelection.length; i++) {
-        let localStreamData = localStreamSelection[i];
+        const localStreamData = localStreamSelection[i];
         for (let j = otherStreams.length - 1; j >= 0; j--) {
             let streamData = otherStreams[j];
             if (localStreamData[0] === streamData[0] && localStreamData[1] === streamData[1]) {
@@ -95,7 +95,7 @@ function showSettings()
         }
     }
 
-    let allStreams = preselectStreams.concat(otherStreams);
+    const allStreams = preselectStreams.concat(otherStreams);
 
     let text = '<form>' +
         '<div class="col">' +
@@ -144,9 +144,9 @@ function showSettings()
 
 function saveSettings()
 {
-    let streamSettings = document.getElementsByName('stream_setting_selection');
+    const streamSettings = document.getElementsByName('stream_setting_selection');
 
-    let selectedStreams = [];
+    const selectedStreams = [];
     for (let i = 0; i < streamSettings.length; i++) {
         if (streamSettings[i].checked) {
             selectedStreams.push(streamSettings[i].value.split('_'));
@@ -212,7 +212,7 @@ function setUpdateInterval()
     updateInterval = setInterval(updateData, 30 * 1000);
 }
 
-let defaultStreams = [
+const defaultStreams = [
     ['RauteMusik', 'RauteMusik Main'],
     ['Radio Galaxy', 'Radio Galaxy Mittelfranken'],
     ['RauteMusik', 'RauteMusik Club'],
