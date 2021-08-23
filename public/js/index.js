@@ -124,8 +124,6 @@ function showSettings()
         chosenClass: 'dragging',
         dragClass: 'dragging'
     });
-
-    settings.classList.remove('invisible');
 }
 
 function saveSettings()
@@ -147,9 +145,7 @@ function saveSettings()
 
 function showStreamInfo()
 {
-    document.getElementById('settings').classList.add('invisible');
     document.getElementById('settings').innerHTML = '';
-
     document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
 
@@ -190,7 +186,7 @@ function setAvailableRadioStreams()
 
 function setUpdateInterval()
 {
-    if (!document.getElementById('settings').classList.contains('invisible')) {
+    if (document.getElementById('settings').innerHTML !== '') {
         return;
     }
 
