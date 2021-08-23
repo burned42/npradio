@@ -79,8 +79,6 @@ function showSettings()
     document.getElementById('stream_infos').innerHTML = '';
     clearInterval(updateInterval);
 
-    const settings = document.getElementById('settings');
-
     const preselectStreams = [];
     const otherStreams = availableStreams.slice();
     for (let i = 0; i < localStreamSelection.length; i++) {
@@ -95,43 +93,31 @@ function showSettings()
         }
     }
 
-    const allStreams = preselectStreams.concat(otherStreams);
+    const settingsTemplate = document.getElementById('settings_template');
+    const settingsElement = document.importNode(settingsTemplate.content, true);
 
-    let text = '<form>' +
-        '<div class="col">' +
-        '    <div class="card">' +
-        '        <div class="card-header">' +
-        '            <button class="btn btn-npradio" type="button" onclick="saveSettings()">&#10003;</button>' +
-        '            &nbsp;<button class="btn btn-secondary" type="button" onclick="showStreamInfo()">&#x2715;</button>' +
-        '            &nbsp;<button class="btn btn-danger float-end" type="button" onclick="resetLocalStreamSelection()">&#x21bb;</button>' +
-        '        </div>' +
-        '        <div class="card-body">' +
-        '            <div class="list-group" id="stream_selection">';
+    const streamSettingList = settingsElement.getElementById('stream_selection');
+    const streamSettingTemplate = document.getElementById('setting_stream_template');
+    const allStreams = preselectStreams.concat(otherStreams);
     allStreams.map(streamData => {
-        let checked = '';
+        const streamElement = document.importNode(streamSettingTemplate.content, true);
+        streamElement.getElementById('radio_name').textContent = streamData[0];
+        streamElement.getElementById('stream_name').textContent = streamData[1];
+        const checkbox = streamElement.querySelector('input[name="stream_setting_selection"]');
+        checkbox.value = streamData[0] + '_' + streamData[1];
         preselectStreams.map(selectedData => {
             if (selectedData[0] === streamData[0] && selectedData[1] === streamData[1]) {
-                checked = ' checked="checked"';
+                checkbox.checked = true;
             }
         });
 
-        text += '<div class="selectable_stream list-group-item text-light">' +
-            '    <div class="form-check">' +
-            '        <input class="form-check-input" type="checkbox" name="stream_setting_selection" value="' + streamData[0] + '_' + streamData[1] + '" ' + checked + '>' +
-            '        ' + streamData[0] + ': <b>' + streamData[1] + '</b>' +
-            '        <a href="#" class="float-end">&#x2630;</a>' +
-            '    </div>' +
-            '</div>';
+        streamSettingList.appendChild(streamElement);
     });
-    text += '</div>' +
-        '            </div>' +
-        '        </div>' +
-        '    </div>' +
-        '</form>';
-    settings.innerHTML = text;
 
-    const streamSelection = document.getElementById('stream_selection');
-    new Sortable(streamSelection, {
+    const settings = document.getElementById('settings');
+    settings.appendChild(settingsElement);
+
+    new Sortable(streamSettingList, {
         delay: 100,
         delayOnTouchOnly: true,
         ghostClass: 'dragging',
@@ -162,6 +148,8 @@ function saveSettings()
 function showStreamInfo()
 {
     document.getElementById('settings').classList.add('invisible');
+    document.getElementById('settings').innerHTML = '';
+
     document.getElementById('stream_infos').innerHTML = '';
     radioStreams = [];
 
