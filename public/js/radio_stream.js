@@ -1,5 +1,5 @@
 class RadioStream {
-    template = document.querySelector('#card_template');
+    template = document.getElementById('card_template');
 
     constructor(radioName, streamName, initializePlaying)
     {
@@ -7,7 +7,7 @@ class RadioStream {
         this.requestRunning = false;
 
         const cardContainer = document.importNode(this.template.content, true);
-        this.streamCard = cardContainer.querySelector('#stream_card');
+        this.streamCard = cardContainer.getElementById('stream_card');
         this.streamCardInitialized = false;
 
         if (initializePlaying) {
