@@ -14,7 +14,7 @@ class RadioStream {
             const streamButton = this.streamCard.querySelector('#stream_button');
             streamButton.classList.remove('btn-dark');
             streamButton.classList.add('btn-npradio');
-            streamButton.textContent = '&#x23f8;';
+            streamButton.innerHTML = '&#x23f8;';
         }
 
         document.getElementById('stream_infos').appendChild(cardContainer);
