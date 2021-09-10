@@ -52,7 +52,6 @@ class StreamInfoCommand extends Command
 
             $radioStream = $this->getRadioClass($radioName);
             $info = [];
-            /** @var string[] $streams */
             foreach ($streams as $streamName) {
                 if ([] !== $info) {
                     $info[] = new TableSeparator();
