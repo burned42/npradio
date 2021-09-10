@@ -18,7 +18,7 @@ use Throwable;
 final class TechnoBase extends AbstractRadioStream
 {
     private const RADIO_NAME = 'TechnoBase.FM';
-    private const URL = 'http://tray.technobase.fm/radio.xml';
+    private const URL = 'https://tray.technobase.fm/radio.xml';
 
     private const TECHNOBASE = 'TechnoBase.FM';
     private const HOUSETIME = 'HouseTime.FM';

@@ -147,7 +147,7 @@ final class HttpDataFetcherCest
 
         $I->assertInstanceOf(
             DOMDocument::class,
-            $httpDataFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
+            $httpDataFetcher->getXmlDom('https://tray.technobase.fm/radio.xml')
         );
     }
 
@@ -171,7 +171,7 @@ final class HttpDataFetcherCest
 
         $I->expectThrowable(
             RuntimeException::class,
-            fn () => $httpDataFetcher->getXmlDom('http://tray.technobase.fm/radio.xml')
+            fn () => $httpDataFetcher->getXmlDom('https://tray.technobase.fm/radio.xml')
         );
     }
 
