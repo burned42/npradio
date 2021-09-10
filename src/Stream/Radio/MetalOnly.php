@@ -166,7 +166,7 @@ final class MetalOnly extends AbstractRadioStream
                 throw new RuntimeException('could not get DOMNode for parsing the artist and track');
             }
 
-            if (preg_match('/^(.*) - ([^-]*)$/', $node->nodeValue, $matches)) {
+            if (preg_match('/^(.*) - (.*)$/', $node->nodeValue, $matches)) {
                 $streamInfo->artist = trim($matches[1]);
                 $streamInfo->track = trim($matches[2]);
             }
