@@ -95,23 +95,23 @@ class RadioStream {
             footer.querySelector('#show_name').textContent = streamInfo.show.name;
             if (streamInfo.show.genre !== null) {
                 footer.querySelector('#show_genre').textContent = streamInfo.show.genre;
-                footer.querySelector('#show_genre_container').classList.remove('invisible');
+                footer.querySelector('#show_genre_container').classList.remove('d-none');
             } else {
-                footer.querySelector('#show_genre_container').classList.add('invisible');
+                footer.querySelector('#show_genre_container').classList.add('d-none');
             }
 
             footer.querySelector('#show_moderator').textContent = streamInfo.show.moderator;
             if (streamInfo.show.start_time !== null && streamInfo.show.end_time !== null) {
                 footer.querySelector('#show_start_time').textContent = streamInfo.show.start_time;
                 footer.querySelector('#show_end_time').textContent = streamInfo.show.end_time;
-                footer.querySelector('#show_time_container').classList.remove('invisible');
+                footer.querySelector('#show_time_container').classList.remove('d-none');
             } else {
-                footer.querySelector('#show_time_container').classList.remove('invisible');
+                footer.querySelector('#show_time_container').classList.remove('d-none');
             }
 
-            footer.classList.remove('invisible');
+            footer.classList.remove('d-none');
         } else {
-            footer.classList.add('invisible');
+            footer.classList.add('d-none');
         }
     };
 }
