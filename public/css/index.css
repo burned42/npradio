@@ -8,7 +8,7 @@
 }
 
 #settings, #stream_infos {
-    padding-top: 15px;
+    padding-top: var(--bs-gutter-y);
 }
 
 .invisible {
