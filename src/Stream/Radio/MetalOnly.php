@@ -22,7 +22,6 @@ final class MetalOnly extends AbstractRadioStream
 {
     private const RADIO_NAME = 'Metal Only';
     private const URL = 'https://www.metal-only.de';
-    // use page 'Impressum' because there is only text and the page should load quicker
     private const URL_INFO_PATH = '/sendeplan.html';
     private const STREAM_URL = 'https://metal-only.streampanel.cloud/stream';
 
