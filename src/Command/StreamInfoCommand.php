@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Stream\AbstractRadioStream;
 use DateTimeInterface;
 use InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\TableSeparator;
@@ -15,10 +16,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Traversable;
 
+#[AsCommand(name: 'app:stream-info')]
 class StreamInfoCommand extends Command
 {
-    protected static $defaultName = 'app:stream-info';
-
     /** @var array<string, AbstractRadioStream> */
     private array $radios;
 
