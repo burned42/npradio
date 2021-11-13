@@ -133,6 +133,10 @@ final class RauteMusik extends AbstractRadioStream
             throw new RuntimeException('could not fetch track info: '.$t->getMessage());
         }
 
+        if (!array_key_exists('items', $data)) {
+            return $streamInfo;
+        }
+
         $currentTrack = $data['items'][0] ?? null;
         $streamInfo->track = $currentTrack['track']['name'] ?? null;
         $streamInfo->artist = $currentTrack['artist']['name'] ?? null;
@@ -152,9 +156,13 @@ final class RauteMusik extends AbstractRadioStream
             throw new RuntimeException('could not fetch show info: '.$t->getMessage());
         }
 
+        if (!array_key_exists('items', $data)) {
+            return $streamInfo;
+        }
+
         $streamData = array_filter(
             $data['items'],
-            static fn ($stream) => $streamName === $stream['id']
+            static fn ($stream) => $streamName === ($stream['id'] ?? null)
         );
         if (empty($streamData) || 1 !== count($streamData)) {
             return $streamInfo;

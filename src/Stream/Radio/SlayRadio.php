@@ -66,13 +66,9 @@ final class SlayRadio extends AbstractRadioStream
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
-        if (!empty($data) && array_key_exists('data', $data)) {
-            if (array_key_exists('artist', $data['data'])) {
-                $streamInfo->artist = $data['data']['artist'];
-            }
-            if (array_key_exists('title', $data['data'])) {
-                $streamInfo->track = $data['data']['title'];
-            }
+        if (is_array($data) && array_key_exists('data', $data)) {
+            $streamInfo->artist = $data['data']['artist'] ?? null;
+            $streamInfo->track = $data['data']['title'] ?? null;
         }
 
         return $streamInfo;

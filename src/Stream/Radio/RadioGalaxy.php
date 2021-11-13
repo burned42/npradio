@@ -75,30 +75,32 @@ final class RadioGalaxy extends AbstractRadioStream
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
-        if (!empty($data)) {
-            if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
-                $current = array_pop($data['playlist']);
-                if (
-                    is_array($current)
-                    && array_key_exists('interpret', $current)
-                    && array_key_exists('title', $current)
-                ) {
-                    $streamInfo->artist = $current['interpret'];
-                    $streamInfo->track = $current['title'];
-                }
-            }
+        if (!is_array($data)) {
+            return $streamInfo;
+        }
 
+        if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
+            $current = array_pop($data['playlist']);
             if (
-                array_key_exists('show', $data)
-                && is_array($data['show'])
-                && array_key_exists('title', $data['show'])
-                && array_key_exists('desc', $data['show'])
-                && !empty($data['show']['title'])
-                && !empty($data['show']['desc'])
+                is_array($current)
+                && array_key_exists('interpret', $current)
+                && array_key_exists('title', $current)
             ) {
-                $streamInfo->moderator = preg_replace('/^mit /', '', trim($data['show']['desc']));
-                $streamInfo->show = trim($data['show']['title']);
+                $streamInfo->artist = $current['interpret'];
+                $streamInfo->track = $current['title'];
             }
+        }
+
+        if (
+            array_key_exists('show', $data)
+            && is_array($data['show'])
+            && array_key_exists('title', $data['show'])
+            && array_key_exists('desc', $data['show'])
+            && !empty($data['show']['title'])
+            && !empty($data['show']['desc'])
+        ) {
+            $streamInfo->moderator = preg_replace('/^mit /', '', trim($data['show']['desc']));
+            $streamInfo->show = trim($data['show']['title']);
         }
 
         return $streamInfo;

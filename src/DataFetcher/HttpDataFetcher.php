@@ -35,7 +35,8 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
         bool $json = false,
         int $cacheDuration = 30
     ): array|string {
-        return $this->cache->get(
+        /** @var array<mixed>|string $response */
+        $response = $this->cache->get(
             $this->slugger->slug($url)->toString(),
             function (ItemInterface $item) use ($url, $headers, $json, $cacheDuration) {
                 $item->expiresAfter($cacheDuration);
@@ -57,6 +58,8 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
                 }
             }
         );
+
+        return $response;
     }
 
     /**

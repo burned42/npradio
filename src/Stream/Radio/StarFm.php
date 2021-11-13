@@ -80,6 +80,10 @@ final class StarFm extends AbstractRadioStream
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
+        if (!is_array($data)) {
+            return $streamInfo;
+        }
+
         $apiStreamName = self::STREAM_INFO_API_NAMES[$streamName];
         $data = array_filter(
             $data,
