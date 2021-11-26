@@ -13,6 +13,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     // Define what rule sets will be applied
     $containerConfigurator->import(SetList::CODE_QUALITY_STRICT);
     $containerConfigurator->import(SetList::PHP_80);
+    // list up-to-81 + other set lists?
     $containerConfigurator->import(SetList::PSR_4);
     $containerConfigurator->import(SymfonySetList::SYMFONY_52);
     $containerConfigurator->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);

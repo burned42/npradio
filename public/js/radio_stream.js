@@ -106,7 +106,7 @@ class RadioStream {
                 footer.querySelector('#show_end_time').textContent = streamInfo.show.end_time;
                 footer.querySelector('#show_time_container').classList.remove('d-none');
             } else {
-                footer.querySelector('#show_time_container').classList.remove('d-none');
+                footer.querySelector('#show_time_container').classList.add('d-none');
             }
 
             footer.classList.remove('d-none');
