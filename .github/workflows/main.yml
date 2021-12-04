@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  PHP_VERSION: 8.0
+  PHP_VERSION: 8.1
   SYMFONY_DEPRECATIONS_HELPER: max[total]=0
 
 jobs:
