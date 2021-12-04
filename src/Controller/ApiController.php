@@ -17,7 +17,7 @@ use Traversable;
 final class ApiController extends AbstractController
 {
     /** @var array<string, AbstractRadioStream> */
-    private array $radios;
+    private readonly array $radios;
 
     /**
      * @param Traversable<AbstractRadioStream> $radios

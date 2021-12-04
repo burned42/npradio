@@ -18,10 +18,10 @@ final class StreamInfo implements JsonSerializable
     public ?DateTimeInterface $showEndTime = null;
 
     public function __construct(
-        public string $radioName,
-        public string $streamName,
-        public string $homepageUrl,
-        public string $streamUrl
+        public readonly string $radioName,
+        public readonly string $streamName,
+        public readonly string $homepageUrl,
+        public readonly string $streamUrl
     ) {
     }
 

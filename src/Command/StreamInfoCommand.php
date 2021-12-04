@@ -20,7 +20,7 @@ use Traversable;
 class StreamInfoCommand extends Command
 {
     /** @var array<string, AbstractRadioStream> */
-    private array $radios;
+    private readonly array $radios;
 
     /**
      * @param Traversable<AbstractRadioStream> $radios

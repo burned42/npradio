@@ -8,12 +8,12 @@ use App\DataFetcher\HttpDataFetcherInterface;
 
 abstract class AbstractRadioStream
 {
-    public function __construct(
-        private HttpDataFetcherInterface $httpDataFetcher
+    final public function __construct(
+        private readonly HttpDataFetcherInterface $httpDataFetcher
     ) {
     }
 
-    protected function getHttpDataFetcher(): HttpDataFetcherInterface
+    final protected function getHttpDataFetcher(): HttpDataFetcherInterface
     {
         return $this->httpDataFetcher;
     }
