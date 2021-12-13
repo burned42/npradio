@@ -24,13 +24,13 @@
         "symfony/string": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/yaml": "5.4.*",
-        "twbs/bootstrap": "^5.0.0"
+        "twbs/bootstrap": "^5.0"
     },
     "require-dev": {
         "codeception/codeception": "^4.0",
-        "codeception/module-asserts": "^1.0.0",
-        "codeception/module-rest": "^1.0.0",
-        "codeception/module-symfony": "^2.0.0",
+        "codeception/module-asserts": "^2.0",
+        "codeception/module-rest": "^2.0",
+        "codeception/module-symfony": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.0",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^1.0",
