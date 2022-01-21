@@ -25,9 +25,9 @@ final class RauteMusik extends AbstractRadioStream
     private const HAPPYHARDCORE = 'RauteMusik HappyHardcore';
     private const HARDER = 'RauteMusik HardeR';
     private const HOUSE = 'RauteMusik House';
+    private const METAL = 'RauteMusik Metal';
     private const ROCK = 'RauteMusik Rock';
     private const TECHHOUSE = 'RauteMusik TechHouse';
-    private const WACKENRADIO = 'Wacken Radio';
     private const WEIHNACHTEN = 'RauteMusik Weihnachten';
 
     private const AVAILABLE_STREAMS = [
@@ -37,9 +37,9 @@ final class RauteMusik extends AbstractRadioStream
         self::HAPPYHARDCORE,
         self::HARDER,
         self::HOUSE,
+        self::METAL,
         self::ROCK,
         self::TECHHOUSE,
-        self::WACKENRADIO,
         self::WEIHNACHTEN,
     ];
 

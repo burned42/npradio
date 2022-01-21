@@ -205,7 +205,7 @@ const defaultStreams = [
     ['TechnoBase.FM', 'HouseTime.FM'],
     ['STAR FM', 'STAR FM Nürnberg'],
     ['RauteMusik', 'RauteMusik Rock'],
-    ['RauteMusik', 'Wacken Radio'],
+    ['RauteMusik', 'RauteMusik Metal'],
     ['Metal Only', 'Metal Only']
 ];
 let nowPlayingRadioStream = null;
