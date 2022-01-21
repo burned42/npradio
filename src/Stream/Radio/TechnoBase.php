@@ -129,7 +129,7 @@ final class TechnoBase extends AbstractRadioStream
         if (null !== $streamInfoNode) {
             /** @var DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
-                $nodeValue = trim($childNode->nodeValue);
+                $nodeValue = trim($childNode->nodeValue ?? '');
                 if ('0' !== $nodeValue && empty($nodeValue)) {
                     continue;
                 }

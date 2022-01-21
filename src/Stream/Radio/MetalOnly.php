@@ -88,7 +88,7 @@ final class MetalOnly extends AbstractRadioStream
                 throw new RuntimeException('could not get DOMNode for parsing the moderator');
             }
 
-            if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue, $matches)) {
+            if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue ?? '', $matches)) {
                 $moderator = trim($matches[1]);
                 if (!empty($moderator)) {
                     $streamInfo->moderator = $moderator;
@@ -107,7 +107,7 @@ final class MetalOnly extends AbstractRadioStream
                 throw new RuntimeException('could not get DOMNode for parsing the show');
             }
 
-            $show = trim($node->nodeValue);
+            $show = trim($node->nodeValue ?? '');
             if (!empty($show)) {
                 $streamInfo->show = $show;
             }
@@ -124,7 +124,7 @@ final class MetalOnly extends AbstractRadioStream
                 throw new RuntimeException('could not get DOMNode for parsing the genre');
             }
 
-            $genre = trim($node->nodeValue);
+            $genre = trim($node->nodeValue ?? '');
             if (!empty($genre)) {
                 $streamInfo->genre = $genre;
             }
@@ -165,7 +165,7 @@ final class MetalOnly extends AbstractRadioStream
                 throw new RuntimeException('could not get DOMNode for parsing the artist and track');
             }
 
-            if (preg_match('/^(.*) - (.*)$/', $node->nodeValue, $matches)) {
+            if (preg_match('/^(.*) - (.*)$/', $node->nodeValue ?? '', $matches)) {
                 $streamInfo->artist = trim($matches[1]);
                 $streamInfo->track = trim($matches[2]);
             }
@@ -210,7 +210,7 @@ final class MetalOnly extends AbstractRadioStream
                 $item instanceof DOMElement
                 && $item->hasAttribute('class')
                 && 'nowonair' === trim($item->getAttribute('class'))
-                && !in_array(trim($moderator), ['', 'MetalHead'], true)
+                && !in_array(trim($moderator ?? ''), ['', 'MetalHead'], true)
             ) {
                 $found = true;
             }
