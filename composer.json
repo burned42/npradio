@@ -12,7 +12,7 @@
         "ext-libxml": "*",
         "ext-zend-opcache": "*",
         "sensio/framework-extra-bundle": "^6.0",
-        "sentry/sentry-symfony": "^4.2",
+        "sentry/sentry-symfony": "4.2.5",
         "symfony/apache-pack": "^1.0",
         "symfony/cache": "5.4.*",
         "symfony/console": "5.4.*",
