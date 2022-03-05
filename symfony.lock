@@ -98,9 +98,6 @@
     "felixfbecker/language-server-protocol": {
         "version": "1.5.1"
     },
-    "flow/jsonpath": {
-        "version": "0.5.0"
-    },
     "friendsofphp/php-cs-fixer": {
         "version": "3.0",
         "recipe": {
@@ -145,9 +142,6 @@
     },
     "phar-io/version": {
         "version": "3.0.4"
-    },
-    "php": {
-        "version": "7.4"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.1"
@@ -482,9 +476,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.22.0"
     },
-    "symfony/polyfill-php80": {
-        "version": "v1.20.0"
-    },
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
     },
@@ -498,12 +489,12 @@
         "version": "v2.0.2"
     },
     "symfony/routing": {
-        "version": "5.3",
+        "version": "5.4",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.3",
-            "ref": "44633353926a0382d7dfb0530922c5c0b30fae11"
+            "ref": "85de1d8ae45b284c3c84b668171d2615049e698f"
         },
         "files": [
             "config/packages/routing.yaml",
@@ -537,7 +528,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "5.4",
-            "ref": "bffbb8f1a849736e64006735afae730cb428b6ff"
+            "ref": "bb2178c57eee79e6be0b297aa96fc0c0def81387"
         },
         "files": [
             "config/packages/twig.yaml",
