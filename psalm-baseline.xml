@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="v4.15.0@a1b5e489e6fcebe40cb804793d964e99fc347820">
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
   <file src="src/Stream/Radio/MetalOnly.php">
-    <RedundantCondition occurrences="5">
-      <code>$moderator</code>
-      <code>$node-&gt;nodeValue</code>
-      <code>$node-&gt;nodeValue</code>
-      <code>$node-&gt;nodeValue</code>
-      <code>$node-&gt;nodeValue</code>
-    </RedundantCondition>
-    <TypeDoesNotContainNull occurrences="1">
-      <code>''</code>
-    </TypeDoesNotContainNull>
-    <TypeDoesNotContainType occurrences="4">
-      <code>''</code>
-      <code>''</code>
-      <code>''</code>
-      <code>''</code>
-    </TypeDoesNotContainType>
-  </file>
-  <file src="src/Stream/Radio/TechnoBase.php">
-    <RedundantCondition occurrences="1">
-      <code>$childNode-&gt;nodeValue</code>
-    </RedundantCondition>
-    <TypeDoesNotContainType occurrences="1">
-      <code>''</code>
-    </TypeDoesNotContainType>
+    <RedundantCast occurrences="3">
+      <code>(string) $matches[1]</code>
+      <code>(string) $matches[1]</code>
+      <code>(string) $matches[2]</code>
+    </RedundantCast>
   </file>
 </files>
