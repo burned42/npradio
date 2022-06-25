@@ -99,8 +99,12 @@ final class RadioGalaxy extends AbstractRadioStream
             && !empty($data['show']['title'])
             && !empty($data['show']['desc'])
         ) {
-            $streamInfo->moderator = preg_replace('/^mit /', '', trim($data['show']['desc']));
-            $streamInfo->show = trim($data['show']['title']);
+            $streamInfo->moderator = preg_replace(
+                '/^mit /',
+                '',
+                trim((string) $data['show']['desc'])
+            );
+            $streamInfo->show = trim((string) $data['show']['title']);
         }
 
         return $streamInfo;

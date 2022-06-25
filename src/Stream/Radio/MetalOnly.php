@@ -89,7 +89,7 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue ?? '', $matches)) {
-                $moderator = trim($matches[1]);
+                $moderator = trim((string) $matches[1]);
                 if (!empty($moderator)) {
                     $streamInfo->moderator = $moderator;
                 }
@@ -166,8 +166,8 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             if (preg_match('/^(.*) - (.*)$/', $node->nodeValue ?? '', $matches)) {
-                $streamInfo->artist = trim($matches[1]);
-                $streamInfo->track = trim($matches[2]);
+                $streamInfo->artist = trim((string) $matches[1]);
+                $streamInfo->track = trim((string) $matches[2]);
             }
         }
 
