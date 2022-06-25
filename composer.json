@@ -37,7 +37,7 @@
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-symfony": "^1.0",
         "psalm/plugin-symfony": "^3.0",
-        "rector/rector": "^0.12",
+        "rector/rector": "^0.13",
         "squizlabs/php_codesniffer": "^3.3",
         "symfony/phpunit-bridge": "5.4.*",
         "vimeo/psalm": "^4.7"
@@ -105,7 +105,7 @@
         "codeception": "vendor/bin/codecept run --ansi",
         "codeception-coverage-xml": "@codeception --coverage --coverage-xml",
         "codeception-coverage-html": "@codeception --coverage --coverage-html",
-        "update-check": "composer outdated --direct --strict --ansi",
+        "update-check": "composer outdated --direct --strict",
         "run-checks": [
             "@lint-yaml",
             "@lint-container",
