@@ -26,7 +26,7 @@ final class ApiController extends AbstractController
      * @param Traversable<AbstractRadioStream> $radios
      */
     public function __construct(
-        #[TaggedIterator('app.stream', defaultIndexMethod: 'getRadioName')]
+        #[TaggedIterator(AbstractRadioStream::class, defaultIndexMethod: 'getRadioName')]
         Traversable $radios
     ) {
         $this->radios = iterator_to_array($radios);

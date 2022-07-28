@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Stream;
 
 use App\DataFetcher\HttpDataFetcherInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autoconfigure;
 
+#[Autoconfigure([AbstractRadioStream::class])]
 abstract class AbstractRadioStream
 {
     final public function __construct(
