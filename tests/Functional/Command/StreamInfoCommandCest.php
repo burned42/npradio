@@ -4,20 +4,16 @@ declare(strict_types=1);
 
 namespace Tests\Functional\Command;
 
+use Codeception\Attribute\Examples;
 use Codeception\Example;
-use Exception;
 use InvalidArgumentException;
 use Tests\Support\FunctionalTester;
 
 class StreamInfoCommandCest
 {
-    /**
-     * @example [null, null, ["Metal Only", "RauteMusik Club", "TeaTime.FM"], []]
-     * @example ["TechnoBase.FM", null, ["HouseTime.FM", "HardBase.FM"], ["Metal Only", "RauteMusik"]]
-     * @example ["TechnoBase.FM", "HouseTime.FM", ["HouseTime.FM"], ["HardBase.FM", "RauteMusik"]]
-     *
-     * @throws Exception
-     */
+    #[Examples(null, null, ['Metal Only', 'RauteMusik Club', 'TeaTime.FM'], [])]
+    #[Examples('TechnoBase.FM', null, ['HouseTime.FM', 'HardBase.FM'], ['Metal Only', 'RauteMusik'])]
+    #[Examples('TechnoBase.FM', 'HouseTime.FM', ['HouseTime.FM'], ['HardBase.FM', 'RauteMusik'])]
     public function testCommand(FunctionalTester $I, Example $example): void
     {
         $parameters = [];
@@ -38,10 +34,8 @@ class StreamInfoCommandCest
         }
     }
 
-    /**
-     * @example [{"radio-name": "foobar"}, "Invalid radio name given"]
-     * @example [{"radio-name": "STAR FM", "stream-name": "foobar"}, "Invalid stream name given"]
-     */
+    #[Examples(['radio-name' => 'foobar'], 'Invalid radio name given')]
+    #[Examples(['radio-name' => 'STAR FM', 'stream-name' => 'foobar'], 'Invalid stream name given')]
     public function testExceptionOnInvalidArguments(FunctionalTester $I, Example $example): void
     {
         $I->expectThrowable(

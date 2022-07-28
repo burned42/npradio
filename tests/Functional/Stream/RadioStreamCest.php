@@ -11,8 +11,8 @@ use App\Stream\Radio\RauteMusik;
 use App\Stream\Radio\SlayRadio;
 use App\Stream\Radio\StarFm;
 use App\Stream\Radio\TechnoBase;
+use Codeception\Attribute\DataProvider;
 use Codeception\Example;
-use Exception;
 use Generator;
 use ReflectionClass;
 use ReflectionException;
@@ -29,11 +29,7 @@ final class RadioStreamCest
         TechnoBase::class,
     ];
 
-    /**
-     * @dataProvider getExamples
-     *
-     * @throws Exception
-     */
+    #[DataProvider('getExamples')]
     public function testGetStreamInfoWithLiveData(FunctionalTester $I, Example $example): void
     {
         [$radioClass, $stream] = $example;
