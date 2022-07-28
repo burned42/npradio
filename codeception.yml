@@ -1,9 +1,10 @@
-namespace: App\Tests
+namespace: Tests
+support_namespace: Support
 paths:
     tests: tests
     output: tests/_output
-    data: tests/_data
-    support: tests/_support
+    data: tests/Support/Data
+    support: tests/Support
     envs: tests/_envs
 actor_suffix: Tester
 extensions:
@@ -15,3 +16,5 @@ coverage:
     enabled: true
     include:
         - src/**.php
+settings:
+    convert_deprecations_to_exceptions: true
