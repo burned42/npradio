@@ -16,7 +16,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::PSR_4);
     $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
     $rectorConfig->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
-    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_54);
+    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_60);
 
     // get services (needed for register a single rule)
     // $services = $rectorConfig->services();
