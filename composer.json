@@ -121,7 +121,8 @@
         "sync-flex-recipes": "composer symfony:sync-recipes --force"
     },
     "conflict": {
-        "symfony/symfony": "*"
+        "symfony/symfony": "*",
+        "rector/rector": "0.13.9"
     },
     "extra": {
         "symfony": {
