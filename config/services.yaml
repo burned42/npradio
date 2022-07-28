@@ -27,9 +27,3 @@ services:
     App\Stream\Radio\:
         resource: '../src/Stream/Radio'
         tags: ['app.stream']
-
-    App\Controller\ApiController:
-        arguments: [!tagged_iterator { tag: 'app.stream', default_index_method: 'getRadioName', index_by: '' }]
-
-    App\Command\StreamInfoCommand:
-        arguments: [!tagged_iterator { tag: 'app.stream', default_index_method: 'getRadioName', index_by: '' }]
