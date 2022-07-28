@@ -9,7 +9,9 @@ use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+
 use function Sentry\captureException;
+
 use Throwable;
 
 final class RadioGalaxy extends AbstractRadioStream

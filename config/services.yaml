@@ -22,14 +22,3 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-
-    # Tag all radio stream classes
-    App\Stream\Radio\:
-        resource: '../src/Stream/Radio'
-        tags: ['app.stream']
-
-    App\Controller\ApiController:
-        arguments: [!tagged_iterator { tag: 'app.stream', default_index_method: 'getRadioName', index_by: '' }]
-
-    App\Command\StreamInfoCommand:
-        arguments: [!tagged_iterator { tag: 'app.stream', default_index_method: 'getRadioName', index_by: '' }]

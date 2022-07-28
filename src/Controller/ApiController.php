@@ -7,8 +7,11 @@ namespace App\Controller;
 use App\Stream\AbstractRadioStream;
 use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+
 use function Sentry\captureException;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Traversable;
@@ -22,8 +25,10 @@ final class ApiController extends AbstractController
     /**
      * @param Traversable<AbstractRadioStream> $radios
      */
-    public function __construct(Traversable $radios)
-    {
+    public function __construct(
+        #[TaggedIterator(AbstractRadioStream::class, defaultIndexMethod: 'getRadioName')]
+        Traversable $radios
+    ) {
         $this->radios = iterator_to_array($radios);
     }
 

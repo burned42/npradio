@@ -17,6 +17,9 @@ framework:
     php_errors:
         log: true
 
+    # activate HTTP cache kernel
+    http_cache: true
+
 when@test:
     framework:
         test: true

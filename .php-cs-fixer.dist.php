@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
-    ->exclude(['tests/_support/_generated', 'var/'])
+    ->exclude(['tests/Support/_generated', 'var/'])
 ;
 
 return (new PhpCsFixer\Config())

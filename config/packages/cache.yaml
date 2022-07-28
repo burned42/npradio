@@ -18,3 +18,8 @@ framework:
         pools:
             #my.dedicated.cache: null
             http_client.cache: null
+
+when@test:
+    framework:
+        cache:
+            app: cache.adapter.array

@@ -12,7 +12,9 @@ use DOMNode;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+
 use function Sentry\captureException;
+
 use Throwable;
 
 final class TechnoBase extends AbstractRadioStream

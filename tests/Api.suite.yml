@@ -1,0 +1,10 @@
+actor: ApiTester
+modules:
+    enabled:
+        - REST:
+            url: /api/
+            depends: Symfony
+        - Symfony:
+            app_path: 'src'
+            environment: 'test'
+step_decorators: ~
