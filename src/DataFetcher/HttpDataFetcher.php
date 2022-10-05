@@ -26,8 +26,6 @@ final class HttpDataFetcher implements HttpDataFetcherInterface
      * @param array<string, mixed> $headers
      *
      * @return array<mixed>|string
-     *
-     * @noRector \Rector\Php80\Rector\FunctionLike\UnionTypesRector
      */
     private function request(
         string $url,

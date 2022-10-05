@@ -72,6 +72,7 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php81": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php74": "*",
         "symfony/polyfill-php73": "*",
@@ -121,8 +122,7 @@
         "sync-flex-recipes": "composer symfony:sync-recipes --force"
     },
     "conflict": {
-        "symfony/symfony": "*",
-        "rector/rector": "0.13.9"
+        "symfony/symfony": "*"
     },
     "extra": {
         "symfony": {
