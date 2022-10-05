@@ -31,6 +31,9 @@ a {
 .btn-npradio {
     background-color: var(--primary-75);
 }
+.btn-npradio:hover {
+    background-color: var(--primary-50);
+}
 
 .card-header {
     background-color: rgba(0, 0, 0, 0.2);
