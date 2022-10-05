@@ -1,8 +1,9 @@
 FROM php:8.1-apache
 
 ENV APP_ENV prod
-ENV APP_DEBUG 0
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APP_DEBUG false
+ENV APP_SECRET ''
+ENV SENTRY_DSN ''
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
@@ -22,9 +23,9 @@ RUN echo 'date.timezone = "Europe/Berlin"' > /usr/local/etc/php/conf.d/timezone.
     && echo 'opcache.preload_user = www-data' > /usr/local/etc/php/conf.d/preloading.ini \
     && echo 'opcache.preload = /var/www/html/config/preload.php' >> /usr/local/etc/php/conf.d/preloading.ini
 
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
-    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
-    && echo 'PassEnv APP_ENV APP_SECRET' > /etc/apache2/conf-enabled/pass-env.conf \
+RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
+    && echo 'PassEnv APP_ENV APP_DEBUG APP_SECRET SENTRY_DSN' > /etc/apache2/conf-enabled/pass-env.conf \
     && a2enmod rewrite
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
