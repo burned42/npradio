@@ -16,7 +16,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v1
+      - uses: ramsey/composer-install@v2
       - run: composer update-check
 
   symfony-security-check:
