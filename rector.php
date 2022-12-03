@@ -17,7 +17,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(LevelSetList::UP_TO_PHP_81);
     $rectorConfig->import(SetList::ACTION_INJECTION_TO_CONSTRUCTOR_INJECTION);
     $rectorConfig->import(SetList::PSR_4);
-    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_60);
+    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_62);
     $rectorConfig->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $rectorConfig->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
     $rectorConfig->import(SymfonySetList::SYMFONY_STRICT);
