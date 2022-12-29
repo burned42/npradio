@@ -12,12 +12,12 @@
         "version": "v1.5.0"
     },
     "codeception/codeception": {
-        "version": "2.3",
+        "version": "5.0",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
+            "branch": "main",
             "version": "2.3",
-            "ref": "30798e46831f4fc641fca83c0423918518901cd7"
+            "ref": "89689e24507d8cb2c4a7937ece549db3836b608c"
         },
         "files": [
             "codeception.yml",
