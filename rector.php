@@ -20,7 +20,6 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_62);
     $rectorConfig->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $rectorConfig->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
-    $rectorConfig->import(SymfonySetList::SYMFONY_STRICT);
     $rectorConfig->import(TwigLevelSetList::UP_TO_TWIG_240);
 
     // get services (needed for register a single rule)
