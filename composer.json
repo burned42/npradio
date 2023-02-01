@@ -98,7 +98,7 @@
         "lint-yaml": "bin/console lint:yaml --parse-tags *.yml .github/ config/ tests/",
         "lint-container": "bin/console lint:container",
         "lint-twig": "bin/console lint:twig --show-deprecations templates/",
-        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
         "phpcs": "vendor/bin/phpcs",
         "psalm": "vendor/bin/psalm",
