@@ -9,10 +9,9 @@ use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 use function Sentry\captureException;
-
-use Throwable;
 
 final class StarFm extends AbstractRadioStream
 {

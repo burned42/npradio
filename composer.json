@@ -4,7 +4,7 @@
     "type": "project",
     "license": "",
     "require": {
-        "php": "^8.1",
+        "php": "~8.2.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-iconv": "*",
@@ -35,11 +35,11 @@
         "phpstan/phpstan": "^1.0",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-symfony": "^1.0",
-        "psalm/plugin-symfony": "^4.0",
-        "rector/rector": "^0.14",
+        "psalm/plugin-symfony": "^5.0",
+        "rector/rector": "^0.15",
         "squizlabs/php_codesniffer": "^3.3",
         "symfony/phpunit-bridge": "6.2.*",
-        "vimeo/psalm": "^4.7"
+        "vimeo/psalm": "^5.4"
     },
     "config": {
         "preferred-install": {
@@ -47,7 +47,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "8.1"
+            "php": "8.2"
         },
         "optimize-autoloader": true,
         "allow-plugins": {
@@ -71,6 +71,7 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php82": "*",
         "symfony/polyfill-php81": "*",
         "symfony/polyfill-php80": "*",
         "symfony/polyfill-php74": "*",
@@ -97,7 +98,7 @@
         "lint-yaml": "bin/console lint:yaml --parse-tags *.yml .github/ config/ tests/",
         "lint-container": "bin/console lint:container",
         "lint-twig": "bin/console lint:twig --show-deprecations templates/",
-        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
+        "php-cs-fixer": "PHP_CS_FIXER_IGNORE_ENV=true vendor/bin/php-cs-fixer fix --dry-run --using-cache=no --ansi --allow-risky=yes --diff",
         "phpstan": "vendor/bin/phpstan analyse --ansi",
         "phpcs": "vendor/bin/phpcs",
         "psalm": "vendor/bin/psalm",

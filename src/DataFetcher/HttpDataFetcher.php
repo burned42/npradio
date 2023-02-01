@@ -13,12 +13,12 @@ use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 
-final class HttpDataFetcher implements HttpDataFetcherInterface
+final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 {
     public function __construct(
-        private readonly HttpClientInterface $httpClient,
-        private readonly CacheInterface $cache,
-        private readonly SluggerInterface $slugger
+        private HttpClientInterface $httpClient,
+        private CacheInterface $cache,
+        private SluggerInterface $slugger
     ) {
     }
 
