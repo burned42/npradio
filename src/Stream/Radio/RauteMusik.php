@@ -10,10 +10,9 @@ use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Throwable;
 
 use function Sentry\captureException;
-
-use Throwable;
 
 final class RauteMusik extends AbstractRadioStream
 {

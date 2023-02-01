@@ -6,15 +6,14 @@ namespace App\Controller;
 
 use App\Stream\AbstractRadioStream;
 use InvalidArgumentException;
-
-use function Sentry\captureException;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Annotation\Route;
 use Traversable;
+
+use function Sentry\captureException;
 
 #[Route('/api', methods: ['GET'], format: 'json')]
 final class ApiController extends AbstractController
