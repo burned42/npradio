@@ -32,7 +32,7 @@ final class RadioGalaxy extends AbstractRadioStream
     ];
 
     private const INFO_URLS_BY_STREAM = [
-        self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de/wp-content/themes/radio-galaxy/tmp/1.json',
+        self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de/cache/playlists/all-channels.json',
     ];
 
     public function getAvailableStreams(): array
@@ -76,12 +76,14 @@ final class RadioGalaxy extends AbstractRadioStream
             throw new RuntimeException('could not get url content: '.$e->getMessage());
         }
 
-        if (!is_array($data)) {
+        if (!is_array($data) || !is_array($data[37])) {
             return $streamInfo;
         }
 
+        $data = $data[37];
+
         if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
-            $current = array_pop($data['playlist']);
+            $current = array_shift($data['playlist']);
             if (
                 is_array($current)
                 && array_key_exists('interpret', $current)
@@ -92,20 +94,16 @@ final class RadioGalaxy extends AbstractRadioStream
             }
         }
 
-        if (
-            array_key_exists('show', $data)
-            && is_array($data['show'])
-            && array_key_exists('title', $data['show'])
-            && array_key_exists('desc', $data['show'])
-            && !empty($data['show']['title'])
-            && !empty($data['show']['desc'])
-        ) {
+        if (!empty($data['show']['title'] ?? null)) {
+            $streamInfo->show = trim((string) $data['show']['title']);
+        }
+
+        if (!empty($data['show']['host'] ?? null)) {
             $streamInfo->moderator = preg_replace(
                 '/^mit /',
                 '',
-                trim((string) $data['show']['desc'])
+                trim((string) $data['show']['host'])
             );
-            $streamInfo->show = trim((string) $data['show']['title']);
         }
 
         return $streamInfo;
