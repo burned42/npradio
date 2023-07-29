@@ -30,4 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     // register a single rule
     // $services->set(TypedPropertyRector::class);
+
+    // rule conflicts with php-cs-fixer and psalm
+    $rectorConfig->skip([Rector\Php71\Rector\FuncCall\CountOnNullRector::class]);
 };

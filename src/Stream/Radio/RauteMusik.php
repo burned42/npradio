@@ -161,7 +161,6 @@ final class RauteMusik extends AbstractRadioStream
             return $streamInfo;
         }
 
-        /** @var array $streamData */
         $streamData = array_filter(
             $data['items'],
             static fn ($stream): bool => $streamName === ($stream['id'] ?? null)
