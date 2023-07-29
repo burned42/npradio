@@ -55,12 +55,12 @@ final class RauteMusik extends AbstractRadioStream
         );
     }
 
-    protected function getHomepageUrl(string $streamName): string
+    private function getHomepageUrl(string $streamName): string
     {
         return self::BASE_URL.$this->getStreamNameForUrl($streamName);
     }
 
-    protected function getStreamUrl(string $streamName): string
+    private function getStreamUrl(string $streamName): string
     {
         return 'https://'.$this->getStreamNameForUrl($streamName).'-high.rautemusik.fm';
     }
@@ -161,11 +161,12 @@ final class RauteMusik extends AbstractRadioStream
             return $streamInfo;
         }
 
+        /** @var array $streamData */
         $streamData = array_filter(
             $data['items'],
-            static fn ($stream) => $streamName === ($stream['id'] ?? null)
+            static fn ($stream): bool => $streamName === ($stream['id'] ?? null)
         );
-        if (empty($streamData) || 1 !== count($streamData)) {
+        if (1 !== count($streamData)) {
             return $streamInfo;
         }
 
@@ -182,12 +183,12 @@ final class RauteMusik extends AbstractRadioStream
 
         $moderator = $currentShow['moderator']['username'];
         $coModerators = $currentShow['co_moderators'] ?? null;
-        if (is_array($coModerators) && !empty($coModerators)) {
+        if (is_array($coModerators)) {
             $coModeratorNames = array_filter(array_map(
                 static fn ($data) => $data['username'] ?? null,
                 $coModerators
             ));
-            if (!empty($coModeratorNames)) {
+            if (count($coModeratorNames) > 0) {
                 $moderator .= ', '.implode(', ', $coModeratorNames);
             }
         }

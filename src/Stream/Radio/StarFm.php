@@ -88,16 +88,16 @@ final class StarFm extends AbstractRadioStream
         $apiStreamName = self::STREAM_INFO_API_NAMES[$streamName];
         $data = array_filter(
             $data,
-            static fn ($streamData) => $apiStreamName === ($streamData['name'] ?? null),
+            static fn ($streamData): bool => $apiStreamName === ($streamData['name'] ?? null),
         );
 
         $trackInfo = $data[array_key_first($data)] ?? null;
         $track = $trackInfo['playHistories'][0]['track']['title'] ?? null;
-        if (is_string($track) && !empty($track)) {
+        if (is_string($track) && '' !== $track) {
             $streamInfo->track = $track;
         }
         $artist = $trackInfo['playHistories'][0]['track']['artist'] ?? null;
-        if (is_string($artist) && !empty($artist)) {
+        if (is_string($artist) && '' !== $artist) {
             $streamInfo->artist = $artist;
         }
 

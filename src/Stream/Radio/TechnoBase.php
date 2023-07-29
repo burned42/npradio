@@ -49,12 +49,12 @@ final class TechnoBase extends AbstractRadioStream
         return substr($streamName, 0, -3);
     }
 
-    protected function getHomepageUrl(string $streamName): string
+    private function getHomepageUrl(string $streamName): string
     {
         return 'https://www.'.strtolower($streamName);
     }
 
-    protected function getStreamUrl(string $streamName): string
+    private function getStreamUrl(string $streamName): string
     {
         $fileName = self::AVAILABLE_STREAMS[$streamName];
 
@@ -127,11 +127,11 @@ final class TechnoBase extends AbstractRadioStream
             }
         }
 
-        if (null !== $streamInfoNode) {
+        if ($streamInfoNode instanceof DOMNode) {
             /** @var DOMNode $childNode */
             foreach ($streamInfoNode->childNodes as $childNode) {
                 $nodeValue = trim($childNode->nodeValue ?? '');
-                if ('0' !== $nodeValue && empty($nodeValue)) {
+                if ('' === $nodeValue) {
                     continue;
                 }
 

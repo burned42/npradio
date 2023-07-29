@@ -31,12 +31,12 @@ final class StreamInfo implements JsonSerializable
     public function jsonSerialize(): array
     {
         $showStartTime = $this->showStartTime;
-        if (null !== $showStartTime) {
+        if ($showStartTime instanceof DateTimeInterface) {
             $showStartTime = $showStartTime->format('H:i');
         }
 
         $showEndTime = $this->showEndTime;
-        if (null !== $showEndTime) {
+        if ($showEndTime instanceof DateTimeInterface) {
             $showEndTime = $showEndTime->format('H:i');
         }
 

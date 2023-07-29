@@ -91,7 +91,7 @@ final class MetalOnly extends AbstractRadioStream
 
             if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue ?? '', $matches)) {
                 $moderator = trim((string) $matches[1]);
-                if (!empty($moderator)) {
+                if ('' !== $moderator) {
                     $streamInfo->moderator = $moderator;
                 }
             }
@@ -109,7 +109,7 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             $show = trim($node->nodeValue ?? '');
-            if (!empty($show)) {
+            if ('' !== $show) {
                 $streamInfo->show = $show;
             }
         }
@@ -126,7 +126,7 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             $genre = trim($node->nodeValue ?? '');
-            if (!empty($genre)) {
+            if ('' !== $genre) {
                 $streamInfo->genre = $genre;
             }
         }

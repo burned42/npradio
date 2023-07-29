@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
 use Traversable;
 
 #[AsCommand(name: 'app:stream-info')]
-class StreamInfoCommand extends Command
+final class StreamInfoCommand extends Command
 {
     /** @var array<string, AbstractRadioStream> */
     private readonly array $radios;
@@ -111,7 +111,7 @@ class StreamInfoCommand extends Command
         $radioName = $input->getArgument('radio-name');
         if (!is_string($radioName)) {
             return array_map(
-                static fn (AbstractRadioStream $radio) => $radio->getAvailableStreams(),
+                static fn (AbstractRadioStream $radio): array => $radio->getAvailableStreams(),
                 $this->radios
             );
         }
