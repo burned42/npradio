@@ -24,7 +24,7 @@ final class RadioGalaxy extends AbstractRadioStream
     ];
 
     private const HOMEPAGE_URLS = [
-        self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de',
+        self::MITTELFRANKEN => 'https://mittelfranken.radiogalaxy.de/',
     ];
 
     private const STREAM_URLS = [
@@ -32,7 +32,7 @@ final class RadioGalaxy extends AbstractRadioStream
     ];
 
     private const INFO_URLS_BY_STREAM = [
-        self::MITTELFRANKEN => 'https://www.galaxy-mittelfranken.de/cache/playlists/all-channels.json',
+        self::MITTELFRANKEN => 'https://mittelfranken.radiogalaxy.de/cache/playlists/all-channels.json',
     ];
 
     public function getAvailableStreams(): array
