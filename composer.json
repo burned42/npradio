@@ -91,7 +91,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
-        "copy-bootstrap": "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css* public/css/",
+        "copy-bootstrap": "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css* assets/vendor/",
         "post-install-cmd": [
             "@auto-scripts",
             "@copy-bootstrap"
