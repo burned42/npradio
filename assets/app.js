@@ -172,7 +172,7 @@ function showStreamInfo()
         ) {
             playing = true;
         }
-        radioStreams.push(new RadioStream(stream[0], stream[1], playing));
+        radioStreams.push(new RadioStream(stream[0], stream[1], playing, playStream));
     });
 
     setUpdateInterval();

@@ -1,8 +1,9 @@
 export default class RadioStream {
     template = document.getElementById('card_template');
 
-    constructor(radioName, streamName, initializePlaying)
+    constructor(radioName, streamName, initializePlaying, playStreamFn)
     {
+        this.playStreamFn = playStreamFn;
         this.streamInfoUrl = '/api/radios/' + radioName + '/streams/' + streamName;
         this.requestRunning = false;
 
@@ -71,7 +72,7 @@ export default class RadioStream {
             streamLink.classList.remove('placeholder', 'col-3');
 
             const streamButton = this.streamCard.querySelector('#stream_button');
-            streamButton.onclick = () => playStream(
+            streamButton.onclick = () => this.playStreamFn(
                 streamButton,
                 streamInfo.stream_url,
                 streamInfo.radio_name,
