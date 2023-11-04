@@ -1,4 +1,4 @@
-class RadioStream {
+export default class RadioStream {
     template = document.getElementById('card_template');
 
     constructor(radioName, streamName, initializePlaying)

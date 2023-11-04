@@ -1,3 +1,13 @@
+/*
+ * Welcome to your app's main JavaScript file!
+ *
+ * This file will be included onto the page via the importmap() Twig function,
+ * which should already be in your base.html.twig.
+ */
+
+import RadioStream from "./radio_stream.js";
+import {Sortable} from "./vendor/sortablejs.js";
+
 function initializePlayButtonsToPaused()
 {
     const playButtons = document.getElementsByName('play_stream');
@@ -117,6 +127,10 @@ function showSettings()
     const settings = document.getElementById('settings');
     settings.appendChild(settingsElement);
 
+    document.getElementById('button-settings-save').onclick = saveSettings;
+    document.getElementById('button-settings-back').onclick = showStreamInfo;
+    document.getElementById('button-settings-reset').onclick = resetLocalStreamSelection;
+
     new Sortable(streamSettingList, {
         delay: 100,
         delayOnTouchOnly: true,
@@ -228,3 +242,6 @@ window.addEventListener('load', () => {
     window.addEventListener('online', setUpdateInterval);
     window.addEventListener('offline', () => clearInterval(updateInterval));
 });
+
+document.getElementById('npradio-logo').onclick = showStreamInfo;
+document.getElementById('button-settings').onclick = showSettings;
