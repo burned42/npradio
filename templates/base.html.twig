@@ -11,11 +11,13 @@
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
         <meta name="theme-color" content="#1a1a1a">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/index.css">
-        <script src="/js/Sortable.min.js" defer></script>
-        <script src="/js/radio_stream.js" defer></script>
-        <script src="/js/index.js" defer></script>
+        <link rel="stylesheet" href="{{ asset('vendor/bootstrap.min.css') }}">
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        {% endblock %}
+        {% block javascripts %}
+            {{ importmap() }}
+        {% endblock %}
     </head>
     <body class="text-light">
         {% block content "" %}

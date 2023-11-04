@@ -33,6 +33,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY . /var/www/html/
 
 RUN composer install --no-dev -d /var/www/html/ \
+    && php /var/www/html/bin/console asset-map:compile \
     && php /var/www/html/bin/console cache:clear \
     && chown -R www-data:www-data /var/www/html/
 

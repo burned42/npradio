@@ -1,5 +1,5 @@
-/public/css/bootstrap.min.css
-/public/css/bootstrap.min.css.map
+/assets/vendor/bootstrap.min.css
+/assets/vendor/bootstrap.min.css.map
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -34,3 +34,7 @@
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> symfony/asset-mapper ###
+/public/assets/
+###< symfony/asset-mapper ###
