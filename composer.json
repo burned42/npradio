@@ -13,6 +13,8 @@
         "ext-zend-opcache": "*",
         "sentry/sentry-symfony": "^4.2.8",
         "symfony/apache-pack": "^1.0",
+        "symfony/asset": "6.3.*",
+        "symfony/asset-mapper": "6.3.*",
         "symfony/cache": "6.3.*",
         "symfony/console": "6.3.*",
         "symfony/dotenv": "6.3.*",
@@ -23,7 +25,9 @@
         "symfony/string": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
         "symfony/yaml": "6.3.*",
-        "twbs/bootstrap": "^5.0"
+        "twbs/bootstrap": "^5.0",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
         "codeception/codeception": "^5.0",
