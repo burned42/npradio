@@ -44,6 +44,8 @@ final class RauteMusik extends AbstractRadioStream
         self::WEIHNACHTEN,
     ];
 
+    private const CACHE_DURATION = 90;
+
     private function getStreamNameForUrl(string $streamName): string
     {
         return strtolower(
@@ -118,7 +120,7 @@ final class RauteMusik extends AbstractRadioStream
                 'x-timestamp' => $timestamp,
                 'x-hash' => $hashPart,
             ],
-            60
+            self::CACHE_DURATION
         );
     }
 

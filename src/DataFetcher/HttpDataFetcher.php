@@ -15,6 +15,8 @@ use Throwable;
 
 final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 {
+    private const DEFAULT_CACHE_DURATION = 30;
+
     public function __construct(
         private HttpClientInterface $httpClient,
         private CacheInterface $cache,
@@ -31,7 +33,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         string $url,
         array $headers = [],
         bool $json = false,
-        int $cacheDuration = 30
+        int $cacheDuration = self::DEFAULT_CACHE_DURATION,
     ): array|string {
         /** @var array<mixed>|string $response */
         $response = $this->cache->get(
@@ -66,7 +68,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     public function getJsonData(
         string $url,
         array $headers = [],
-        int $cacheDuration = 30
+        int $cacheDuration = self::DEFAULT_CACHE_DURATION,
     ): array {
         try {
             /** @var array<mixed> $response */
