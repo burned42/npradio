@@ -89,7 +89,9 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "importmap:install": "symfony-cmd",
+            "asset-map:compile": "symfony-cmd"
         },
         "copy-bootstrap": "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css* assets/vendor/",
         "post-install-cmd": [
@@ -111,7 +113,10 @@
         "codeception": "vendor/bin/codecept run --ansi",
         "codeception-coverage-xml": "@codeception --coverage --coverage-xml",
         "codeception-coverage-html": "@codeception --coverage --coverage-html",
-        "update-check": "composer outdated --direct --strict",
+        "update-check": [
+            "composer audit --locked --no-dev",
+            "bin/console importmap:audit"
+        ],
         "run-checks": [
             "@lint-yaml",
             "@lint-container",
