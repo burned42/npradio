@@ -4,7 +4,7 @@
     "type": "project",
     "license": "",
     "require": {
-        "php": "~8.2.0",
+        "php": "~8.3.0",
         "ext-ctype": "*",
         "ext-dom": "*",
         "ext-iconv": "*",
@@ -51,7 +51,7 @@
         },
         "sort-packages": true,
         "platform": {
-            "php": "8.2"
+            "php": "8.3"
         },
         "optimize-autoloader": true,
         "allow-plugins": {
@@ -76,6 +76,7 @@
         "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php83": "*",
         "symfony/polyfill-php82": "*",
         "symfony/polyfill-php81": "*",
         "symfony/polyfill-php80": "*",

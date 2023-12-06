@@ -14,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
     // $parameters = $rectorConfig->parameters();
 
     // Define what rule sets will be applied
-    $rectorConfig->import(LevelSetList::UP_TO_PHP_82);
+    $rectorConfig->import(LevelSetList::UP_TO_PHP_83);
     $rectorConfig->import(SetList::EARLY_RETURN);
     $rectorConfig->import(SetList::INSTANCEOF);
     $rectorConfig->import(SetList::PRIVATIZATION);
