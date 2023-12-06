@@ -10,6 +10,7 @@
 
     <rule ref="PSR1">
         <exclude name="PSR1.Files.SideEffects.FoundWithSymbols" />
+        <exclude name="Generic.NamingConventions.UpperCaseConstantName" />
     </rule>
 
     <rule ref="PSR2">
