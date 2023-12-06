@@ -19,6 +19,7 @@ return [
     'app' => [
         'path' => 'app.js',
         'preload' => true,
+        'entrypoint' => true,
     ],
     'sortablejs' => [
         'downloaded_to' => 'vendor/sortablejs.js',
