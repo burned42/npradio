@@ -113,7 +113,7 @@
         "codeception": "vendor/bin/codecept run --ansi",
         "codeception-coverage-xml": "@codeception --coverage --coverage-xml",
         "codeception-coverage-html": "@codeception --coverage --coverage-html",
-        "update-check": [
+        "security-check": [
             "composer audit --locked --no-dev",
             "bin/console importmap:audit"
         ],
@@ -127,9 +127,10 @@
             "@psalm",
             "@rector",
             "@codeception",
-            "@update-check"
+            "@security-check"
         ],
-        "sync-flex-recipes": "composer symfony:sync-recipes --force"
+        "update-flex-recipes": "composer recipes:update --force",
+        "update-importmap": "composer importmap:update"
     },
     "conflict": {
         "symfony/symfony": "*"
