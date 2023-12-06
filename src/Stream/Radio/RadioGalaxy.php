@@ -8,6 +8,7 @@ use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 use Throwable;
 
@@ -35,16 +36,19 @@ final class RadioGalaxy extends AbstractRadioStream
         self::MITTELFRANKEN => 'https://mittelfranken.radiogalaxy.de/cache/playlists/all-channels.json',
     ];
 
+    #[Override]
     public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
 
+    #[Override]
     public static function getRadioName(): string
     {
         return self::RADIO_NAME;
     }
 
+    #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {

@@ -14,6 +14,7 @@ use DOMNodeList;
 use DOMXPath;
 use Exception;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 use Throwable;
 
@@ -32,11 +33,13 @@ final class MetalOnly extends AbstractRadioStream
         self::METAL_ONLY,
     ];
 
+    #[Override]
     public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
 
+    #[Override]
     public static function getRadioName(): string
     {
         return self::RADIO_NAME;
@@ -45,6 +48,7 @@ final class MetalOnly extends AbstractRadioStream
     /**
      * @throws Exception
      */
+    #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {

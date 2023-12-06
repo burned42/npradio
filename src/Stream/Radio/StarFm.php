@@ -8,6 +8,7 @@ use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use Exception;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 use Throwable;
 
@@ -37,16 +38,19 @@ final class StarFm extends AbstractRadioStream
         self::NUREMBERG => 'nbg',
     ];
 
+    #[Override]
     public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
 
+    #[Override]
     public static function getRadioName(): string
     {
         return self::RADIO_NAME;
     }
 
+    #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {

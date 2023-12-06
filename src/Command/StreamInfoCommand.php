@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Stream\AbstractRadioStream;
 use DateTimeInterface;
 use InvalidArgumentException;
+use Override;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -35,12 +36,14 @@ final class StreamInfoCommand extends Command
         parent::__construct();
     }
 
+    #[Override]
     protected function configure(): void
     {
         $this->addArgument('radio-name')
             ->addArgument('stream-name');
     }
 
+    #[Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $radios = $this->getRadioStreamsFromInput($input);

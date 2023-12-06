@@ -11,6 +11,7 @@ use DateTimeInterface;
 use DOMNode;
 use Exception;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 use Throwable;
 
@@ -62,11 +63,13 @@ final class TechnoBase extends AbstractRadioStream
         return 'https://mp3.stream.tb-group.fm/'.$fileName.'.mp3';
     }
 
+    #[Override]
     public function getAvailableStreams(): array
     {
         return array_keys(self::AVAILABLE_STREAMS);
     }
 
+    #[Override]
     public static function getRadioName(): string
     {
         return self::RADIO_NAME;
@@ -75,6 +78,7 @@ final class TechnoBase extends AbstractRadioStream
     /**
      * @throws Exception
      */
+    #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {

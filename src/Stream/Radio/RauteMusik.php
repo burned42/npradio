@@ -9,6 +9,7 @@ use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
+use Override;
 use RuntimeException;
 use Throwable;
 
@@ -67,11 +68,13 @@ final class RauteMusik extends AbstractRadioStream
         return 'https://'.$this->getStreamNameForUrl($streamName).'-high.rautemusik.fm';
     }
 
+    #[Override]
     public function getAvailableStreams(): array
     {
         return self::AVAILABLE_STREAMS;
     }
 
+    #[Override]
     public static function getRadioName(): string
     {
         return self::RADIO_NAME;
@@ -80,6 +83,7 @@ final class RauteMusik extends AbstractRadioStream
     /**
      * @throws Exception
      */
+    #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {
