@@ -20,7 +20,7 @@ use Tests\Support\FunctionalTester;
 
 final class RadioStreamCest
 {
-    private const RADIOS = [
+    private const array RADIOS = [
         MetalOnly::class,
         RadioGalaxy::class,
         RauteMusik::class,
