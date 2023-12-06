@@ -15,23 +15,24 @@ use function Sentry\captureException;
 
 final class StarFm extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'STAR FM';
-    private const HOMEPAGE_URL = 'https://nbg.starfm.de';
+    private const string RADIO_NAME = 'STAR FM';
+    private const string HOMEPAGE_URL = 'https://nbg.starfm.de';
 
-    private const NUREMBERG = 'STAR FM Nürnberg';
-    private const FROM_HELL = 'STAR FM From Hell';
-
-    private const AVAILABLE_STREAMS = [
+    private const string NUREMBERG = 'STAR FM Nürnberg';
+    private const string FROM_HELL = 'STAR FM From Hell';
+    /** @var string[] */
+    private const array AVAILABLE_STREAMS = [
         self::FROM_HELL,
         self::NUREMBERG,
     ];
-
-    private const STREAM_URLS = [
+    /** @var string[] */
+    private const array STREAM_URLS = [
         self::FROM_HELL => 'https://streams.starfm.de/from_hell.mp3',
         self::NUREMBERG => 'https://streams.starfm.de/nbg.mp3',
     ];
-    private const STREAM_INFO_URL = 'https://nbg.starfm.de/services/program-info/live/starfm';
-    private const STREAM_INFO_API_NAMES = [
+    private const string STREAM_INFO_URL = 'https://nbg.starfm.de/services/program-info/live/starfm';
+    /** @var string[] */
+    private const array STREAM_INFO_API_NAMES = [
         self::FROM_HELL => 'fromhell',
         self::NUREMBERG => 'nbg',
     ];

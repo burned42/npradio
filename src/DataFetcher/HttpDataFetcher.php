@@ -15,7 +15,7 @@ use Throwable;
 
 final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 {
-    private const DEFAULT_CACHE_DURATION = 30;
+    private const int DEFAULT_CACHE_DURATION = 30;
 
     public function __construct(
         private HttpClientInterface $httpClient,

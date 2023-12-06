@@ -16,22 +16,22 @@ use function Sentry\captureException;
 
 final class RauteMusik extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'RauteMusik';
-    private const BASE_URL = 'https://www.rm.fm/';
-    private const API_URL = 'https://api.rautemusik.fm';
+    private const string RADIO_NAME = 'RauteMusik';
+    private const string BASE_URL = 'https://www.rm.fm/';
+    private const string API_URL = 'https://api.rautemusik.fm';
 
-    private const MAIN = 'RauteMusik Main';
-    private const CLUB = 'RauteMusik Club';
-    private const CHRISTMAS = 'RauteMusik Christmas';
-    private const HAPPYHARDCORE = 'RauteMusik HappyHardcore';
-    private const HARDER = 'RauteMusik HardeR';
-    private const HOUSE = 'RauteMusik House';
-    private const METAL = 'RauteMusik Metal';
-    private const ROCK = 'RauteMusik Rock';
-    private const TECHHOUSE = 'RauteMusik TechHouse';
-    private const WEIHNACHTEN = 'RauteMusik Weihnachten';
-
-    private const AVAILABLE_STREAMS = [
+    private const string MAIN = 'RauteMusik Main';
+    private const string CLUB = 'RauteMusik Club';
+    private const string CHRISTMAS = 'RauteMusik Christmas';
+    private const string HAPPYHARDCORE = 'RauteMusik HappyHardcore';
+    private const string HARDER = 'RauteMusik HardeR';
+    private const string HOUSE = 'RauteMusik House';
+    private const string METAL = 'RauteMusik Metal';
+    private const string ROCK = 'RauteMusik Rock';
+    private const string TECHHOUSE = 'RauteMusik TechHouse';
+    private const string WEIHNACHTEN = 'RauteMusik Weihnachten';
+    /** @var string[] */
+    private const array AVAILABLE_STREAMS = [
         self::MAIN,
         self::CLUB,
         self::CHRISTMAS,
@@ -44,7 +44,7 @@ final class RauteMusik extends AbstractRadioStream
         self::WEIHNACHTEN,
     ];
 
-    private const CACHE_DURATION = 120;
+    private const int CACHE_DURATION = 120;
 
     private function getStreamNameForUrl(string $streamName): string
     {

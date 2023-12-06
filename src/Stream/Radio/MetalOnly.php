@@ -21,14 +21,14 @@ use function Sentry\captureException;
 
 final class MetalOnly extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'Metal Only';
-    private const URL = 'https://www.metal-only.de';
-    private const URL_INFO_PATH = '/sendeplan.html';
-    private const STREAM_URL = 'https://metal-only.streampanel.cloud/stream';
+    private const string RADIO_NAME = 'Metal Only';
+    private const string URL = 'https://www.metal-only.de';
+    private const string URL_INFO_PATH = '/sendeplan.html';
+    private const string STREAM_URL = 'https://metal-only.streampanel.cloud/stream';
 
-    private const METAL_ONLY = 'Metal Only';
-
-    private const AVAILABLE_STREAMS = [
+    private const string METAL_ONLY = 'Metal Only';
+    /** @var string[] */
+    private const array AVAILABLE_STREAMS = [
         self::METAL_ONLY,
     ];
 

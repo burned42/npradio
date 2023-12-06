@@ -15,14 +15,14 @@ use function Sentry\captureException;
 
 final class SlayRadio extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'SLAY Radio';
-    private const URL = 'https://www.slayradio.org';
-    private const API_PATH = '/api.php?query=nowplaying';
-    private const STREAM_URL = 'http://relay3.slayradio.org:8000';
+    private const string RADIO_NAME = 'SLAY Radio';
+    private const string URL = 'https://www.slayradio.org';
+    private const string API_PATH = '/api.php?query=nowplaying';
+    private const string STREAM_URL = 'http://relay3.slayradio.org:8000';
 
-    private const SLAYRADIO = 'SLAY Radio';
-
-    private const AVAILABLE_STREAMS = [
+    private const string SLAYRADIO = 'SLAY Radio';
+    /** @var string[] */
+    private const array AVAILABLE_STREAMS = [
         self::SLAYRADIO,
     ];
 

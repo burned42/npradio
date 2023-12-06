@@ -18,22 +18,23 @@ use function Sentry\captureException;
 
 final class TechnoBase extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'TechnoBase.FM';
-    private const URL = 'https://tray.technobase.fm/radio.xml';
+    private const string RADIO_NAME = 'TechnoBase.FM';
+    private const string URL = 'https://tray.technobase.fm/radio.xml';
 
-    private const TECHNOBASE = 'TechnoBase.FM';
-    private const HOUSETIME = 'HouseTime.FM';
-    private const HARDBASE = 'HardBase.FM';
-    private const TRANCEBASE = 'TranceBase.FM';
-    private const CORETIME = 'CoreTime.FM';
-    private const CLUBTIME = 'ClubTime.FM';
-    private const TEATIME = 'TeaTime.FM';
-    private const REPLAY = 'Replay.FM';
-
-    /*
-     * Values are the filenames for the stream urls
+    private const string TECHNOBASE = 'TechnoBase.FM';
+    private const string HOUSETIME = 'HouseTime.FM';
+    private const string HARDBASE = 'HardBase.FM';
+    private const string TRANCEBASE = 'TranceBase.FM';
+    private const string CORETIME = 'CoreTime.FM';
+    private const string CLUBTIME = 'ClubTime.FM';
+    private const string TEATIME = 'TeaTime.FM';
+    private const string REPLAY = 'Replay.FM';
+    /**
+     * Values are the filenames for the stream urls.
+     *
+     * @var string[]
      */
-    private const AVAILABLE_STREAMS = [
+    private const array AVAILABLE_STREAMS = [
         self::TECHNOBASE => 'tb',
         self::HOUSETIME => 'ht',
         self::HARDBASE => 'hb',

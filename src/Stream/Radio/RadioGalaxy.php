@@ -15,23 +15,23 @@ use function Sentry\captureException;
 
 final class RadioGalaxy extends AbstractRadioStream
 {
-    private const RADIO_NAME = 'Radio Galaxy';
+    private const string RADIO_NAME = 'Radio Galaxy';
 
-    private const MITTELFRANKEN = 'Radio Galaxy Mittelfranken';
-
-    private const AVAILABLE_STREAMS = [
+    private const string MITTELFRANKEN = 'Radio Galaxy Mittelfranken';
+    /** @var string[] */
+    private const array AVAILABLE_STREAMS = [
         self::MITTELFRANKEN,
     ];
-
-    private const HOMEPAGE_URLS = [
+    /** @var string[] */
+    private const array HOMEPAGE_URLS = [
         self::MITTELFRANKEN => 'https://mittelfranken.radiogalaxy.de/',
     ];
-
-    private const STREAM_URLS = [
+    /** @var string[] */
+    private const array STREAM_URLS = [
         self::MITTELFRANKEN => 'https://live.galaxy-mittelfranken.de/galaxy-mittelfranken.mp3',
     ];
-
-    private const INFO_URLS_BY_STREAM = [
+    /** @var string[] */
+    private const array INFO_URLS_BY_STREAM = [
         self::MITTELFRANKEN => 'https://mittelfranken.radiogalaxy.de/cache/playlists/all-channels.json',
     ];
 
