@@ -13,10 +13,9 @@
         <meta name="theme-color" content="#1a1a1a">
         <link rel="stylesheet" href="{{ asset('vendor/bootstrap.min.css') }}">
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         {% endblock %}
         {% block javascripts %}
-            {{ importmap() }}
+            {{ importmap('app') }}
         {% endblock %}
     </head>
     <body class="text-light">
