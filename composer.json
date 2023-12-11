@@ -25,7 +25,6 @@
         "symfony/string": "6.4.*",
         "symfony/twig-bundle": "6.4.*",
         "symfony/yaml": "6.4.*",
-        "twbs/bootstrap": "^5.0",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
@@ -94,14 +93,11 @@
             "importmap:install": "symfony-cmd",
             "asset-map:compile": "symfony-cmd"
         },
-        "copy-bootstrap": "cp vendor/twbs/bootstrap/dist/css/bootstrap.min.css* assets/vendor/",
         "post-install-cmd": [
-            "@auto-scripts",
-            "@copy-bootstrap"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "@copy-bootstrap"
+            "@auto-scripts"
         ],
         "lint-yaml": "bin/console lint:yaml --parse-tags *.yml .github/ config/ tests/",
         "lint-container": "bin/console lint:container",

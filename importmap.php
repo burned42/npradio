@@ -23,4 +23,8 @@ return [
     'sortablejs' => [
         'version' => '1.15.1',
     ],
+    'bootstrap/dist/css/bootstrap.min.css' => [
+        'version' => '5.3.2',
+        'type' => 'css',
+    ],
 ];
