@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/app.css'
 
 import RadioStream from "./radio_stream.js";
-import {Sortable} from "./vendor/sortablejs/sortablejs.index.js";
+import {Sortable} from "sortablejs";
 
 function initializePlayButtonsToPaused()
 {
