@@ -20,7 +20,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::PRIVATIZATION);
     $rectorConfig->import(SetList::STRICT_BOOLEANS);
     $rectorConfig->import(SetList::TYPE_DECLARATION);
-    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_63);
+    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_64);
     $rectorConfig->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $rectorConfig->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
     $rectorConfig->import(TwigLevelSetList::UP_TO_TWIG_240);
