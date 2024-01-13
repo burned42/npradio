@@ -6,6 +6,7 @@ namespace App\Stream;
 
 use DateTimeInterface;
 use JsonSerializable;
+use Override;
 
 final class StreamInfo implements JsonSerializable
 {
@@ -28,6 +29,7 @@ final class StreamInfo implements JsonSerializable
     /**
      * @return array<string, string|array<string|null>|null>
      */
+    #[Override]
     public function jsonSerialize(): array
     {
         $showStartTime = $this->showStartTime;

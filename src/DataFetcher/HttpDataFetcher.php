@@ -6,6 +6,7 @@ namespace App\DataFetcher;
 
 use DOMDocument;
 use Exception;
+use Override;
 use RuntimeException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -65,6 +66,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     /**
      * @return array<mixed>
      */
+    #[Override]
     public function getJsonData(
         string $url,
         array $headers = [],
@@ -80,6 +82,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         }
     }
 
+    #[Override]
     public function getUrlContent(string $url): string
     {
         try {
@@ -92,6 +95,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         }
     }
 
+    #[Override]
     public function getXmlDom(string $url): DOMDocument
     {
         $xml = $this->getUrlContent($url);
@@ -109,6 +113,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         return $dom;
     }
 
+    #[Override]
     public function getHtmlDom(string $url): DOMDocument
     {
         $html = $this->getUrlContent($url);
