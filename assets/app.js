@@ -5,7 +5,7 @@
  * which should already be in your base.html.twig.
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/app.css'
+import './styles/app.css';
 
 import RadioStream from "./radio_stream.js";
 import {Sortable} from "sortablejs";
