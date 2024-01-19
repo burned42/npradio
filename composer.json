@@ -127,7 +127,7 @@
             "@security-check"
         ],
         "update-flex-recipes": "composer recipes:update --force",
-        "update-importmap": "composer importmap:update"
+        "update-importmap": "bin/console importmap:update"
     },
     "conflict": {
         "symfony/symfony": "*"

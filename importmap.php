@@ -21,7 +21,7 @@ return [
         'entrypoint' => true,
     ],
     'sortablejs' => [
-        'version' => '1.15.1',
+        'version' => '1.15.2',
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
         'version' => '5.3.2',
