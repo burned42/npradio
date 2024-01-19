@@ -6149,16 +6149,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.46.0",
+            "version": "v3.48.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2"
+                "reference": "a92472c6fb66349de25211f31c77eceae3df024e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/be6831c9af1740470d2a773119b9273f8ac1c3d2",
-                "reference": "be6831c9af1740470d2a773119b9273f8ac1c3d2",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/a92472c6fb66349de25211f31c77eceae3df024e",
+                "reference": "a92472c6fb66349de25211f31c77eceae3df024e",
                 "shasum": ""
             },
             "require": {
@@ -6228,7 +6228,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.46.0"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.48.0"
             },
             "funding": [
                 {
@@ -6236,7 +6236,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-03T21:38:46+00:00"
+            "time": "2024-01-19T21:44:39+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
@@ -6913,16 +6913,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.55",
+            "version": "1.10.56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "9a88f9d18ddf4cf54c922fbeac16c4cb164c5949"
+                "reference": "27816a01aea996191ee14d010f325434c0ee76fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9a88f9d18ddf4cf54c922fbeac16c4cb164c5949",
-                "reference": "9a88f9d18ddf4cf54c922fbeac16c4cb164c5949",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/27816a01aea996191ee14d010f325434c0ee76fa",
+                "reference": "27816a01aea996191ee14d010f325434c0ee76fa",
                 "shasum": ""
             },
             "require": {
@@ -6971,7 +6971,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-08T12:32:40+00:00"
+            "time": "2024-01-15T10:43:00+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -7416,16 +7416,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.6",
+            "version": "10.5.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "ab9a20b623b235165d24faa9d1da925cb54939c0"
+                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ab9a20b623b235165d24faa9d1da925cb54939c0",
-                "reference": "ab9a20b623b235165d24faa9d1da925cb54939c0",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
+                "reference": "08f4fa74d5fbfff1ef22abffee47aaedcaea227e",
                 "shasum": ""
             },
             "require": {
@@ -7497,7 +7497,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.8"
             },
             "funding": [
                 {
@@ -7513,7 +7513,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-01-13T12:49:56+00:00"
+            "time": "2024-01-19T07:07:27+00:00"
         },
         {
             "name": "psalm/plugin-symfony",
@@ -7661,21 +7661,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.19.0",
+            "version": "0.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "503f4ead06b3892bd106f67f3c86d4e36c94423d"
+                "reference": "bc96a99895bf47c6bfe70ea1b799f0081ed5a903"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/503f4ead06b3892bd106f67f3c86d4e36c94423d",
-                "reference": "503f4ead06b3892bd106f67f3c86d4e36c94423d",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/bc96a99895bf47c6bfe70ea1b799f0081ed5a903",
+                "reference": "bc96a99895bf47c6bfe70ea1b799f0081ed5a903",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.52"
+                "phpstan/phpstan": "^1.10.56"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -7705,7 +7705,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.19.0"
+                "source": "https://github.com/rectorphp/rector/tree/0.19.2"
             },
             "funding": [
                 {
@@ -7713,7 +7713,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-09T00:49:06+00:00"
+            "time": "2024-01-19T10:58:30+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -9297,16 +9297,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "5.19.0",
+            "version": "5.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b"
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/06b71be009a6bd6d81b9811855d6629b9fe90e1b",
-                "reference": "06b71be009a6bd6d81b9811855d6629b9fe90e1b",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
+                "reference": "3f284e96c9d9be6fe6b15c79416e1d1903dcfef4",
                 "shasum": ""
             },
             "require": {
@@ -9403,7 +9403,7 @@
                 "issues": "https://github.com/vimeo/psalm/issues",
                 "source": "https://github.com/vimeo/psalm"
             },
-            "time": "2024-01-09T21:02:43+00:00"
+            "time": "2024-01-18T12:15:06+00:00"
         },
         {
             "name": "webmozart/assert",
