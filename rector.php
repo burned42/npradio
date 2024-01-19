@@ -5,9 +5,8 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
-use Rector\Symfony\Set\SymfonyLevelSetList;
 use Rector\Symfony\Set\SymfonySetList;
-use Rector\Symfony\Set\TwigLevelSetList;
+use Rector\Symfony\Set\TwigSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     // get parameters
@@ -20,10 +19,13 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->import(SetList::PRIVATIZATION);
     $rectorConfig->import(SetList::STRICT_BOOLEANS);
     $rectorConfig->import(SetList::TYPE_DECLARATION);
-    $rectorConfig->import(SymfonyLevelSetList::UP_TO_SYMFONY_64);
+    $rectorConfig->import(SymfonySetList::CONFIGS);
+    $rectorConfig->import(SymfonySetList::SYMFONY_64);
     $rectorConfig->import(SymfonySetList::SYMFONY_CODE_QUALITY);
     $rectorConfig->import(SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION);
-    $rectorConfig->import(TwigLevelSetList::UP_TO_TWIG_240);
+    $rectorConfig->import(SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES);
+    $rectorConfig->import(TwigSetList::TWIG_240);
+    $rectorConfig->import(TwigSetList::TWIG_UNDERSCORE_TO_NAMESPACE);
 
     // get services (needed for register a single rule)
     // $services = $rectorConfig->services();
