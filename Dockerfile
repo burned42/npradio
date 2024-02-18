@@ -30,9 +30,10 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-avail
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+USER www-data
 COPY . /var/www/html/
+RUN composer install --no-dev -d /var/www/html/
 
-RUN composer install --no-dev -d /var/www/html/ \
-    && chown -R www-data:www-data /var/www/html/
+USER root
 
 #RUN pecl install pcov && docker-php-ext-enable pcov && echo 'pcov.enabled = 1' > /usr/local/etc/php/conf.d/pcov.ini
