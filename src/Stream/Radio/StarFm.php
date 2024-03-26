@@ -28,14 +28,14 @@ final class StarFm extends AbstractRadioStream
     ];
     /** @var string[] */
     private const array STREAM_URLS = [
-        self::FROM_HELL => 'https://streams.starfm.de/from_hell.mp3',
-        self::NUREMBERG => 'https://streams.starfm.de/nbg.mp3',
+        self::FROM_HELL => 'https://stream.starfm.de/fromhell/mp3-192/webseite',
+        self::NUREMBERG => 'https://stream.starfm.de/nbg/mp3-192/webseite',
     ];
-    private const string STREAM_INFO_URL = 'https://nbg.starfm.de/services/program-info/live/starfm';
+    private const string STREAM_INFO_BASE_URL = 'https://api.streamabc.net/metadata/channel/';
     /** @var string[] */
-    private const array STREAM_INFO_API_NAMES = [
-        self::FROM_HELL => 'fromhell',
-        self::NUREMBERG => 'nbg',
+    private const array STREAM_INFO_URL_PATHS = [
+        self::FROM_HELL => '30_lpuzm574hotr_d953.json',
+        self::NUREMBERG => '30_nbw9xzg7b53v_rgfj.json',
     ];
 
     #[Override]
@@ -73,11 +73,12 @@ final class StarFm extends AbstractRadioStream
         return $streamInfo;
     }
 
-    public function addTrackInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
+    private function addTrackInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
     {
         try {
+            $url = self::STREAM_INFO_BASE_URL.self::STREAM_INFO_URL_PATHS[$streamName];
             $data = json_decode(
-                $this->getHttpDataFetcher()->getUrlContent(self::STREAM_INFO_URL),
+                $this->getHttpDataFetcher()->getUrlContent($url),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
@@ -90,18 +91,11 @@ final class StarFm extends AbstractRadioStream
             return $streamInfo;
         }
 
-        $apiStreamName = self::STREAM_INFO_API_NAMES[$streamName];
-        $data = array_filter(
-            $data,
-            static fn ($streamData): bool => $apiStreamName === ($streamData['name'] ?? null),
-        );
-
-        $trackInfo = $data[array_key_first($data)] ?? null;
-        $track = $trackInfo['playHistories'][0]['track']['title'] ?? null;
+        $track = $data['song'] ?? null;
         if (is_string($track) && '' !== $track) {
             $streamInfo->track = $track;
         }
-        $artist = $trackInfo['playHistories'][0]['track']['artist'] ?? null;
+        $artist = $data['artist'];
         if (is_string($artist) && '' !== $artist) {
             $streamInfo->artist = $artist;
         }
