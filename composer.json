@@ -11,7 +11,7 @@
         "ext-json": "*",
         "ext-libxml": "*",
         "ext-zend-opcache": "*",
-        "sentry/sentry-symfony": "^4.2.8",
+        "sentry/sentry-symfony": "^5",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "7.0.*",
         "symfony/asset-mapper": "7.0.*",
