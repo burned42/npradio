@@ -12,9 +12,13 @@ extensions:
         - Codeception\Extension\RunFailed
 params:
     - .env
+    - .env.test
 coverage:
     enabled: true
     include:
         - src/**.php
 settings:
     convert_deprecations_to_exceptions: true
+    shuffle: true
+    colors: true
+    report_useless_tests: true
