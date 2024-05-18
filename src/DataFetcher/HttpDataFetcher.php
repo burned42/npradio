@@ -39,7 +39,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         /** @var array<mixed>|string $response */
         $response = $this->cache->get(
             $this->slugger->slug($url)->toString(),
-            function (ItemInterface $item) use ($url, $headers, $json, $cacheDuration) {
+            function (ItemInterface $item) use ($url, $headers, $json, $cacheDuration): array|string {
                 $item->expiresAfter($cacheDuration);
 
                 try {
