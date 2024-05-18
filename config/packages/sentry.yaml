@@ -1,11 +1,11 @@
 when@prod:
     sentry:
         dsn: '%env(SENTRY_DSN)%'
-        # this hooks into critical paths of the framework (and vendors) to perform
-        # automatic instrumentation (there might be some performance penalty)
-        # https://docs.sentry.io/platforms/php/guides/symfony/performance/instrumentation/automatic-instrumentation/
-        tracing:
-            enabled: false
+        options:
+            ignore_exceptions:
+                #- 'Symfony\Component\ErrorHandler\Error\FatalError'
+                #- 'Symfony\Component\Debug\Exception\FatalErrorException'
+                - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
 
 #        If you are using Monolog, you also need this additional configuration to log the errors correctly:
 #        https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
@@ -18,24 +18,6 @@ when@prod:
 #                type: sentry
 #                level: !php/const Monolog\Logger::ERROR
 #                hub_id: Sentry\State\HubInterface
-
-#    services:
-#        Sentry\Monolog\Handler:
-#            arguments:
-#                $hub: '@Sentry\State\HubInterface'
-#                $level: !php/const Monolog\Logger::ERROR
-#                $bubble: false
-
-        options:
-            integrations:
-                - 'Sentry\Integration\IgnoreErrorsIntegration'
-
-    services:
-        Sentry\Integration\IgnoreErrorsIntegration:
-            arguments:
-                $options:
-                    ignore_exceptions:
-                        - Symfony\Component\HttpKernel\Exception\NotFoundHttpException
 
 #    Uncomment these lines to register a log message processor that resolves PSR-3 placeholders
 #    https://docs.sentry.io/platforms/php/guides/symfony/#monolog-integration
