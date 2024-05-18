@@ -24,7 +24,6 @@ function playStream(e, streamUrl, radioName, streamName)
 {
     initializePlayButtonsToPaused();
 
-    const streamPlayer = document.getElementById('stream_player');
     const wasPaused = streamPlayer.paused;
     streamPlayer.pause();
 
@@ -212,6 +211,33 @@ function setUpdateInterval()
     updateInterval = setInterval(updateData, 30 * 1000);
 }
 
+function handleKeyPress(event) {
+    if (event.key === ' ') {
+        event.preventDefault();
+        if (streamPlayer.paused) {
+            if (streamPlayer.getAttribute('src') !== null) {
+                streamPlayer.play();
+            }
+        } else {
+            streamPlayer.pause();
+        }
+
+        return;
+    }
+    if (event.shiftKey && event.key === 'ArrowDown') {
+        event.preventDefault();
+        streamPlayer.volume = Math.max(0, streamPlayer.volume - 0.05);
+
+        return;
+    }
+    if (event.shiftKey && event.key === 'ArrowUp') {
+        event.preventDefault();
+        streamPlayer.volume = Math.min(1, streamPlayer.volume + 0.05);
+
+        return;
+    }
+}
+
 const defaultStreams = [
     ['RauteMusik', 'RauteMusik Main'],
     ['Radio Galaxy', 'Radio Galaxy Mittelfranken'],
@@ -236,6 +262,8 @@ let radioStreams = [];
 
 let updateInterval = null;
 
+const streamPlayer = document.getElementById('stream_player');
+
 window.addEventListener('load', () => {
     setAvailableRadioStreams();
     showStreamInfo();
@@ -247,3 +275,7 @@ window.addEventListener('load', () => {
 
 document.getElementById('npradio-logo').onclick = showStreamInfo;
 document.getElementById('button-settings').onclick = showSettings;
+
+window.addEventListener('keydown', (event) => {
+    handleKeyPress(event);
+});
