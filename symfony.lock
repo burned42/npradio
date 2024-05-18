@@ -8,9 +8,6 @@
     "behat/gherkin": {
         "version": "v4.6.2"
     },
-    "clue/stream-filter": {
-        "version": "v1.5.0"
-    },
     "codeception/codeception": {
         "version": "5.0",
         "recipe": {
@@ -102,14 +99,8 @@
             ".php-cs-fixer.dist.php"
         ]
     },
-    "guzzlehttp/promises": {
-        "version": "1.4.0"
-    },
     "guzzlehttp/psr7": {
         "version": "1.7.0"
-    },
-    "http-interop/http-factory-guzzle": {
-        "version": "1.0.0"
     },
     "jean85/pretty-package-versions": {
         "version": "1.5.1"
@@ -134,33 +125,6 @@
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.1"
-    },
-    "php-http/client-common": {
-        "version": "2.3.0"
-    },
-    "php-http/discovery": {
-        "version": "1.18",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "1.18",
-            "ref": "f45b5dd173a27873ab19f5e3180b2f661c21de02"
-        },
-        "files": [
-            "config/packages/http_discovery.yaml"
-        ]
-    },
-    "php-http/httplug": {
-        "version": "2.2.0"
-    },
-    "php-http/message": {
-        "version": "1.10.0"
-    },
-    "php-http/message-factory": {
-        "version": "v1.0.2"
-    },
-    "php-http/promise": {
-        "version": "1.1.0"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -236,9 +200,6 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
-    "psr/http-client": {
-        "version": "1.0.1"
-    },
     "psr/http-factory": {
         "version": "1.0.1"
     },
@@ -301,9 +262,6 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
-    },
-    "sentry/sdk": {
-        "version": "3.1.0"
     },
     "sentry/sentry": {
         "version": "3.1.3"
