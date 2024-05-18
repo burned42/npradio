@@ -94,13 +94,17 @@ final class TechnoBaseCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherException(): void
+    public function testHttpDataFetcherException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {
             throw new TestRuntimeException('test');
         }]);
         $s = new TechnoBase($httpDataFetcher);
 
-        $s->getStreamInfo($s->getAvailableStreams()[0]);
+        $streamName = $s->getAvailableStreams()[0];
+
+        $streamInfo = $s->getStreamInfo($streamName);
+
+        $I->assertSame($streamName, $streamInfo->streamName);
     }
 }

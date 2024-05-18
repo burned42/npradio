@@ -77,13 +77,17 @@ final class StarFmCest
     /**
      * @throws Exception
      */
-    public function testHttpDataException(): void
+    public function testHttpDataException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
             throw new RuntimeException('test');
         }]);
         $s = new StarFm($httpDataFetcher);
 
-        $s->getStreamInfo($s->getAvailableStreams()[0]);
+        $streamName = $s->getAvailableStreams()[0];
+
+        $streamInfo = $s->getStreamInfo($streamName);
+
+        $I->assertSame($streamName, $streamInfo->streamName);
     }
 }

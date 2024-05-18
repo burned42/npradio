@@ -93,7 +93,7 @@ final class RauteMusikCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnTrackInfo(): void
+    public function testHttpDataFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
@@ -103,13 +103,17 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $s->getStreamInfo($s->getAvailableStreams()[0]);
+        $streamName = $s->getAvailableStreams()[0];
+
+        $streamInfo = $s->getStreamInfo($streamName);
+
+        $I->assertSame($streamName, $streamInfo->streamName);
     }
 
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherExceptionOnShowInfo(): void
+    public function testHttpDataFetcherExceptionOnShowInfo(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
@@ -129,6 +133,10 @@ final class RauteMusikCest
         );
         $s = new RauteMusik($httpDataFetcher);
 
-        $s->getStreamInfo($s->getAvailableStreams()[0]);
+        $streamName = $s->getAvailableStreams()[0];
+
+        $streamInfo = $s->getStreamInfo($streamName);
+
+        $I->assertSame($streamName, $streamInfo->streamName);
     }
 }

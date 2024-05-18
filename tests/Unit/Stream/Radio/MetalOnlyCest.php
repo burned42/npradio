@@ -149,13 +149,17 @@ final class MetalOnlyCest
     /**
      * @throws Exception
      */
-    public function testHttpDataFetcherException(): void
+    public function testHttpDataFetcherException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getHtmlDom' => static function () {
             throw new RuntimeException('test');
         }]);
-        $mo = new MetalOnly($httpDataFetcher);
+        $s = new MetalOnly($httpDataFetcher);
 
-        $mo->getStreamInfo($mo->getAvailableStreams()[0]);
+        $streamName = $s->getAvailableStreams()[0];
+
+        $streamInfo = $s->getStreamInfo($streamName);
+
+        $I->assertSame($streamName, $streamInfo->streamName);
     }
 }
