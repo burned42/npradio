@@ -15,7 +15,7 @@ use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Traversable;
 
 #[AsCommand(name: 'app:stream-info')]
@@ -28,8 +28,7 @@ final class StreamInfoCommand extends Command
      * @param Traversable<AbstractRadioStream> $radios
      */
     public function __construct(
-        #[TaggedIterator(AbstractRadioStream::class, defaultIndexMethod: 'getRadioName')]
-        Traversable $radios
+        #[AutowireIterator(AbstractRadioStream::class, defaultIndexMethod: 'getRadioName')]
         Traversable $radios,
     ) {
         $this->radios = iterator_to_array($radios);
