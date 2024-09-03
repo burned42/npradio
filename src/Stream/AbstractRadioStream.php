@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 abstract class AbstractRadioStream
 {
     final public function __construct(
-        private readonly HttpDataFetcherInterface $httpDataFetcher
+        private readonly HttpDataFetcherInterface $httpDataFetcher,
     ) {
     }
 

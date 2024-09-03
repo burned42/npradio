@@ -16,7 +16,7 @@ interface HttpDataFetcherInterface
     public function getJsonData(
         string $url,
         array $headers,
-        int $cacheDuration
+        int $cacheDuration,
     ): array;
 
     public function getUrlContent(string $url): string;

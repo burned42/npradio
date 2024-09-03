@@ -21,7 +21,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     public function __construct(
         private HttpClientInterface $httpClient,
         private CacheInterface $cache,
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
     ) {
     }
 

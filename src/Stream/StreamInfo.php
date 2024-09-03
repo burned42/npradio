@@ -22,7 +22,7 @@ final class StreamInfo implements JsonSerializable
         public readonly string $radioName,
         public readonly string $streamName,
         public readonly string $homepageUrl,
-        public readonly string $streamUrl
+        public readonly string $streamUrl,
     ) {
     }
 
