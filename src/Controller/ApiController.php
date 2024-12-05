@@ -28,7 +28,9 @@ final class ApiController extends AbstractController
         #[AutowireIterator(AbstractRadioStream::class, defaultIndexMethod: 'getRadioName')]
         Traversable $radios,
     ) {
-        $this->radios = iterator_to_array($radios);
+        /** @var array<string, AbstractRadioStream> $radioArray */
+        $radioArray = iterator_to_array($radios);
+        $this->radios = $radioArray;
     }
 
     #[Route('/radios')]
