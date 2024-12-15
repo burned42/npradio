@@ -70,14 +70,14 @@ final class StreamInfoCommand extends Command
 
                 $artist = $streamInfo->artist ?? 'n/a';
                 $track = $streamInfo->track ?? 'n/a';
-                $info[]['Track'] = $artist.' - '.$track;
+                $info[] = ['Track' => $artist.' - '.$track];
 
                 if (null !== $streamInfo->show) {
                     $show = $streamInfo->show;
                     if (null !== $streamInfo->genre) {
                         $show .= ' ('.$streamInfo->genre.')';
                     }
-                    $info[]['Show'] = $show;
+                    $info[] = ['Show' => $show];
                 }
 
                 if (null !== $streamInfo->moderator) {
@@ -89,7 +89,7 @@ final class StreamInfoCommand extends Command
                         $moderator .= ' ('.$streamInfo->showStartTime->format('H:i')
                             .' - '.$streamInfo->showEndTime->format('H:i').')';
                     }
-                    $info[]['Moderator'] = $moderator;
+                    $info[] = ['Moderator' => $moderator];
                 }
             }
 

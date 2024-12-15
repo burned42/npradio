@@ -140,13 +140,21 @@ final class RauteMusik extends AbstractRadioStream
             throw new RuntimeException('could not fetch track info: '.$t->getMessage());
         }
 
-        if (!array_key_exists('items', $data)) {
+        if (!is_array($data['items'] ?? null)) {
             return $streamInfo;
         }
 
         $currentTrack = $data['items'][0] ?? null;
-        $streamInfo->track = $currentTrack['track']['name'] ?? null;
-        $streamInfo->artist = $currentTrack['artist']['name'] ?? null;
+        if (
+            is_array($currentTrack)
+            && is_array($currentTrack['track'] ?? null)
+            && is_array($currentTrack['artist'] ?? null)
+            && is_string($currentTrack['track']['name'] ?? null)
+            && is_string($currentTrack['artist']['name'] ?? null)
+        ) {
+            $streamInfo->track = $currentTrack['track']['name'];
+            $streamInfo->artist = $currentTrack['artist']['name'];
+        }
 
         return $streamInfo;
     }
@@ -163,19 +171,27 @@ final class RauteMusik extends AbstractRadioStream
             throw new RuntimeException('could not fetch show info: '.$t->getMessage());
         }
 
-        if (!array_key_exists('items', $data)) {
+        if (!is_array($data['items'] ?? null)) {
             return $streamInfo;
         }
 
         $streamData = array_filter(
             $data['items'],
-            static fn ($stream): bool => $streamName === ($stream['id'] ?? null)
+            static fn ($stream): bool => is_array($stream) && $streamName === ($stream['id'] ?? null)
         );
         if (1 !== count($streamData)) {
             return $streamInfo;
         }
 
-        $currentShow = $streamData[array_key_first($streamData)]['show'] ?? null;
+        $currentStreamData = array_shift($streamData);
+        if (!is_array($currentStreamData)) {
+            return $streamInfo;
+        }
+
+        $currentShow = $currentStreamData['show'] ?? null;
+        if (!is_array($currentShow)) {
+            return $streamInfo;
+        }
 
         $startTime = $currentShow['start_time'] ?? null;
         $endTime = $currentShow['end_time'] ?? null;
@@ -184,13 +200,25 @@ final class RauteMusik extends AbstractRadioStream
             $streamInfo->showEndTime = new DateTimeImmutable($endTime);
         }
 
-        $streamInfo->show = $currentShow['name'] ?? null;
+        if (is_string($currentShow['name'] ?? null)) {
+            $streamInfo->show = $currentShow['name'];
+        }
+
+        if (
+            !is_array($currentShow['moderator'])
+            || !is_string($currentShow['moderator']['username'] ?? null)
+        ) {
+            return $streamInfo;
+        }
 
         $moderator = $currentShow['moderator']['username'];
+
         $coModerators = $currentShow['co_moderators'] ?? null;
         if (is_array($coModerators)) {
             $coModeratorNames = array_filter(array_map(
-                static fn ($data) => $data['username'] ?? null,
+                static fn ($data): ?string => (is_array($data) && is_string($data['username'] ?? null))
+                    ? $data['username']
+                    : null,
                 $coModerators
             ));
             if (count($coModeratorNames) > 0) {

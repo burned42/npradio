@@ -1,3 +1,6 @@
+includes:
+	- phpstan-baseline.neon
+
 parameters:
     level: max
     paths:
@@ -5,3 +8,4 @@ parameters:
         - config/
         - public/
         - src/
+    treatPhpDocTypesAsCertain: false

@@ -86,27 +86,35 @@ final class RadioGalaxy extends AbstractRadioStream
 
         $data = $data[37];
 
-        if (array_key_exists('playlist', $data) && !empty($data['playlist'])) {
+        if (
+            array_key_exists('playlist', $data)
+            && is_array($data['playlist'])
+            && [] !== $data['playlist']
+        ) {
             $current = array_shift($data['playlist']);
             if (
                 is_array($current)
-                && array_key_exists('interpret', $current)
-                && array_key_exists('title', $current)
+                && is_string($current['interpret'] ?? null)
+                && is_string($current['title'] ?? null)
             ) {
                 $streamInfo->artist = $current['interpret'];
                 $streamInfo->track = $current['title'];
             }
         }
 
-        if (!empty($data['show']['title'] ?? null)) {
-            $streamInfo->show = trim((string) $data['show']['title']);
+        if (!is_array($data['show'])) {
+            return $streamInfo;
         }
 
-        if (!empty($data['show']['host'] ?? null)) {
+        if (is_string($data['show']['title'] ?? null)) {
+            $streamInfo->show = trim($data['show']['title']);
+        }
+
+        if (is_string($data['show']['host'] ?? null)) {
             $streamInfo->moderator = preg_replace(
                 '/^mit /',
                 '',
-                trim((string) $data['show']['host'])
+                trim($data['show']['host'])
             );
         }
 
