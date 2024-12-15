@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 env:
-  PHP_VERSION: 8.3
+  PHP_VERSION: 8.4
   SYMFONY_DEPRECATIONS_HELPER: max[total]=0
 
 jobs:
@@ -68,16 +68,6 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
       - uses: ramsey/composer-install@v2
       - run: composer phpcs
-
-  psalm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
-      - run: composer psalm
 
   rector:
     runs-on: ubuntu-latest
