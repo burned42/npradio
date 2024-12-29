@@ -27,8 +27,8 @@ function playStream(e, streamUrl, radioName, streamName)
     const wasPaused = streamPlayer.paused;
     streamPlayer.pause();
 
-    if (streamPlayer.getAttribute('src') !== streamUrl || wasPaused === true) {
-        streamPlayer.setAttribute('src', streamUrl);
+    if (streamPlayerSrc.getAttribute('src') !== streamUrl || wasPaused === true) {
+        streamPlayerSrc.setAttribute('src', streamUrl);
         streamPlayer.onpause = () => {
             e.className = 'btn btn-dark';
             e.innerHTML = '&#x25b6;';
@@ -215,7 +215,7 @@ function handleKeyPress(event) {
     if (event.key === ' ') {
         event.preventDefault();
         if (streamPlayer.paused) {
-            if (streamPlayer.getAttribute('src') !== null) {
+            if (streamPlayerSrc.getAttribute('src') !== null) {
                 streamPlayer.play();
             }
         } else {
@@ -263,6 +263,7 @@ let radioStreams = [];
 let updateInterval = null;
 
 const streamPlayer = document.getElementById('stream_player');
+const streamPlayerSrc = document.getElementById('stream_player_src');
 
 window.addEventListener('load', () => {
     setAvailableRadioStreams();
