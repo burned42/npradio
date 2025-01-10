@@ -29,6 +29,8 @@ function playStream(e, streamUrl, radioName, streamName)
 
     if (streamPlayerSrc.getAttribute('src') !== streamUrl || wasPaused === true) {
         streamPlayerSrc.setAttribute('src', streamUrl);
+        streamPlayer.load();
+
         streamPlayer.onpause = () => {
             e.className = 'btn btn-dark';
             e.innerHTML = '&#x25b6;';
