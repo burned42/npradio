@@ -8,6 +8,7 @@ use App\Stream\AbstractRadioStream;
 use DateTimeInterface;
 use InvalidArgumentException;
 use Override;
+use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -19,10 +20,10 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use Traversable;
 
 #[AsCommand(name: 'app:stream-info')]
-final class StreamInfoCommand extends Command
+final readonly class StreamInfoCommand
 {
     /** @var array<string, AbstractRadioStream> */
-    private readonly array $radios;
+    private array $radios;
 
     /**
      * @param Traversable<AbstractRadioStream> $radios
@@ -34,23 +35,17 @@ final class StreamInfoCommand extends Command
         /** @var array<string, AbstractRadioStream> $radioArray */
         $radioArray = iterator_to_array($radios);
         $this->radios = $radioArray;
-
-        parent::__construct();
     }
 
-    #[Override]
-    protected function configure(): void
-    {
-        $this->addArgument('radio-name')
-            ->addArgument('stream-name');
-    }
+    public function __invoke(
+        SymfonyStyle $io,
+        #[Argument]
+        ?string $radioName,
+        #[Argument]
+        ?string $streamName,
+    ): int {
+        $radios = $this->getRadioStreamsFromInput($radioName, $streamName);
 
-    #[Override]
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
-        $radios = $this->getRadioStreamsFromInput($input);
-
-        $io = new SymfonyStyle($input, $output);
         $outputStyle = new OutputFormatterStyle('#3daee9');
         $io->getFormatter()->setStyle('info', $outputStyle);
         $io->getFormatter()->setStyle('comment', $outputStyle);
@@ -111,9 +106,8 @@ final class StreamInfoCommand extends Command
     /**
      * @return array<string, string[]>
      */
-    private function getRadioStreamsFromInput(InputInterface $input): array
+    private function getRadioStreamsFromInput(?string $radioName, ?string $streamName): array
     {
-        $radioName = $input->getArgument('radio-name');
         if (!is_string($radioName)) {
             return array_map(
                 static fn (AbstractRadioStream $radio): array => $radio->getAvailableStreams(),
@@ -123,7 +117,6 @@ final class StreamInfoCommand extends Command
 
         $streams = $this->getRadioClass($radioName)->getAvailableStreams();
 
-        $streamName = $input->getArgument('stream-name');
         if (!is_string($streamName)) {
             return [$radioName => $streams];
         }
