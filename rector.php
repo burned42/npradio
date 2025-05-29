@@ -19,7 +19,7 @@ return RectorConfig::configure()
     ->withAttributesSets(symfony: true)
     ->withSets([
         SymfonySetList::CONFIGS,
-        SymfonySetList::SYMFONY_72,
+        SymfonySetList::SYMFONY_73,
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
         TwigSetList::TWIG_24,
