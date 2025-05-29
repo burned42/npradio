@@ -383,9 +383,6 @@
     "symfony/options-resolver": {
         "version": "v5.2.1"
     },
-    "symfony/password-hasher": {
-        "version": "v5.3.0"
-    },
     "symfony/phpunit-bridge": {
         "version": "7.0",
         "recipe": {
@@ -434,9 +431,6 @@
     },
     "symfony/runtime": {
         "version": "v5.3.0"
-    },
-    "symfony/security-core": {
-        "version": "v5.2.2"
     },
     "symfony/service-contracts": {
         "version": "v2.2.0"
