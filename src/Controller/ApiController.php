@@ -15,7 +15,6 @@ use Traversable;
 
 use function Sentry\captureException;
 
-#[Route('/api', methods: ['GET'], format: 'json')]
 final class ApiController extends AbstractController
 {
     /** @var array<string, AbstractRadioStream> */
@@ -33,13 +32,13 @@ final class ApiController extends AbstractController
         $this->radios = $radioArray;
     }
 
-    #[Route('/radios')]
+    #[Route('/api/radios', methods: ['GET'], format: 'json')]
     public function getRadioNames(): JsonResponse
     {
         return $this->json(array_keys($this->radios));
     }
 
-    #[Route('/radios/{radioName}/streams')]
+    #[Route('/api/radios/{radioName}/streams', methods: ['GET'], format: 'json')]
     public function getStreams(string $radioName): JsonResponse
     {
         try {
@@ -53,7 +52,7 @@ final class ApiController extends AbstractController
         return $this->json($radioClass->getAvailableStreams());
     }
 
-    #[Route('/radios/{radioName}/streams/{streamName}')]
+    #[Route('/api/radios/{radioName}/streams/{streamName}', methods: ['GET'], format: 'json')]
     #[Cache(smaxage: 30, mustRevalidate: true)]
     public function getStreamInfo(string $radioName, string $streamName): JsonResponse
     {
