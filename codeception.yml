@@ -18,7 +18,7 @@ coverage:
     include:
         - src/**.php
 settings:
-    convert_deprecations_to_exceptions: true
     shuffle: true
     colors: true
     report_useless_tests: true
+    error_level: E_ALL
