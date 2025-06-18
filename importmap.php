@@ -22,7 +22,7 @@ return [
         'version' => '1.15.6',
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
-        'version' => '5.3.3',
+        'version' => '5.3.7',
         'type' => 'css',
     ],
 ];
