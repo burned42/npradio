@@ -8,7 +8,6 @@ use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use Exception;
-use InvalidArgumentException;
 use Override;
 use RuntimeException;
 use Throwable;
@@ -86,9 +85,7 @@ final class RauteMusik extends AbstractRadioStream
     #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
-        if (!in_array($streamName, $this->getAvailableStreams(), true)) {
-            throw new InvalidArgumentException('Invalid stream name given');
-        }
+        $this->assertValidStreamName($streamName);
 
         $streamInfo = new StreamInfo(
             self::RADIO_NAME,
