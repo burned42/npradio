@@ -32,6 +32,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . /var/www/html/
 RUN chown -R www-data:www-data /var/www/html/
+RUN git config --global --add safe.directory /var/www/html
 
 USER www-data
 RUN composer install --no-dev -d /var/www/html/
