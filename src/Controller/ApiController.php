@@ -33,12 +33,14 @@ final class ApiController extends AbstractController
     }
 
     #[Route('/api/radios', methods: ['GET'], format: 'json')]
+    #[Cache(smaxage: 300, mustRevalidate: true)]
     public function getRadioNames(): JsonResponse
     {
         return $this->json(array_keys($this->radios));
     }
 
     #[Route('/api/radios/{radioName}/streams', methods: ['GET'], format: 'json')]
+    #[Cache(smaxage: 300, mustRevalidate: true)]
     public function getStreams(string $radioName): JsonResponse
     {
         try {
