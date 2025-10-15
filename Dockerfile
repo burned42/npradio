@@ -2,7 +2,7 @@ FROM dunglas/frankenphp:php8.4
 
 ENV SERVER_NAME=':80'
 ENV FRANKENPHP_CONFIG='worker /app/public/index.php'
-ENV APP_RUNTIME='Runtime\\FrankenPhpSymfony\\Runtime'
+ENV APP_RUNTIME='Runtime\FrankenPhpSymfony\Runtime'
 
 ENV APP_ENV='prod'
 ENV APP_DEBUG='0'
