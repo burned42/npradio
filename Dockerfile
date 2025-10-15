@@ -1,13 +1,13 @@
 FROM dunglas/frankenphp:php8.4
 
-ENV SERVER_NAME ":80"
-ENV FRANKENPHP_CONFIG "worker /app/public/index.php"
-ENV APP_RUNTIME "Runtime\\FrankenPhpSymfony\\Runtime"
+ENV SERVER_NAME=':80'
+ENV FRANKENPHP_CONFIG='worker /app/public/index.php'
+ENV APP_RUNTIME='Runtime\\FrankenPhpSymfony\\Runtime'
 
-ENV APP_ENV prod
-ENV APP_DEBUG 0
-ENV APP_SECRET ''
-ENV SENTRY_DSN ''
+ENV APP_ENV='prod'
+ENV APP_DEBUG='0'
+ENV APP_SECRET=''
+ENV SENTRY_DSN=''
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends git unzip \
