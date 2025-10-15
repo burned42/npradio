@@ -16,10 +16,13 @@ RUN apt-get update \
 RUN install-php-extensions apcu intl zip @composer
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-RUN echo 'date.timezone = "Europe/Berlin"' > /usr/local/etc/php/conf.d/timezone.ini \
-    && echo 'short_open_tag = Off' > /usr/local/etc/php/conf.d/short_open_tag.ini \
-    && echo 'opcache.preload_user = root' > /usr/local/etc/php/conf.d/preloading.ini \
-    && echo 'opcache.preload = /app/config/preload.php' >> /usr/local/etc/php/conf.d/preloading.ini
+COPY <<-EOF /usr/local/etc/php/conf.d/local.ini
+	date.timezone = "Europe/Berlin"
+	short_open_tag = Off
+	expose_php = Off
+	opcache.preload_user = root
+	opcache.preload = /app/config/preload.php
+EOF
 
 COPY . /app
 RUN composer install --no-dev --optimize-autoloader -d /app/
