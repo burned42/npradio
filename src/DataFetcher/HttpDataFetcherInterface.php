@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\DataFetcher;
 
-use DOMDocument;
+use Dom\HTMLDocument;
+use Dom\XMLDocument;
 
 interface HttpDataFetcherInterface
 {
+    public const int DEFAULT_CACHE_DURATION_IN_SECONDS = 30;
+
     /**
      * @param array<string, string> $headers
      *
@@ -15,13 +18,11 @@ interface HttpDataFetcherInterface
      */
     public function getJsonData(
         string $url,
-        array $headers,
-        int $cacheDuration,
+        array $headers = [],
+        int $cacheDuration = self::DEFAULT_CACHE_DURATION_IN_SECONDS,
     ): array;
 
-    public function getUrlContent(string $url): string;
+    public function getXmlDom(string $url): XMLDocument;
 
-    public function getXmlDom(string $url): DOMDocument;
-
-    public function getHtmlDom(string $url): DOMDocument;
+    public function getHtmlDom(string $url): HTMLDocument;
 }

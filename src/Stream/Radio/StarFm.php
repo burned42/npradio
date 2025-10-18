@@ -74,25 +74,16 @@ final class StarFm extends AbstractRadioStream
     {
         try {
             $url = self::STREAM_INFO_BASE_URL.self::STREAM_INFO_URL_PATHS[$streamName];
-            $data = json_decode(
-                $this->getHttpDataFetcher()->getUrlContent($url),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
+            $data = $this->getHttpDataFetcher()->getJsonData($url);
         } catch (Exception $e) {
             throw new RuntimeException('could not get url content: '.$e->getMessage());
-        }
-
-        if (!is_array($data)) {
-            return $streamInfo;
         }
 
         $track = $data['song'] ?? null;
         if (is_string($track) && '' !== $track) {
             $streamInfo->track = $track;
         }
-        $artist = $data['artist'];
+        $artist = $data['artist'] ?? null;
         if (is_string($artist) && '' !== $artist) {
             $streamInfo->artist = $artist;
         }

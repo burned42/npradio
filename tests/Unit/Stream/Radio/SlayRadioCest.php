@@ -21,9 +21,14 @@ final class SlayRadioCest
      */
     public function _before(): void
     {
-        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
-            return file_get_contents(__DIR__.'/../../TestSamples/SlayRadioSample.json');
-        }]);
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, [
+            'getJsonData' => static fn () => json_decode(
+                file_get_contents(__DIR__.'/../../TestSamples/SlayRadioSample.json'),
+                true,
+                512,
+                JSON_THROW_ON_ERROR,
+            ),
+        ]);
         $this->httpDataFetcher = $httpDataFetcher;
     }
 
@@ -79,7 +84,7 @@ final class SlayRadioCest
      */
     public function testHttpDataFetcherException(UnitTester $I): void
     {
-        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getUrlContent' => static function () {
+        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getJsonData' => static function () {
             throw new RuntimeException('test');
         }]);
         $s = new SlayRadio($httpDataFetcher);

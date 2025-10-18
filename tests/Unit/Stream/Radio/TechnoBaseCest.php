@@ -9,7 +9,7 @@ use App\Stream\Radio\TechnoBase;
 use Codeception\Exception\TestRuntimeException;
 use Codeception\Stub;
 use DateTimeInterface;
-use DOMDocument;
+use Dom\XMLDocument;
 use Exception;
 use InvalidArgumentException;
 use Tests\Support\UnitTester;
@@ -23,13 +23,12 @@ final class TechnoBaseCest
      */
     public function _before(): void
     {
-        $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {
-            $dom = new DOMDocument();
-            $xml = file_get_contents(__DIR__.'/../../TestSamples/TechnoBaseSample.xml');
-            @$dom->loadXML($xml);
-
-            return $dom;
-        }]);
+        $httpDataFetcher = Stub::makeEmpty(
+            HttpDataFetcherInterface::class,
+            ['getXmlDom' => static fn () => XMLDocument::createFromFile(
+                __DIR__.'/../../TestSamples/TechnoBaseSample.xml',
+            )],
+        );
         $this->httpDataFetcher = $httpDataFetcher;
     }
 

@@ -8,7 +8,7 @@ use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\MetalOnly;
 use App\Stream\StreamInfo;
 use Codeception\Stub;
-use DOMDocument;
+use Dom\HTMLDocument;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -27,37 +27,28 @@ final class MetalOnlyCest
     {
         $httpDataFetcher = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
-            ['getHtmlDom' => static function () {
-                $dom = new DOMDocument();
-                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySample.html');
-                @$dom->loadHTML($html);
-
-                return $dom;
-            }]
+            ['getHtmlDom' => static fn () => HTMLDocument::createFromFile(
+                __DIR__.'/../../TestSamples/MetalOnlySample.html',
+                LIBXML_NOERROR,
+            )],
         );
         $this->httpDataFetcher = $httpDataFetcher;
 
         $httpDataFetcherNotOnAir = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
-            ['getHtmlDom' => static function () {
-                $dom = new DOMDocument();
-                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleNotOnAir.html');
-                @$dom->loadHTML($html);
-
-                return $dom;
-            }]
+            ['getHtmlDom' => static fn () => HTMLDocument::createFromFile(
+                __DIR__.'/../../TestSamples/MetalOnlySampleNotOnAir.html',
+                LIBXML_NOERROR,
+            )],
         );
         $this->httpDataFetcherNotOnAir = $httpDataFetcherNotOnAir;
 
         $httpDataFetcherOnAir = Stub::makeEmpty(
             HttpDataFetcherInterface::class,
-            ['getHtmlDom' => static function () {
-                $dom = new DOMDocument();
-                $html = file_get_contents(__DIR__.'/../../TestSamples/MetalOnlySampleOnAir.html');
-                @$dom->loadHTML($html);
-
-                return $dom;
-            }]
+            ['getHtmlDom' => static fn () => HTMLDocument::createFromFile(
+                __DIR__.'/../../TestSamples/MetalOnlySampleOnAir.html',
+                LIBXML_NOERROR,
+            )],
         );
         $this->httpDataFetcherOnAir = $httpDataFetcherOnAir;
     }

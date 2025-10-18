@@ -8,10 +8,7 @@ use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use DateTimeInterface;
-use DOMElement;
-use DOMNode;
-use DOMNodeList;
-use DOMXPath;
+use Dom\Element;
 use Exception;
 use Override;
 use RuntimeException;
@@ -79,57 +76,29 @@ final class MetalOnly extends AbstractRadioStream
             throw new RuntimeException('could not get html dom: '.$e->getMessage());
         }
 
-        $xpath = new DOMXPath($dom);
-
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(".//div[@class='boxx onair']//div[@class='headline']");
-        if (1 === $nodeList->length) {
-            $matches = [];
-            $node = $nodeList->item(0);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing the moderator');
-            }
-
-            if (preg_match('/^(.*) ist ON AIR$/', $node->nodeValue ?? '', $matches)) {
-                $moderator = trim((string) $matches[1]);
-                if ('' !== $moderator) {
-                    $streamInfo->moderator = $moderator;
-                }
+        $onairText = $dom->querySelector('div.boxx.onair > div.headline')
+            ?->textContent;
+        if (preg_match('/^(.*) ist ON AIR$/', $onairText ?? '', $matches)) {
+            $moderator = trim($matches[1]);
+            if ('' !== $moderator) {
+                $streamInfo->moderator = $moderator;
             }
         }
 
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(
-            ".//div[@class='boxx onair']//div[@class='data']"
-            ."//div[@class='streaminfo']//span[@class='sendung']//span"
+        $show = trim(
+            $dom->querySelector('div.boxx.onair > div.data > div.streaminfo > span.sendung > span')
+                ->textContent ?? ''
         );
-        if (1 === $nodeList->length) {
-            $node = $nodeList->item(0);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing the show');
-            }
-
-            $show = trim($node->nodeValue ?? '');
-            if ('' !== $show) {
-                $streamInfo->show = $show;
-            }
+        if ('' !== $show) {
+            $streamInfo->show = $show;
         }
 
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(
-            ".//div[@class='boxx onair']//div[@class='data']"
-            ."//div[@class='streaminfo']//span[@class='gerne']//span"
+        $genre = trim(
+            $dom->querySelector('div.boxx.onair > div.data > div.streaminfo > span.gerne > span')
+                ->textContent ?? ''
         );
-        if (1 === $nodeList->length) {
-            $node = $nodeList->item(0);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing the genre');
-            }
-
-            $genre = trim($node->nodeValue ?? '');
-            if ('' !== $genre) {
-                $streamInfo->genre = $genre;
-            }
+        if ('' !== $genre) {
+            $streamInfo->genre = $genre;
         }
 
         // Check if there is just some default data set for the current show
@@ -155,32 +124,19 @@ final class MetalOnly extends AbstractRadioStream
             $streamInfo->genre = null;
         }
 
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(
-            ".//div[@class='boxx onair']//div[@class='data']"
-            ."//div[@class='streaminfo']//span[@class='track']//span"
-        );
-        if (1 === $nodeList->length) {
-            $matches = [];
-            $node = $nodeList->item(0);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing the artist and track');
-            }
-
-            if (preg_match('/^(.*) - (.*)$/', $node->nodeValue ?? '', $matches)) {
-                $streamInfo->artist = trim((string) $matches[1]);
-                $streamInfo->track = trim((string) $matches[2]);
-            }
+        $songInfo = $dom->querySelector('div.boxx.onair > div.data > div.streaminfo > span.track > span')
+            ->textContent ?? '';
+        $matches = [];
+        if (preg_match('/^(.*) - (.*)$/', $songInfo, $matches)) {
+            $streamInfo->artist = trim($matches[1]);
+            $streamInfo->track = trim($matches[2]);
         }
 
         // fetch showtime
         $dayOfWeek = date('N');
-        /** @var DOMNodeList<DOMNode> $nodeList */
-        $nodeList = $xpath->query(
-            "(.//div[@class='sendeplan']//div[@class='day']"
-            ."//ul[@class='list'])[".$dayOfWeek.']//li[position()>2]'
-        );
-
+        $nodeList = $dom->querySelectorAll('div.sendeplan > div.day > ul.list')
+            ->item(((int) $dayOfWeek) - 1)
+            ?->querySelectorAll('li:not(:first-child):not(:nth-child(2))');
         $lastModerator = null;
         $found = false;
         $startTime = null;
@@ -189,12 +145,11 @@ final class MetalOnly extends AbstractRadioStream
             // the time table starts at 14:00 so the first row (0) represents 14:00
             $currentHour = (14 + $i) % 24;
             $node = $nodeList->item($i);
-            if (!($node instanceof DOMNode)) {
-                throw new RuntimeException('could not get DOMNode for parsing the moderator');
+            if (!($node instanceof Element)) {
+                throw new RuntimeException('could not get Element for parsing the moderator');
             }
-            /** @var DOMNode $item */
             $item = $node->firstChild;
-            $moderator = $item->nodeValue;
+            $moderator = $item->textContent;
 
             // if moderator changed since last loop run
             if ($lastModerator !== $moderator) {
@@ -209,9 +164,9 @@ final class MetalOnly extends AbstractRadioStream
             }
 
             if (
-                $item instanceof DOMElement
+                $item instanceof Element
                 && $item->hasAttribute('class')
-                && 'nowonair' === trim($item->getAttribute('class'))
+                && 'nowonair' === trim($item->getAttribute('class') ?? '')
                 && !in_array(trim($moderator ?? ''), ['', 'MetalHead'], true)
             ) {
                 $found = true;

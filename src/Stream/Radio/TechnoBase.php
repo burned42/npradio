@@ -8,7 +8,7 @@ use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use DateTimeInterface;
-use DOMNode;
+use Dom\Element;
 use Exception;
 use Override;
 use RuntimeException;
@@ -108,76 +108,60 @@ final class TechnoBase extends AbstractRadioStream
 
         $streamInfoNode = null;
 
-        /** @var DOMNode $weAreOneNode */
-        foreach ($dom->childNodes as $weAreOneNode) {
-            if ('weareone' === $weAreOneNode->nodeName) {
-                /** @var DOMNode $radioNode */
-                foreach ($weAreOneNode->childNodes as $radioNode) {
-                    if ('radio' === $radioNode->nodeName) {
-                        /** @var DOMNode $streamNode */
-                        foreach ($radioNode->childNodes as $streamNode) {
-                            if (
-                                'name' === $streamNode->nodeName
-                                && $streamNode->nodeValue === $this->getStreamNameWithoutSuffix($streamName)
-                            ) {
-                                $streamInfoNode = $radioNode;
-                                break 3;
-                            }
-                        }
-                    }
-                }
+        $radioNodes = $dom->querySelectorAll('weareone > radio');
+        foreach ($radioNodes as $radioNode) {
+            $name = $radioNode->querySelector('name')?->textContent;
+            if ($this->getStreamNameWithoutSuffix($streamName) === $name) {
+                $streamInfoNode = $radioNode;
+                break;
             }
         }
 
-        if ($streamInfoNode instanceof DOMNode) {
-            /** @var DOMNode $childNode */
-            foreach ($streamInfoNode->childNodes as $childNode) {
-                $nodeValue = trim($childNode->nodeValue ?? '');
-                if ('' === $nodeValue) {
-                    continue;
-                }
-
-                switch ($childNode->nodeName) {
-                    case 'moderator':
-                        $streamInfo->moderator = $nodeValue;
-                        break;
-                    case 'show':
-                        $streamInfo->show = $nodeValue;
-                        break;
-                    case 'style':
-                        $streamInfo->genre = $nodeValue;
-                        break;
-                    case 'artist':
-                        $streamInfo->artist = $nodeValue;
-                        break;
-                    case 'song':
-                        $streamInfo->track = $nodeValue;
-                        break;
-                    case 'starttime':
-                        $streamInfo->showStartTime = new DateTimeImmutable(
-                            str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
-                        );
-                        break;
-                    case 'endtime':
-                        $streamInfo->showEndTime = new DateTimeImmutable(
-                            str_pad($nodeValue, 2, '0', STR_PAD_LEFT).':00'
-                        );
-                        break;
-                }
-            }
+        if (!($streamInfoNode instanceof Element)) {
+            return $streamInfo;
         }
 
-        $showStartTime = $streamInfo->showStartTime;
-        $showEndTime = $streamInfo->showEndTime;
+        $streamInfo->moderator = $this->getTextContent($streamInfoNode, 'moderator');
+        $streamInfo->show = $this->getTextContent($streamInfoNode, 'show');
+        $streamInfo->genre = $this->getTextContent($streamInfoNode, 'style');
+        $streamInfo->artist = $this->getTextContent($streamInfoNode, 'artist');
+        $streamInfo->track = $this->getTextContent($streamInfoNode, 'song');
+
+        $startTime = $this->getTimeContent($streamInfoNode, 'starttime');
+        $endTime = $this->getTimeContent($streamInfoNode, 'endtime');
         if (
-            $showStartTime instanceof DateTimeInterface
-            && $showEndTime instanceof DateTimeInterface
-            && $showStartTime->format('H:i') === $showEndTime->format('H:i')
+            $startTime instanceof DateTimeInterface
+            && $endTime instanceof DateTimeInterface
+            && $startTime->format('H:i') !== $endTime->format('H:i')
         ) {
-            $streamInfo->showStartTime = null;
-            $streamInfo->showEndTime = null;
+            $streamInfo->showStartTime = $startTime;
+            $streamInfo->showEndTime = $endTime;
         }
 
         return $streamInfo;
+    }
+
+    private function getTextContent(Element $node, string $name): ?string
+    {
+        $content = trim(
+            $node->querySelector($name)->textContent ?? '',
+        );
+        if ('' === $content) {
+            return null;
+        }
+
+        return $content;
+    }
+
+    private function getTimeContent(Element $node, string $name): ?DateTimeInterface
+    {
+        $time = $this->getTextContent($node, $name);
+        if (!is_string($time)) {
+            return null;
+        }
+
+        return new DateTimeImmutable(
+            str_pad($time, 2, '0', STR_PAD_LEFT).':00'
+        );
     }
 }

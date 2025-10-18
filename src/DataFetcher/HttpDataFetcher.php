@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\DataFetcher;
 
-use DOMDocument;
+use Dom\HTMLDocument;
+use Dom\XMLDocument;
 use Exception;
 use Override;
 use RuntimeException;
@@ -16,8 +17,6 @@ use Throwable;
 
 final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 {
-    private const int DEFAULT_CACHE_DURATION_IN_SECONDS = 30;
-
     public function __construct(
         private HttpClientInterface $httpClient,
         private CacheInterface $cache,
@@ -82,8 +81,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         }
     }
 
-    #[Override]
-    public function getUrlContent(string $url): string
+    private function getUrlContent(string $url): string
     {
         try {
             /** @var string $response */
@@ -96,39 +94,26 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     }
 
     #[Override]
-    public function getXmlDom(string $url): DOMDocument
+    public function getXmlDom(string $url): XMLDocument
     {
         $xml = $this->getUrlContent($url);
 
-        $dom = new DOMDocument();
         try {
-            $domLoadXML = $dom->loadXML($xml);
-            if (false === $domLoadXML) {
-                throw new RuntimeException('\DomDocument::loadXML returned false');
-            }
+            return XMLDocument::createFromString($xml);
         } catch (Exception $e) {
             throw new RuntimeException('could not parse xml data: '.$e->getMessage());
         }
-
-        return $dom;
     }
 
     #[Override]
-    public function getHtmlDom(string $url): DOMDocument
+    public function getHtmlDom(string $url): HTMLDocument
     {
         $html = $this->getUrlContent($url);
 
-        $dom = new DOMDocument();
-        libxml_use_internal_errors(true);
-
         try {
-            if (!$dom->loadHTML($html)) {
-                throw new RuntimeException('\DomDocument::loadHTML returned false');
-            }
+            return HTMLDocument::createFromString($html, LIBXML_NOERROR);
         } catch (Throwable $t) {
             throw new RuntimeException('could not parse html data: '.$t->getMessage());
         }
-
-        return $dom;
     }
 }

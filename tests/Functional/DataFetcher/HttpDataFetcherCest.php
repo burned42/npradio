@@ -17,15 +17,15 @@ final class HttpDataFetcherCest
     {
         $httpDataFetcher = new HttpDataFetcher(
             new MockHttpClient([
-                new MockResponse('foobar'),
-                new MockResponse('meep'),
+                new MockResponse('["foobar"]'),
+                new MockResponse('["meep"]'),
             ]),
             $I->grabService(CacheInterface::class),
             $I->grabService(SluggerInterface::class)
         );
 
-        $I->assertEquals('foobar', $httpDataFetcher->getUrlContent('https://example.com'));
-        $I->assertEquals('foobar', $httpDataFetcher->getUrlContent('https://example.com'));
+        $I->assertEquals(['foobar'], $httpDataFetcher->getJsonData('https://example.com'));
+        $I->assertEquals(['foobar'], $httpDataFetcher->getJsonData('https://example.com'));
     }
 
     public function testJsonResponsesGetCached(FunctionalTester $I): void

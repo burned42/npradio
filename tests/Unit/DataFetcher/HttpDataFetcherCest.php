@@ -7,6 +7,8 @@ namespace Tests\Unit\DataFetcher;
 use App\DataFetcher\HttpDataFetcher;
 use App\DataFetcher\HttpDataFetcherInterface;
 use Codeception\Stub;
+use Dom\HTMLDocument;
+use Dom\XMLDocument;
 use DOMDocument;
 use InvalidArgumentException;
 use RuntimeException;
@@ -85,48 +87,6 @@ final class HttpDataFetcherCest
         );
     }
 
-    public function testGetUrlContent(UnitTester $I): void
-    {
-        $httpDataFetcher = new HttpDataFetcher(
-            new MockHttpClient(
-                new MockResponse(
-                    file_get_contents(
-                        'file://'.__DIR__.'/../TestSamples/JsonExample.json'
-                    )
-                )
-            ),
-            $this->cache,
-            $this->slugger
-        );
-
-        $data = $httpDataFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/');
-
-        $expected = <<<EXAMPLE
-            {
-              "foo": [
-                "bar",
-                "baz"
-              ]
-            }
-            EXAMPLE;
-        $I->assertEquals($expected, $data);
-    }
-
-    public function testGetUrlContentExceptionOnError(UnitTester $I): void
-    {
-        $callback = fn () => throw new RuntimeException('test');
-        $httpDataFetcher = new HttpDataFetcher(
-            new MockHttpClient($callback),
-            $this->cache,
-            $this->slugger
-        );
-
-        $I->expectThrowable(
-            RuntimeException::class,
-            fn () => $httpDataFetcher->getUrlContent('https://api.rautemusik.fm/streams_onair/')
-        );
-    }
-
     /**
      * @throws InvalidArgumentException
      * @throws RuntimeException
@@ -146,7 +106,7 @@ final class HttpDataFetcherCest
         );
 
         $I->assertInstanceOf(
-            DOMDocument::class,
+            XMLDocument::class,
             $httpDataFetcher->getXmlDom('https://tray.technobase.fm/radio.xml')
         );
     }
@@ -194,16 +154,12 @@ final class HttpDataFetcherCest
         );
 
         $I->assertInstanceOf(
-            DOMDocument::class,
+            HTMLDocument::class,
             $httpDataFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
         );
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
-    public function testExceptionOnBrokenHtml(UnitTester $I): void
+    public function testNoExceptionOnBrokenHtml(UnitTester $I): void
     {
         $httpDataFetcher = new HttpDataFetcher(
             new MockHttpClient(
@@ -217,9 +173,9 @@ final class HttpDataFetcherCest
             $this->slugger
         );
 
-        $I->expectThrowable(
-            RuntimeException::class,
-            fn () => $httpDataFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
+        $I->assertInstanceOf(
+            HTMLDocument::class,
+            $httpDataFetcher->getHtmlDom('https://www.metal-only.de/sendeplan.html')
         );
     }
 }
