@@ -34,7 +34,7 @@ class StreamInfoCommandCest
         }
     }
 
-    #[Examples(['radio-name' => 'foobar'], 'Invalid radio name given')]
+    #[Examples(['radio-name' => 'foobar'], 'Invalid radio name given: foobar')]
     #[Examples(['radio-name' => 'STAR FM', 'stream-name' => 'foobar'], 'Invalid stream name given')]
     public function testExceptionOnInvalidArguments(FunctionalTester $I, Example $example): void
     {

@@ -9,7 +9,6 @@ use App\DataFetcher\HttpDataFetcherInterface;
 use Codeception\Stub;
 use Dom\HTMLDocument;
 use Dom\XMLDocument;
-use DOMDocument;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;

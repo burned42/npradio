@@ -93,11 +93,8 @@ final readonly class StreamInfoCommand
 
     private function getRadioClass(string $radioName): AbstractRadioStream
     {
-        if (!array_key_exists($radioName, $this->radios)) {
-            throw new InvalidArgumentException('Invalid radio name given');
-        }
-
-        return $this->radios[$radioName];
+        return $this->radios[$radioName]
+            ?? throw new InvalidArgumentException('Invalid radio name given: '.$radioName);
     }
 
     /**

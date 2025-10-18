@@ -33,7 +33,7 @@ final class ApiCest
         $I->sendGET('radios/foobar/streams');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseIsJson();
-        $I->seeResponseContainsJson(['Invalid radio name given']);
+        $I->seeResponseContainsJson(['Invalid radio name given: foobar']);
     }
 
     public function testGetStreamInfo(ApiTester $I): void
@@ -67,7 +67,7 @@ final class ApiCest
         $I->sendGET('radios/foo/streams/bar');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseIsJson();
-        $I->seeResponseContainsJson(['Invalid radio name given']);
+        $I->seeResponseContainsJson(['Invalid radio name given: foo']);
     }
 
     public function testGetStreamInfoWithInvalidStreamName(ApiTester $I): void
@@ -77,6 +77,6 @@ final class ApiCest
         $I->sendGET('radios/'.$radioName.'/streams/bar');
         $I->seeResponseCodeIs(HttpCode::NOT_FOUND);
         $I->seeResponseIsJson();
-        $I->seeResponseContainsJson(['Invalid stream name given']);
+        $I->seeResponseContainsJson(['Invalid stream name given: bar']);
     }
 }

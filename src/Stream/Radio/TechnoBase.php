@@ -11,7 +11,6 @@ use DateTimeInterface;
 use Dom\Element;
 use Exception;
 use Override;
-use RuntimeException;
 use Throwable;
 
 use function Sentry\captureException;
@@ -100,11 +99,7 @@ final class TechnoBase extends AbstractRadioStream
 
     public function addTrackAndShowInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $dom = $this->getHttpDataFetcher()->getXmlDom(self::URL);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get xml dom: '.$e->getMessage());
-        }
+        $dom = $this->getHttpDataFetcher()->getXmlDom(self::URL);
 
         $streamInfoNode = null;
 

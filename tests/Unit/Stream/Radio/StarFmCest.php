@@ -74,7 +74,7 @@ final class StarFmCest
         $s = new StarFm($httpDataFetcher);
 
         $I->expectThrowable(
-            new InvalidArgumentException('Invalid stream name given'),
+            new InvalidArgumentException('Invalid stream name given: foobar'),
             static fn () => $s->getStreamInfo('foobar'),
         );
     }

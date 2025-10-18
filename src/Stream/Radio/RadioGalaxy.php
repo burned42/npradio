@@ -6,9 +6,7 @@ namespace App\Stream\Radio;
 
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
-use Exception;
 use Override;
-use RuntimeException;
 use Throwable;
 
 use function Sentry\captureException;
@@ -70,12 +68,8 @@ final class RadioGalaxy extends AbstractRadioStream
 
     public function addTrackAndShowInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $url = self::INFO_URLS_BY_STREAM[$streamName];
-            $data = $this->getHttpDataFetcher()->getJsonData($url);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get url content: '.$e->getMessage());
-        }
+        $url = self::INFO_URLS_BY_STREAM[$streamName];
+        $data = $this->getHttpDataFetcher()->getJsonData($url);
 
         if (!is_array($data[37])) {
             return $streamInfo;

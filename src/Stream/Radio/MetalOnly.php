@@ -70,11 +70,7 @@ final class MetalOnly extends AbstractRadioStream
      */
     public function addTrackAndShowInfo(StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $dom = $this->getHttpDataFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get html dom: '.$e->getMessage());
-        }
+        $dom = $this->getHttpDataFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
 
         $onairText = $dom->querySelector('div.boxx.onair > div.headline')
             ?->textContent;
@@ -136,7 +132,9 @@ final class MetalOnly extends AbstractRadioStream
         $dayOfWeek = date('N');
         $nodeList = $dom->querySelectorAll('div.sendeplan > div.day > ul.list')
             ->item(((int) $dayOfWeek) - 1)
-            ?->querySelectorAll('li:not(:first-child):not(:nth-child(2))');
+            ?->querySelectorAll('li:not(:first-child):not(:nth-child(2))')
+            ?? throw new RuntimeException('could not find stream plan for today');
+
         $lastModerator = null;
         $found = false;
         $startTime = null;
@@ -144,11 +142,10 @@ final class MetalOnly extends AbstractRadioStream
         for ($i = 0; $i < $nodeList->length; ++$i) {
             // the time table starts at 14:00 so the first row (0) represents 14:00
             $currentHour = (14 + $i) % 24;
-            $node = $nodeList->item($i);
-            if (!($node instanceof Element)) {
-                throw new RuntimeException('could not get Element for parsing the moderator');
-            }
-            $item = $node->firstChild;
+            $node = $nodeList->item($i)
+                ?? throw new RuntimeException('could not get Element for parsing the moderator');
+            $item = $node->firstChild
+                ?? throw new RuntimeException('did not find expected child Element');
             $moderator = $item->textContent;
 
             // if moderator changed since last loop run

@@ -24,7 +24,7 @@ abstract class AbstractRadioStream
     final protected function assertValidStreamName(string $streamName): void
     {
         if (!in_array($streamName, $this->getAvailableStreams(), true)) {
-            throw new InvalidArgumentException('Invalid stream name given');
+            throw new InvalidArgumentException('Invalid stream name given: '.$streamName);
         }
     }
 

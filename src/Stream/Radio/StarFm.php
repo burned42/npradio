@@ -6,9 +6,7 @@ namespace App\Stream\Radio;
 
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
-use Exception;
 use Override;
-use RuntimeException;
 use Throwable;
 
 use function Sentry\captureException;
@@ -72,12 +70,8 @@ final class StarFm extends AbstractRadioStream
 
     private function addTrackInfo(string $streamName, StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $url = self::STREAM_INFO_BASE_URL.self::STREAM_INFO_URL_PATHS[$streamName];
-            $data = $this->getHttpDataFetcher()->getJsonData($url);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get url content: '.$e->getMessage());
-        }
+        $url = self::STREAM_INFO_BASE_URL.self::STREAM_INFO_URL_PATHS[$streamName];
+        $data = $this->getHttpDataFetcher()->getJsonData($url);
 
         $track = $data['song'] ?? null;
         if (is_string($track) && '' !== $track) {

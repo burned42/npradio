@@ -130,12 +130,8 @@ final class RauteMusik extends AbstractRadioStream
      */
     private function addTrackInfo(StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
-            $data = $this->getApiData('/streams/'.$streamName.'/tracks/');
-        } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch track info: '.$t->getMessage());
-        }
+        $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
+        $data = $this->getApiData('/streams/'.$streamName.'/tracks/');
 
         if (!is_array($data['items'] ?? null)) {
             return $streamInfo;
@@ -161,12 +157,8 @@ final class RauteMusik extends AbstractRadioStream
      */
     private function addShowInfo(StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
-            $data = $this->getApiData('/streams_onair/');
-        } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch show info: '.$t->getMessage());
-        }
+        $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
+        $data = $this->getApiData('/streams_onair/');
 
         if (!is_array($data['items'] ?? null)) {
             return $streamInfo;

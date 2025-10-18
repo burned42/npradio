@@ -6,9 +6,7 @@ namespace App\Stream\Radio;
 
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
-use Exception;
 use Override;
-use RuntimeException;
 use Throwable;
 
 use function Sentry\captureException;
@@ -61,12 +59,8 @@ final class SlayRadio extends AbstractRadioStream
 
     public function addTrackInfo(StreamInfo $streamInfo): StreamInfo
     {
-        try {
-            $url = self::URL.self::API_PATH;
-            $data = $this->getHttpDataFetcher()->getJsonData($url);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not get url content: '.$e->getMessage());
-        }
+        $url = self::URL.self::API_PATH;
+        $data = $this->getHttpDataFetcher()->getJsonData($url);
 
         if (
             is_array($data['data'] ?? null)

@@ -54,7 +54,9 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 
                     return $response->getContent();
                 } catch (Throwable $t) {
-                    throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
+                    $message = 'could not fetch data from url "'.$url.'": '.$t->getMessage();
+
+                    throw new RuntimeException($message, previous: $t);
                 }
             }
         );
@@ -77,7 +79,9 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 
             return $response;
         } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch json data from url "'.$url.'": '.$t->getMessage());
+            $message = 'could not fetch json data from url "'.$url.'": '.$t->getMessage();
+
+            throw new RuntimeException($message, previous: $t);
         }
     }
 
@@ -89,7 +93,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 
             return $response;
         } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage());
+            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage(), previous: $t);
         }
     }
 
@@ -101,7 +105,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         try {
             return XMLDocument::createFromString($xml);
         } catch (Exception $e) {
-            throw new RuntimeException('could not parse xml data: '.$e->getMessage());
+            throw new RuntimeException('could not parse xml data: '.$e->getMessage(), previous: $e);
         }
     }
 
@@ -113,7 +117,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         try {
             return HTMLDocument::createFromString($html, LIBXML_NOERROR);
         } catch (Throwable $t) {
-            throw new RuntimeException('could not parse html data: '.$t->getMessage());
+            throw new RuntimeException('could not parse html data: '.$t->getMessage(), previous: $t);
         }
     }
 }
