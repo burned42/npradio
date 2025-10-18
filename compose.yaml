@@ -2,7 +2,7 @@ services:
     app:
         build: .
         volumes:
-            - .:/var/www/html
+            - .:/app
         ports:
             - "8000:80"
         env_file:
