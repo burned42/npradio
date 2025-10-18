@@ -27,7 +27,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     /**
      * @param array<string, mixed> $headers
      *
-     * @return array<mixed>|string
+     * @return ($json is true ? array<mixed> : string)
      */
     private function request(
         string $url,
@@ -85,22 +85,10 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
         }
     }
 
-    private function getUrlContent(string $url): string
-    {
-        try {
-            /** @var string $response */
-            $response = $this->request($url);
-
-            return $response;
-        } catch (Throwable $t) {
-            throw new RuntimeException('could not fetch data from url "'.$url.'": '.$t->getMessage(), previous: $t);
-        }
-    }
-
     #[Override]
     public function getXmlDom(string $url): XMLDocument
     {
-        $xml = $this->getUrlContent($url);
+        $xml = $this->request($url);
 
         try {
             return XMLDocument::createFromString($xml);
@@ -112,7 +100,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     #[Override]
     public function getHtmlDom(string $url): HTMLDocument
     {
-        $html = $this->getUrlContent($url);
+        $html = $this->request($url);
 
         try {
             return HTMLDocument::createFromString($html, LIBXML_NOERROR);
