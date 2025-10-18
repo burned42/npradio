@@ -8,7 +8,6 @@ use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use Codeception\Stub;
-use Exception;
 use Tests\Support\UnitTester;
 
 final class DummyRadioStream extends AbstractRadioStream
@@ -23,9 +22,6 @@ final class DummyRadioStream extends AbstractRadioStream
         return ['bar'];
     }
 
-    /**
-     * @throws Exception
-     */
     public function getStreamInfo(string $streamName): StreamInfo
     {
         return Stub::make(StreamInfo::class);
@@ -34,9 +30,6 @@ final class DummyRadioStream extends AbstractRadioStream
 
 class AbstractRadioStreamCest
 {
-    /**
-     * @throws Exception
-     */
     public function testConstructor(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);

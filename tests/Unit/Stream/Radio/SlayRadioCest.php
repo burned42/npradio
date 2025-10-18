@@ -7,7 +7,6 @@ namespace Tests\Unit\Stream\Radio;
 use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\SlayRadio;
 use Codeception\Stub;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Tests\Support\UnitTester;
@@ -16,9 +15,6 @@ final class SlayRadioCest
 {
     private HttpDataFetcherInterface $httpDataFetcher;
 
-    /**
-     * @throws Exception
-     */
     public function _before(): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, [
@@ -65,9 +61,6 @@ final class SlayRadioCest
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
@@ -79,9 +72,6 @@ final class SlayRadioCest
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataFetcherException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getJsonData' => static function () {

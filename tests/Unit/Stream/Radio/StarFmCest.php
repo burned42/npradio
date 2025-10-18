@@ -7,7 +7,6 @@ namespace Tests\Unit\Stream\Radio;
 use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\StarFm;
 use Codeception\Stub;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Tests\Support\UnitTester;
@@ -16,9 +15,6 @@ final class StarFmCest
 {
     private HttpDataFetcherInterface $httpDataFetcher;
 
-    /**
-     * @throws Exception
-     */
     public function _before(): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, [
@@ -65,9 +61,6 @@ final class StarFmCest
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
@@ -79,9 +72,6 @@ final class StarFmCest
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getJsonData' => static function () {

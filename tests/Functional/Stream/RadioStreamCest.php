@@ -15,7 +15,6 @@ use Codeception\Attribute\DataProvider;
 use Codeception\Example;
 use Generator;
 use ReflectionClass;
-use ReflectionException;
 use Tests\Support\FunctionalTester;
 
 final class RadioStreamCest
@@ -43,9 +42,6 @@ final class RadioStreamCest
         $I->assertIsString($info->artist);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     private function getExamples(): Generator
     {
         foreach (self::RADIOS as $radioClass) {

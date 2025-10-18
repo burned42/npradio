@@ -7,9 +7,7 @@ namespace App\Stream\Radio;
 use App\Stream\AbstractRadioStream;
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
-use Exception;
 use Override;
-use RuntimeException;
 use Throwable;
 
 use function Sentry\captureException;
@@ -79,9 +77,6 @@ final class RauteMusik extends AbstractRadioStream
         return self::RADIO_NAME;
     }
 
-    /**
-     * @throws Exception
-     */
     #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
@@ -125,9 +120,6 @@ final class RauteMusik extends AbstractRadioStream
         );
     }
 
-    /**
-     * @throws RuntimeException
-     */
     private function addTrackInfo(StreamInfo $streamInfo): StreamInfo
     {
         $streamName = $this->getStreamNameForUrl($streamInfo->streamName);
@@ -152,9 +144,6 @@ final class RauteMusik extends AbstractRadioStream
         return $streamInfo;
     }
 
-    /**
-     * @throws Exception
-     */
     private function addShowInfo(StreamInfo $streamInfo): StreamInfo
     {
         $streamName = $this->getStreamNameForUrl($streamInfo->streamName);

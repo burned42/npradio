@@ -6,7 +6,6 @@ namespace Tests\Unit\Stream;
 
 use App\Stream\StreamInfo;
 use DateTimeImmutable;
-use Exception;
 use JsonSerializable;
 use Tests\Support\UnitTester;
 
@@ -27,9 +26,6 @@ final class StreamInfoCest
         $I->assertEquals('blub', $streamInfo->streamUrl);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testJsonSerialize(UnitTester $I): void
     {
         $radioName = 'fake_radio';

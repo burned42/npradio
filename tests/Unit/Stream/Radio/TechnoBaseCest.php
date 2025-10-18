@@ -10,7 +10,6 @@ use Codeception\Exception\TestRuntimeException;
 use Codeception\Stub;
 use DateTimeInterface;
 use Dom\XMLDocument;
-use Exception;
 use InvalidArgumentException;
 use Tests\Support\UnitTester;
 
@@ -18,9 +17,6 @@ final class TechnoBaseCest
 {
     private HttpDataFetcherInterface $httpDataFetcher;
 
-    /**
-     * @throws Exception
-     */
     public function _before(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
@@ -49,9 +45,6 @@ final class TechnoBaseCest
         $I->assertNotEmpty((new TechnoBase($this->httpDataFetcher))->getAvailableStreams());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfo(UnitTester $I): void
     {
         $radio = new TechnoBase($this->httpDataFetcher);
@@ -76,9 +69,6 @@ final class TechnoBaseCest
         $I->assertInstanceOf(DateTimeInterface::class, $info->showEndTime);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
@@ -90,9 +80,6 @@ final class TechnoBaseCest
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataFetcherException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getXmlDom' => static function () {

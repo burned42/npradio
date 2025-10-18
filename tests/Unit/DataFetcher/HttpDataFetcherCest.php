@@ -9,7 +9,7 @@ use App\DataFetcher\HttpDataFetcherInterface;
 use Codeception\Stub;
 use Dom\HTMLDocument;
 use Dom\XMLDocument;
-use InvalidArgumentException;
+use DOMException;
 use RuntimeException;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
@@ -86,10 +86,6 @@ final class HttpDataFetcherCest
         );
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function testGetXmlDom(UnitTester $I): void
     {
         $httpDataFetcher = new HttpDataFetcher(
@@ -110,10 +106,6 @@ final class HttpDataFetcherCest
         );
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function testExceptionOnBrokenXml(UnitTester $I): void
     {
         $httpDataFetcher = new HttpDataFetcher(
@@ -129,15 +121,11 @@ final class HttpDataFetcherCest
         );
 
         $I->expectThrowable(
-            RuntimeException::class,
+            DOMException::class,
             fn () => $httpDataFetcher->getXmlDom('https://tray.technobase.fm/radio.xml')
         );
     }
 
-    /**
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
     public function testGetHtmlDom(UnitTester $I): void
     {
         $httpDataFetcher = new HttpDataFetcher(

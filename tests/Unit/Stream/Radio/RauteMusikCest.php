@@ -8,16 +8,12 @@ use App\DataFetcher\HttpDataFetcherInterface;
 use App\Stream\Radio\RauteMusik;
 use Codeception\Stub;
 use DateTimeInterface;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Tests\Support\UnitTester;
 
 final class RauteMusikCest
 {
-    /**
-     * @throws Exception
-     */
     private function getHttpDataFetcher(): HttpDataFetcherInterface
     {
         return Stub::makeEmpty(HttpDataFetcherInterface::class, ['getJsonData' => Stub::consecutive(
@@ -30,9 +26,6 @@ final class RauteMusikCest
         )]);
     }
 
-    /**
-     * @throws Exception
-     */
     public function canInstantiate(UnitTester $I): void
     {
         $rm = new RauteMusik($this->getHttpDataFetcher());
@@ -45,17 +38,11 @@ final class RauteMusikCest
         $I->assertNotEmpty(RauteMusik::getRadioName());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testStreamsSet(UnitTester $I): void
     {
         $I->assertNotEmpty((new RauteMusik($this->getHttpDataFetcher()))->getAvailableStreams());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfo(UnitTester $I): void
     {
         $radio = new RauteMusik($this->getHttpDataFetcher());
@@ -76,9 +63,6 @@ final class RauteMusikCest
         $I->assertEquals('DJLeTrace, Pat_Sundaze, PRIZM', $info->moderator);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
@@ -90,9 +74,6 @@ final class RauteMusikCest
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataFetcherExceptionOnTrackInfo(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(
@@ -110,9 +91,6 @@ final class RauteMusikCest
         $I->assertSame($streamName, $streamInfo->streamName);
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataFetcherExceptionOnShowInfo(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(

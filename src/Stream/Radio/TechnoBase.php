@@ -9,7 +9,6 @@ use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Dom\Element;
-use Exception;
 use Override;
 use Throwable;
 
@@ -73,9 +72,6 @@ final class TechnoBase extends AbstractRadioStream
         return self::RADIO_NAME;
     }
 
-    /**
-     * @throws Exception
-     */
     #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {

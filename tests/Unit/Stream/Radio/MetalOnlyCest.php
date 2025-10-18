@@ -9,7 +9,6 @@ use App\Stream\Radio\MetalOnly;
 use App\Stream\StreamInfo;
 use Codeception\Stub;
 use Dom\HTMLDocument;
-use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Tests\Support\UnitTester;
@@ -20,9 +19,6 @@ final class MetalOnlyCest
     private HttpDataFetcherInterface $httpDataFetcherNotOnAir;
     private HttpDataFetcherInterface $httpDataFetcherOnAir;
 
-    /**
-     * @throws Exception
-     */
     public function _before(): void
     {
         $httpDataFetcher = Stub::makeEmpty(
@@ -70,9 +66,6 @@ final class MetalOnlyCest
         $I->assertNotEmpty((new MetalOnly($this->httpDataFetcher))->getAvailableStreams());
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfo(UnitTester $I): void
     {
         $mo = new MetalOnly($this->httpDataFetcher);
@@ -88,9 +81,6 @@ final class MetalOnlyCest
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetInfoOnAir(UnitTester $I): void
     {
         $mo = new MetalOnly($this->httpDataFetcherOnAir);
@@ -107,9 +97,6 @@ final class MetalOnlyCest
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetInfoNotOnAir(UnitTester $I): void
     {
         $mo = new MetalOnly($this->httpDataFetcherNotOnAir);
@@ -123,9 +110,6 @@ final class MetalOnlyCest
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function testGetStreamInfoExceptionOnInvalidStreamName(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class);
@@ -137,9 +121,6 @@ final class MetalOnlyCest
         );
     }
 
-    /**
-     * @throws Exception
-     */
     public function testHttpDataFetcherException(UnitTester $I): void
     {
         $httpDataFetcher = Stub::makeEmpty(HttpDataFetcherInterface::class, ['getHtmlDom' => static function () {

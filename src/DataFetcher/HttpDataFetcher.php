@@ -6,14 +6,11 @@ namespace App\DataFetcher;
 
 use Dom\HTMLDocument;
 use Dom\XMLDocument;
-use Exception;
 use Override;
-use RuntimeException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Throwable;
 
 final readonly class HttpDataFetcher implements HttpDataFetcherInterface
 {
@@ -41,48 +38,33 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
             function (ItemInterface $item) use ($url, $headers, $json, $cacheDurationInSeconds): array|string {
                 $item->expiresAfter($cacheDurationInSeconds);
 
-                try {
-                    $response = $this->httpClient->request(
-                        'GET',
-                        $url,
-                        ['headers' => $headers]
-                    );
+                $response = $this->httpClient->request(
+                    'GET',
+                    $url,
+                    ['headers' => $headers]
+                );
 
-                    if ($json) {
-                        return $response->toArray();
-                    }
-
-                    return $response->getContent();
-                } catch (Throwable $t) {
-                    $message = 'could not fetch data from url "'.$url.'": '.$t->getMessage();
-
-                    throw new RuntimeException($message, previous: $t);
+                if ($json) {
+                    return $response->toArray();
                 }
+
+                return $response->getContent();
             }
         );
 
         return $response;
     }
 
-    /**
-     * @return array<mixed>
-     */
     #[Override]
     public function getJsonData(
         string $url,
         array $headers = [],
         int $cacheDuration = self::DEFAULT_CACHE_DURATION_IN_SECONDS,
     ): array {
-        try {
-            /** @var array<mixed> $response */
-            $response = $this->request($url, $headers, true, $cacheDuration);
+        /** @var array<mixed> $response */
+        $response = $this->request($url, $headers, true, $cacheDuration);
 
-            return $response;
-        } catch (Throwable $t) {
-            $message = 'could not fetch json data from url "'.$url.'": '.$t->getMessage();
-
-            throw new RuntimeException($message, previous: $t);
-        }
+        return $response;
     }
 
     #[Override]
@@ -90,11 +72,7 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     {
         $xml = $this->request($url);
 
-        try {
-            return XMLDocument::createFromString($xml);
-        } catch (Exception $e) {
-            throw new RuntimeException('could not parse xml data: '.$e->getMessage(), previous: $e);
-        }
+        return XMLDocument::createFromString($xml, LIBXML_NOERROR);
     }
 
     #[Override]
@@ -102,10 +80,6 @@ final readonly class HttpDataFetcher implements HttpDataFetcherInterface
     {
         $html = $this->request($url);
 
-        try {
-            return HTMLDocument::createFromString($html, LIBXML_NOERROR);
-        } catch (Throwable $t) {
-            throw new RuntimeException('could not parse html data: '.$t->getMessage(), previous: $t);
-        }
+        return HTMLDocument::createFromString($html, LIBXML_NOERROR);
     }
 }

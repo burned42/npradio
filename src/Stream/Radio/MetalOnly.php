@@ -9,7 +9,6 @@ use App\Stream\StreamInfo;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Dom\Element;
-use Exception;
 use Override;
 use RuntimeException;
 use Throwable;
@@ -41,9 +40,6 @@ final class MetalOnly extends AbstractRadioStream
         return self::RADIO_NAME;
     }
 
-    /**
-     * @throws Exception
-     */
     #[Override]
     public function getStreamInfo(string $streamName): StreamInfo
     {
@@ -65,9 +61,6 @@ final class MetalOnly extends AbstractRadioStream
         return $streamInfo;
     }
 
-    /**
-     * @throws Exception
-     */
     public function addTrackAndShowInfo(StreamInfo $streamInfo): StreamInfo
     {
         $dom = $this->getHttpDataFetcher()->getHtmlDom(self::URL.self::URL_INFO_PATH);
