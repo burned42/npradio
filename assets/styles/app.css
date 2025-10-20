@@ -31,7 +31,7 @@ a {
 .btn-npradio {
     background-color: var(--primary-75);
 }
-.btn-npradio:hover {
+.btn-npradio:hover, .btn-npradio:focus-visible {
     background-color: var(--primary-50);
 }
 
