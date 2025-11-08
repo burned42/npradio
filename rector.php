@@ -8,11 +8,16 @@ return RectorConfig::configure()
     ->withPhpSets()
     ->withImportNames()
     ->withPreparedSets(
+        codeQuality: true,
         typeDeclarations: true,
+        typeDeclarationDocblocks: true,
         privatization: true,
         instanceOf: true,
         earlyReturn: true,
-        strictBooleans: true,
+        rectorPreset: true,
+        doctrineCodeQuality: true,
+        symfonyCodeQuality: true,
+        symfonyConfigs: true,
     )
     ->withAttributesSets(symfony: true)
     ->withComposerBased(
