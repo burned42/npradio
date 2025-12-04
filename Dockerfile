@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:php8.4
+FROM dunglas/frankenphp:php8.5
 
 ENV SERVER_NAME=':80'
 ENV FRANKENPHP_CONFIG='worker /app/public/index.php'
@@ -25,6 +25,6 @@ COPY <<-EOF /usr/local/etc/php/conf.d/local.ini
 EOF
 
 COPY . /app
-RUN composer install --no-dev --optimize-autoloader -d /app/
+#RUN composer install --no-dev --optimize-autoloader -d /app/
 
 #RUN install-php-extensions pcov && echo 'pcov.enabled = 1' > /usr/local/etc/php/conf.d/pcov.ini
