@@ -22,6 +22,7 @@ COPY <<-EOF /usr/local/etc/php/conf.d/local.ini
 	expose_php = Off
 	opcache.preload_user = root
 	opcache.preload = /app/config/preload.php
+	register_argc_argv = On
 EOF
 
 COPY . /app
