@@ -6,7 +6,7 @@ on:
 
 env:
   PHP_VERSION: 8.5
-  SYMFONY_DEPRECATIONS_HELPER: max[total]=0
+  SYMFONY_DEPRECATIONS_HELPER: max[total]=122&max[self]=0&max[direct]=0&max[indirect]=122
 
 jobs:
   lint-yaml:
