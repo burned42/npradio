@@ -11,7 +11,7 @@ use Tests\Support\FunctionalTester;
 
 class StreamInfoCommandCest
 {
-    #[Examples(null, null, ['Metal Only', 'RauteMusik Club', 'TeaTime.FM'], [])]
+    #[Examples(null, null, ['Metal Only', 'RauteMusik Club', 'HouseTime.FM'], [])]
     #[Examples('TechnoBase.FM', null, ['HouseTime.FM', 'HardBase.FM'], ['Metal Only', 'RauteMusik'])]
     #[Examples('TechnoBase.FM', 'HouseTime.FM', ['HouseTime.FM'], ['HardBase.FM', 'RauteMusik'])]
     public function testCommand(FunctionalTester $I, Example $example): void
