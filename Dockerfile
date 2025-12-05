@@ -26,6 +26,6 @@ COPY <<-EOF /usr/local/etc/php/conf.d/local.ini
 EOF
 
 COPY . /app
-#RUN composer install --no-dev --optimize-autoloader -d /app/
+RUN composer install --no-dev --optimize-autoloader -d /app/
 
 #RUN install-php-extensions pcov && echo 'pcov.enabled = 1' > /usr/local/etc/php/conf.d/pcov.ini
