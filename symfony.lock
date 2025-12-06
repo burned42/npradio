@@ -3,12 +3,12 @@
         "version": "v4.6.2"
     },
     "codeception/codeception": {
-        "version": "5.1",
+        "version": "5.3",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
             "version": "5.0",
-            "ref": "0d213956834c5652a34e4bf9456ef26119132a8a"
+            "ref": "d2e352c4777ebd645b269ecdf793deccce16bf50"
         },
         "files": [
             "codeception.yml",
