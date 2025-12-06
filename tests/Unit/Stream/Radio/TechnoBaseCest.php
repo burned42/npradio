@@ -42,7 +42,7 @@ final class TechnoBaseCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new TechnoBase($this->httpDataFetcher))->getAvailableStreams());
+        $I->assertNotEmpty(new TechnoBase($this->httpDataFetcher)->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void

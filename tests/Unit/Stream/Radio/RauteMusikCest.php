@@ -40,7 +40,7 @@ final class RauteMusikCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new RauteMusik($this->getHttpDataFetcher()))->getAvailableStreams());
+        $I->assertNotEmpty(new RauteMusik($this->getHttpDataFetcher())->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void

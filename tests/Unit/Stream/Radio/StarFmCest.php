@@ -42,7 +42,7 @@ final class StarFmCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new StarFm($this->httpDataFetcher))->getAvailableStreams());
+        $I->assertNotEmpty(new StarFm($this->httpDataFetcher)->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void

@@ -42,7 +42,7 @@ final class RadioGalaxyCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new RadioGalaxy($this->httpDataFetcher))->getAvailableStreams());
+        $I->assertNotEmpty(new RadioGalaxy($this->httpDataFetcher)->getAvailableStreams());
     }
 
     public function testUpdateInfo(UnitTester $I): void

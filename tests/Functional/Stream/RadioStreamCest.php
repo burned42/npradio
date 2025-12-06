@@ -45,7 +45,7 @@ final class RadioStreamCest
     private function getExamples(): Generator
     {
         foreach (self::RADIOS as $radioClass) {
-            $radio = (new ReflectionClass($radioClass))
+            $radio = new ReflectionClass($radioClass)
                 ->newInstanceWithoutConstructor();
 
             foreach ($radio->getAvailableStreams() as $streamName) {

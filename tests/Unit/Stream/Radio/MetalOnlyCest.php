@@ -63,7 +63,7 @@ final class MetalOnlyCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new MetalOnly($this->httpDataFetcher))->getAvailableStreams());
+        $I->assertNotEmpty(new MetalOnly($this->httpDataFetcher)->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void

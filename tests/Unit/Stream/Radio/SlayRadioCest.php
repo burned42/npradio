@@ -42,7 +42,7 @@ final class SlayRadioCest
 
     public function testStreamsSet(UnitTester $I): void
     {
-        $I->assertNotEmpty((new SlayRadio($this->httpDataFetcher))->getAvailableStreams());
+        $I->assertNotEmpty(new SlayRadio($this->httpDataFetcher)->getAvailableStreams());
     }
 
     public function testGetStreamInfo(UnitTester $I): void
