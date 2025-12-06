@@ -13,18 +13,18 @@
         "ext-zend-opcache": "*",
         "runtime/frankenphp-symfony": "^0.2.0",
         "sentry/sentry-symfony": "^5",
-        "symfony/asset": "7.3.*",
-        "symfony/asset-mapper": "7.3.*",
-        "symfony/cache": "7.3.*",
-        "symfony/console": "7.3.*",
-        "symfony/dotenv": "7.3.*",
+        "symfony/asset": "7.4.*",
+        "symfony/asset-mapper": "7.4.*",
+        "symfony/cache": "7.4.*",
+        "symfony/console": "7.4.*",
+        "symfony/dotenv": "7.4.*",
         "symfony/flex": "^2.0",
-        "symfony/framework-bundle": "7.3.*",
-        "symfony/http-client": "7.3.*",
-        "symfony/runtime": "7.3.*",
-        "symfony/string": "7.3.*",
-        "symfony/twig-bundle": "7.3.*",
-        "symfony/yaml": "7.3.*",
+        "symfony/framework-bundle": "7.4.*",
+        "symfony/http-client": "7.4.*",
+        "symfony/runtime": "7.4.*",
+        "symfony/string": "7.4.*",
+        "symfony/twig-bundle": "7.4.*",
+        "symfony/yaml": "7.4.*",
         "twig/extra-bundle": "^3.0",
         "twig/twig": "^3.0"
     },
@@ -40,7 +40,7 @@
         "phpstan/phpstan-symfony": "^2.0",
         "rector/rector": "^2.0",
         "squizlabs/php_codesniffer": "^4.0",
-        "symfony/phpunit-bridge": "7.3.*"
+        "symfony/phpunit-bridge": "7.4.*"
     },
     "config": {
         "preferred-install": {
@@ -135,7 +135,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.3.*"
+            "require": "7.4.*"
         }
     }
 }
