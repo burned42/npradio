@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 $finder = new PhpCsFixer\Finder()
     ->in(__DIR__)
+    ->notPath('config/reference.php')
     ->exclude(['tests/Support/_generated', 'var/'])
 ;
 
