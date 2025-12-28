@@ -12,22 +12,22 @@ jobs:
   security-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer security-check
 
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: docker/login-action@v2
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/build-push-action@v4
+      - uses: docker/build-push-action@v6
         with:
           pull: true
           tags: ghcr.io/burned42/npradio:latest

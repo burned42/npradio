@@ -12,98 +12,98 @@ jobs:
   lint-yaml:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer lint-yaml
 
   lint-container:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer lint-container
 
   lint-twig:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer lint-twig
 
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer php-cs-fixer
 
   phpstan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer phpstan
 
   phpcs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer phpcs
 
   rector:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer rector
 
   codeception:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
           ini-values: 'register_argc_argv=On'
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer codeception-coverage-xml
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v5
 
   security-check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-      - uses: ramsey/composer-install@v2
+      - uses: ramsey/composer-install@v3
       - run: composer security-check
 
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: docker/build-push-action@v4
+      - uses: docker/build-push-action@v6
         with:
           pull: true
