@@ -32,16 +32,6 @@ final class StreamInfo implements JsonSerializable
     #[Override]
     public function jsonSerialize(): array
     {
-        $showStartTime = $this->showStartTime;
-        if ($showStartTime instanceof DateTimeInterface) {
-            $showStartTime = $showStartTime->format('H:i');
-        }
-
-        $showEndTime = $this->showEndTime;
-        if ($showEndTime instanceof DateTimeInterface) {
-            $showEndTime = $showEndTime->format('H:i');
-        }
-
         return [
             'radio_name' => $this->radioName,
             'stream_name' => $this->streamName,
@@ -51,8 +41,8 @@ final class StreamInfo implements JsonSerializable
                 'name' => $this->show,
                 'genre' => $this->genre,
                 'moderator' => $this->moderator,
-                'start_time' => $showStartTime,
-                'end_time' => $showEndTime,
+                'start_time' => $this->showStartTime?->format('H:i'),
+                'end_time' => $this->showEndTime?->format('H:i'),
             ],
             'track' => $this->track,
             'artist' => $this->artist,
