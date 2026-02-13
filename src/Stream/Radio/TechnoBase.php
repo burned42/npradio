@@ -100,7 +100,7 @@ final class TechnoBase extends AbstractRadioStream
             }
         }
 
-        if (!($streamInfoNode instanceof Element)) {
+        if (!$streamInfoNode instanceof Element) {
             return $streamInfo;
         }
 
