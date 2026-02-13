@@ -19,7 +19,7 @@ return RectorConfig::configure()
         symfonyCodeQuality: true,
         symfonyConfigs: true,
     )
-    ->withAttributesSets(symfony: true)
+    ->withAttributesSets()
     ->withComposerBased(
         twig: true,
         symfony: true,
