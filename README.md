@@ -9,3 +9,24 @@ how the show is named etc. and offers the possibility to play these streams
 directly in your browser.
 
 A Docker image is available at `ghcr.io/burned42/npradio`.
+
+## Development
+
+Building/Updating the docker image:
+
+    docker compose build --pull
+
+Dependency updates:
+
+    # Update composer packages
+    docker compose run --rm app composer update
+
+    # Check for symfony flex recipe updates
+    docker compose run --rm app composer recipes --outdated
+
+    # Update symfony asset mapper importmap
+    docker compose run --rm app composer update-importmap
+
+Run all the tests:
+
+    docker compose run --rm app composer run-checks
