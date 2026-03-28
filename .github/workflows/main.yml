@@ -89,7 +89,7 @@ jobs:
           ini-values: 'register_argc_argv=On'
       - uses: ramsey/composer-install@v4
       - run: composer codeception-coverage-xml
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
 
   security-check:
     runs-on: ubuntu-latest
