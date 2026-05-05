@@ -128,7 +128,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type FrameworkConfig = array{
  *     secret?: scalar|Param|null,
  *     http_method_override?: bool|Param, // Set true to enable support for the '_method' request parameter to determine the intended HTTP method on POST requests. // Default: false
- *     allowed_http_method_override?: list<string|Param>|null,
+ *     allowed_http_method_override?: null|list<string|Param>,
  *     trust_x_sendfile_type_header?: scalar|Param|null, // Set true to enable support for xsendfile in binary file responses. // Default: "%env(bool:default::SYMFONY_TRUST_X_SENDFILE_TYPE_HEADER)%"
  *     ide?: scalar|Param|null, // Default: "%env(default::SYMFONY_IDE)%"
  *     test?: bool|Param,
@@ -136,9 +136,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     set_locale_from_accept_language?: bool|Param, // Whether to use the Accept-Language HTTP header to set the Request locale (only when the "_locale" request attribute is not passed). // Default: false
  *     set_content_language_from_locale?: bool|Param, // Whether to set the Content-Language HTTP header on the Response using the Request locale. // Default: false
  *     enabled_locales?: list<scalar|Param|null>,
- *     trusted_hosts?: list<scalar|Param|null>,
+ *     trusted_hosts?: string|list<scalar|Param|null>,
  *     trusted_proxies?: mixed, // Default: ["%env(default::SYMFONY_TRUSTED_PROXIES)%"]
- *     trusted_headers?: list<scalar|Param|null>,
+ *     trusted_headers?: string|list<scalar|Param|null>,
  *     error_controller?: scalar|Param|null, // Default: "error_controller"
  *     handle_all_throwables?: bool|Param, // HttpKernel will handle all kinds of \Throwable. // Default: true
  *     csrf_protection?: bool|array{
@@ -193,44 +193,44 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     workflows?: bool|array{
  *         enabled?: bool|Param, // Default: false
  *         workflows?: array<string, array{ // Default: []
- *             audit_trail?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *             },
- *             type?: "workflow"|"state_machine"|Param, // Default: "state_machine"
- *             marking_store?: array{
- *                 type?: "method"|Param,
- *                 property?: scalar|Param|null,
- *                 service?: scalar|Param|null,
- *             },
- *             supports?: list<scalar|Param|null>,
- *             definition_validators?: list<scalar|Param|null>,
- *             support_strategy?: scalar|Param|null,
- *             initial_marking?: list<scalar|Param|null>,
- *             events_to_dispatch?: list<string|Param>|null,
- *             places?: list<array{ // Default: []
- *                 name: scalar|Param|null,
- *                 metadata?: list<mixed>,
+ *                 audit_trail?: bool|array{
+ *                     enabled?: bool|Param, // Default: false
+ *                 },
+ *                 type?: "workflow"|"state_machine"|Param, // Default: "state_machine"
+ *                 marking_store?: array{
+ *                     type?: "method"|Param,
+ *                     property?: scalar|Param|null,
+ *                     service?: scalar|Param|null,
+ *                 },
+ *                 supports?: string|list<scalar|Param|null>,
+ *                 definition_validators?: list<scalar|Param|null>,
+ *                 support_strategy?: scalar|Param|null,
+ *                 initial_marking?: backed-enum|string|list<scalar|Param|null>,
+ *                 events_to_dispatch?: null|list<string|Param>,
+ *                 places?: string|list<array{ // Default: []
+ *                         name?: scalar|Param|null,
+ *                         metadata?: array<string, mixed>,
+ *                     }>,
+ *                 transitions?: list<array{ // Default: []
+ *                         name?: string|Param,
+ *                         guard?: string|Param, // An expression to block the transition.
+ *                         from?: backed-enum|string|list<array{ // Default: []
+ *                                 place?: string|Param,
+ *                                 weight?: int|Param, // Default: 1
+ *                             }>,
+ *                         to?: backed-enum|string|list<array{ // Default: []
+ *                                 place?: string|Param,
+ *                                 weight?: int|Param, // Default: 1
+ *                             }>,
+ *                         weight?: int|Param, // Default: 1
+ *                         metadata?: array<string, mixed>,
+ *                     }>,
+ *                 metadata?: array<string, mixed>,
  *             }>,
- *             transitions: list<array{ // Default: []
- *                 name: string|Param,
- *                 guard?: string|Param, // An expression to block the transition.
- *                 from?: list<array{ // Default: []
- *                     place: string|Param,
- *                     weight?: int|Param, // Default: 1
- *                 }>,
- *                 to?: list<array{ // Default: []
- *                     place: string|Param,
- *                     weight?: int|Param, // Default: 1
- *                 }>,
- *                 weight?: int|Param, // Default: 1
- *                 metadata?: list<mixed>,
- *             }>,
- *             metadata?: list<mixed>,
- *         }>,
  *     },
  *     router?: bool|array{ // Router configuration
  *         enabled?: bool|Param, // Default: false
- *         resource: scalar|Param|null,
+ *         resource?: scalar|Param|null,
  *         type?: scalar|Param|null,
  *         default_uri?: scalar|Param|null, // The default URI used to generate URLs in a non-HTTP context. // Default: null
  *         http_port?: scalar|Param|null, // Default: 80
@@ -268,20 +268,20 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         version_format?: scalar|Param|null, // Default: "%%s?%%s"
  *         json_manifest_path?: scalar|Param|null, // Default: null
  *         base_path?: scalar|Param|null, // Default: ""
- *         base_urls?: list<scalar|Param|null>,
+ *         base_urls?: string|list<scalar|Param|null>,
  *         packages?: array<string, array{ // Default: []
- *             strict_mode?: bool|Param, // Throw an exception if an entry is missing from the manifest.json. // Default: false
- *             version_strategy?: scalar|Param|null, // Default: null
- *             version?: scalar|Param|null,
- *             version_format?: scalar|Param|null, // Default: null
- *             json_manifest_path?: scalar|Param|null, // Default: null
- *             base_path?: scalar|Param|null, // Default: ""
- *             base_urls?: list<scalar|Param|null>,
- *         }>,
+ *                 strict_mode?: bool|Param, // Throw an exception if an entry is missing from the manifest.json. // Default: false
+ *                 version_strategy?: scalar|Param|null, // Default: null
+ *                 version?: scalar|Param|null,
+ *                 version_format?: scalar|Param|null, // Default: null
+ *                 json_manifest_path?: scalar|Param|null, // Default: null
+ *                 base_path?: scalar|Param|null, // Default: ""
+ *                 base_urls?: string|list<scalar|Param|null>,
+ *             }>,
  *     },
  *     asset_mapper?: bool|array{ // Asset Mapper configuration
  *         enabled?: bool|Param, // Default: true
- *         paths?: array<string, scalar|Param|null>,
+ *         paths?: string|array<string, scalar|Param|null>,
  *         excluded_patterns?: list<scalar|Param|null>,
  *         exclude_dotfiles?: bool|Param, // If true, any files starting with "." will be excluded from the asset mapper. // Default: true
  *         server?: bool|Param, // If true, a "dev server" will return the assets from the public directory (true in "debug" mode only by default). // Default: true
@@ -300,7 +300,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     },
  *     translator?: bool|array{ // Translator configuration
  *         enabled?: bool|Param, // Default: false
- *         fallbacks?: list<scalar|Param|null>,
+ *         fallbacks?: string|list<scalar|Param|null>,
  *         logging?: bool|Param, // Default: false
  *         formatter?: scalar|Param|null, // Default: "translator.formatter.default"
  *         cache_dir?: scalar|Param|null, // Default: "%kernel.cache_dir%/translations"
@@ -315,21 +315,21 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             localizable_html_attributes?: list<scalar|Param|null>,
  *         },
  *         providers?: array<string, array{ // Default: []
- *             dsn?: scalar|Param|null,
- *             domains?: list<scalar|Param|null>,
- *             locales?: list<scalar|Param|null>,
- *         }>,
+ *                 dsn?: scalar|Param|null,
+ *                 domains?: list<scalar|Param|null>,
+ *                 locales?: list<scalar|Param|null>,
+ *             }>,
  *         globals?: array<string, string|array{ // Default: []
- *             value?: mixed,
- *             message?: string|Param,
- *             parameters?: array<string, scalar|Param|null>,
- *             domain?: string|Param,
- *         }>,
+ *                 value?: mixed,
+ *                 message?: string|Param,
+ *                 parameters?: array<string, scalar|Param|null>,
+ *                 domain?: string|Param,
+ *             }>,
  *     },
  *     validation?: bool|array{ // Validation configuration
  *         enabled?: bool|Param, // Default: false
  *         enable_attributes?: bool|Param, // Default: true
- *         static_method?: list<scalar|Param|null>,
+ *         static_method?: string|list<scalar|Param|null>,
  *         translation_domain?: scalar|Param|null, // Default: "validators"
  *         email_validation_mode?: "html5"|"html5-allow-no-tld"|"strict"|Param, // Default: "html5"
  *         mapping?: array{
@@ -341,8 +341,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *         disable_translation?: bool|Param, // Default: false
  *         auto_mapping?: array<string, array{ // Default: []
- *             services?: list<scalar|Param|null>,
- *         }>,
+ *                 services?: list<scalar|Param|null>,
+ *             }>,
  *     },
  *     serializer?: bool|array{ // Serializer configuration
  *         enabled?: bool|Param, // Default: false
@@ -353,13 +353,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         mapping?: array{
  *             paths?: list<scalar|Param|null>,
  *         },
- *         default_context?: list<mixed>,
+ *         default_context?: array<string, mixed>,
  *         named_serializers?: array<string, array{ // Default: []
- *             name_converter?: scalar|Param|null,
- *             default_context?: list<mixed>,
- *             include_built_in_normalizers?: bool|Param, // Whether to include the built-in normalizers // Default: true
- *             include_built_in_encoders?: bool|Param, // Whether to include the built-in encoders // Default: true
- *         }>,
+ *                 name_converter?: scalar|Param|null,
+ *                 default_context?: array<string, mixed>,
+ *                 include_built_in_normalizers?: bool|Param, // Whether to include the built-in normalizers // Default: true
+ *                 include_built_in_encoders?: bool|Param, // Whether to include the built-in encoders // Default: true
+ *             }>,
  *     },
  *     property_access?: bool|array{ // Property access configuration
  *         enabled?: bool|Param, // Default: false
@@ -389,40 +389,40 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         default_doctrine_dbal_provider?: scalar|Param|null, // Default: "database_connection"
  *         default_pdo_provider?: scalar|Param|null, // Default: null
  *         pools?: array<string, array{ // Default: []
- *             adapters?: list<scalar|Param|null>,
- *             tags?: scalar|Param|null, // Default: null
- *             public?: bool|Param, // Default: false
- *             default_lifetime?: scalar|Param|null, // Default lifetime of the pool.
- *             provider?: scalar|Param|null, // Overwrite the setting from the default provider for this adapter.
- *             early_expiration_message_bus?: scalar|Param|null,
- *             clearer?: scalar|Param|null,
- *         }>,
+ *                 adapters?: string|list<scalar|Param|null>,
+ *                 tags?: scalar|Param|null, // Default: null
+ *                 public?: bool|Param, // Default: false
+ *                 default_lifetime?: scalar|Param|null, // Default lifetime of the pool.
+ *                 provider?: scalar|Param|null, // Overwrite the setting from the default provider for this adapter.
+ *                 early_expiration_message_bus?: scalar|Param|null,
+ *                 clearer?: scalar|Param|null,
+ *             }>,
  *     },
  *     php_errors?: array{ // PHP errors handling configuration
  *         log?: mixed, // Use the application logger instead of the PHP logger for logging PHP errors. // Default: true
  *         throw?: bool|Param, // Throw PHP errors as \ErrorException instances. // Default: true
  *     },
  *     exceptions?: array<string, array{ // Default: []
- *         log_level?: scalar|Param|null, // The level of log message. Null to let Symfony decide. // Default: null
- *         status_code?: scalar|Param|null, // The status code of the response. Null or 0 to let Symfony decide. // Default: null
- *         log_channel?: scalar|Param|null, // The channel of log message. Null to let Symfony decide. // Default: null
- *     }>,
+ *             log_level?: scalar|Param|null, // The level of log message. Null to let Symfony decide. // Default: null
+ *             status_code?: scalar|Param|null, // The status code of the response. Null or 0 to let Symfony decide. // Default: null
+ *             log_channel?: scalar|Param|null, // The channel of log message. Null to let Symfony decide. // Default: null
+ *         }>,
  *     web_link?: bool|array{ // Web links configuration
  *         enabled?: bool|Param, // Default: false
  *     },
  *     lock?: bool|string|array{ // Lock configuration
  *         enabled?: bool|Param, // Default: false
- *         resources?: array<string, string|list<scalar|Param|null>>,
+ *         resources?: string|array<string, string|list<scalar|Param|null>>,
  *     },
  *     semaphore?: bool|string|array{ // Semaphore configuration
  *         enabled?: bool|Param, // Default: false
- *         resources?: array<string, scalar|Param|null>,
+ *         resources?: string|array<string, scalar|Param|null>,
  *     },
  *     messenger?: bool|array{ // Messenger configuration
  *         enabled?: bool|Param, // Default: false
- *         routing?: array<string, array{ // Default: []
- *             senders?: list<scalar|Param|null>,
- *         }>,
+ *         routing?: array<string, string|array{ // Default: []
+ *                 senders?: list<scalar|Param|null>,
+ *             }>,
  *         serializer?: array{
  *             default_serializer?: scalar|Param|null, // Service id to use as the default serializer for the transports. // Default: "messenger.transport.native_php_serializer"
  *             symfony_serializer?: array{
@@ -431,34 +431,34 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             },
  *         },
  *         transports?: array<string, string|array{ // Default: []
- *             dsn?: scalar|Param|null,
- *             serializer?: scalar|Param|null, // Service id of a custom serializer to use. // Default: null
- *             options?: list<mixed>,
- *             failure_transport?: scalar|Param|null, // Transport name to send failed messages to (after all retries have failed). // Default: null
- *             retry_strategy?: string|array{
- *                 service?: scalar|Param|null, // Service id to override the retry strategy entirely. // Default: null
- *                 max_retries?: int|Param, // Default: 3
- *                 delay?: int|Param, // Time in ms to delay (or the initial value when multiplier is used). // Default: 1000
- *                 multiplier?: float|Param, // If greater than 1, delay will grow exponentially for each retry: this delay = (delay * (multiple ^ retries)). // Default: 2
- *                 max_delay?: int|Param, // Max time in ms that a retry should ever be delayed (0 = infinite). // Default: 0
- *                 jitter?: float|Param, // Randomness to apply to the delay (between 0 and 1). // Default: 0.1
- *             },
- *             rate_limiter?: scalar|Param|null, // Rate limiter name to use when processing messages. // Default: null
- *         }>,
+ *                 dsn?: scalar|Param|null,
+ *                 serializer?: scalar|Param|null, // Service id of a custom serializer to use. // Default: null
+ *                 options?: array<string, mixed>,
+ *                 failure_transport?: scalar|Param|null, // Transport name to send failed messages to (after all retries have failed). // Default: null
+ *                 retry_strategy?: string|array{
+ *                     service?: scalar|Param|null, // Service id to override the retry strategy entirely. // Default: null
+ *                     max_retries?: int|Param, // Default: 3
+ *                     delay?: int|Param, // Time in ms to delay (or the initial value when multiplier is used). // Default: 1000
+ *                     multiplier?: float|Param, // If greater than 1, delay will grow exponentially for each retry: this delay = (delay * (multiple ^ retries)). // Default: 2
+ *                     max_delay?: int|Param, // Max time in ms that a retry should ever be delayed (0 = infinite). // Default: 0
+ *                     jitter?: float|Param, // Randomness to apply to the delay (between 0 and 1). // Default: 0.1
+ *                 },
+ *                 rate_limiter?: scalar|Param|null, // Rate limiter name to use when processing messages. // Default: null
+ *             }>,
  *         failure_transport?: scalar|Param|null, // Transport name to send failed messages to (after all retries have failed). // Default: null
- *         stop_worker_on_signals?: list<scalar|Param|null>,
+ *         stop_worker_on_signals?: int|string|list<scalar|Param|null>,
  *         default_bus?: scalar|Param|null, // Default: null
  *         buses?: array<string, array{ // Default: {"messenger.bus.default":{"default_middleware":{"enabled":true,"allow_no_handlers":false,"allow_no_senders":true},"middleware":[]}}
- *             default_middleware?: bool|string|array{
- *                 enabled?: bool|Param, // Default: true
- *                 allow_no_handlers?: bool|Param, // Default: false
- *                 allow_no_senders?: bool|Param, // Default: true
- *             },
- *             middleware?: list<string|array{ // Default: []
- *                 id: scalar|Param|null,
- *                 arguments?: list<mixed>,
+ *                 default_middleware?: bool|string|array{
+ *                     enabled?: bool|Param, // Default: true
+ *                     allow_no_handlers?: bool|Param, // Default: false
+ *                     allow_no_senders?: bool|Param, // Default: true
+ *                 },
+ *                 middleware?: string|list<string|array{ // Default: []
+ *                         id?: scalar|Param|null,
+ *                         arguments?: list<mixed>,
+ *                     }>,
  *             }>,
- *         }>,
  *     },
  *     scheduler?: bool|array{ // Scheduler configuration
  *         enabled?: bool|Param, // Default: false
@@ -503,10 +503,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             retry_failed?: bool|array{
  *                 enabled?: bool|Param, // Default: false
  *                 retry_strategy?: scalar|Param|null, // service id to override the retry strategy. // Default: null
- *                 http_codes?: array<string, array{ // Default: []
- *                     code?: int|Param,
- *                     methods?: list<string|Param>,
- *                 }>,
+ *                 http_codes?: int|string|array<string, array{ // Default: []
+ *                         code?: int|Param,
+ *                         methods?: string|list<string|Param>,
+ *                     }>,
  *                 max_retries?: int|Param, // Default: 3
  *                 delay?: int|Param, // Time in ms to delay (or the initial value when multiplier is used). // Default: 1000
  *                 multiplier?: float|Param, // If greater than 1, delay will grow exponentially for each retry: delay * (multiple ^ retries). // Default: 2
@@ -516,57 +516,57 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         },
  *         mock_response_factory?: scalar|Param|null, // The id of the service that should generate mock responses. It should be either an invokable or an iterable.
  *         scoped_clients?: array<string, string|array{ // Default: []
- *             scope?: scalar|Param|null, // The regular expression that the request URL must match before adding the other options. When none is provided, the base URI is used instead.
- *             base_uri?: scalar|Param|null, // The URI to resolve relative URLs, following rules in RFC 3985, section 2.
- *             auth_basic?: scalar|Param|null, // An HTTP Basic authentication "username:password".
- *             auth_bearer?: scalar|Param|null, // A token enabling HTTP Bearer authorization.
- *             auth_ntlm?: scalar|Param|null, // A "username:password" pair to use Microsoft NTLM authentication (requires the cURL extension).
- *             query?: array<string, scalar|Param|null>,
- *             headers?: array<string, mixed>,
- *             max_redirects?: int|Param, // The maximum number of redirects to follow.
- *             http_version?: scalar|Param|null, // The default HTTP version, typically 1.1 or 2.0, leave to null for the best version.
- *             resolve?: array<string, scalar|Param|null>,
- *             proxy?: scalar|Param|null, // The URL of the proxy to pass requests through or null for automatic detection.
- *             no_proxy?: scalar|Param|null, // A comma separated list of hosts that do not require a proxy to be reached.
- *             timeout?: float|Param, // The idle timeout, defaults to the "default_socket_timeout" ini parameter.
- *             max_duration?: float|Param, // The maximum execution time for the request+response as a whole.
- *             bindto?: scalar|Param|null, // A network interface name, IP address, a host name or a UNIX socket to bind to.
- *             verify_peer?: bool|Param, // Indicates if the peer should be verified in a TLS context.
- *             verify_host?: bool|Param, // Indicates if the host should exist as a certificate common name.
- *             cafile?: scalar|Param|null, // A certificate authority file.
- *             capath?: scalar|Param|null, // A directory that contains multiple certificate authority files.
- *             local_cert?: scalar|Param|null, // A PEM formatted certificate file.
- *             local_pk?: scalar|Param|null, // A private key file.
- *             passphrase?: scalar|Param|null, // The passphrase used to encrypt the "local_pk" file.
- *             ciphers?: scalar|Param|null, // A list of TLS ciphers separated by colons, commas or spaces (e.g. "RC3-SHA:TLS13-AES-128-GCM-SHA256"...).
- *             peer_fingerprint?: array{ // Associative array: hashing algorithm => hash(es).
- *                 sha1?: mixed,
- *                 pin-sha256?: mixed,
- *                 md5?: mixed,
- *             },
- *             crypto_method?: scalar|Param|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
- *             extra?: array<string, mixed>,
- *             rate_limiter?: scalar|Param|null, // Rate limiter name to use for throttling requests. // Default: null
- *             caching?: bool|array{ // Caching configuration.
- *                 enabled?: bool|Param, // Default: false
- *                 cache_pool?: string|Param, // The taggable cache pool to use for storing the responses. // Default: "cache.http_client"
- *                 shared?: bool|Param, // Indicates whether the cache is shared (public) or private. // Default: true
- *                 max_ttl?: int|Param, // The maximum TTL (in seconds) allowed for cached responses. Null means no cap. // Default: null
- *             },
- *             retry_failed?: bool|array{
- *                 enabled?: bool|Param, // Default: false
- *                 retry_strategy?: scalar|Param|null, // service id to override the retry strategy. // Default: null
- *                 http_codes?: array<string, array{ // Default: []
- *                     code?: int|Param,
- *                     methods?: list<string|Param>,
- *                 }>,
- *                 max_retries?: int|Param, // Default: 3
- *                 delay?: int|Param, // Time in ms to delay (or the initial value when multiplier is used). // Default: 1000
- *                 multiplier?: float|Param, // If greater than 1, delay will grow exponentially for each retry: delay * (multiple ^ retries). // Default: 2
- *                 max_delay?: int|Param, // Max time in ms that a retry should ever be delayed (0 = infinite). // Default: 0
- *                 jitter?: float|Param, // Randomness in percent (between 0 and 1) to apply to the delay. // Default: 0.1
- *             },
- *         }>,
+ *                 scope?: scalar|Param|null, // The regular expression that the request URL must match before adding the other options. When none is provided, the base URI is used instead.
+ *                 base_uri?: scalar|Param|null, // The URI to resolve relative URLs, following rules in RFC 3985, section 2.
+ *                 auth_basic?: scalar|Param|null, // An HTTP Basic authentication "username:password".
+ *                 auth_bearer?: scalar|Param|null, // A token enabling HTTP Bearer authorization.
+ *                 auth_ntlm?: scalar|Param|null, // A "username:password" pair to use Microsoft NTLM authentication (requires the cURL extension).
+ *                 query?: array<string, scalar|Param|null>,
+ *                 headers?: array<string, mixed>,
+ *                 max_redirects?: int|Param, // The maximum number of redirects to follow.
+ *                 http_version?: scalar|Param|null, // The default HTTP version, typically 1.1 or 2.0, leave to null for the best version.
+ *                 resolve?: array<string, scalar|Param|null>,
+ *                 proxy?: scalar|Param|null, // The URL of the proxy to pass requests through or null for automatic detection.
+ *                 no_proxy?: scalar|Param|null, // A comma separated list of hosts that do not require a proxy to be reached.
+ *                 timeout?: float|Param, // The idle timeout, defaults to the "default_socket_timeout" ini parameter.
+ *                 max_duration?: float|Param, // The maximum execution time for the request+response as a whole.
+ *                 bindto?: scalar|Param|null, // A network interface name, IP address, a host name or a UNIX socket to bind to.
+ *                 verify_peer?: bool|Param, // Indicates if the peer should be verified in a TLS context.
+ *                 verify_host?: bool|Param, // Indicates if the host should exist as a certificate common name.
+ *                 cafile?: scalar|Param|null, // A certificate authority file.
+ *                 capath?: scalar|Param|null, // A directory that contains multiple certificate authority files.
+ *                 local_cert?: scalar|Param|null, // A PEM formatted certificate file.
+ *                 local_pk?: scalar|Param|null, // A private key file.
+ *                 passphrase?: scalar|Param|null, // The passphrase used to encrypt the "local_pk" file.
+ *                 ciphers?: scalar|Param|null, // A list of TLS ciphers separated by colons, commas or spaces (e.g. "RC3-SHA:TLS13-AES-128-GCM-SHA256"...).
+ *                 peer_fingerprint?: array{ // Associative array: hashing algorithm => hash(es).
+ *                     sha1?: mixed,
+ *                     pin-sha256?: mixed,
+ *                     md5?: mixed,
+ *                 },
+ *                 crypto_method?: scalar|Param|null, // The minimum version of TLS to accept; must be one of STREAM_CRYPTO_METHOD_TLSv*_CLIENT constants.
+ *                 extra?: array<string, mixed>,
+ *                 rate_limiter?: scalar|Param|null, // Rate limiter name to use for throttling requests. // Default: null
+ *                 caching?: bool|array{ // Caching configuration.
+ *                     enabled?: bool|Param, // Default: false
+ *                     cache_pool?: string|Param, // The taggable cache pool to use for storing the responses. // Default: "cache.http_client"
+ *                     shared?: bool|Param, // Indicates whether the cache is shared (public) or private. // Default: true
+ *                     max_ttl?: int|Param, // The maximum TTL (in seconds) allowed for cached responses. Null means no cap. // Default: null
+ *                 },
+ *                 retry_failed?: bool|array{
+ *                     enabled?: bool|Param, // Default: false
+ *                     retry_strategy?: scalar|Param|null, // service id to override the retry strategy. // Default: null
+ *                     http_codes?: int|string|array<string, array{ // Default: []
+ *                             code?: int|Param,
+ *                             methods?: string|list<string|Param>,
+ *                         }>,
+ *                     max_retries?: int|Param, // Default: 3
+ *                     delay?: int|Param, // Time in ms to delay (or the initial value when multiplier is used). // Default: 1000
+ *                     multiplier?: float|Param, // If greater than 1, delay will grow exponentially for each retry: delay * (multiple ^ retries). // Default: 2
+ *                     max_delay?: int|Param, // Max time in ms that a retry should ever be delayed (0 = infinite). // Default: 0
+ *                     jitter?: float|Param, // Randomness in percent (between 0 and 1) to apply to the delay. // Default: 0.1
+ *                 },
+ *             }>,
  *     },
  *     mailer?: bool|array{ // Mailer configuration
  *         enabled?: bool|Param, // Default: false
@@ -575,12 +575,12 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         transports?: array<string, scalar|Param|null>,
  *         envelope?: array{ // Mailer Envelope configuration
  *             sender?: scalar|Param|null,
- *             recipients?: list<scalar|Param|null>,
- *             allowed_recipients?: list<scalar|Param|null>,
+ *             recipients?: string|list<scalar|Param|null>,
+ *             allowed_recipients?: string|list<scalar|Param|null>,
  *         },
  *         headers?: array<string, string|array{ // Default: []
- *             value?: mixed,
- *         }>,
+ *                 value?: mixed,
+ *             }>,
  *         dkim_signer?: bool|array{ // DKIM signer configuration
  *             enabled?: bool|Param, // Default: false
  *             key?: scalar|Param|null, // Key content, or path to key (in PEM format with the `file://` prefix) // Default: ""
@@ -617,25 +617,25 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         notification_on_failed_messages?: bool|Param, // Default: false
  *         channel_policy?: array<string, string|list<scalar|Param|null>>,
  *         admin_recipients?: list<array{ // Default: []
- *             email?: scalar|Param|null,
- *             phone?: scalar|Param|null, // Default: ""
- *         }>,
+ *                 email?: scalar|Param|null,
+ *                 phone?: scalar|Param|null, // Default: ""
+ *             }>,
  *     },
  *     rate_limiter?: bool|array{ // Rate limiter configuration
  *         enabled?: bool|Param, // Default: false
  *         limiters?: array<string, array{ // Default: []
- *             lock_factory?: scalar|Param|null, // The service ID of the lock factory used by this limiter (or null to disable locking). // Default: "auto"
- *             cache_pool?: scalar|Param|null, // The cache pool to use for storing the current limiter state. // Default: "cache.rate_limiter"
- *             storage_service?: scalar|Param|null, // The service ID of a custom storage implementation, this precedes any configured "cache_pool". // Default: null
- *             policy: "fixed_window"|"token_bucket"|"sliding_window"|"compound"|"no_limit"|Param, // The algorithm to be used by this limiter.
- *             limiters?: list<scalar|Param|null>,
- *             limit?: int|Param, // The maximum allowed hits in a fixed interval or burst.
- *             interval?: scalar|Param|null, // Configures the fixed interval if "policy" is set to "fixed_window" or "sliding_window". The value must be a number followed by "second", "minute", "hour", "day", "week" or "month" (or their plural equivalent).
- *             rate?: array{ // Configures the fill rate if "policy" is set to "token_bucket".
- *                 interval?: scalar|Param|null, // Configures the rate interval. The value must be a number followed by "second", "minute", "hour", "day", "week" or "month" (or their plural equivalent).
- *                 amount?: int|Param, // Amount of tokens to add each interval. // Default: 1
- *             },
- *         }>,
+ *                 lock_factory?: scalar|Param|null, // The service ID of the lock factory used by this limiter (or null to disable locking). // Default: "auto"
+ *                 cache_pool?: scalar|Param|null, // The cache pool to use for storing the current limiter state. // Default: "cache.rate_limiter"
+ *                 storage_service?: scalar|Param|null, // The service ID of a custom storage implementation, this precedes any configured "cache_pool". // Default: null
+ *                 policy?: "fixed_window"|"token_bucket"|"sliding_window"|"compound"|"no_limit"|Param, // The algorithm to be used by this limiter.
+ *                 limiters?: string|list<scalar|Param|null>,
+ *                 limit?: int|Param, // The maximum allowed hits in a fixed interval or burst.
+ *                 interval?: scalar|Param|null, // Configures the fixed interval if "policy" is set to "fixed_window" or "sliding_window". The value must be a number followed by "second", "minute", "hour", "day", "week" or "month" (or their plural equivalent).
+ *                 rate?: array{ // Configures the fill rate if "policy" is set to "token_bucket".
+ *                     interval?: scalar|Param|null, // Configures the rate interval. The value must be a number followed by "second", "minute", "hour", "day", "week" or "month" (or their plural equivalent).
+ *                     amount?: int|Param, // Amount of tokens to add each interval. // Default: 1
+ *                 },
+ *             }>,
  *     },
  *     uid?: bool|array{ // Uid configuration
  *         enabled?: bool|Param, // Default: false
@@ -648,33 +648,33 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     html_sanitizer?: bool|array{ // HtmlSanitizer configuration
  *         enabled?: bool|Param, // Default: false
  *         sanitizers?: array<string, array{ // Default: []
- *             allow_safe_elements?: bool|Param, // Allows "safe" elements and attributes. // Default: false
- *             allow_static_elements?: bool|Param, // Allows all static elements and attributes from the W3C Sanitizer API standard. // Default: false
- *             allow_elements?: array<string, mixed>,
- *             block_elements?: list<string|Param>,
- *             drop_elements?: list<string|Param>,
- *             allow_attributes?: array<string, mixed>,
- *             drop_attributes?: array<string, mixed>,
- *             force_attributes?: array<string, array<string, string|Param>>,
- *             force_https_urls?: bool|Param, // Transforms URLs using the HTTP scheme to use the HTTPS scheme instead. // Default: false
- *             allowed_link_schemes?: list<string|Param>,
- *             allowed_link_hosts?: list<string|Param>|null,
- *             allow_relative_links?: bool|Param, // Allows relative URLs to be used in links href attributes. // Default: false
- *             allowed_media_schemes?: list<string|Param>,
- *             allowed_media_hosts?: list<string|Param>|null,
- *             allow_relative_medias?: bool|Param, // Allows relative URLs to be used in media source attributes (img, audio, video, ...). // Default: false
- *             with_attribute_sanitizers?: list<string|Param>,
- *             without_attribute_sanitizers?: list<string|Param>,
- *             max_input_length?: int|Param, // The maximum length allowed for the sanitized input. // Default: 0
- *         }>,
+ *                 allow_safe_elements?: bool|Param, // Allows "safe" elements and attributes. // Default: false
+ *                 allow_static_elements?: bool|Param, // Allows all static elements and attributes from the W3C Sanitizer API standard. // Default: false
+ *                 allow_elements?: array<string, mixed>,
+ *                 block_elements?: string|list<string|Param>,
+ *                 drop_elements?: string|list<string|Param>,
+ *                 allow_attributes?: array<string, mixed>,
+ *                 drop_attributes?: array<string, mixed>,
+ *                 force_attributes?: array<string, array<string, string|Param>>,
+ *                 force_https_urls?: bool|Param, // Transforms URLs using the HTTP scheme to use the HTTPS scheme instead. // Default: false
+ *                 allowed_link_schemes?: string|list<string|Param>,
+ *                 allowed_link_hosts?: null|string|list<string|Param>,
+ *                 allow_relative_links?: bool|Param, // Allows relative URLs to be used in links href attributes. // Default: false
+ *                 allowed_media_schemes?: string|list<string|Param>,
+ *                 allowed_media_hosts?: null|string|list<string|Param>,
+ *                 allow_relative_medias?: bool|Param, // Allows relative URLs to be used in media source attributes (img, audio, video, ...). // Default: false
+ *                 with_attribute_sanitizers?: string|list<string|Param>,
+ *                 without_attribute_sanitizers?: string|list<string|Param>,
+ *                 max_input_length?: int|Param, // The maximum length allowed for the sanitized input. // Default: 0
+ *             }>,
  *     },
  *     webhook?: bool|array{ // Webhook configuration
  *         enabled?: bool|Param, // Default: false
  *         message_bus?: scalar|Param|null, // The message bus to use. // Default: "messenger.default_bus"
  *         routing?: array<string, array{ // Default: []
- *             service: scalar|Param|null,
- *             secret?: scalar|Param|null, // Default: ""
- *         }>,
+ *                 service?: scalar|Param|null,
+ *                 secret?: scalar|Param|null, // Default: ""
+ *             }>,
  *     },
  *     remote-event?: bool|array{ // RemoteEvent configuration
  *         enabled?: bool|Param, // Default: false
@@ -686,10 +686,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  * @psalm-type TwigConfig = array{
  *     form_themes?: list<scalar|Param|null>,
  *     globals?: array<string, array{ // Default: []
- *         id?: scalar|Param|null,
- *         type?: scalar|Param|null,
- *         value?: mixed,
- *     }>,
+ *             id?: scalar|Param|null,
+ *             type?: scalar|Param|null,
+ *             value?: mixed,
+ *         }>,
  *     autoescape_service?: scalar|Param|null, // Default: null
  *     autoescape_service_method?: scalar|Param|null, // Default: null
  *     cache?: scalar|Param|null, // Default: true
@@ -699,7 +699,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     auto_reload?: scalar|Param|null,
  *     optimizations?: int|Param,
  *     default_path?: scalar|Param|null, // The default path used to load templates. // Default: "%kernel.project_dir%/templates"
- *     file_name_pattern?: list<scalar|Param|null>,
+ *     file_name_pattern?: string|list<scalar|Param|null>,
  *     paths?: array<string, mixed>,
  *     date?: array{ // The default format options used by the date filter.
  *         format?: scalar|Param|null, // Default: "F j, Y H:i"
@@ -730,6 +730,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         traces_sampler?: scalar|Param|null,
  *         profiles_sample_rate?: float|Param, // The sampling factor to apply to profiles. A value of 0 will deny sending any profiles, and a value of 1 will send all profiles. Profiles are sampled in relation to traces_sample_rate
  *         enable_logs?: bool|Param,
+ *         log_flush_threshold?: mixed, // Default: null
  *         enable_metrics?: bool|Param, // Default: true
  *         attach_stacktrace?: bool|Param,
  *         attach_metric_code_locations?: bool|Param,
@@ -739,6 +740,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         spotlight?: bool|Param,
  *         spotlight_url?: scalar|Param|null,
  *         release?: scalar|Param|null, // Default: "%env(default::SENTRY_RELEASE)%"
+ *         org_id?: int|Param,
  *         server_name?: scalar|Param|null,
  *         ignore_exceptions?: list<scalar|Param|null>,
  *         ignore_transactions?: list<scalar|Param|null>,
@@ -749,6 +751,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         before_send_log?: scalar|Param|null,
  *         before_send_metric?: scalar|Param|null,
  *         trace_propagation_targets?: mixed,
+ *         strict_trace_continuation?: bool|Param,
  *         tags?: array<string, scalar|Param|null>,
  *         error_types?: scalar|Param|null,
  *         max_breadcrumbs?: int|Param,
@@ -773,11 +776,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         enabled?: bool|Param, // Default: false
  *         capture_soft_fails?: bool|Param, // Default: true
  *         isolate_breadcrumbs_by_message?: bool|Param, // Default: false
+ *         isolate_context_by_message?: bool|Param, // Default: false
  *     },
  *     tracing?: bool|array{
  *         enabled?: bool|Param, // Default: true
  *         dbal?: bool|array{
  *             enabled?: bool|Param, // Default: false
+ *             ignore_prepare_spans?: bool|Param, // Default: false
  *             connections?: list<scalar|Param|null>,
  *         },
  *         twig?: bool|array{
@@ -838,7 +843,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             use_underscore?: bool|Param, // Default: true
  *             unordered_list_markers?: list<scalar|Param|null>,
  *         },
- *         ...<mixed>
+ *         ...<string, mixed>
  *     },
  * }
  * @psalm-type ConfigType = array{
@@ -890,7 +895,10 @@ final class App
      */
     public static function config(array $config): array
     {
-        return AppReference::config($config);
+        /** @var ConfigType $config */
+        $config = AppReference::config($config);
+
+        return $config;
     }
 }
 
