@@ -38,8 +38,14 @@ final class RadioStreamCest
 
         $info = $radio->getStreamInfo($stream);
 
-        $I->assertIsString($info->track);
-        $I->assertIsString($info->artist);
+        $I->assertIsString(
+            $info->track,
+            'track should always be a string',
+        );
+        $I->assertIsString(
+            $info->artist,
+            'artist should always be a string',
+        );
     }
 
     private function getExamples(): Generator
