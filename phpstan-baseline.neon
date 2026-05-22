@@ -1,42 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Invalid type definition detected in type alias ConfigType\.$#'
-			identifier: typeAlias.invalidType
-			count: 1
-			path: config/reference.php
-
-		-
-			message: '#^Invalid type definition detected in type alias FrameworkConfig\.$#'
-			identifier: typeAlias.invalidType
-			count: 1
-			path: config/reference.php
-
-		-
-			message: '#^Method Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\App\:\:config\(\) has parameter \$config with no value type specified in iterable type array\<string, mixed\>\.$#'
-			identifier: missingType.iterableValue
-			count: 4
-			path: config/reference.php
-
-		-
-			message: '#^Method Symfony\\Component\\DependencyInjection\\Loader\\Configurator\\App\:\:config\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: config/reference.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$config contains unresolvable type\.$#'
-			identifier: parameter.unresolvableType
-			count: 1
-			path: config/reference.php
-
-		-
-			message: '#^PHPDoc tag @var for variable \$config contains unresolvable type\.$#'
-			identifier: varTag.unresolvableType
-			count: 1
-			path: config/reference.php
-
-		-
 			message: '#^Parameter \#1 \$environment of class App\\Kernel constructor expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
