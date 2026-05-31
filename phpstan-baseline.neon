@@ -5,3 +5,9 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: public/index.php
+
+		-
+			message: '#^Method App\\Kernel\:\:getAllowedEnvs\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Kernel.php
