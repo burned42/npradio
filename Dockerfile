@@ -24,7 +24,13 @@ COPY <<-EOF /usr/local/etc/php/conf.d/local.ini
 	register_argc_argv = On
 EOF
 
-COPY . /app
-RUN composer install --no-dev --optimize-autoloader -d /app/
+RUN useradd app \
+	&& setcap -r /usr/local/bin/frankenphp \
+	&& chown -R app:app /config/caddy /data/caddy /app
+USER app
+
+COPY --chown=app:app . /app
+RUN composer install --no-dev --optimize-autoloader -d /app/ \
+    && /app/bin/console asset-map:compile
 
 #RUN install-php-extensions pcov && echo 'pcov.enabled = 1' > /usr/local/etc/php/conf.d/pcov.ini
