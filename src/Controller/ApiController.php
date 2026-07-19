@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Stream\AbstractRadioStream;
+use App\Stream\StreamInfo;
 use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\Cache;
+use Symfony\Component\HttpKernel\Attribute\Serialize;
 use Symfony\Component\Routing\Attribute\Route;
 use Traversable;
 
@@ -32,42 +33,49 @@ final class ApiController extends AbstractController
         $this->radios = $radioArray;
     }
 
+    /**
+     * @return string[]
+     */
     #[Route('/api/radios', methods: ['GET'], format: 'json')]
     #[Cache(smaxage: 300, mustRevalidate: true)]
-    public function getRadioNames(): JsonResponse
+    #[Serialize]
+    public function getRadioNames(): array
     {
-        return $this->json(array_keys($this->radios));
+        return array_keys($this->radios);
     }
 
+    /**
+     * @return string[]
+     */
     #[Route('/api/radios/{radioName}/streams', methods: ['GET'], format: 'json')]
     #[Cache(smaxage: 300, mustRevalidate: true)]
-    public function getStreams(string $radioName): JsonResponse
+    #[Serialize]
+    public function getStreams(string $radioName): array
     {
         try {
             $radioClass = $this->getRadioClass($radioName);
         } catch (InvalidArgumentException $e) {
             captureException($e);
 
-            return $this->json($e->getMessage(), 404);
+            throw $this->createNotFoundException($e->getMessage());
         }
 
-        return $this->json($radioClass->getAvailableStreams());
+        return $radioClass->getAvailableStreams();
     }
 
     #[Route('/api/radios/{radioName}/streams/{streamName}', methods: ['GET'], format: 'json')]
     #[Cache(smaxage: 30, mustRevalidate: true)]
-    public function getStreamInfo(string $radioName, string $streamName): JsonResponse
+    #[Serialize]
+    public function getStreamInfo(string $radioName, string $streamName): StreamInfo
     {
         try {
-            $radioClass = $this->getRadioClass($radioName);
-            $streamInfo = $radioClass->getStreamInfo($streamName);
+            return $this->getRadioClass($radioName)
+                ->getStreamInfo($streamName);
         } catch (InvalidArgumentException $e) {
             captureException($e);
 
-            return $this->json($e->getMessage(), 404);
+            throw $this->createNotFoundException($e->getMessage());
         }
-
-        return $this->json($streamInfo);
     }
 
     private function getRadioClass(string $radioName): AbstractRadioStream
