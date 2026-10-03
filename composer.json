@@ -130,8 +130,7 @@
         "update-importmap": "bin/console importmap:update"
     },
     "conflict": {
-        "symfony/symfony": "*",
-        "phpunit/phpunit": "13.4.0"
+        "symfony/symfony": "*"
     },
     "extra": {
         "symfony": {
